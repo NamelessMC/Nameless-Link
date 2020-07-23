@@ -1,0 +1,12 @@
+{
+  "mysql": {
+    "username": "",
+    "password": "",
+    "server": "localhost",
+    "port": "3306",
+    "database": ""
+  },
+  "settings": {
+    "token": ""
+  }
+}
