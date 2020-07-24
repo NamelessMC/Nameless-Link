@@ -21,10 +21,8 @@ public class IncomingRoleChange implements HttpHandler {
 
         String guild_id = params.get("guild_id").toString();
         Guild guild = Main.getJda().getGuildById(Long.parseLong(guild_id.substring(1, guild_id.length() - 1)));
-
         String member_id = params.get("id").toString();
         Member member = guild.getMemberById(Long.parseLong(member_id.substring(1, member_id.length() - 1)));
-
         String api_url = httpExchange.getRequestURI().toString().substring(httpExchange.getRequestURI().toString().indexOf("&api_url=") + 9);
 
         OutputStream outputStream = httpExchange.getResponseBody();
@@ -32,7 +30,7 @@ public class IncomingRoleChange implements HttpHandler {
 
         if (!api_url.equals(Queries.getGuildApiUrl(guild.getId()))) {
             Main.log("Invalid Guild API URL sent for " + member.getEffectiveName() + " in " + guild.getName());
-            htmlResponse = "failure-invalid-guild-api";
+            htmlResponse = "failure-invalid-api-url";
         } else {
             try {
                 String new_role_id = params.get("role").toString();
@@ -47,6 +45,7 @@ public class IncomingRoleChange implements HttpHandler {
             Main.log("Processed role update (Website -> Discord) for " + member.getEffectiveName() + ".");
             htmlResponse = "success";
         }
+
         httpExchange.sendResponseHeaders(200, htmlResponse.length());
         outputStream.write(htmlResponse.getBytes());
         outputStream.flush();

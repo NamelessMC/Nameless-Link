@@ -71,12 +71,14 @@ public class Queries {
         }
     }
 
-    public static boolean addPendingVerification(String discord_id, String username, String site) {
+    public static boolean addPendingVerification(String discord_id, String username, String guild_id, String role, String site) {
         try {
-            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("INSERT INTO pending_verifications (`discord_id`, `username`, `site`) VALUES (?, ?, ?)");
+            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("INSERT INTO pending_verifications (`discord_id`, `username`, `guild_id`, `role`, `site`) VALUES (?, ?, ?, ?, ?)");
             preparedStatement.setString(1, discord_id);
             preparedStatement.setString(2, username);
-            preparedStatement.setString(3, site);
+            preparedStatement.setString(3, guild_id);
+            preparedStatement.setString(4, role);
+            preparedStatement.setString(5, site);
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException exception) {
@@ -87,11 +89,11 @@ public class Queries {
 
     public static PendingVerification getPendingVerification(String discord_id) {
         try {
-            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `username`, `site` FROM pending_verifications WHERE `discord_id` = ?");
+            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `username`, `guild_id`, `role`, `site` FROM pending_verifications WHERE `discord_id` = ?");
             preparedStatement.setString(1, discord_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) return null;
-            else return new PendingVerification(discord_id, resultSet.getString("username"), resultSet.getString("site"));
+            else return new PendingVerification(discord_id, resultSet.getString("username"), resultSet.getString("guild_id"), resultSet.getString("role"), resultSet.getString("site"));
         } catch (SQLException exception) {
             exception.printStackTrace();
             return null;

@@ -9,6 +9,8 @@ import com.namelessmc.bot.Main;
 import com.namelessmc.bot.Utils;
 import com.namelessmc.bot.models.PendingVerification;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -29,6 +31,11 @@ public class PrivateMessageListener extends ListenerAdapter {
         PendingVerification pendingVerification = Queries.getPendingVerification(event.getAuthor().getId());
         if (pendingVerification != null) {
             String username = pendingVerification.username;
+            String guild_id = pendingVerification.guild_id;
+            Guild guild = Main.getJda().getGuildById(guild_id);
+            String role_id = pendingVerification.role;
+            Role role = null;
+            if (role_id != null) role = guild.getRoleById(role_id);
             String url = pendingVerification.site;
             if (message.equals(username)) {
                 embedBuilder.setColor(Color.ORANGE).setTitle("Verification").addField("Loading", "Please wait while I verify your web account...", false);
@@ -45,6 +52,10 @@ public class PrivateMessageListener extends ListenerAdapter {
                         return;
                     }
                     if (Queries.removePendingVerification(event.getAuthor().getId())) {
+                        if (role != null) {
+                            guild.addRoleToMember(event.getAuthor().getId(), role).complete();
+                            Main.log("Added role " + role.getName() + " to " + event.getAuthor().getName() + " upon account validation.");
+                        }
                         embedBuilder.clear().setColor(Color.GREEN).setTitle("Verification").addField("Success!", "Thank you for linking your account.", false);
                         Main.log("Processed account link for " + event.getAuthor().getName() + " under username " + username);
                     } else {

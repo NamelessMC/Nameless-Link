@@ -43,7 +43,7 @@ public class DiscordRoleListener extends ListenerAdapter {
                 Main.log("[ERROR] error while updating webrank: " + exception.getMessage() + " for " + event.getMember().getEffectiveName());
             }
         }
-        Main.debug("added " + event.getRoles() + " to " + event.getMember().getEffectiveName());
+        Main.debug("Added " + event.getRoles() + " to " + event.getMember().getEffectiveName());
     }
 
     @Override
