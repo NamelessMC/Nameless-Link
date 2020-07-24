@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class HttpMain {
 
+    // TODO some sort of ip limitation / rate limit
     public static void init() throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 0);
         server.createContext("/roleChange", new IncomingRoleChange());
@@ -17,7 +18,7 @@ public class HttpMain {
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
         server.setExecutor(threadPoolExecutor);
         server.start();
-        Main.getLogger().info("HTTP Server started on port 8001");
+        Main.log("HTTP Server started on port 8001");
     }
 
 }

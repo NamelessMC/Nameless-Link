@@ -6,32 +6,27 @@ import com.google.gson.JsonObject;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.ParameterBuilder;
 import com.namelessmc.NamelessAPI.Request;
-import com.namelessmc.bot.Data;
+import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.Main;
-import com.namelessmc.bot.Utils;
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 
 public class DiscordRoleListener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent event) {
-        String api_url = Data.getGuildApiUrl(event.getGuild().getId());
+        String api_url = Queries.getGuildApiUrl(event.getGuild().getId());
 
         if (api_url == null) {
-            Main.getLogger().info("API URL not setup in " + event.getGuild().getName());
+            Main.debug("API URL not setup in " + event.getGuild().getName());
             return;
         }
 
-        // TODO: change discord_role_id to a list of id seperated by "|" and then parse on nmc end
         for (Role role : event.getRoles()) {
             String[] params = new ParameterBuilder().add("discord_user_id", event.getMember().getId()).add("discord_role_id", role.getId()).build();
             try {
@@ -39,27 +34,24 @@ public class DiscordRoleListener extends ListenerAdapter {
                 request.connect();
                 JsonObject response = request.getResponse();
                 if (!response.has("code")) {
-                    // success
-                    Main.getLogger().info("Processed Discord role addition update -> website for " + event.getMember().getEffectiveName() + " for role " + role);
+                    Main.log("Processed role addition update (Discord -> website) for " + event.getMember().getEffectiveName() + " for role " + role);
                 } else {
-                    // error on nmc api
                     Gson gson = new GsonBuilder().create();
-                    event.getGuild().getTextChannelById(734627858617466963L).sendMessage("error while updating webrank: `" + gson.toJson(response) + "` for " + event.getMember().getEffectiveName()).queue();
+                    Main.debug("Error while updating webrank: " + gson.toJson(response) + " for " + event.getMember().getEffectiveName());
                 }
             } catch (NamelessException | MalformedURLException exception) {
-                // error on our end
-                event.getGuild().getTextChannelById(734627858617466963L).sendMessage("error while updating webrank: `" + exception.getMessage() + "` for " + event.getMember().getEffectiveName()).queue();
+                Main.log("[ERROR] error while updating webrank: " + exception.getMessage() + " for " + event.getMember().getEffectiveName());
             }
         }
-        event.getGuild().getTextChannelById(734627858617466963L).sendMessage("added " + event.getRoles() + " to " + event.getMember().getEffectiveName()).queue();
+        Main.debug("added " + event.getRoles() + " to " + event.getMember().getEffectiveName());
     }
 
     @Override
     public void onGuildMemberRoleRemove(GuildMemberRoleRemoveEvent event) {
-        String api_url = Data.getGuildApiUrl(event.getGuild().getId());
+        String api_url = Queries.getGuildApiUrl(event.getGuild().getId());
 
         if (api_url == null) {
-            Main.getLogger().info("API URL not setup in " + event.getGuild().getName());
+            Main.debug("API URL not setup in " + event.getGuild().getName());
             return;
         }
 
@@ -70,20 +62,16 @@ public class DiscordRoleListener extends ListenerAdapter {
                 request.connect();
                 JsonObject response = request.getResponse();
                 if (!response.has("code")) {
-                    // success
-                    Main.getLogger().info("Processed Discord role removal update -> website for " + event.getMember().getEffectiveName() + " for role " + role);
+                    Main.log("Processed Discord role removal update -> website for " + event.getMember().getEffectiveName() + " for role " + role);
                 } else {
-                    // error on nmc api
                     Gson gson = new GsonBuilder().create();
-                    event.getGuild().getTextChannelById(734627858617466963L).sendMessage("error while updating webrank: `" + gson.toJson(response) + "` for " + event.getMember().getEffectiveName()).queue();
+                    Main.debug("Error while updating webrank: `" + gson.toJson(response) + "` for " + event.getMember().getEffectiveName());
                 }
             } catch (NamelessException | MalformedURLException exception) {
-                // error on our end
-                event.getGuild().getTextChannelById(734627858617466963L).sendMessage("error while updating webrank: `" + exception.getMessage() + "` for " + event.getMember().getEffectiveName()).queue();
+                Main.log("[ERROR] Error while updating webrank: `" + exception.getMessage() + "` for " + event.getMember().getEffectiveName());
             }
         }
-
-        event.getGuild().getTextChannelById(734627858617466963L).sendMessage("Removed " + event.getRoles() + " from " + event.getMember().getEffectiveName()).queue();
+       Main.debug("Removed " + event.getRoles() + " from " + event.getMember().getEffectiveName());
     }
 
 }

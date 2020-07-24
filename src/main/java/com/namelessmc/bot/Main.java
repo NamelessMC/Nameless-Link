@@ -16,16 +16,15 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 public class Main {
 
     @Getter
-    private static final Logger logger = Logger.getLogger("Nameless-Bot");
-    @Getter
     private static JDA jda;
     @Getter
     private static Connection connection;
+
+    private static boolean debugging = false;
 
     public static void main(String[] args) {
         try {
@@ -52,10 +51,25 @@ public class Main {
             String url = "jdbc:mysql://" + server + "/" + database;
 
             connection = DriverManager.getConnection(url, username, password);
-            getLogger().info("Connected to central database");
+            log("Connected to central database.");
         } catch (SQLException e) {
             e.printStackTrace();
-            getLogger().info("Could not connect to central database");
+            log("[ERROR] Could not connect to central database!");
+            // TODO: jda send message to me?
+            jda.shutdownNow();
         }
+
+        if (args.length >= 1 && args[0].equals("-debug")) {
+            log("Debugging enabled");
+            debugging = true;
+        }
+    }
+
+    public static void log(String message) {
+        System.out.println("[INFO] " + message);
+    }
+
+    public static void debug(String message) {
+        if (debugging) System.out.println("[DEBUG] " + message);
     }
 }

@@ -1,19 +1,14 @@
 package com.namelessmc.bot;
 
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import com.namelessmc.bot.models.PendingVerification;
-import net.dv8tion.jda.api.entities.User;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Data {
+public class Queries {
 
     // TODO: Refractor this all
     public static boolean newGuild(String guild_id, String owner_id) {
@@ -44,6 +39,7 @@ public class Data {
 
     public static String getGuildApiUrl(String guild_id) {
         try {
+            System.out.println(guild_id);
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `api_url` FROM guilds WHERE `guild_id` = ?");
             preparedStatement.setString(1, guild_id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -89,7 +85,7 @@ public class Data {
         }
     }
 
-    public static PendingVerification getPendingConfirmation(String discord_id) {
+    public static PendingVerification getPendingVerification(String discord_id) {
         try {
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `username`, `site` FROM pending_verifications WHERE `discord_id` = ?");
             preparedStatement.setString(1, discord_id);
@@ -106,12 +102,11 @@ public class Data {
         try {
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("DELETE FROM `pending_verifications` WHERE `discord_id` = ?");
             preparedStatement.setString(1, discord_id);
-            if (preparedStatement.executeUpdate() == 1) return true;
+            if (preparedStatement.executeUpdate() > 0) return true;
             else return false;
         } catch (SQLException exception) {
             exception.printStackTrace();
             return false;
         }
     }
-
 }
