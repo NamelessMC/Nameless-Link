@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.ParameterBuilder;
 import com.namelessmc.NamelessAPI.Request;
+import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.Main;
 import net.dv8tion.jda.api.entities.Role;

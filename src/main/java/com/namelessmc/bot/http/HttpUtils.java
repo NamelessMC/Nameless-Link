@@ -29,5 +29,4 @@ public class HttpUtils {
             throw new AssertionError(ex);
         }
     }
-
 }

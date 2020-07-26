@@ -6,11 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Queries {
 
-    // TODO: Refractor this all
     public static boolean newGuild(String guild_id, String owner_id) {
         try {
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("INSERT INTO guilds (`guild_id`, `owner_id`) VALUES (?, ?)");
@@ -29,8 +29,7 @@ public class Queries {
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("UPDATE guilds SET `api_url` = ? WHERE `guild_id` = ?");
             preparedStatement.setString(1, api_url);
             preparedStatement.setString(2, guild_id);
-            if (preparedStatement.executeUpdate() == 1) return true;
-            else return false;
+            return preparedStatement.executeUpdate() == 1;
         } catch (SQLException exception) {
             exception.printStackTrace();
             return false;
@@ -104,11 +103,48 @@ public class Queries {
         try {
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("DELETE FROM `pending_verifications` WHERE `discord_id` = ?");
             preparedStatement.setString(1, discord_id);
-            if (preparedStatement.executeUpdate() > 0) return true;
-            else return false;
+            return preparedStatement.executeUpdate() > 0;
         } catch (SQLException exception) {
             exception.printStackTrace();
             return false;
+        }
+    }
+
+    public static HashMap<String, Language> userLanguages = new HashMap<>();
+
+    public static boolean setUserLanguage(String user_id, String language) {
+        try {
+            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("INSERT INTO user_languages (`discord_id`, `language`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `language` = ?");
+            preparedStatement.setString(1, user_id);
+            preparedStatement.setString(2, language);
+            preparedStatement.setString(3, language);
+            preparedStatement.executeUpdate();
+            userLanguages.put(user_id, new Language(language));
+            return true;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
+    public static Language getUserLanguage(String user_id) {
+        if (userLanguages.containsKey(user_id)) return userLanguages.get(user_id);
+        try {
+            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `language` FROM user_languages WHERE `discord_id` = ?");
+            preparedStatement.setString(1, user_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                setUserLanguage(user_id, "EnglishUK");
+                return new Language("EnglishUK");
+            }
+            else {
+                Language language = new Language(resultSet.getString("language"));
+                userLanguages.put(user_id, language);
+                return language;
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            return null;
         }
     }
 }

@@ -48,7 +48,7 @@ public class Main {
             String username = Config.get("mysql", "username");
             String password = Config.get("mysql", "password");
 
-            String url = "jdbc:mysql://" + server + "/" + database;
+            String url = "jdbc:mysql://" + server + "/" + database + "?autoReconnect=true";
 
             connection = DriverManager.getConnection(url, username, password);
             log("Connected to central database.");

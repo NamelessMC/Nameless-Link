@@ -1,5 +1,6 @@
 package com.namelessmc.bot.http;
 
+import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.Utils;
@@ -29,6 +30,7 @@ public class VerifyId implements HttpHandler {
 
         String id = params.get("id").toString();
         id = id.substring(1, id.length() - 1);
+        Language language = Queries.getUserLanguage(id);
         User user = Main.getJda().getUserById(id);
         String username = params.get("username").toString();
         username = username.substring(1, username.length() - 1);
@@ -56,13 +58,12 @@ public class VerifyId implements HttpHandler {
             htmlResponse = "failure-already-pending";
         } else if (Queries.addPendingVerification(id, username, guild_id, role, site)) {
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.clear().setColor(Color.ORANGE).setTitle("Verification").addField("Pending", "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the username you used to register on the website. If this was not you, you can safely ignore this message.", false);
+            embedBuilder.clear().setColor(Color.ORANGE).setTitle(language.get("verification_title")).addField(language.get("pending"), language.get("verify_id_message"), false);
             Utils.messageUser(user, embedBuilder);
             Main.log("Added username " + username + " with ID " + id + " to pend for confirmation");
             htmlResponse = "success";
         } else {
             Main.log("[ERROR] Failed to add username " + username + " with ID " + id + " to pend for confirmation.");
-            Utils.messageUser(Main.getJda().getUserById("271510274475819008"), "[ERROR] Failed to add username " + username + " with ID " + id + " to pend for confirmation. Please check logs ASAP.");
             htmlResponse = "failure-database";
         }
 

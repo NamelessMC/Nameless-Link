@@ -20,5 +20,4 @@ public class HttpMain {
         server.start();
         Main.log("HTTP Server started on port 8001");
     }
-
 }
