@@ -37,7 +37,7 @@ public class Language {
     private String get(String language, String term) {
         try {
             try {
-                return jsonParser.parse(new JsonReader(new FileReader("./language.json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
+                return jsonParser.parse(new JsonReader(new FileReader("language.json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
             } catch (NullPointerException e) {
                 return null;
             }
@@ -51,7 +51,7 @@ public class Language {
 
     static {
         try {
-            for (Map.Entry<String, JsonElement> lang : jsonParser.parse(new JsonReader(new FileReader("./language.json"))).getAsJsonObject().entrySet()) {
+            for (Map.Entry<String, JsonElement> lang : jsonParser.parse(new JsonReader(new FileReader("language.json"))).getAsJsonObject().entrySet()) {
                 languages.add(lang.getKey());
             }
         } catch (FileNotFoundException e) {

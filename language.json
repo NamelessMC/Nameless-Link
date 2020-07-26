@@ -133,5 +133,42 @@
     "guild_join_failed_db": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Aš bandžiau sukonfigūruoti jūsų gildiją, bet nepavyko. Prašome susisiekti su aberdeener#0001",
     "guild_join_needs_renew": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Atrodo kad jūs jau esate nustatę savo API URL, bet jis nebėra veiksmingas. Prašome atsakyti su savo API URL kurį galite rasti `StaffCP -> Konfigūracija -> API`",
     "guild_join_welcome_back": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Atrodo kad jūs jau esate nustatę savo API URL. Sveiki grįžę!"
+  },
+  "Czech": {
+    "success": "Úspěch",
+    "failed": "Chyba",
+    "settings": "Nastavení",
+    "pending": "Čekání",
+
+    "verification_title": "Ověření",
+    "verification_loading": "Načítání...",
+    "verification_loading_message": "Vyčkejte, dokud neověřím váš účet...",
+    "verification_failed_generic": "Chyba: Nepodařilo se připojit váš účet. Chyba: `%s`",
+    "verification_failed_db": "Chyba: `Nepodařilo se odebrat vaše čekající ověření z databáze. Kontaktujte aberdeener#0001`",
+    "verification_success": "Děkujeme za propojení vašeho účtu.",
+
+    "verify_id_message": "Někdo zažádal o propojení tohoto Discord účtu s webovým účtem NamelessMC. Pokud jste to byli vy, odpovězte uživatelským jménem, které jste použili k registraci na webu. Pokud jste to nebyli vy, můžete tuto zprávu ignorovat.",
+
+    "link_guild_title": "Propojit se serverem",
+    "link_guild_saving": "URL API a ID serveru, které jste poslali, byly platné. Ukládám...",
+    "link_guild_success": "URL vaší API byla propojena s \"%s\".",
+    "link_guild_failed_db": "Chyba: `URL vašeho API nemohla být uložena. Kontaktujte aberdeener#0001`",
+    "link_guild_failed_generic": "Chyba: `%s`",
+    "link_guild_failed_no_guilds": "Chyba: `Nejste vlastníkem serveru s Nameless Link botem.`",
+    "link_guild_failed_invalid_id": "Chyba: `Neplatné ID serveru.\nDostupné servery:\n%s`",
+    "link_guild_failed_multiple":  "Chyba: `Jsze vlastníkem více serverů s Nameless Link botem. Zadejte prosím ID serveru jako druhý argument.\nDostupné servery:\n%s`",
+
+    "language_title": "Jazyk",
+    "language_update_success": "Jazyk byl úspěšně změněn na `%s`.",
+    "language_update_failed_db": "Chyba: `Váš jazyk nemohl být změněn. Kontaktujte aberdeener#0001.`",
+    "language_update_failed_invalid": "Chyba: `Zadali jste neplatný jazyk (%s).\nPlatné jazyky: %s.`",
+    "language_invalid_argument": "Jejda, tohle je neplatný argument (%s).\nPlatné argumenty: `set`.",
+    "language_get": "Váš jazyk byl nastaven na: `%s`.",
+    "language_get_failed_db": "Chyba: `Váš jazyk nebyl nalezen. Kontaktujte aberdeener#0001`",
+
+    "guild_join_success": "Zdravíme! Děkujeme, že používáte NamelessMC bota. Pro začátek odpovězte vaším API, které lze nalézt zde: `Ovládací panel -> Konfigurace -> API`.\nPro změnu jazyka napište `!language set`.",
+    "guild_join_failed_db": "Zdravíme! Děkujeme, že používáte NamelessMC bota. Pokusili jsme se nastavit váš sever, ale bohužel neúspěšně. Kontaktujte prosím aberdeerner#0001",
+    "guild_join_needs_renew": "Zdravíme! Děkujeme, že používáte NamelessMC bota. Vypadá to, že jste již nastavili URL vašeho API, ale daná adresa již není platná. Odpovězte prosím s URL vašeho API které lze nalézt zde: `Ovládací panel -> Konfigurace -> API`",
+    "guild_join_welcome_back": "Zdravíme! Děkujeme, že používáte NamelessMC bota. Vypadá to, že jste již nastavili URL vašeho API. Vítejte zpět!"
   }
 }

@@ -33,7 +33,7 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 ### Contributors:
 * @Aberdeener (Main codebase)
 * @yangyang200 (Chinese-Simplified language)
-* @Fjuro (Czech language) [In Progress]
+* @Fjuro (Czech language)
 * @IsS127 (Swedish language) [In Progress]
 * @Govindass (Lithuanian language)
 * @Hilligans (French language) [In Progress]
