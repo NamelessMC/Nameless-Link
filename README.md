@@ -4,13 +4,13 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 
 ### Setup:
 
-*Note: Requires [NamelessMC](https://github.com/NamelessMC/Nameless/tree/v2) pre-8.*
+*Note: Requires [NamelessMC](https://github.com/NamelessMC/Nameless/tree/v2) v2 pre-8.*
 
 *Note: Self-hosting is available, but not recommended for beginners. Check the wiki for a self-hosting guide.*
 
 1. Invite the bot to your guild & Discord setup
     * *Note: You are required to have the "Manage Roles" permission in the guild in order to invite the bot. As well, the bot needs to always have its self-assigned role.*
-    * ~~[Insert invite link here when done]()~~
+    * ~~[Insert invite link here when done](#)~~
     * The owner of the guild will be PM'd by the bot, asking for the API URL of their NamelessMC website. This can be found in `StaffCP - Configuration - API`. The owner of the guild must reply with the API URL. If the URL is valid, they will receive a success message - nicely done!
  
 2. Enable Discord Integration in NamelessMC

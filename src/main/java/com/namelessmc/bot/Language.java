@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -37,26 +38,21 @@ public class Language {
     private String get(String language, String term) {
         try {
             try {
-                return jsonParser.parse(new JsonReader(new FileReader("language.json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
+                return jsonParser.parse(new JsonReader(new FileReader("languages/" + language + ".json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
             } catch (NullPointerException e) {
                 return null;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return "Fatal error getting term: `" + term + "`, using language: `" + language + "` .";
+            return "Fatal error getting term: `" + term + "`, using language: `" + language + "`.";
         }
     }
 
     public static final List<String> languages = new ArrayList<>();
 
     static {
-        try {
-            for (Map.Entry<String, JsonElement> lang : jsonParser.parse(new JsonReader(new FileReader("language.json"))).getAsJsonObject().entrySet()) {
-                languages.add(lang.getKey());
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Main.log("[ERROR] Could not load language file!");
+        for (File file : new File("languages/").listFiles()) {
+            languages.add(file.getName().replace(".json", ""));
         }
     }
 
