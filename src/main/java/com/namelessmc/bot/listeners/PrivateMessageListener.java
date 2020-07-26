@@ -80,6 +80,7 @@ public class PrivateMessageListener extends ListenerAdapter {
                 if (args[1].equals("set")) {
                     if (Language.isValid(args[2])) {
                         if (Queries.setUserLanguage(user.getId(), args[2])) {
+                            language = new Language(args[2]);
                             embedBuilder.clear().setColor(Color.GREEN).setTitle(language.get("language_title")).addField(language.get("success"), language.get("language_update_success", args[2]), false);
                             Main.log("Updated " + user.getName() + "'s language to: " + args[2]);
                         } else {

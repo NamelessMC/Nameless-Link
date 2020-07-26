@@ -1,12 +1,14 @@
 package com.namelessmc.bot;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Language {
 
@@ -30,9 +32,10 @@ public class Language {
         }
     }
 
+    private static final JsonParser jsonParser = new JsonParser();
+
     private String get(String language, String term) {
         try {
-            JsonParser jsonParser = new JsonParser();
             try {
                 return jsonParser.parse(new JsonReader(new FileReader("./language.json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
             } catch (NullPointerException e) {
@@ -44,7 +47,18 @@ public class Language {
         }
     }
 
-    public static final List<String> languages = Arrays.asList("EnglishUK", "Chinese-Simplified", "Swedish");
+    public static final List<String> languages = new ArrayList<>();
+
+    static {
+        try {
+            for (Map.Entry<String, JsonElement> lang : jsonParser.parse(new JsonReader(new FileReader("./language.json"))).getAsJsonObject().entrySet()) {
+                languages.add(lang.getKey());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Main.log("[ERROR] Could not load language file!");
+        }
+    }
 
     public static boolean isValid(String language) {
         return languages.contains(language);
