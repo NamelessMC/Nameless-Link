@@ -32,7 +32,7 @@ public class Language {
         }
     }
 
-    private static final JsonParser jsonParser = new JsonParser();
+    public static final JsonParser jsonParser = new JsonParser();
 
     private String get(String language, String term) {
         try {

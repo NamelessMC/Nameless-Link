@@ -9,10 +9,9 @@ import java.io.FileReader;
 public class Config {
 
     public static String get(String subsection, String key) {
-        JsonParser jsonParser = new JsonParser();
         try {
             try {
-                return jsonParser.parse(new JsonReader(new FileReader("./config.json"))).getAsJsonObject().get(subsection).getAsJsonObject().get(key).getAsString();
+                return Language.jsonParser.parse(new JsonReader(new FileReader("./config.json"))).getAsJsonObject().get(subsection).getAsJsonObject().get(key).getAsString();
             } catch (NullPointerException exception) { return null; }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
