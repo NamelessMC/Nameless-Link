@@ -40,3 +40,4 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 * @nUKEmAN4 (Croatian language)
 * @kacperleague9 (Polish language)
 * @zJerino (Spanish language)
+* @MissChikoo (Norwegian/Bokmål language) [In Progress]

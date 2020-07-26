@@ -13,8 +13,13 @@ public class HttpMain {
 
     public static void init() {
         HttpServer server;
+        int port = 8001;
         try {
-            int port = Integer.valueOf(Config.get("settings", "http-port"));
+            port = Integer.parseInt(Config.get("settings", "http-port"));
+        } catch (NumberFormatException e) {
+            Main.log("[ERROR] Invalid port. Using fallback: " + port);
+        }
+        try {
             server = HttpServer.create(new InetSocketAddress("localhost", port), 25);
             server.createContext("/roleChange", new IncomingRoleChange());
             server.createContext("/verifyId", new VerifyId());
