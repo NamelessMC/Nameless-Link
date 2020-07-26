@@ -1,7 +1,7 @@
 package com.namelessmc.bot.http;
 
-import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.Queries;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.dv8tion.jda.api.entities.Guild;

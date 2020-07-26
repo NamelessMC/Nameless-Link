@@ -23,6 +23,8 @@ import java.util.List;
 
 public class PrivateMessageListener extends ListenerAdapter {
 
+    private static final EmbedBuilder embedBuilder = new EmbedBuilder();
+
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
         User user = event.getAuthor();
@@ -35,17 +37,55 @@ public class PrivateMessageListener extends ListenerAdapter {
         String message = event.getMessage().getContentRaw();
         String[] args = message.split(" ");
 
-        EmbedBuilder embedBuilder = new EmbedBuilder();
+        if (args[0].equals("!language")) {
+            if (args.length == 3) {
+                if (args[1].equals("set")) {
+                    if (Language.isValid(args[2])) {
+                        if (Queries.setUserLanguage(user.getId(), args[2])) {
+                            language = new Language(args[2]);
+                            embedBuilder.clear().setColor(Color.GREEN).setTitle(language.get("language_title")).addField(language.get("success"), language.get("language_update_success", args[2]), false);
+                            Main.log("Updated " + user.getName() + "'s language to: " + args[2]);
+                        } else {
+                            embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_update_failed_db"), false);
+                            Main.log("[ERROR] Failed to update language for " + user.getName() + " to: " + args[2] + ". Could not remove from DB");
+                        }
+                    } else {
+                        embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_update_failed_invalid", args[2], Utils.listToString(Language.getLanguages(), ", ")), false);
+                        Main.debug(user.getName() + " entered invalid language (" + args[2] + ")");
+                    }
+                } else {
+                    embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_invalid_argument", args[1]), false);
+                    Main.debug(user.getName() + " entered invalid argument (" + args[1] + ")");
+                }
+            } else if (args.length == 2) {
+                if (args[1].equals("set") || args[1].equals("list")) {
+                    embedBuilder.clear().setColor(Color.ORANGE).setTitle(language.get("language_title")).addField(language.get("settings"), language.get("language_list", Utils.listToString(Language.getLanguages(), ", ")), false);
+                } else {
+                    embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_invalid_argument", args[1]), false);
+                    Main.debug(user.getName() + " entered invalid argument (" + args[1] + ")");
+                }
+            } else {
+                Language userLanguage = Queries.getUserLanguage(user.getId());
+                if (Queries.getUserLanguage(user.getId()) != null) {
+                    embedBuilder.clear().setColor(Color.GREEN).setTitle(language.get("language_title")).addField(language.get("settings"), language.get("language_get", userLanguage.getLanguage()), false);
+                } else {
+                    embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_get_failed_db"), false);
+                    Main.log("[ERROR] Failed to get language for " + user.getName() + ". Could not find from DB");
+                }
+            }
+            Utils.messageUser(user, embedBuilder);
+            return;
+        }
 
         PendingVerification pendingVerification = Queries.getPendingVerification(user.getId());
         if (pendingVerification != null) {
-            String username = pendingVerification.username;
-            String guild_id = pendingVerification.guild_id;
+            String username = pendingVerification.getUsername();
+            String guild_id = pendingVerification.getGuild_id();
             Guild guild = Main.getJda().getGuildById(guild_id);
-            String role_id = pendingVerification.role;
+            String role_id = pendingVerification.getRole();
             Role role = null;
             if (role_id != null) role = guild.getRoleById(role_id);
-            String url = pendingVerification.site;
+            String url = pendingVerification.getSite();
             if (message.equals(username)) {
                 embedBuilder.setColor(Color.ORANGE).setTitle(language.get("verification_title")).addField(language.get("verification_loading"), language.get("verification_loading_message"), false);
                 Utils.messageUser(user, embedBuilder);
@@ -75,36 +115,6 @@ public class PrivateMessageListener extends ListenerAdapter {
                     Utils.messageUser(user, embedBuilder);
                 }
             }
-        } else if (args[0].equals("!language")) {
-            if (args.length == 3) {
-                if (args[1].equals("set")) {
-                    if (Language.isValid(args[2])) {
-                        if (Queries.setUserLanguage(user.getId(), args[2])) {
-                            language = new Language(args[2]);
-                            embedBuilder.clear().setColor(Color.GREEN).setTitle(language.get("language_title")).addField(language.get("success"), language.get("language_update_success", args[2]), false);
-                            Main.log("Updated " + user.getName() + "'s language to: " + args[2]);
-                        } else {
-                            embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_update_failed_db"), false);
-                            Main.log("[ERROR] Failed to update language for " + user.getName() + " to: " + args[2] + ". Could not remove from DB");
-                        }
-                    } else {
-                        embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_update_failed_invalid", args[2], Utils.listToString(Language.languages, ", ")), false);
-                        Main.debug(user.getName() + " entered invalid language (" + args[2] + ")");
-                    }
-                } else {
-                    embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_invalid_argument", args[1]), false);
-                    Main.debug(user.getName() + " entered invalid argument (" + args[1] + ")");
-                }
-            } else {
-                Language userLanguage = Queries.getUserLanguage(user.getId());
-                if (Queries.getUserLanguage(user.getId()) != null) {
-                    embedBuilder.clear().setColor(Color.GREEN).setTitle(language.get("language_title")).addField(language.get("settings"), language.get("language_get", userLanguage.language), false);
-                } else {
-                    embedBuilder.clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_get_failed_db"), false);
-                    Main.log("[ERROR] Failed to get language for " + user.getName() + ". Could not find from DB");
-                }
-            }
-            Utils.messageUser(user, embedBuilder);
         } else {
             List<String> guild_ids = Queries.getUserGuilds(user.getId());
             String guild_id;

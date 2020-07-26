@@ -1,5 +1,6 @@
 package com.namelessmc.bot;
 
+import com.google.gson.JsonParser;
 import com.namelessmc.bot.http.HttpMain;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
@@ -12,7 +13,6 @@ import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import javax.security.auth.login.LoginException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,12 +23,13 @@ public class Main {
     private static JDA jda;
     @Getter
     private static Connection connection;
+    @Getter
+    private static final JsonParser jsonParser = new JsonParser();
 
     private static boolean debugging = false;
 
     public static void main(String[] args) {
         try {
-            HttpMain.init();
             jda = JDABuilder
                     .createDefault(Config.get("settings", "token"))
                     .addEventListeners(new GuildJoinHandler())
@@ -38,7 +39,7 @@ public class Main {
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .enableIntents(GatewayIntent.GUILD_MEMBERS)
                     .build();
-        } catch (LoginException | IOException e) {
+        } catch (LoginException e) {
             e.printStackTrace();
         }
 
@@ -55,14 +56,15 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
             log("[ERROR] Could not connect to central database!");
-            // TODO: jda send message to me?
-            jda.shutdownNow();
+            jda.shutdown();
         }
 
         if (args.length >= 1 && args[0].equals("-debug")) {
             log("Debugging enabled");
             debugging = true;
         }
+
+        HttpMain.init();
     }
 
     public static void log(String message) {

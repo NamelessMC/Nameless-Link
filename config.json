@@ -7,6 +7,7 @@
     "database": ""
   },
   "settings": {
-    "token": ""
+    "token": "",
+    "http-port": "8001"
   }
 }

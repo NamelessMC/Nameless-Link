@@ -1,19 +1,19 @@
 package com.namelessmc.bot;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import lombok.Getter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Language {
 
-    public final String language;
+    @Getter
+    private final String language;
 
     public Language(String language) {
         this.language = language;
@@ -33,22 +33,8 @@ public class Language {
         }
     }
 
-    public static final JsonParser jsonParser = new JsonParser();
-
-    private String get(String language, String term) {
-        try {
-            try {
-                return jsonParser.parse(new JsonReader(new FileReader("languages/" + language + ".json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
-            } catch (NullPointerException e) {
-                return null;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return "Fatal error getting term: `" + term + "`, using language: `" + language + "`.";
-        }
-    }
-
-    public static final List<String> languages = new ArrayList<>();
+    @Getter
+    private static final List<String> languages = new ArrayList<>();
 
     static {
         for (File file : new File("languages/").listFiles()) {
@@ -58,5 +44,18 @@ public class Language {
 
     public static boolean isValid(String language) {
         return languages.contains(language);
+    }
+
+    private String get(String language, String term) {
+        try {
+            try {
+                return Main.getJsonParser().parse(new JsonReader(new FileReader("languages/" + language + ".json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
+            } catch (NullPointerException e) {
+                return null;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return "Fatal error getting term: `" + term + "`, using language: `" + language + "`.";
+        }
     }
 }

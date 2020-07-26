@@ -10,7 +10,7 @@ public class Config {
     public static String get(String subsection, String key) {
         try {
             try {
-                return Language.jsonParser.parse(new JsonReader(new FileReader("config.json"))).getAsJsonObject().get(subsection).getAsJsonObject().get(key).getAsString();
+                return Main.getJsonParser().parse(new JsonReader(new FileReader("config.json"))).getAsJsonObject().get(subsection).getAsJsonObject().get(key).getAsString();
             } catch (NullPointerException exception) { return null; }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
