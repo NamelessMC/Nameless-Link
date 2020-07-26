@@ -4,16 +4,13 @@
     "failed": "Failed",
     "settings": "Settings",
     "pending": "Pending",
-
     "verification_title": "Verification",
     "verification_loading": "Loading...",
     "verification_loading_message": "Please wait while I verify your web account...",
     "verification_failed_generic": "Error: `Could not link your account. Stacktrace: `%s`",
     "verification_failed_db": "Error: `Unable to remove your pending verification from the database. Please contact aberdeener#0001`",
     "verification_success": "Thank you for linking your account.",
-
     "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the username you used to register on the website. If this was not you, you can safely ignore this message.",
-
     "link_guild_title": "Link Guild",
     "link_guild_saving": "The API URL and Guild ID you sent were valid. Saving now...",
     "link_guild_success": "Your API URL has been linked to \"%s\".",
@@ -21,8 +18,7 @@
     "link_guild_failed_generic": "Stacktrace: `%s`",
     "link_guild_failed_no_guilds": "Error: `You are not the owner of a Guild with the Nameless Link bot.`",
     "link_guild_failed_invalid_id": "Error: `Invalid Guild ID.\nAvailable Guilds:\n%s`",
-    "link_guild_failed_multiple":  "Error: `You are the owner of multiple Guilds with the Nameless Link bot Please specify a Guild ID as the second argument.\nAvailable Guilds:\n%s`",
-
+    "link_guild_failed_multiple": "Error: `You are the owner of multiple Guilds with the Nameless Link bot Please specify a Guild ID as the second argument.\nAvailable Guilds:\n%s`",
     "language_title": "Language",
     "language_update_success": "Successfully updated your language to `%s`.",
     "language_update_failed_db": "Failed: `Your language could not be updated. Please contact aberdeener#0001`",
@@ -30,29 +26,24 @@
     "language_invalid_argument": "Oops, that is an invalid argument (%s).\nValid arguments: `set`.",
     "language_get": "Your language is set to: `%s`.",
     "language_get_failed_db": "Failed: `Your language could not be found. Please contact aberdeener#0001`",
-
     "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, reply with your API URL found in `StaffCP -> Configuration -> API`.\nTo change my language type `!language set`.",
     "guild_join_failed_db": "Hello! Thank you for using the NamelessMC Bot. I tried to setup your guild, but failed. Please contact aberdeener#0001",
     "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please reply with your API URL found in `StaffCP -> Configuration -> API`",
     "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL. Welcome back."
   },
-
   "Chinese-Simplified": {
     "comment": "Chinese-Simplified translations by https://github.com/yangyang200",
     "success": "成功",
     "failed": "失败",
     "settings": "设置",
     "pending": "待定",
-
     "verification_title": "验证",
     "verification_loading": "加载中...",
     "verification_loading_message": "正在验证您的网站帐号，请稍等...",
     "verification_failed_generic": "错误: `无法验证您的帐号。错误输出: %s`",
     "verification_failed_db": "错误: `无法从数据库中移除您待定的验证信息。请于 Discord 联系 aberdeener#0001。`",
     "verification_success": "感谢您验证您的帐号。",
-
     "verify_id_message": "您请求了将您的 NamelessMC 网站帐号链接到此帐号，请您回复您网站帐号的用户名来继续。如果并非您作出此操作，您可忽略此消息。",
-
     "link_guild_title": "链接服务器",
     "link_guild_saving": "已验证您发送的 API 链接及服务器 ID。正在保存...",
     "link_guild_success": "成功将 \"%s\" 链接到了您的 API 链接。",
@@ -61,7 +52,6 @@
     "link_guild_failed_no_guilds": "错误: `您并非包含本机器人的服务器的拥有者。`",
     "link_guild_failed_invalid_id": "错误: `非法服务器 ID。\n可用服务器: \n%s`",
     "link_guild_failed_multiple": "错误: `您是包含本机器人的多个服务器的拥有者。请您传入服务器 ID 作为第二个参数。\n可用服务器: \n%s`",
-
     "language_title": "语言",
     "language_update_success": "成功将您的语言设置为 `%s`。",
     "language_update_failed_db": "错误: `无法更新您的语言。请于 Discord 联系 aberdeener#0001。`",
@@ -69,29 +59,23 @@
     "language_invalid_argument": "不好意思，您输入的参数不存在 (%s)。\n可用参数: `set`。",
     "language_get": "您的当前语言为: `%s`",
     "language_get_failed_db": "错误: `无法找到您的语言。请于 Discord 联系 aberdeener#0001。`",
-
     "guild_join_success": "您好! 感谢您使用 NamelessMC 机器人。请您回复您的 API 链接 (可以于 管理员控制台 -> 配置 -> API 找到) 来继续。\n您还可以回复 `!language set` 来设置我的语言。",
     "guild_join_failed_db": "您好! 感谢您使用 NamelessMC 机器人。很抱歉，我无法设置您的服务器。请于 Discord 联系 aberdeener#0001。",
     "guild_join_needs_renew": "您好! 感谢您使用 NamelessMC 机器人。虽然您已经设置了您的 API 链接，可是它失效了。请您回复您的 API 链接 (可以于 管理员控制台 -> 配置 -> API 找到) 来继续。",
     "guild_join_welcome_back": "您好! 感谢您使用 NamelessMC 机器人。看起来您已经设置了您的 API 链接。欢迎回来!"
-  }
-},
-{
+  },
   "Polish": {
     "success": "Sukces",
     "failed": "Błąd",
     "settings": "Ustawienia",
     "pending": "W toku",
-
     "verification_title": "Weryfikacja",
     "verification_loading": "Ładowanie...",
     "verification_loading_message": "Proszę poczekać. Weryfikowanie konta...",
     "verification_failed_generic": "Błąd: `Nie odnaleziono konta. Logi: `%s`",
     "verification_failed_db": "Błąd: `Nie udało się usunąć prośby z bazy danych. Napisz do aberdeener#0001`",
     "verification_success": "Dziękujemy za podłączenie konta.",
-
     "verify_id_message": "Ktoś chce zweryfikować twoje konto z forum. Jeśli to ty napisz poniżej swój nick ze strony. Jeśli to nie ty, zignoruj tę wiadomość.",
-
     "link_guild_title": "Podłącz Serwer",
     "link_guild_saving": "URL API i ID serwera są poprawne. Zapisuję...",
     "link_guild_success": "Twój URL API został podłączony do \"%s\".",
@@ -99,8 +83,7 @@
     "link_guild_failed_generic": "Logi: `%s`",
     "link_guild_failed_no_guilds": "Błąd: `Nie jesteś właścicielem tego serwera.`",
     "link_guild_failed_invalid_id": "Błąd: `Niepoprawne ID serwera.\nDostępne:\n%s`",
-    "link_guild_failed_multiple":  "Błąd: `Jesteś właścicielem wielu serwerów z botem. Napisz ID serwera.\nDostępne:\n%s`",
-
+    "link_guild_failed_multiple": "Błąd: `Jesteś właścicielem wielu serwerów z botem. Napisz ID serwera.\nDostępne:\n%s`",
     "language_title": "Język",
     "language_update_success": "Pomyślnie ustawiono język na `%s`.",
     "language_update_failed_db": "Błąd: `Twój język nie może być zaaktualizowany. Napisz do aberdeener#0001`",
@@ -108,9 +91,47 @@
     "language_invalid_argument": "Ups. To nie jest prawidłowy argument (%s).\nPrawidłowe: `set`.",
     "language_get": "Twój język jest ustawiony na: `%s`.",
     "language_get_failed_db": "Błąd: `Nie można znaleźć twojego języka. Napisz do aberdeener#0001`",
-
     "guild_join_success": "Witaj! Dziękujemy za korzystanie z naszego bota, napisz poniżej URL API znajdujący się w `Panel -> Konfiguracja -> API`.\nAby zmienić język napisz `!language set`.",
     "guild_join_failed_db": "Witaj! Dziękujemy za korzystanie z naszego bota. Spróbowaliśmy dodać go do bazy danych, ale nie udało się. Napisz do aberdeener#0001",
     "guild_join_needs_renew": "Witaj! Dziękujemy za korzystanie z naszego bota. Wygląda na to, że już masz ustawiony URL API, lecz nie jest aktywny. Napisz poniżej nowy URL API znajdujący się w `Panel -> Konfiguracja -> API`",
     "guild_join_welcome_back": "Witaj! Dziękujemy za korzystanie z naszego bota. Wygląda na to, że już masz ustawiony URL API. Witamy ponownie!"
+  },
+  "Lithuanian": {
+    "comment": "Lithuanian translation by https://github.com/Govindass",
+    "success": "Sėkmingai baigta!",
+    "failed": "Nepavyko",
+    "settings": "Nustatymai",
+    "pending": "Laukiama patvirtinimo",
+
+    "verification_title": "Patvirtinimas",
+    "verification_loading": "Kraunama...",
+    "verification_loading_message": "Prašome palaukti kol patvirtinsime jūsų svetainės paskyrą...",
+    "verification_failed_generic": "Klaida: `Nepavyko prijungti jūsų paskyros. Stacktrace: `%s`",
+    "verification_failed_db": "Klaida: `Nepavyko panaikinti jūsų prijungimo patvirtinimo iš duomenų bazės. Prašome susisiekti su aberdeener#0001`",
+    "verification_success": "Dėkojame už paskyros prijungimą.",
+
+    "verify_id_message": "Kažkas prašė prijungti šią Discord paskyrą su NamelessMC svetainės paskyra. Jei tai buvote jūs, prašome atsakyti su vardu kurį naudojote registruodamiesi svetainėje. Jei tai nebuvote jūs, galite saugiai ignoruoti šį pranešimą.",
+
+    "link_guild_title": "Prijungti Gildiją",
+    "link_guild_saving": "API URL ir Gildijos ID kuriuos nusiuntėte yra teisingi. Saugojame...",
+    "link_guild_success": "Jūsų API URL sujungėme su \"%s\".",
+    "link_guild_failed_db": "Nepavyko: `Jūsų API URL nepavyko išsaugoti. Prašome susisiekti su aberdeener#0001`",
+    "link_guild_failed_generic": "Stacktrace: `%s`",
+    "link_guild_failed_no_guilds": "Klaida: `Jūs nesate savininkas jokios gildijos kuri turėtų NamelessMC botą.`",
+    "link_guild_failed_invalid_id": "Klaida: `Klaidingos Gildijos ID.\nGalimos Gildijos:\n%s`",
+    "link_guild_failed_multiple":  "Klaida: `Jūs esate savininkas daugiau nei vienos gildijos su NamelessMC botu, prašome pasirinkti Gildijos ID antrajame argumente.\nGalimos Gildijos:\n%s`",
+
+    "language_title": "Kalba",
+    "language_update_success": "Sėkmingai atnaujinome jūsų kalbą į `%s`.",
+    "language_update_failed_db": "Nepavyko: `Negalėjome atnaujinti jūsų kalbos. Prašome susisiekti su aberdeener#0001`",
+    "language_update_failed_invalid": "Nepavyko: `Jūs pasirinkote kalbą kurios nėra (%s).\nGalimos kalbos: %s.`",
+    "language_invalid_argument": "Ups!, tai yra klaidingas argumentas. (%s).\nGalimi argumentai: `set`.",
+    "language_get": "Jūs pasirinkote kalbą: `%s`.",
+    "language_get_failed_db": "Nepavyko: `Neradome jūsų kalbos. Prašome susisiekti su aberdeener#0001`",
+
+    "guild_join_success": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Galite pradėti atsakydami su savo API URL kurį galite rasti `StaffCP -> Konfigūracija -> API`.\nGalite pakeisti kalbą rašydami `!language set`.",
+    "guild_join_failed_db": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Aš bandžiau sukonfigūruoti jūsų gildiją, bet nepavyko. Prašome susisiekti su aberdeener#0001",
+    "guild_join_needs_renew": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Atrodo kad jūs jau esate nustatę savo API URL, bet jis nebėra veiksmingas. Prašome atsakyti su savo API URL kurį galite rasti `StaffCP -> Konfigūracija -> API`",
+    "guild_join_welcome_back": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Atrodo kad jūs jau esate nustatę savo API URL. Sveiki grįžę!"
   }
+}
