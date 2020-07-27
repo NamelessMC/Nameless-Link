@@ -16,7 +16,7 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 2. Enable Discord Integration in NamelessMC
     * Open `StaffCP - Integrations - Discord`, and click the switch. 
     * Enter your [Discord Guild ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) (Must be same guild that the bot joined in step 1) and then hit Submit.
-    * *Note: Only edit the Bot URL if you are self-hosting. No Discord integrations will work if this setting is invalid. You have been warned!*
+    * *Note: Only edit the Bot URL if you are self-hosting. No Nameless Link integrations will work if this setting is invalid. You have been warned!*
  
 3. Configure NamelessMC Groups
     * In order for the bot to know which Discord role to assign to each NamelessMC group, you must setup the [Discord Role ID](https://discordhelp.net/role-id) for any groups you want to sync.
