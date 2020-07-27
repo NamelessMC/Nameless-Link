@@ -30,30 +30,22 @@ public class LanguageCommand extends Command {
                         Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_update_failed_db"), false);
                         Main.log("[ERROR] Failed to update language for " + user.getName() + " to: " + args[2] + ". Could not remove from DB");
                     }
-                } else {
-                    Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_update_failed_invalid", args[2], Utils.listToString(Language.getLanguages(), ", ")), false);
-                    Main.debug(user.getName() + " entered invalid language (" + args[2] + ")");
-                }
-            } else {
-                Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_invalid_argument", args[1]), false);
-                Main.debug(user.getName() + " entered invalid argument (" + args[1] + ")");
-            }
+                } else Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_update_failed_invalid", args[2], Utils.listToString(Language.getLanguages(), ", ")), false);
+            } else Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_invalid_argument", args[1]), false);
         } else if (args.length == 2) {
             if (args[1].equals("set") || args[1].equals("list")) {
                 Main.getEmbedBuilder().clear().setColor(Color.ORANGE).setTitle(language.get("language_title")).addField(language.get("settings"), language.get("language_list", Utils.listToString(Language.getLanguages(), ", ")), false);
-            } else {
-                Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_invalid_argument", args[1]), false);
-                Main.debug(user.getName() + " entered invalid argument (" + args[1] + ")");
-            }
-        } else {
-            Language userLanguage = Queries.getUserLanguage(user.getId());
+            } else Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_invalid_argument", args[1]), false);
+        } else if (args.length == 1) {
             if (Queries.getUserLanguage(user.getId()) != null) {
-                Main.getEmbedBuilder().clear().setColor(Color.GREEN).setTitle(language.get("language_title")).addField(language.get("settings"), language.get("language_get", userLanguage.getLanguage()), false);
+                Main.getEmbedBuilder().clear().setColor(Color.GREEN).setTitle(language.get("language_title")).addField(language.get("settings"), language.get("language_get", language.getLanguage()), false);
             } else {
                 Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("language_title")).addField(language.get("failed"), language.get("language_get_failed_db"), false);
                 Main.log("[ERROR] Failed to get language for " + user.getName() + ". Could not find from DB");
             }
+        } else {
+            Main.getEmbedBuilder().clear().setColor(Color.ORANGE).setThumbnail(language.get("language_title")).addField(language.get("settings"), language.get("language_subcommands"), false);
         }
-        Utils.messageUser(user, Main.getEmbedBuilder());
+        channel.sendMessage(Main.getEmbedBuilder().build()).queue();
     }
 }

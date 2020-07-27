@@ -32,6 +32,7 @@
     "language_get": "Jūs pasirinkote kalbą: `%s`.\nGalite pakeisti kalbą rašydami `!language set`.",
     "language_get_failed_db": "Nepavyko: `Neradome jūsų kalbos.",
     "language_list": "Galimos kalbos: `%s`.",
+    "language_subcommands": "Galimi argumentai: `set, list`.",
 
     "guild_join_success": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Galite pradėti atsakydami su savo API URL kurį galite rasti `StaffCP -> Konfigūracija -> API`.\nGalite pakeisti kalbą rašydami `!language set`.",
     "guild_join_failed_db": "Sveiki! Dėkojame už NamelessMC boto naudojimą. Aš bandžiau sukonfigūruoti jūsų gildiją, bet nepavyko.",

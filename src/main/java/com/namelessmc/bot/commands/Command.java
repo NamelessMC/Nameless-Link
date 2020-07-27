@@ -20,7 +20,9 @@ public class Command {
         this.label = label;
         this.aliases = aliases;
         this.context = context;
-        registeredCommands.put(this, getClass());
+
+        if (getCommand(label, CommandContext.BOTH) != null) registeredCommands.put(this, getClass());
+        else throw new IllegalStateException("Command already registered");
     }
 
     public static Class<?> getCommand(String label, CommandContext context) {

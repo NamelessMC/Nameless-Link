@@ -31,6 +31,7 @@
     "language_get": "Váš jazyk byl nastaven na: `%s`.\nPro změnu jazyka napište `!language set`.",
     "language_get_failed_db": "Chyba: `Váš jazyk nebyl nalezen.`",
     "language_list": "Platné jazyky: `%s`.",
+    "language_subcommands": "Platné argumenty: `set, list`.",
 
     "guild_join_success": "Zdravíme! Děkujeme, že používáte NamelessMC bota. Pro začátek odpovězte vaším API, které lze nalézt zde: `Ovládací panel -> Konfigurace -> API`.\nPro změnu jazyka napište `!language set`.",
     "guild_join_failed_db": "Zdravíme! Děkujeme, že používáte NamelessMC bota. Pokusili jsme se nastavit váš sever, ale bohužel neúspěšně.",

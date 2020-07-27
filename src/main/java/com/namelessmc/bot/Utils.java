@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Utils {
 
-    public static void messageGuildOwner(long guild_id, String message) {
+    public static void messageGuildOwner(String guild_id, String message) {
         messageUser(Main.getJda().getGuildById(guild_id).retrieveOwner().complete().getUser(), message);
     }
 

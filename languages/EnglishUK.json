@@ -31,6 +31,7 @@
     "language_get": "Your language is set to: `%s`.\nTo change my language type `!language set`.",
     "language_get_failed_db": "Failed: `Your language could not be found.`",
     "language_list": "Valid languages: `%s`.",
+    "language_subcommands": "Valid arguments: `set, list`.",
 
     "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, reply with your API URL found in `StaffCP -> Configuration -> API`.\nTo change my language type `!language set`.",
     "guild_join_failed_db": "Hello! Thank you for using the NamelessMC Bot. I tried to setup your guild, but failed.",

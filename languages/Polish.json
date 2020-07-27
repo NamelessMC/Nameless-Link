@@ -31,6 +31,7 @@
     "language_get": "Twój język jest ustawiony na: `%s`.\nAby zmienić język napisz `!language set`.",
     "language_get_failed_db": "Błąd: `Nie można znaleźć twojego języka.`",
     "language_list": "Prawidłowe: `%s`.",
+    "language_subcommands": "Prawidłowe: `set, list`.",
 
     "guild_join_success": "Witaj! Dziękujemy za korzystanie z naszego bota, napisz poniżej URL API znajdujący się w `Panel -> Konfiguracja -> API`.\nAby zmienić język napisz `!language set`.",
     "guild_join_failed_db": "Witaj! Dziękujemy za korzystanie z naszego bota. Spróbowaliśmy dodać go do bazy danych, ale nie udało się.",

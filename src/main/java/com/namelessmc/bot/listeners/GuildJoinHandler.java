@@ -22,10 +22,10 @@ public class GuildJoinHandler extends ListenerAdapter {
         String api_url = Queries.getGuildApiUrl(event.getGuild().getId());
         if (api_url == null) {
             if (Queries.newGuild(event.getGuild().getId(), owner_id)) {
-                Utils.messageGuildOwner(event.getGuild().getIdLong(), language.get("guild_join_success"));
+                Utils.messageGuildOwner(event.getGuild().getId(), language.get("guild_join_success"));
                 Main.log("Sent new join message to " + event.getGuild().retrieveOwner().complete().getEffectiveName() + " for guild " + event.getGuild().getName());
             } else {
-                Utils.messageGuildOwner(event.getGuild().getIdLong(), language.get("guild_join_failed_db"));
+                Utils.messageGuildOwner(event.getGuild().getId(), language.get("guild_join_failed_db"));
                 Main.log("Could not set new guild " + event.getGuild().getId());
             }
         }
@@ -33,11 +33,11 @@ public class GuildJoinHandler extends ListenerAdapter {
         else {
             if (Utils.getApiFromString(api_url) == null) {
                 // Error with their stored url. Make them update the url
-                Utils.messageGuildOwner(event.getGuild().getIdLong(), language.get("guild_join_needs_renew"));
+                Utils.messageGuildOwner(event.getGuild().getId(), language.get("guild_join_needs_renew"));
                 Main.debug("Sent update api url message to " + event.getGuild().retrieveOwner().complete().getEffectiveName() + " for guild " + event.getGuild().getName());
             } else {
                 // Good to go
-                Utils.messageGuildOwner(event.getGuild().getIdLong(), language.get("guild_join_welcome_back"));
+                Utils.messageGuildOwner(event.getGuild().getId(), language.get("guild_join_welcome_back"));
                 Main.debug("Sent already complete message to " + event.getGuild().retrieveOwner().complete().getEffectiveName() + " for guild " + event.getGuild().getName());
             }
         }

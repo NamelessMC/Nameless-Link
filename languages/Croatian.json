@@ -31,6 +31,7 @@
     "language_get": "Tvoj jezik je postavljen na: `%s`.\nDa promijenite jezik ukucajte `!language set`.",
     "language_get_failed_db": "Neuspijeh: `Vaš jezik nije pronađen.`",
     "language_list": "Važeći jezici: `%s`.",
+    "language_subcommands": "Važeći argumenti: `set, list`.",
 
     "guild_join_success": "Pozdrav! Hvala vam što koristite NamelessMC Bot. Kako biste započeli, odgovorite s vašim API URL pronađenim u `StaffCP -> Configuration -> API`.\nDa promijenite jezik ukucajte `!language set`.",
     "guild_join_failed_db": "Pozdrav!  Hvala vam što koristite NamelessMC Bot. Pokušao sam postaviti tvoj server ali neuspiješno.",

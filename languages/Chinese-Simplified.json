@@ -31,6 +31,7 @@
     "language_get": "您的当前语言为: `%s`。\n您还可以回复 `!language set` 来设置我的语言。",
     "language_get_failed_db": "错误: `无法找到您的语言。`",
     "language_list": "可用语言: `%s`.",
+    "language_subcommands": "可用参数: `set, list`。",
 
     "guild_join_success": "您好! 感谢您使用 NamelessMC 机器人。请您回复您的 API 链接 (可以于 管理员控制台 -> 配置 -> API 找到) 来继续。\n您还可以回复 `!language set` 来设置我的语言。",
     "guild_join_failed_db": "您好! 感谢您使用 NamelessMC 机器人。很抱歉，我无法设置您的服务器。",
