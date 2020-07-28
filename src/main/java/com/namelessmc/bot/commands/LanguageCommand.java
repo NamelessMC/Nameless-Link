@@ -15,7 +15,8 @@ public class LanguageCommand extends Command {
         super("!language", new String[]{"!lang"}, CommandContext.PRIVATE_MESSAGE);
     }
 
-    public static void execute(User user, String[] args, MessageChannel channel) {
+    @Override
+    public void execute(User user, String[] args, MessageChannel channel) {
         Language language = Queries.getUserLanguage(user.getId());
         if (language == null) language = new Language("EnglishUK");
 

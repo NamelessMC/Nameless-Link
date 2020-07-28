@@ -22,7 +22,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -31,7 +31,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.2.4</version>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -75,7 +75,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.0_168</version>
+            <version>4.2.0_182</version>
         </dependency>
 
         <dependency>
@@ -87,7 +87,7 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <version>2.8.6</version>
         </dependency>
 
         <dependency>

@@ -49,7 +49,7 @@ public class Language {
     private String get(String language, String term) {
         try {
             try {
-                return Main.getJsonParser().parse(new JsonReader(new FileReader("languages/" + language + ".json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
+                return JsonParser.parseReader(new JsonReader(new FileReader("languages/" + language + ".json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
             } catch (NullPointerException e) {
                 return null;
             }

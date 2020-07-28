@@ -19,7 +19,7 @@ public class GuildMessageListener extends ListenerAdapter {
         String message = event.getMessage().getContentRaw();
         String[] args = message.split(" ");
 
-        Class<?> clazz = Command.getCommand(args[0], CommandContext.GUILD_MESSAGE);
-        if (clazz != null) clazz.getDeclaredMethod("execute", User.class, String[].class, MessageChannel.class).invoke(null, user, args, event.getChannel());
+        Command command = Command.getCommand(args[0], CommandContext.GUILD_MESSAGE);
+        if (command != null) command.execute(user, args, event.getChannel());
     }
 }

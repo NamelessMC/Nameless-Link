@@ -3,9 +3,9 @@ package com.namelessmc.bot;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import javax.security.auth.login.LoginException;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import com.namelessmc.bot.commands.LanguageCommand;
 import com.namelessmc.bot.http.HttpMain;
@@ -29,9 +29,9 @@ public class Main {
     @Getter
     private static Connection connection;
     @Getter
-    private static final JsonParser jsonParser = new JsonParser();
-    @Getter
     private static final EmbedBuilder embedBuilder = new EmbedBuilder();
+    @Getter
+    private static final Gson gson = new GsonBuilder().create();
 
     private static boolean debugging = false;
 
@@ -57,7 +57,6 @@ public class Main {
 
         try {
             final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true";
-
             connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
             log("Connected to central database.");
         } catch (final SQLException e) {

@@ -20,7 +20,8 @@ public class HttpMain {
             Main.log("[ERROR] Invalid port. Using fallback: " + port);
         }
         try {
-            server = HttpServer.create(new InetSocketAddress("localhost", port), 25);
+            server = HttpServer.create(new InetSocketAddress(port), 25);
+            server.createContext("/", new ConnectionTest());
             server.createContext("/roleChange", new IncomingRoleChange());
             server.createContext("/verifyId", new VerifyId());
             final ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
