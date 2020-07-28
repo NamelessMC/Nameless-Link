@@ -1,5 +1,6 @@
 package com.namelessmc.bot.http;
 
+import com.namelessmc.bot.Main;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 

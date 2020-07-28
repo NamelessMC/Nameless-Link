@@ -9,6 +9,7 @@ import com.namelessmc.NamelessAPI.Request;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.http.IncomingRoleChange;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
@@ -21,6 +22,16 @@ public class DiscordRoleListener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent event) {
+
+        if (IncomingRoleChange.getRecentChanges().containsKey(event.getMember())) {
+            if (event.getRoles().contains(IncomingRoleChange.getRecentChanges().get(event.getMember()))) {
+                for (Role role : event.getRoles()) {
+                    IncomingRoleChange.getRecentChanges().remove(event.getMember(), role);
+                }
+                return;
+            }
+        }
+
         String api_url = Queries.getGuildApiUrl(event.getGuild().getId());
 
         if (api_url == null) {
