@@ -5,15 +5,16 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.ParameterBuilder;
 import com.namelessmc.NamelessAPI.Request;
 import com.namelessmc.bot.Language;
-import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.Utils;
 import com.namelessmc.bot.commands.Command;
 import com.namelessmc.bot.commands.CommandContext;
 import com.namelessmc.bot.models.PendingVerification;
 import lombok.SneakyThrows;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -34,8 +35,8 @@ public class PrivateMessageListener extends ListenerAdapter {
         String message = event.getMessage().getContentRaw();
         String[] args = message.split(" ");
 
-        Class<?> clazz = Command.getCommand(args[0], CommandContext.PRIVATE_MESSAGE);
-        if (clazz != null) clazz.getDeclaredMethod("execute", User.class, String[].class, MessageChannel.class).invoke(null, user, args, event.getChannel());
+        Command command = Command.getCommand(args[0], CommandContext.PRIVATE_MESSAGE);
+        if (command != null) command.execute(user, args, event.getChannel());
         else {
             Language language = Queries.getUserLanguage(user.getId());
             if (language == null) language = new Language("EnglishUK");
