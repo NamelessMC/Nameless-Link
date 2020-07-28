@@ -1,5 +1,7 @@
 package com.namelessmc.bot;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import com.namelessmc.bot.commands.LanguageCommand;
 import com.namelessmc.bot.http.HttpMain;
@@ -27,9 +29,9 @@ public class Main {
     @Getter
     private static Connection connection;
     @Getter
-    private static final JsonParser jsonParser = new JsonParser();
-    @Getter
     private static final EmbedBuilder embedBuilder = new EmbedBuilder();
+    @Getter
+    private static final Gson gson = new GsonBuilder().create();
 
     private static boolean debugging = false;
 
