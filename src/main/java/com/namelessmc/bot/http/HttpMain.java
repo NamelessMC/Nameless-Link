@@ -15,7 +15,7 @@ public class HttpMain {
         HttpServer server;
         int port = 8001;
         try {
-            port = Integer.parseInt(Config.PORT);
+            port = Config.PORT;
         } catch (final NumberFormatException e) {
             Main.log("[ERROR] Invalid port. Using fallback: " + port);
         }

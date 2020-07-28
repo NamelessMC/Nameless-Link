@@ -31,7 +31,8 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
     * *Note: For security reasons, it is impossible for anyone who does not have access to the database directly to edit a user's Discord ID. Their ID will be set once they verify they own it.*
 
 ### Contributors:
-* @Aberdeener (Main codebase)
+* @Aberdeener (Codebase)
+* @Derkades (Codebade & Dutch language)
 * @yangyang200 (Chinese-Simplified language)
 * @Fjuro (Czech language)
 * @IsS127 (Swedish language) [In Progress]
@@ -41,4 +42,3 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 * @kacperleague9 (Polish language)
 * @zJerino (Spanish language)
 * @MissChikoo (Norwegian/Bokmål language) [In Progress]
-* @Derkades (Dutch language)

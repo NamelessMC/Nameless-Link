@@ -1,6 +1,8 @@
 package com.namelessmc.bot.listeners;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.ParameterBuilder;
 import com.namelessmc.NamelessAPI.Request;
@@ -128,6 +130,9 @@ public class PrivateMessageListener extends ListenerAdapter {
                     }
                 } catch (NamelessException | MalformedURLException exception) {
                     Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("link_guild_title")).addField(language.get("failed"), language.get("link_guild_failed_generic", exception), false);
+                    Utils.messageUser(user, Main.getEmbedBuilder());
+                } catch (JsonSyntaxException exception) {
+                    Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("link_guild_title")).addField(language.get("failed"), language.get("link_guild_failed_api_disabled", exception), false);
                     Utils.messageUser(user, Main.getEmbedBuilder());
                 }
             }

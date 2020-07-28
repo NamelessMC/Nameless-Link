@@ -19,6 +19,7 @@
     "link_guild_success": "Your API URL has been linked to \"%s\".",
     "link_guild_failed_db": "Failed: `Your API URL could not be saved.`",
     "link_guild_failed_generic": "Stacktrace: `%s`",
+    "link_guild_failed_api_disabled": "Error: `%s`.\nPlease ensure your API is enabled in `StaffCP - Configuration - API`.",
     "link_guild_failed_no_guilds": "Error: `You are not the owner of a Guild with the Nameless Link bot.`",
     "link_guild_failed_invalid_id": "Error: `Invalid Guild ID.\nAvailable Guilds:\n%s`",
     "link_guild_failed_multiple": "Error: `You are the owner of multiple Guilds with the Nameless Link bot Please specify a Guild ID as the second argument.\nAvailable Guilds:\n%s`",

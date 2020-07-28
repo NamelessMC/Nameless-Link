@@ -1,13 +1,12 @@
 package com.namelessmc.bot;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public class Config {
 
 	private static final int DEFAULT_PORT = 8001;
-
-
 
 	public static final String DISCORD_TOKEN = System.getenv("DISCORD_TOKEN");
 
@@ -53,7 +52,7 @@ public class Config {
 			try {
 				if (field.get(null) == null) {
 					valid = false;
-					System.out.println("Missing required environment variable " + field.getName());
+					Main.log("[ERROR] Missing required environment variable " + field.getName());
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				throw new RuntimeException(e);

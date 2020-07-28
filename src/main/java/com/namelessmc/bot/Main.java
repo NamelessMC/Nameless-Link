@@ -41,6 +41,16 @@ public class Main {
     	}
 
         try {
+            final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true&serverTimezone=UTC";
+            connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
+            log("Connected to central database.");
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            log("[ERROR] Could not connect to central database!");
+            return;
+        }
+
+        try {
             jda = JDABuilder
                     .createDefault(Config.DISCORD_TOKEN)
                     .addEventListeners(new GuildJoinHandler())
@@ -53,16 +63,7 @@ public class Main {
                     .build();
         } catch (final LoginException e) {
             e.printStackTrace();
-        }
-
-        try {
-            final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true";
-            connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
-            log("Connected to central database.");
-        } catch (final SQLException e) {
-            e.printStackTrace();
-            log("[ERROR] Could not connect to central database!");
-            jda.shutdown();
+            return;
         }
 
         if (args.length >= 1 && args[0].equals("-debug")) {
