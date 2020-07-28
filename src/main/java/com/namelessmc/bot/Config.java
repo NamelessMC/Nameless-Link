@@ -21,7 +21,7 @@ public class Config {
 
 	static {
 		initPort: {
-			final String port = System.getenv("port");
+			final String port = System.getenv("PORT");
 			if (port == null) {
 				PORT = DEFAULT_PORT;
 			} else {
