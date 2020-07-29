@@ -1,0 +1,43 @@
+
+{
+  "Italian": {
+    "success": "Successo",
+    "failed": "Non riuscito",
+    "settings": "Impostazioni",
+    "pending": "In attesa",
+
+    "verification_title": "Verifica",
+    "verification_loading": "Caricamento...",
+    "verification_loading_message": "Per favore, attendi mentre verifichiamo il tuo account...",
+    "verification_failed_generic": "Errore: `Non è stato possibile collegare il tuo account. Stacktrace: `%s`",
+    "verification_failed_db": "Errore: `Non è stato possibile rimuovere il tuo stato di attesa dal database.`",
+    "verification_success": "Ti ringraziamo per aver verificato il tuo account.",
+
+    "verify_id_message": "Qualcuno ha chiesto di collegare questo account Discord con un account web NamelessMC. Se sei statu tu, rispondi con il nome utente che hai usato per registrarti nel sito. Se non sei stati tu, puoi tranquillamente ignorare questo messaggii.\nPer cambiare la lingua scrivi `!language set`.",
+
+    "link_guild_title": "Collega gilda",
+    "link_guild_saving": "L'URL API e l'ID della Gilda che hai mandato sono validi. Salvataggio...",
+    "link_guild_success": "Il tuo URL API è stato collegato a \"%s\".",
+    "link_guild_failed_db": "Errore: `Non è stato possibile salvare il tuo URL API.`",
+    "link_guild_failed_generic": "Stacktrace: `%s`",
+    "link_guild_failed_api_disabled": "Errore: `%s`.\nPer favore, assicurati che la tua API sia abilitata in `StaffCP - Configuration - API`.",
+    "link_guild_failed_no_guilds": "Errore: `Non sei il possessore di una gilda con il bot Nameless Link.`",
+    "link_guild_failed_invalid_id": "Errore: `ID Gilda non valido.\nGilde disponibili:\n%s`",
+    "link_guild_failed_multiple": "Errore: `Sei il possessore di più gilde con il bot Nameless Link, per favore inserisci l'ID della Gilda come secondo argomento.\nGilde disponibili:\n%s`",
+
+    "language_title": "Lingua",
+    "language_update_success": "Lingua cambiata a `%s`.",
+    "language_update_failed_db": "Errore: `Non è stato possibile cambiare la lingua.`",
+    "language_update_failed_invalid": "Errore: `Hai inserito una lingua non valida (%s).\nLingue disponibili: %s.`",
+    "language_invalid_argument": "Ops, hai inserito un argomento non valido (%s).\nArgomenti validi: `set, list`.",
+    "language_get": "La tua lingua è stata impostata a: `%s`.\nPer cambiare la lingua scrivi `!language set`.",
+    "language_get_failed_db": "Errore: `Non è stato possibile trovare la tua lingua.`",
+    "language_list": "Lingue valide: `%s`.",
+    "language_subcommands": "Argomenti validi: `set, list`.",
+
+    "guild_join_success": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Per iniziare, rispondi con il tuo URL API che puoi trovare in `StaffCP -> Configuration -> API`.\nPer cambiare la lingua scrivi `!language set`.",
+    "guild_join_failed_db": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Ho provato ad impostare la tua Gilda, ma ho riscontrato un errore.",
+    "guild_join_needs_renew": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Sembra che tu abbia già impostato il tuo URL API, ma non è più funzionante. Per favore rispondi con il tuo URL API che puoi trovare in `StaffCP -> Configuration -> API`",
+    "guild_join_welcome_back": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Sembra che tu abbia già impostato il tuo URL API. Bentornato."
+  }
+}
