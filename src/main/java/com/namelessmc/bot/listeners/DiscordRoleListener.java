@@ -1,14 +1,11 @@
 package com.namelessmc.bot.listeners;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.ParameterBuilder;
 import com.namelessmc.NamelessAPI.Request;
-import com.namelessmc.bot.Language;
-import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.Queries;
 import com.namelessmc.bot.http.IncomingRoleChange;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
@@ -73,7 +70,7 @@ public class DiscordRoleListener extends ListenerAdapter {
                 request.connect();
                 JsonObject response = request.getResponse();
                 if (!response.has("code")) {
-                    Main.log("Processed Discord role removal update -> website for " + event.getMember().getEffectiveName() + " for role " + role);
+                    Main.log("Processed role removal ( Discord -> Website) for " + event.getMember().getEffectiveName() + " for role " + role);
                 } else {
                     Main.debug("Error while updating webrank: `" + Main.getGson().toJson(response) + "` for " + event.getMember().getEffectiveName());
                 }

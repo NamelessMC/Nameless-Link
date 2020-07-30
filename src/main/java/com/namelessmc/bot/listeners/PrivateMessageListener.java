@@ -53,7 +53,7 @@ public class PrivateMessageListener extends ListenerAdapter {
                 if (role_id != null) role = guild.getRoleById(role_id);
                 String url = pendingVerification.getSite();
                 if (message.equals(username)) {
-                    Main.getEmbedBuilder().setColor(Color.ORANGE).setTitle(language.get("verification_title")).addField(language.get("verification_loading"), language.get("verification_loading_message"), false);
+                    Main.getEmbedBuilder().clear().setColor(Color.ORANGE).setTitle(language.get("verification_title")).addField(language.get("verification_loading"), language.get("verification_loading_message"), false);
                     Utils.messageUser(user, Main.getEmbedBuilder());
                     try {
                         String[] parameters = new ParameterBuilder().add("username", username).add("discord_id", user.getId()).build();

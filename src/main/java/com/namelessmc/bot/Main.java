@@ -1,19 +1,13 @@
 package com.namelessmc.bot;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import javax.security.auth.login.LoginException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
 import com.namelessmc.bot.commands.LanguageCommand;
 import com.namelessmc.bot.http.HttpMain;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.bot.listeners.GuildMessageListener;
 import com.namelessmc.bot.listeners.PrivateMessageListener;
-
 import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -21,6 +15,11 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+
+import javax.security.auth.login.LoginException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Main {
 

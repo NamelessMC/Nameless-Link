@@ -13,6 +13,7 @@ public class ConnectionTest implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         OutputStream outputStream = httpExchange.getResponseBody();
         String htmlResponse = "success";
+        Main.debug("Connection test successful for " + httpExchange.getRemoteAddress().getAddress());
         httpExchange.sendResponseHeaders(200, htmlResponse.length());
         outputStream.write(htmlResponse.getBytes());
         outputStream.flush();
