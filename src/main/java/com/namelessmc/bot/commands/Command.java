@@ -14,7 +14,7 @@ public abstract class Command {
     @Getter
     private final String label;
     @Getter
-    private final String[] aliases;
+    private final List<String> aliases;
     @Getter
     private final CommandContext context;
 
@@ -22,19 +22,22 @@ public abstract class Command {
     private static final HashMap<String, Command> registeredCommands = new HashMap<>();
     private static final List<String> registeredCommandLabels = new ArrayList<>();
 
-    public Command(String label, String[] aliases, CommandContext context) {
+    public Command(String label, List<String> aliases, CommandContext context) {
         this.label = label;
         this.aliases = aliases;
         this.context = context;
 
+        // check for duplicate labels or aliases
         if (registeredCommandLabels.contains(label)) throw new IllegalStateException("Command already registered");
-        for (String alias : aliases) if (registeredCommandLabels.contains(alias)) throw new IllegalStateException("Command already registered");
+        if (registeredCommandLabels.stream().anyMatch(aliases::contains)) throw new IllegalStateException("Command already registered");
 
+        // add these labels and aliases to check for duplication next time
+        registeredCommandLabels.add(label);
+        registeredCommandLabels.addAll(aliases);
+
+        // register the command and aliases
         registeredCommands.put(label, this);
         for (String alias : aliases) registeredCommands.put(alias, this);
-
-        registeredCommandLabels.add(label);
-        registeredCommandLabels.addAll(Arrays.asList(aliases));
     }
 
     public abstract void execute(User user, String[] args, MessageChannel channel);
@@ -44,10 +47,8 @@ public abstract class Command {
             if (command.getLabel().equals(label)) {
                 if (checkContext(command.getContext(), context)) return command;
             } else {
-                for (String alias : command.getAliases()) {
-                    if (label.equals(alias)) {
-                        if (checkContext(command.getContext(), context)) return command;
-                    }
+                if (command.getAliases().contains(label)) {
+                    if (checkContext(command.getContext(), context)) return command;
                 }
             }
         }

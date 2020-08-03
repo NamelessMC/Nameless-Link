@@ -1,6 +1,7 @@
 package com.namelessmc.bot.listeners;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.ParameterBuilder;
 import com.namelessmc.NamelessAPI.Request;
@@ -70,11 +71,11 @@ public class DiscordRoleListener extends ListenerAdapter {
                 request.connect();
                 JsonObject response = request.getResponse();
                 if (!response.has("code")) {
-                    Main.log("Processed role removal ( Discord -> Website) for " + event.getMember().getEffectiveName() + " for role " + role);
+                    Main.log("Processed role removal (Discord -> Website) for " + event.getMember().getEffectiveName() + " for role " + role);
                 } else {
-                    Main.debug("Error while updating webrank: `" + Main.getGson().toJson(response) + "` for " + event.getMember().getEffectiveName());
+                    Main.debug("Soft-error while updating webrank: `" + Main.getGson().toJson(response) + "` for " + event.getMember().getEffectiveName());
                 }
-            } catch (NamelessException | MalformedURLException exception) {
+            } catch (NamelessException | MalformedURLException | JsonSyntaxException exception) {
                 Main.log("[ERROR] Error while updating webrank: `" + exception.getMessage() + "` for " + event.getMember().getEffectiveName());
             }
         }

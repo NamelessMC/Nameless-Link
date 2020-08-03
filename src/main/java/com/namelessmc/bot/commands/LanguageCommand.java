@@ -8,11 +8,13 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class LanguageCommand extends Command {
 
     public LanguageCommand() {
-        super("!language", new String[]{"!lang"}, CommandContext.PRIVATE_MESSAGE);
+        super("!language", Collections.singletonList("!lang"), CommandContext.PRIVATE_MESSAGE);
     }
 
     @Override

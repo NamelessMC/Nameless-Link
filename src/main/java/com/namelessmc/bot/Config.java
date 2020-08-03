@@ -1,6 +1,5 @@
 package com.namelessmc.bot;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
@@ -62,6 +61,6 @@ public class Config {
 		return valid;
 	}
 
-	private static @interface SkipCheck {}
+	private @interface SkipCheck {}
 
 }

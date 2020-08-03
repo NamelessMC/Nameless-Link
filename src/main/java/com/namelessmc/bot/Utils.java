@@ -15,15 +15,11 @@ public class Utils {
     }
 
     public static void messageUser(User user, String message) {
-        user.openPrivateChannel().queue((channel) -> {
-            channel.sendMessage(message).queue();
-        });
+        user.openPrivateChannel().queue((channel) -> channel.sendMessage(message).queue());
     }
 
     public static void messageUser(User user, EmbedBuilder embed) {
-        user.openPrivateChannel().queue((channel) -> {
-            channel.sendMessage(embed.build()).queue();
-        });
+        user.openPrivateChannel().queue((channel) -> channel.sendMessage(embed.build()).queue());
     }
 
     public static NamelessAPI getApiFromString(String url) {

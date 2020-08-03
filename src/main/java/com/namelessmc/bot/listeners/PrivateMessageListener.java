@@ -33,7 +33,6 @@ public class PrivateMessageListener extends ListenerAdapter {
         User user = event.getAuthor();
 
         if (user.isBot()) return;
-
         String message = event.getMessage().getContentRaw();
         String[] args = message.split(" ");
 

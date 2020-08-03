@@ -23,7 +23,7 @@ public class HttpMain {
             server = HttpServer.create(new InetSocketAddress(port), 25);
             server.createContext("/", new ConnectionTest());
             server.createContext("/roleChange", new IncomingRoleChange());
-            server.createContext("/verifyId", new VerifyId());
+            server.createContext("/verifyId", new VerifyIdIncoming());
             final ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
             server.setExecutor(threadPoolExecutor);
             server.start();

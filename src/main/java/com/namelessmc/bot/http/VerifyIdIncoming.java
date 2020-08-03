@@ -16,7 +16,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
-public class VerifyId implements HttpHandler {
+public class VerifyIdIncoming implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
