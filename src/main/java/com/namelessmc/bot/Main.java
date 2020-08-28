@@ -25,7 +25,7 @@ public class Main {
 
     @Getter
     private static JDA jda;
-    @Getter
+
     private static Connection connection;
     @Getter
     private static final EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -42,10 +42,10 @@ public class Main {
         try {
             final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true&serverTimezone=UTC";
             connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
-            log("Connected to central database.");
+            log("Connected to database.");
         } catch (final SQLException e) {
             e.printStackTrace();
-            log("[ERROR] Could not connect to central database!");
+            log("[ERROR] Could not connect to database!");
             return;
         }
 
@@ -76,13 +76,25 @@ public class Main {
         new LanguageCommand();
     }
 
+    public static Connection getConnection() {
+        try {
+            if (connection.isClosed() || !connection.isValid(3)) {
+                final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true&serverTimezone=UTC";
+                connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
+            }
+            return connection;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log("[ERROR] Connection is invalid, and cannot recover.");
+            return null;
+        }
+    }
+
     public static void log(String message) {
         System.out.println("[INFO] " + message);
     }
 
     public static void debug(String message) {
-        if (debugging) {
-			System.out.println("[DEBUG] " + message);
-		}
+        if (debugging) System.out.println("[DEBUG] " + message);
     }
 }
