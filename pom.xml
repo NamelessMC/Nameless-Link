@@ -75,7 +75,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.0_183</version>
+            <version>4.2.0_198</version>
         </dependency>
 
         <dependency>
