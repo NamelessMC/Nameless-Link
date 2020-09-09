@@ -60,7 +60,7 @@ public class PrivateMessageListener extends ListenerAdapter {
                         request.connect();
                         JsonObject response = request.getResponse();
                         if (response.has("code")) {
-                            Main.getEmbedBuilder().clear().setColor(Color.GREEN).setTitle(language.get("verification_title")).addField(language.get("failed"), language.get("verification_failed_generic", response.getAsString()), false);
+                            Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("verification_title")).addField(language.get("failed"), language.get("verification_failed_generic", response.getAsString()), false);
                             Utils.messageUser(user, Main.getEmbedBuilder());
                             Main.log("Failed to complete account link for " + user.getName() + " under username " + username + ". NamelessMC error. ");
                         } else if (Queries.removePendingVerification(user.getId())) {
@@ -70,11 +70,12 @@ public class PrivateMessageListener extends ListenerAdapter {
                             }
                             Main.getEmbedBuilder().clear().setColor(Color.GREEN).setTitle(language.get("verification_title")).addField(language.get("success"), language.get("verification_success"), false);
                             Main.log("Processed account link for " + user.getName() + " under username " + username);
+                            Utils.messageUser(user, Main.getEmbedBuilder());
                         } else {
                             Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("verification_title")).addField(language.get("failed"), language.get("verification_failed_db"), false);
                             Main.log("[ERROR] Failed to complete account link for " + user.getName() + " under username " + username + ". Could not remove from DB");
+                            Utils.messageUser(user, Main.getEmbedBuilder());
                         }
-                        Utils.messageUser(user, Main.getEmbedBuilder());
                     } catch (NamelessException | MalformedURLException exception) {
                         Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("verification_title")).addField(language.get("verification_failed"), language.get("verification_failed_generic", exception), false);
                         Utils.messageUser(user, Main.getEmbedBuilder());

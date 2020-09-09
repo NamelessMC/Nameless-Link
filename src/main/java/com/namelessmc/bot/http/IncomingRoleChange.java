@@ -34,7 +34,10 @@ public class IncomingRoleChange implements HttpHandler {
         OutputStream outputStream = httpExchange.getResponseBody();
         String htmlResponse;
 
-        if (!api_url.equals(Queries.getGuildApiUrl(guild.getId()))) {
+        if (!guild.getMemberById(Main.getJda().getSelfUser().getId()).canInteract(member)) {
+            Main.log("Cannot interact with " + member.getEffectiveName() + " in " + guild.getName());
+            htmlResponse = "failure-cannot-interact";
+        } else if (!api_url.equals(Queries.getGuildApiUrl(guild.getId()))) {
             Main.log("Invalid Guild API URL sent for " + member.getEffectiveName() + " in " + guild.getName());
             htmlResponse = "failure-invalid-api-url";
         } else {
