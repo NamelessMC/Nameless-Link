@@ -6,6 +6,8 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 
 *Note: Requires [NamelessMC](https://github.com/NamelessMC/Nameless/tree/v2) v2 pre-8.*
 
+#### [Setup Video](https://www.youtube.com/watch?v=oc_e6GFjIVo) if you prefer.
+
 *Note: Self-hosting is available, but not recommended for beginners. Check the wiki for a self-hosting guide.*
 
 1. Invite the bot to your guild & Discord setup
