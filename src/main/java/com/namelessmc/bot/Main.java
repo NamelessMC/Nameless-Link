@@ -1,5 +1,11 @@
 package com.namelessmc.bot;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import javax.security.auth.login.LoginException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.commands.LanguageCommand;
@@ -8,6 +14,7 @@ import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.bot.listeners.GuildMessageListener;
 import com.namelessmc.bot.listeners.PrivateMessageListener;
+
 import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -16,12 +23,9 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
-import javax.security.auth.login.LoginException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 public class Main {
+	
+	public static final String USER_AGENT = "Nameless-Link"; // TODO Add version from maven
 
     @Getter
     private static JDA jda;
@@ -34,7 +38,7 @@ public class Main {
 
     private static boolean debugging = false;
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
     	if (!Config.check()) {
     		return;
     	}
@@ -83,18 +87,20 @@ public class Main {
                 connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
             }
             return connection;
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
             log("[ERROR] Connection is invalid, and cannot recover.");
             return null;
         }
     }
 
-    public static void log(String message) {
+    public static void log(final String message) {
         System.out.println("[INFO] " + message);
     }
 
-    public static void debug(String message) {
-        if (debugging) System.out.println("[DEBUG] " + message);
+    public static void debug(final String message) {
+        if (debugging) {
+			System.out.println("[DEBUG] " + message);
+		}
     }
 }
