@@ -22,7 +22,7 @@
     "link_guild_failed_api_disabled": "Mislykket: `%s`.\nPass på at din API er aktivert i `StaffCP - Konfigurering - API`.",
     "link_guild_failed_no_guilds": "Mislykket: `Du eier ikke en guild med Nameless Link Bot.`",
     "link_guild_failed_invalid_id": "Mislykket: `Ugyldig Guild-ID.\nTilgjengelige guilder:\n%s`",
-    "link_guild_failed_multiple": "Mislykket: `Du eier flere guilder med Nameless Link Bot. Vennligst spesifiser ved å skrive Guild-IDen som det andre argumentet.\Tilgjengelige guilder:\n%s`",
+    "link_guild_failed_multiple": "Mislykket: `Du eier flere guilder med Nameless Link Bot. Vennligst spesifiser ved å skrive Guild-IDen som det andre argumentet.\nTilgjengelige guilder:\n%s`",
 
     "language_title": "Språk",
     "language_update_success": "Språket ditt har blitt endret til `%s`.",
