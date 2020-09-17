@@ -13,7 +13,8 @@
     "verification_failed_db": "错误: `无法从数据库中移除您待定的验证信息。`",
     "verification_success": "感谢您验证您的帐号。",
 
-    "verify_id_message": "您请求了将您的 NamelessMC 网站帐号链接到此帐号，请您回复您网站帐号的用户名来继续。如果并非您作出此操作，您可忽略此消息。\n您还可以回复 `!language set` 来设置我的语言。",
+    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
+
     "link_guild_title": "链接服务器",
     "link_guild_saving": "已验证您发送的 API 链接及服务器 ID。正在保存...",
     "link_guild_success": "成功将 \"%s\" 链接到了您的 API 链接。",

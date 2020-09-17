@@ -9,11 +9,11 @@
     "verification_title": "Patvirtinimas",
     "verification_loading": "Kraunama...",
     "verification_loading_message": "Prašome palaukti kol patvirtinsime jūsų svetainės paskyrą...",
-    "verification_failed_generic": "Klaida: `Nepavyko prijungti jūsų paskyros. Stacktrace: `%s`",
+    "verification_failed_generic": "Klaida: `Nepavyko prijungti jūsų paskyros. Stacktrace: %s`",
     "verification_failed_db": "Klaida: `Nepavyko panaikinti jūsų prijungimo patvirtinimo iš duomenų bazės.`",
     "verification_success": "Dėkojame už paskyros prijungimą.",
 
-    "verify_id_message": "Kažkas prašė prijungti šią Discord paskyrą su NamelessMC svetainės paskyra. Jei tai buvote jūs, prašome atsakyti su vardu kurį naudojote registruodamiesi svetainėje. Jei tai nebuvote jūs, galite saugiai ignoruoti šį pranešimą.\nGalite pakeisti kalbą rašydami `!language set`.",
+    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
 
     "link_guild_title": "Prijungti Gildiją",
     "link_guild_saving": "API URL ir Gildijos ID kuriuos nusiuntėte yra teisingi. Saugojame...",

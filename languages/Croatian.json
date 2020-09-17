@@ -8,11 +8,11 @@
     "verification_title": "Verifikacija",
     "verification_loading": "Učitavanje...",
     "verification_loading_message": "Molim te pričekaj dok ja potvrdim tvoj web račun...",
-    "verification_failed_generic": "Greška: `Ne mogu povezati tvoj račun. Stacktrace: `%s`",
+    "verification_failed_generic": "Greška: `Ne mogu povezati tvoj račun. Stacktrace: %s`",
     "verification_failed_db": "Greška: `Nije moguće ukloniti tvoj zahtjev iz baze podataka.`",
     "verification_success": "Hvala vam na povezivanju vašeg računa.",
 
-    "verify_id_message": "Netko ima zahtjev za povezivanje Discord računa s web računom NamelessMC. Ako ste to bili vi, odgovorite s korisničkim imenom koje ste koristili za registraciju na web mjestu. Ako to niste bili vi, možete sigurno zanemariti ovu poruku.\nDa promijenite jezik ukucajte `!language set`.",
+    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
 
     "link_guild_title": "Povezivanje Servera",
     "link_guild_saving": "API URL i Server ID koji ste mi poslali su važeći. Spremam ih...",

@@ -2,7 +2,6 @@ package com.namelessmc.bot.listeners;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.MalformedJsonException;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.ParameterBuilder;
 import com.namelessmc.NamelessAPI.Request;
@@ -44,36 +43,36 @@ public class PrivateMessageListener extends ListenerAdapter {
 
             PendingVerification pendingVerification = Queries.getPendingVerification(user.getId());
             if (pendingVerification != null) {
-                String username = pendingVerification.getUsername();
+                String token = pendingVerification.getToken();
                 String guild_id = pendingVerification.getGuild_id();
                 Guild guild = Main.getJda().getGuildById(guild_id);
                 String role_id = pendingVerification.getRole();
                 Role role = null;
                 if (role_id != null) role = guild.getRoleById(role_id);
                 String url = pendingVerification.getSite();
-                if (message.equals(username)) {
+                if (message.equals(token)) {
                     Main.getEmbedBuilder().clear().setColor(Color.ORANGE).setTitle(language.get("verification_title")).addField(language.get("verification_loading"), language.get("verification_loading_message"), false);
                     Utils.messageUser(user, Main.getEmbedBuilder());
                     try {
-                        String[] parameters = new ParameterBuilder().add("username", username).add("discord_id", user.getId()).build();
+                        String[] parameters = new ParameterBuilder().add("token", token).add("discord_id", user.getId()).build();
                         Request request = new Request(new URL(url), "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)", Request.Action.SET_DISCORD_ID, parameters);
                         request.connect();
                         JsonObject response = request.getResponse();
                         if (response.has("code")) {
-                            Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("verification_title")).addField(language.get("failed"), language.get("verification_failed_generic", response.getAsString()), false);
+                            Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("verification_title")).addField(language.get("failed"), language.get("verification_failed_generic", response.toString()), false);
                             Utils.messageUser(user, Main.getEmbedBuilder());
-                            Main.log("Failed to complete account link for " + user.getName() + " under username " + username + ". NamelessMC error. ");
+                            Main.log("Failed to complete account link for " + user.getName() + " under username " + token + ". NamelessMC error. ");
                         } else if (Queries.removePendingVerification(user.getId())) {
                             if (role != null) {
                                 guild.addRoleToMember(user.getId(), role).complete();
                                 Main.log("Added role " + role.getName() + " to " + user.getName() + " upon account validation.");
                             }
                             Main.getEmbedBuilder().clear().setColor(Color.GREEN).setTitle(language.get("verification_title")).addField(language.get("success"), language.get("verification_success"), false);
-                            Main.log("Processed account link for " + user.getName() + " under username " + username);
+                            Main.log("Processed account link for " + user.getName() + " under username " + token);
                             Utils.messageUser(user, Main.getEmbedBuilder());
                         } else {
                             Main.getEmbedBuilder().clear().setColor(Color.RED).setTitle(language.get("verification_title")).addField(language.get("failed"), language.get("verification_failed_db"), false);
-                            Main.log("[ERROR] Failed to complete account link for " + user.getName() + " under username " + username + ". Could not remove from DB");
+                            Main.log("[ERROR] Failed to complete account link for " + user.getName() + " under username " + token + ". Could not remove from DB");
                             Utils.messageUser(user, Main.getEmbedBuilder());
                         }
                     } catch (NamelessException | MalformedURLException exception) {
@@ -105,7 +104,6 @@ public class PrivateMessageListener extends ListenerAdapter {
 
                 try {
                     String api_url = args[0];
-                    // TODO Replace all Requests with a new nmc api function i need to make
                     Request request = new Request(new URL(api_url), "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)", Request.Action.INFO);
                     request.connect();
                     JsonObject response = request.getResponse();

@@ -3,6 +3,8 @@ package com.namelessmc.bot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.commands.LanguageCommand;
+import com.namelessmc.bot.commands.URLCommand;
+import com.namelessmc.bot.commands.VerifyCommand;
 import com.namelessmc.bot.http.HttpMain;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
@@ -74,6 +76,8 @@ public class Main {
 
         // Register commands
         new LanguageCommand();
+        new VerifyCommand();
+        new URLCommand();
     }
 
     public static Connection getConnection() {
@@ -81,6 +85,7 @@ public class Main {
             if (connection.isClosed() || !connection.isValid(3)) {
                 final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true&serverTimezone=UTC";
                 connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
+                debug("Connection was lost, but re-established.");
             }
             return connection;
         } catch (SQLException e) {

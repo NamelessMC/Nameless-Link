@@ -32,8 +32,8 @@ public class VerifyIdIncoming implements HttpHandler {
         id = id.substring(1, id.length() - 1);
         Language language = Queries.getUserLanguage(id);
         User user = Main.getJda().getUserById(id);
-        String username = params.get("username").toString();
-        username = username.substring(1, username.length() - 1);
+        String token = params.get("token").toString();
+        token = token.substring(1, token.length() - 1);
         String guild_id = params.get("guild_id").toString();
         guild_id = guild_id.substring(1, guild_id.length() - 1);
         Guild guild = Main.getJda().getGuildById(guild_id);
@@ -54,16 +54,16 @@ public class VerifyIdIncoming implements HttpHandler {
             Main.debug("[ERROR] Invalid Guild ID while processing a web account (" + guild_id + ")");
             htmlResponse = "failure-invalid-guild-id";
         } else if(Queries.getPendingVerification(id) != null) {
-            Main.log("[ERROR] User " + username + " with ID " + id + " already has a pending verification.");
+            Main.log("[ERROR] Token " + token + " with ID " + id + " already has a pending verification.");
             htmlResponse = "failure-already-pending";
-        } else if (Queries.addPendingVerification(id, username, guild_id, role, site)) {
+        } else if (Queries.addPendingVerification(id, token, guild_id, role, site)) {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.clear().setColor(Color.ORANGE).setTitle(language.get("verification_title")).addField(language.get("pending"), language.get("verify_id_message"), false);
             Utils.messageUser(user, embedBuilder);
-            Main.log("Added username " + username + " with ID " + id + " to pend for confirmation");
+            Main.log("Added token " + token + " with ID " + id + " to pend for confirmation");
             htmlResponse = "success";
         } else {
-            Main.log("[ERROR] Failed to add username " + username + " with ID " + id + " to pend for confirmation.");
+            Main.log("[ERROR] Failed to add token " + token + " with ID " + id + " to pend for confirmation.");
             htmlResponse = "failure-database";
         }
 

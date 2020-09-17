@@ -8,11 +8,11 @@
     "verification_title": "Ověření",
     "verification_loading": "Načítání...",
     "verification_loading_message": "Vyčkejte, dokud neověřím váš účet...",
-    "verification_failed_generic": "Chyba: Nepodařilo se připojit váš účet. Chyba: `%s`",
+    "verification_failed_generic": "Chyba: `Nepodařilo se připojit váš účet. Chyba: %s`",
     "verification_failed_db": "Chyba: `Nepodařilo se odebrat vaše čekající ověření z databáze.`",
     "verification_success": "Děkujeme za propojení vašeho účtu.",
 
-    "verify_id_message": "Někdo zažádal o propojení tohoto Discord účtu s webovým účtem NamelessMC. Pokud jste to byli vy, odpovězte uživatelským jménem, které jste použili k registraci na webu. Pokud jste to nebyli vy, můžete tuto zprávu ignorovat.\nPro změnu jazyka napište `!language set`.",
+    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
 
     "link_guild_title": "Propojit se serverem",
     "link_guild_saving": "URL API a ID serveru, které jste poslali, byly platné. Ukládám...",

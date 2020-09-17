@@ -8,11 +8,11 @@
     "verification_title": "Verification",
     "verification_loading": "Loading...",
     "verification_loading_message": "Please wait while I verify your web account...",
-    "verification_failed_generic": "Error: `Could not link your account. Stacktrace: `%s`",
+    "verification_failed_generic": "Error: `Could not link your account. Stacktrace: %s`",
     "verification_failed_db": "Error: `Unable to remove your pending verification from the database.`",
     "verification_success": "Thank you for linking your account.",
 
-    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the username you used to register on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
+    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
 
     "link_guild_title": "Link Guild",
     "link_guild_saving": "The API URL and Guild ID you sent were valid. Saving now...",

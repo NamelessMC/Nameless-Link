@@ -8,11 +8,11 @@
     "verification_title": "Weryfikacja",
     "verification_loading": "Ładowanie...",
     "verification_loading_message": "Proszę poczekać. Weryfikowanie konta...",
-    "verification_failed_generic": "Błąd: `Nie odnaleziono konta. Logi: `%s`",
+    "verification_failed_generic": "Błąd: `Nie odnaleziono konta. Logi: %s`",
     "verification_failed_db": "Błąd: `Nie udało się usunąć prośby z bazy danych.`",
     "verification_success": "Dziękujemy za podłączenie konta.",
 
-    "verify_id_message": "Ktoś chce zweryfikować twoje konto z forum. Jeśli to ty napisz poniżej swój nick ze strony. Jeśli to nie ty, zignoruj tę wiadomość.\nAby zmienić język napisz `!language set`.",
+    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
 
     "link_guild_title": "Podłącz Serwer",
     "link_guild_saving": "URL API i ID serwera są poprawne. Zapisuję...",
