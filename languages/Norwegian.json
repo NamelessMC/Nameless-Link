@@ -8,11 +8,11 @@
     "verification_title": "Verifisering",
     "verification_loading": "Laster...",
     "verification_loading_message": "Vennligst vent mens jeg verifiserer din bruker...",
-    "verification_failed_generic": "Mislykket: `Kunne ikke koble til din bruker. Stacktrace: %s`",
+    "verification_failed_generic": "Mislykket: `Kunne ikke koble til din bruker. Stacktrace: `%s`",
     "verification_failed_db": "Mislykket: `Kunne ikke fjerne din avventende verifisering fra databasen.`",
     "verification_success": "Takk for at du koblet til brukeren din.",
 
-    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
+    "verify_id_message": "Noen har forespurt en tilkobling av denne Discord-brukeren med en NamelessMC-bruker. Hvis dette var deg, vennligst svar på meldingen med brukernavnet du brukte til å registrere deg på nettsiden. Hvis dette ikke var deg kan du trygt se bort ifra denne meldingen.\nFor å endre språket, skriv: `!language set`.",
 
     "link_guild_title": "Koble til Guild",
     "link_guild_saving": "API-URLen og Guild-IDen du sendte var gyldige. Lagrer...",
@@ -22,7 +22,7 @@
     "link_guild_failed_api_disabled": "Mislykket: `%s`.\nPass på at din API er aktivert i `StaffCP - Konfigurering - API`.",
     "link_guild_failed_no_guilds": "Mislykket: `Du eier ikke en guild med Nameless Link Bot.`",
     "link_guild_failed_invalid_id": "Mislykket: `Ugyldig Guild-ID.\nTilgjengelige guilder:\n%s`",
-    "link_guild_failed_multiple": "Mislykket: `Du eier flere guilder med Nameless Link Bot. Vennligst spesifiser ved å skrive Guild-IDen som det andre argumentet. Tilgjengelige guilder:\n%s`",
+    "link_guild_failed_multiple": "Mislykket: `Du eier flere guilder med Nameless Link Bot. Vennligst spesifiser ved å skrive Guild-IDen som det andre argumentet.\nTilgjengelige guilder:\n%s`",
 
     "language_title": "Språk",
     "language_update_success": "Språket ditt har blitt endret til `%s`.",
