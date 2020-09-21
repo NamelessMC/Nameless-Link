@@ -40,7 +40,6 @@ public class DiscordRoleListener extends ListenerAdapter {
                 }
             } catch (NamelessException | MalformedURLException exception) {
                 Main.log("[ERROR] Error while updating webrank: " + exception.getMessage() + " for " + event.getMember().getEffectiveName());
-                exception.printStackTrace();
             }
         }
         Main.debug("Added " + event.getRoles() + " to " + event.getMember().getEffectiveName());
