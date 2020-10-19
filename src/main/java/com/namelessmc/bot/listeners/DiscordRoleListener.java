@@ -46,8 +46,8 @@ public class DiscordRoleListener extends ListenerAdapter {
                 } else {
                     Main.debug("NamelessMC error while updating webrank: " + Main.getGson().toJson(response) + " for " + event.getMember().getEffectiveName());
                 }
-            } catch (NamelessException | MalformedURLException exception) {
-                Main.log("[ERROR] Error while updating webrank: " + exception.getMessage() + " for " + event.getMember().getEffectiveName());
+            } catch (NamelessException | MalformedURLException | JsonSyntaxException exception) {
+                Main.debug("[ERROR] Error while updating webrank: " + exception.getMessage() + " for " + event.getMember().getEffectiveName());
             }
         }
         Main.debug("Added " + event.getRoles() + " to " + event.getMember().getEffectiveName());
@@ -76,7 +76,7 @@ public class DiscordRoleListener extends ListenerAdapter {
                     Main.debug("NamelessMC error while updating webrank: `" + Main.getGson().toJson(response) + "` for " + event.getMember().getEffectiveName());
                 }
             } catch (NamelessException | MalformedURLException | JsonSyntaxException exception) {
-                Main.log("[ERROR] Error while updating webrank: `" + exception.getMessage() + "` for " + event.getMember().getEffectiveName());
+                Main.debug("[ERROR] Error while updating webrank: `" + exception.getMessage() + "` for " + event.getMember().getEffectiveName());
             }
         }
        Main.debug("Removed " + event.getRoles() + " from " + event.getMember().getEffectiveName());
