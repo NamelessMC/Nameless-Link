@@ -9,11 +9,11 @@
     "verification_title": "Verifica",
     "verification_loading": "Caricamento...",
     "verification_loading_message": "Per favore, attendi mentre verifichiamo il tuo account...",
-    "verification_failed_generic": "Errore: `Non è stato possibile collegare il tuo account. Stacktrace: `%s`",
+    "verification_failed_generic": "Errore: `Non è stato possibile collegare il tuo account. Stacktrace: %s`",
     "verification_failed_db": "Errore: `Non è stato possibile rimuovere il tuo stato di attesa dal database.`",
     "verification_success": "Ti ringraziamo per aver verificato il tuo account.",
 
-    "verify_id_message": "Qualcuno ha chiesto di collegare questo account Discord con un account web NamelessMC. Se sei statu tu, rispondi con il nome utente che hai usato per registrarti nel sito. Se non sei stati tu, puoi tranquillamente ignorare questo messaggii.\nPer cambiare la lingua scrivi `!language set`.",
+    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
 
     "link_guild_title": "Collega gilda",
     "link_guild_saving": "L'URL API e l'ID della Gilda che hai mandato sono validi. Salvataggio...",

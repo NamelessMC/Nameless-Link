@@ -38,7 +38,6 @@ public class Queries {
 
     public static String getGuildApiUrl(String guild_id) {
         try {
-            System.out.println(guild_id);
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `api_url` FROM guilds WHERE `guild_id` = ?");
             preparedStatement.setString(1, guild_id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -70,11 +69,11 @@ public class Queries {
         }
     }
 
-    public static boolean addPendingVerification(String discord_id, String username, String guild_id, String role, String site) {
+    public static boolean addPendingVerification(String discord_id, String token, String guild_id, String role, String site) {
         try {
-            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("INSERT INTO pending_verifications (`discord_id`, `username`, `guild_id`, `role`, `site`) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("INSERT INTO pending_verifications (`discord_id`, `token`, `guild_id`, `role`, `site`) VALUES (?, ?, ?, ?, ?)");
             preparedStatement.setString(1, discord_id);
-            preparedStatement.setString(2, username);
+            preparedStatement.setString(2, token);
             preparedStatement.setString(3, guild_id);
             preparedStatement.setString(4, role);
             preparedStatement.setString(5, site);
@@ -88,11 +87,11 @@ public class Queries {
 
     public static PendingVerification getPendingVerification(String discord_id) {
         try {
-            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `username`, `guild_id`, `role`, `site` FROM pending_verifications WHERE `discord_id` = ?");
+            PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `token`, `guild_id`, `role`, `site` FROM pending_verifications WHERE `discord_id` = ?");
             preparedStatement.setString(1, discord_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) return null;
-            else return new PendingVerification(discord_id, resultSet.getString("username"), resultSet.getString("guild_id"), resultSet.getString("role"), resultSet.getString("site"));
+            else return new PendingVerification(discord_id, resultSet.getString("token"), resultSet.getString("guild_id"), resultSet.getString("role"), resultSet.getString("site"));
         } catch (SQLException exception) {
             exception.printStackTrace();
             return null;
@@ -110,7 +109,7 @@ public class Queries {
         }
     }
 
-    public static HashMap<String, Language> userLanguages = new HashMap<>();
+    public static HashMap<String, Language> userLanguageCache = new HashMap<>();
 
     public static boolean setUserLanguage(String user_id, String language) {
         try {
@@ -119,7 +118,7 @@ public class Queries {
             preparedStatement.setString(2, language);
             preparedStatement.setString(3, language);
             preparedStatement.executeUpdate();
-            userLanguages.put(user_id, new Language(language));
+            userLanguageCache.put(user_id, new Language(language));
             return true;
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -128,7 +127,7 @@ public class Queries {
     }
 
     public static Language getUserLanguage(String user_id) {
-        if (userLanguages.containsKey(user_id)) return userLanguages.get(user_id);
+        if (userLanguageCache.containsKey(user_id)) return userLanguageCache.get(user_id);
         try {
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `language` FROM user_languages WHERE `discord_id` = ?");
             preparedStatement.setString(1, user_id);
@@ -139,7 +138,7 @@ public class Queries {
             }
             else {
                 Language language = new Language(resultSet.getString("language"));
-                userLanguages.put(user_id, language);
+                userLanguageCache.put(user_id, language);
                 return language;
             }
         } catch (SQLException exception) {

@@ -7,8 +7,7 @@ import com.namelessmc.bot.Utils;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
-import java.awt.Color;
-import java.util.Arrays;
+import java.awt.*;
 import java.util.Collections;
 
 public class LanguageCommand extends Command {

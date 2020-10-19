@@ -1,5 +1,6 @@
 package com.namelessmc.bot;
 
+import com.google.gson.JsonSyntaxException;
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
@@ -38,7 +39,11 @@ public class Utils {
             api = new NamelessAPI(apiUrl, false);
             api.setUserAgent("Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
 
-            if (api.checkWebAPIConnection() != null) return null;
+            try {
+                if (api.checkWebAPIConnection() != null) return null;
+            } catch (final JsonSyntaxException e) {
+                return null;
+            }
         }
         return api;
     }

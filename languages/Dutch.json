@@ -8,11 +8,11 @@
       "verification_title": "Verificatie",
       "verification_loading": "Laden...",
       "verification_loading_message": "Moment geduld terwijl ik je account verifiëer...",
-      "verification_failed_generic": "Error: `Kon je account niet verbinden. Stacktrace: `%s`",
+      "verification_failed_generic": "Error: `Kon je account niet verbinden. Stacktrace: %s`",
       "verification_failed_db": "Error: `Kan de hangende verificatie niet verwijderen uit de database.`",
       "verification_success": "Bedankt voor het verbinden van je account.",
-  
-      "verify_id_message": "Iemand heeft verzocht dit account te verbinden met een website account. Als jij dit was, antwoord met de gebruikersnaam die je hebt gebruikt om te registreren op de website. Als jij dit niet hebt gedaan kan je dit bericht negeren.\nOm de taal te veranderen, gebruik `!language set`.",
+
+      "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
   
       "link_guild_title": "Guild verbinden",
       "link_guild_saving": "De API URL en guild ID zijn geldig. Opslaan...",

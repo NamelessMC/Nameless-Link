@@ -3,6 +3,8 @@ package com.namelessmc.bot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.commands.LanguageCommand;
+import com.namelessmc.bot.commands.URLCommand;
+import com.namelessmc.bot.commands.VerifyCommand;
 import com.namelessmc.bot.http.HttpMain;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
@@ -17,16 +19,21 @@ import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import javax.security.auth.login.LoginException;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Main {
 
     @Getter
     private static JDA jda;
-
     private static Connection connection;
+    private static final Logger logger = Logger.getLogger("NamelessLink");
     @Getter
     private static final EmbedBuilder embedBuilder = new EmbedBuilder();
     @Getter
@@ -38,6 +45,21 @@ public class Main {
     	if (!Config.check()) {
     		return;
     	}
+
+        try {
+            File log = new File("./logs/" + (new java.text.SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new java.util.Date(System.currentTimeMillis()))) + ".log");
+            if (!log.exists()) {
+                log.getParentFile().mkdirs();
+                log.createNewFile();
+            }
+            FileHandler fh = new FileHandler(log.getAbsolutePath(), true);
+            logger.addHandler(fh);
+            fh.setFormatter(new SimpleFormatter());
+        } catch (final SecurityException | IOException e) {
+            e.printStackTrace();
+            System.out.println("[ERROR] Cannot start logger.");
+            System.exit(0);
+        }
 
         try {
             final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true&serverTimezone=UTC";
@@ -74,6 +96,8 @@ public class Main {
 
         // Register commands
         new LanguageCommand();
+        new VerifyCommand();
+        new URLCommand();
     }
 
     public static Connection getConnection() {
@@ -81,6 +105,7 @@ public class Main {
             if (connection.isClosed() || !connection.isValid(3)) {
                 final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true&serverTimezone=UTC";
                 connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
+                debug("Database connection was lost, but re-established.");
             }
             return connection;
         } catch (SQLException e) {
@@ -91,10 +116,10 @@ public class Main {
     }
 
     public static void log(String message) {
-        System.out.println("[INFO] " + message);
+        logger.info("[INFO] " + message);
     }
 
     public static void debug(String message) {
-        if (debugging) System.out.println("[DEBUG] " + message);
+        if (debugging) logger.info("[DEBUG] " + message);
     }
 }

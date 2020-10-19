@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,8 +27,8 @@ public abstract class Command {
         this.context = context;
 
         // check for duplicate labels or aliases
-        if (registeredCommandLabels.contains(label)) throw new IllegalStateException("Command already registered");
-        if (registeredCommandLabels.stream().anyMatch(aliases::contains)) throw new IllegalStateException("Command already registered");
+        if (registeredCommandLabels.contains(label)) throw new IllegalStateException("Command already registered. Label: " + label);
+        if (registeredCommandLabels.stream().anyMatch(aliases::contains)) throw new IllegalStateException("Command already registered. Label: " + label);
 
         // add these labels and aliases to check for duplication next time
         registeredCommandLabels.add(label);
