@@ -1,12 +1,15 @@
 package com.namelessmc.bot.http;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import com.namelessmc.bot.Config;
 import com.namelessmc.bot.Main;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class HttpMain {
@@ -33,5 +36,19 @@ public class HttpMain {
             Main.log("[ERROR] HTTP Server could not start!");
             Main.getJda().shutdown();
         }
+    }
+}
+
+class ConnectionTest implements HttpHandler {
+
+    @Override
+    public void handle(HttpExchange httpExchange) throws IOException {
+        OutputStream outputStream = httpExchange.getResponseBody();
+        String htmlResponse = "success";
+        Main.debug("Connection test successful for IP " + httpExchange.getRemoteAddress().getAddress().getHostAddress() + ".");
+        httpExchange.sendResponseHeaders(200, htmlResponse.length());
+        outputStream.write(htmlResponse.getBytes());
+        outputStream.flush();
+        outputStream.close();
     }
 }

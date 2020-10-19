@@ -2,6 +2,7 @@ package com.namelessmc.bot.http;
 
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.Queries;
+import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.dv8tion.jda.api.entities.Guild;
@@ -23,6 +24,7 @@ public class IncomingRoleChange implements HttpHandler {
         Guild guild = Main.getJda().getGuildById(Long.parseLong(guild_id.substring(1, guild_id.length() - 1)));
         String member_id = params.get("id").toString();
         Member member = guild.getMemberById(Long.parseLong(member_id.substring(1, member_id.length() - 1)));
+        DiscordRoleListener.getRecentlyEdited().add(member);
         String api_url = httpExchange.getRequestURI().toString().substring(httpExchange.getRequestURI().toString().indexOf("&api_url=") + 9);
 
         OutputStream outputStream = httpExchange.getResponseBody();
@@ -57,5 +59,7 @@ public class IncomingRoleChange implements HttpHandler {
         outputStream.write(htmlResponse.getBytes());
         outputStream.flush();
         outputStream.close();
+
+        DiscordRoleListener.getRecentlyEdited().remove(member);
     }
 }

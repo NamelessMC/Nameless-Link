@@ -7,6 +7,8 @@ import com.namelessmc.NamelessAPI.ParameterBuilder;
 import com.namelessmc.NamelessAPI.Request;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.Queries;
+import lombok.Getter;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
@@ -14,11 +16,17 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiscordRoleListener extends ListenerAdapter {
 
+    @Getter
+    private static final List<Member> recentlyEdited = new ArrayList<>();
+
     @Override
     public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent event) {
+        if (getRecentlyEdited().contains(event.getMember()) || event.getUser().isBot()) return;
 
         String api_url = Queries.getGuildApiUrl(event.getGuild().getId());
 
@@ -36,7 +44,7 @@ public class DiscordRoleListener extends ListenerAdapter {
                 if (!response.has("code")) {
                     Main.log("Processed role addition update (Discord -> Website) for " + event.getMember().getEffectiveName() + " for role " + role);
                 } else {
-                    Main.debug("Error while updating webrank: " + Main.getGson().toJson(response) + " for " + event.getMember().getEffectiveName());
+                    Main.debug("NamelessMC error while updating webrank: " + Main.getGson().toJson(response) + " for " + event.getMember().getEffectiveName());
                 }
             } catch (NamelessException | MalformedURLException exception) {
                 Main.log("[ERROR] Error while updating webrank: " + exception.getMessage() + " for " + event.getMember().getEffectiveName());
@@ -47,6 +55,8 @@ public class DiscordRoleListener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberRoleRemove(GuildMemberRoleRemoveEvent event) {
+        if (getRecentlyEdited().contains(event.getMember()) || event.getUser().isBot()) return;
+
         String api_url = Queries.getGuildApiUrl(event.getGuild().getId());
 
         if (api_url == null) {
@@ -63,7 +73,7 @@ public class DiscordRoleListener extends ListenerAdapter {
                 if (!response.has("code")) {
                     Main.log("Processed role removal (Discord -> Website) for " + event.getMember().getEffectiveName() + " for role " + role);
                 } else {
-                    Main.debug("Error while updating webrank: `" + Main.getGson().toJson(response) + "` for " + event.getMember().getEffectiveName());
+                    Main.debug("NamelessMC error while updating webrank: `" + Main.getGson().toJson(response) + "` for " + event.getMember().getEffectiveName());
                 }
             } catch (NamelessException | MalformedURLException | JsonSyntaxException exception) {
                 Main.log("[ERROR] Error while updating webrank: `" + exception.getMessage() + "` for " + event.getMember().getEffectiveName());

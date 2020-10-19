@@ -20,10 +20,7 @@ public class VerifyIdIncoming implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        handleResponse(httpExchange);
-    }
 
-    private void handleResponse(HttpExchange httpExchange) throws IOException {
         String requestUri = httpExchange.getRequestURI().toString();
 
         Map<String, List<String>> params = HttpUtils.getParams(requestUri);
@@ -31,12 +28,16 @@ public class VerifyIdIncoming implements HttpHandler {
         String id = params.get("id").toString();
         id = id.substring(1, id.length() - 1);
         Language language = Queries.getUserLanguage(id);
+        if (language == null) language = new Language("EnglishUK");
         User user = Main.getJda().getUserById(id);
+
         String token = params.get("token").toString();
         token = token.substring(1, token.length() - 1);
+
         String guild_id = params.get("guild_id").toString();
         guild_id = guild_id.substring(1, guild_id.length() - 1);
         Guild guild = Main.getJda().getGuildById(guild_id);
+
         String role = null;
         try {
             role = params.get("role").toString();
@@ -54,7 +55,7 @@ public class VerifyIdIncoming implements HttpHandler {
             Main.debug("[ERROR] Invalid Guild ID while processing a web account (" + guild_id + ")");
             htmlResponse = "failure-invalid-guild-id";
         } else if(Queries.getPendingVerification(id) != null) {
-            Main.log("[ERROR] Token " + token + " with ID " + id + " already has a pending verification.");
+            Main.debug("[ERROR] Token " + token + " with ID " + id + " already has a pending verification.");
             htmlResponse = "failure-already-pending";
         } else if (Queries.addPendingVerification(id, token, guild_id, role, site)) {
             EmbedBuilder embedBuilder = new EmbedBuilder();

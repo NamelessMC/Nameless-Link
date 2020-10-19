@@ -38,7 +38,6 @@ public class Queries {
 
     public static String getGuildApiUrl(String guild_id) {
         try {
-            System.out.println(guild_id);
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `api_url` FROM guilds WHERE `guild_id` = ?");
             preparedStatement.setString(1, guild_id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -110,7 +109,7 @@ public class Queries {
         }
     }
 
-    public static HashMap<String, Language> userLanguages = new HashMap<>();
+    public static HashMap<String, Language> userLanguageCache = new HashMap<>();
 
     public static boolean setUserLanguage(String user_id, String language) {
         try {
@@ -119,7 +118,7 @@ public class Queries {
             preparedStatement.setString(2, language);
             preparedStatement.setString(3, language);
             preparedStatement.executeUpdate();
-            userLanguages.put(user_id, new Language(language));
+            userLanguageCache.put(user_id, new Language(language));
             return true;
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -128,7 +127,7 @@ public class Queries {
     }
 
     public static Language getUserLanguage(String user_id) {
-        if (userLanguages.containsKey(user_id)) return userLanguages.get(user_id);
+        if (userLanguageCache.containsKey(user_id)) return userLanguageCache.get(user_id);
         try {
             PreparedStatement preparedStatement = Main.getConnection().prepareStatement("SELECT `language` FROM user_languages WHERE `discord_id` = ?");
             preparedStatement.setString(1, user_id);
@@ -139,7 +138,7 @@ public class Queries {
             }
             else {
                 Language language = new Language(resultSet.getString("language"));
-                userLanguages.put(user_id, language);
+                userLanguageCache.put(user_id, language);
                 return language;
             }
         } catch (SQLException exception) {
