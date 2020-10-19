@@ -45,7 +45,7 @@ class ConnectionTest implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         OutputStream outputStream = httpExchange.getResponseBody();
         String htmlResponse = "success";
-        Main.debug("Connection test successful for IP " + httpExchange.getRemoteAddress().getAddress().getHostAddress() + ".");
+        Main.debug("Connection test successful.");
         httpExchange.sendResponseHeaders(200, htmlResponse.length());
         outputStream.write(htmlResponse.getBytes());
         outputStream.flush();
