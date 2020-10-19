@@ -11,9 +11,9 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 *Note: Self-hosting is available, but not recommended for beginners. Check the wiki for a self-hosting guide.*
 
 1. Invite the bot to your guild & Discord setup
-    * *Note: You are required to have the "Manage Roles" permission in the guild in order to invite the bot. As well, the bot needs to always have its self-assigned role.*
-    * ~~[Insert invite link here when done](#)~~
-    * The owner of the guild will be PM'd by the bot, asking for the API URL of their NamelessMC website. This can be found in `StaffCP - Configuration - API`. The owner of the guild must reply with the API URL. If the URL is valid, they will receive a success message - nicely done!
+    * *Note: You are required to have the "Manage Roles" permission in the guild in order to invite the bot. As well, the bot needs to always have its self-assigned role, and the role must be able to interact with all other users in the Guild*
+    * [Invite the bot using this link](https://discord.com/api/oauth2/authorize?client_id=734609142081388705&permissions=268435456&scope=bot).
+    * The owner of the guild will be PM'd by the bot, asking for the API URL of their NamelessMC website. This can be found in `StaffCP - Configuration - API`. The owner of the guild must reply with `!url ` followed by their API URL. If the URL is valid, they will receive a success message - nicely done!
  
 2. Enable Discord Integration in NamelessMC
     * Open `StaffCP - Integrations - Discord`, and click the switch. 
@@ -21,7 +21,7 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
     * *Note: Only edit the Bot URL if you are self-hosting. No Nameless Link integrations will work if this setting is invalid. You have been warned!*
  
 3. Configure NamelessMC Groups
-    * In order for the bot to know which Discord role to assign to each NamelessMC group, you must setup the [Discord Role ID](https://discordhelp.net/role-id) for any groups you want to sync.
+    * In order for the bot to know which Discord role to assign to each NamelessMC group, you must setup the [Discord Role ID](https://discordhelp.net/role-id) for any groups you want to sync. To do this, open `StaffCP - Configuration - API - Group Sync` and paste the Role ID in the applicable row.
     * Any groups without a Role ID will simply be ignored.
     * *Note: When a role is removed from a user on Discord, and they have linked their accounts (see step 4), their NamelessMC group will be set to the default post-validation group.*
 
