@@ -1,6 +1,6 @@
 {
   "Chinese-Simplified": {
-    "comment": "Chinese-Simplified translations by https://github.com/yangyang200",
+    "comment": "Chinese-Simplified translations by https://github.com/Dreta",
     "success": "成功",
     "failed": "失败",
     "settings": "设置",
@@ -13,7 +13,7 @@
     "verification_failed_db": "错误: `无法从数据库中移除您待定的验证信息。`",
     "verification_success": "感谢您验证您的帐号。",
 
-    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
+    "verify_id_message": "某人试图通过将一个 NamelessMC 网站帐号链接到您的 Discord 帐号。如果这是您，请您回复您在网页上获得的 token。若不是您，您可忽略此消息。\n您还可以回复 `!language set` 来设置我的语言。",
 
     "link_guild_title": "链接服务器",
     "link_guild_saving": "已验证您发送的 API 链接及服务器 ID。正在保存...",
