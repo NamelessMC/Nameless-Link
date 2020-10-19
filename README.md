@@ -28,7 +28,7 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 4. Link NamelessMC and Discord accounts
     * In order for Discord to know which user is associated with each guild member, people who wish to have their ranks synced must link their accounts using the following steps.
     * Open `Account - Profile Settings`, and paste your [Discord User ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) in the box.
-    * If the ID is valid, you will receive a PM from the bot. To verify that you own the account, you must reply to the bot with the username you used to register on the website.
+    * If the ID is valid, you will receive a PM from the bot. To verify that you own the account, you must reply to the bot with `!verify ` followed by the token in the message displayed on your screen.
     * Once you reply with the correct username, you will see a success message from the bot. Well done!
     * *Note: For security reasons, it is impossible for anyone who does not have access to the database directly to edit a user's Discord ID. Their ID will be set once they verify they own it.*
 
