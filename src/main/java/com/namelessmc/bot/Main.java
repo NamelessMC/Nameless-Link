@@ -2,6 +2,7 @@ package com.namelessmc.bot;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -105,7 +106,7 @@ public class Main {
         	}
         	
         	connectionManager = new ConnectionManager(Optional.empty());
-        	connectionManager.createNewConnection(apiUrl, guildId);
+        	connectionManager.createNewConnection(new URL(apiUrl), guildId);
         } else {
         	System.out.println("Environment variables GUILD_ID and API_URL not specified, starting in stateful mode");
         	String path = System.getenv("FILE_PATH");
