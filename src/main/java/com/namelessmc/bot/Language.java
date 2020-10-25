@@ -64,7 +64,7 @@ public class Language {
 	        if (nameless.isPresent()){
 	        	return new Language(nameless.get().getLangage());
 	        } else {
-	        	return new Language();
+	        	return new Language(api.getWebsite().getLanguage());
 	        }
     	} catch (final NamelessException e) {
     		// If we can't communicate with the website, fall back to english
