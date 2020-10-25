@@ -12,7 +12,6 @@ import javax.security.auth.login.LoginException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.namelessmc.bot.commands.LanguageCommand;
 import com.namelessmc.bot.commands.URLCommand;
 import com.namelessmc.bot.commands.VerifyCommand;
 import com.namelessmc.bot.http.HttpMain;
@@ -89,7 +88,6 @@ public class Main {
         HttpMain.init();
 
         // Register commands
-        new LanguageCommand();
         new VerifyCommand();
         new URLCommand();
     }
