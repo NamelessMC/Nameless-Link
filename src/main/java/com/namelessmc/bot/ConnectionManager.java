@@ -23,6 +23,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class ConnectionManager {
@@ -113,7 +114,8 @@ public class ConnectionManager {
 	@AllArgsConstructor(access = AccessLevel.PROTECTED)
 	public class WebsiteConnection {
 		
-		private final URL apiUrl;
+		@Setter
+		private URL apiUrl;
 		private final long guildId;
 		@Getter
 		private long lastUsedDate;
