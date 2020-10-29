@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.google.gson.JsonParser;
@@ -18,16 +20,14 @@ import net.dv8tion.jda.api.entities.User;
 
 public class Language {
 
-	public static final String DEFAULT_LANGUAGE = "EnglishUK";
+	public static final Language DEFAULT = new Language("EnglishUK");
+	// Avoid having to instantiate new language objects all the time
+	private static final Map<String, Language> LANGUAGE_CACHE = new HashMap<>();
 	
     @Getter
     private final String language;
-
-    public Language() {
-    	this(DEFAULT_LANGUAGE);
-    }
     
-    public Language(final String language) {
+    private Language(final String language) {
         this.language = language;
     }
 
@@ -62,13 +62,13 @@ public class Language {
     	try {
 	        final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
 	        if (nameless.isPresent()){
-	        	return new Language(nameless.get().getLangage());
+	        	return getLanguage(nameless.get().getLangage());
 	        } else {
-	        	return new Language(api.getWebsite().getLanguage());
+	        	return getLanguage(api.getWebsite().getLanguage());
 	        }
     	} catch (final NamelessException e) {
     		// If we can't communicate with the website, fall back to english
-    		return new Language();
+    		return DEFAULT;
     	}
     }
 
@@ -83,6 +83,12 @@ public class Language {
             e.printStackTrace();
             return "Fatal error getting term: `" + term + "`, using language: `" + language + "`.";
         }
+    }
+    
+    public static Language getLanguage(final String languageName) {
+    	// TODO Handle lange not exists
+    	LANGUAGE_CACHE.computeIfAbsent(languageName, (s) -> new Language(languageName));
+    	return LANGUAGE_CACHE.get(languageName);
     }
 
 }
