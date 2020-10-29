@@ -14,7 +14,6 @@ public class HttpMain {
     	final ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		handler.addServlet(ConnectionTest.class, "/");
 		handler.addServlet(RoleChange.class, "/roleChange");
-		handler.addServlet(VerifyId.class, "/verifyId");
 		server.setHandler(handler);
 
         final ServerConnector connector = new ServerConnector(this.server);
