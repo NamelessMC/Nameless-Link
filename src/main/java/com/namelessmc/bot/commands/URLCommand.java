@@ -28,7 +28,7 @@ public class URLCommand extends Command {
     		return;
     	}
     	
-    	final Language language = new Language();
+    	final Language language = Language.DEFAULT;
     	
     	final long guildId = Long.parseLong(args[0]); // TODO Catch exception
     	URL apiUrl;

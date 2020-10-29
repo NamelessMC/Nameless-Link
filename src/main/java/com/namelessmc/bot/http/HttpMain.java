@@ -16,7 +16,7 @@ public class HttpMain {
 		handler.addServlet(RoleChange.class, "/roleChange");
 		server.setHandler(handler);
 
-        final ServerConnector connector = new ServerConnector(this.server);
+        final ServerConnector connector = new ServerConnector(server);
 
         int port = 8001;
         try {
@@ -32,8 +32,14 @@ public class HttpMain {
         new Thread() {
 			@Override
 			public void run() {
-				server.start();
-				server.join();
+				try {
+					server.start();
+					server.join();
+				} catch (final Exception e) {
+					e.printStackTrace();
+					System.exit(1);
+				}
+				
 			}
 		}.start();
     }

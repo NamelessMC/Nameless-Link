@@ -19,7 +19,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 
 //        final String owner_id = event.getGuild().retrieveOwner().complete().getId();
 
-        Language language = new Language();
+        Language language = Language.DEFAULT;
         
         final Optional<NamelessAPI> api = Main.getConnectionManager().getApi(event.getGuild().getIdLong());
         

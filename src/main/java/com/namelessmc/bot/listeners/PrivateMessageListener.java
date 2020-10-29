@@ -31,7 +31,7 @@ public class PrivateMessageListener extends ListenerAdapter {
 			command.execute(user, args, event.getChannel());
 		} else {
 			// TODO How do we get the user's language here? Which website do we use?
-        	final Language language = new Language("EnglishUK");
+        	final Language language = Language.DEFAULT;
 
             Main.getEmbedBuilder().clear().setColor(Color.GREEN).setTitle(language.get("commands")).addField(language.get("help"), language.get("invalid_command"), false);
             Utils.messageUser(user, Main.getEmbedBuilder());
