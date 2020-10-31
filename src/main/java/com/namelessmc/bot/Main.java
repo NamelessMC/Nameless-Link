@@ -2,8 +2,6 @@ package com.namelessmc.bot;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Optional;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -14,6 +12,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.commands.URLCommand;
 import com.namelessmc.bot.commands.VerifyCommand;
+import com.namelessmc.bot.connections.ConnectionManager;
+import com.namelessmc.bot.connections.StorageInitializer;
 import com.namelessmc.bot.http.HttpMain;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
@@ -43,10 +43,6 @@ public class Main {
     private static boolean debugging = false;
 
     public static void main(final String[] args) throws IOException {
-    	if (!Config.check()) {
-    		return;
-    	}
-
         try {
             final File log = new File("./logs/" + (new java.text.SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new java.util.Date(System.currentTimeMillis()))) + ".log");
             if (!log.exists()) {
@@ -63,10 +59,15 @@ public class Main {
         }
         
         initializeConnectionManager();
-        
+
         try {
+        	final String token = System.getenv("DISCORD_TOKEN");
+        	if (token == null) {
+        		System.err.println("Environment variable DISCORD_TOKEN not specified");
+        		System.exit(1);
+        	}
             jda = JDABuilder
-                    .createDefault(Config.DISCORD_TOKEN)
+                    .createDefault(token)
                     .addEventListeners(new GuildJoinHandler())
                     .addEventListeners(new PrivateMessageListener())
                     .addEventListeners(new GuildMessageListener())
@@ -93,36 +94,19 @@ public class Main {
     }
     
     private static void initializeConnectionManager() throws IOException {
-        if (System.getenv("GUILD_ID") != null) {
-        	// Configure connection manager in stateless mode
-        	// One server is defined using environment variables
-        	final long guildId = Long.parseLong(System.getenv("GUILD_ID"));
-        	final String apiUrl = System.getenv("API_URL");
-        	if (apiUrl == null) {
-        		System.err.println("API_URL not specified");
-        		System.exit(1);
-        	}
-        	
-        	connectionManager = new ConnectionManager(Optional.empty());
-        	connectionManager.createNewConnection(new URL(apiUrl), guildId);
-        } else {
-        	System.out.println("Environment variables GUILD_ID and API_URL not specified, starting in stateful mode");
-        	String path = System.getenv("FILE_PATH");
-        	if (path == null) {
-        		System.out.println("FILE_PATH not set, using file 'guilds.json'");
-        		path = "guilds.json";
-        	}
-        	
-        	final File file = new File(path);
-        	if (file.isDirectory()) {
-        		System.err.println("Path exists and is a directory");
-        		System.exit(1);
-        	}
-        	
-        	file.mkdirs();
-        	file.createNewFile();
-        	connectionManager = new ConnectionManager(Optional.of(file));
-        }
+    	String storageType = System.getenv("STORAGE_TYPE");
+    	if (storageType == null) {
+    		System.out.println("STORAGE_TYPE not specified, assuming STORAGE_TYPE=stateless");
+    		storageType = "stateless";
+    	}
+    	
+    	final StorageInitializer<? extends ConnectionManager> init = StorageInitializer.getByName(storageType);
+    	if (init == null) {
+    		System.err.println("The chosen STORAGE_TYPE is not available, please choose from " + String.join(", ", StorageInitializer.getAvailableNames()));
+    		System.exit(1);
+    	}
+    	
+    	connectionManager = init.get();
     }
 
     public static void log(final String message) {

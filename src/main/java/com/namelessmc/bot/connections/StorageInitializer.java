@@ -2,6 +2,7 @@ package com.namelessmc.bot.connections;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class StorageInitializer<CM extends ConnectionManager> {
@@ -31,6 +32,19 @@ public class StorageInitializer<CM extends ConnectionManager> {
 	
 	public CM get() {
 		return this.initializer.get();
+	}
+	
+	private static final Map<String, StorageInitializer<? extends ConnectionManager>> BY_STRING = Map.of(
+			"stateless", STATELESS,
+			"postgress", POSTGRES
+			);
+	
+	public static final StorageInitializer<? extends ConnectionManager> getByName(final String name) {
+		return BY_STRING.get(name);
+	}
+	
+	public static final String[] getAvailableNames() {
+		return BY_STRING.keySet().toArray(String[]::new);
 	}
 	
 	private static String getEnvString(final String name, final String def) {
