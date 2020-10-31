@@ -3,6 +3,7 @@ package com.namelessmc.bot;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+@Deprecated
 public class Config {
 
 	private static final int DEFAULT_PORT = 8001;
