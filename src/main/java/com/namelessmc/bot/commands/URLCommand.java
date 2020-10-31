@@ -5,9 +5,9 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.Optional;
 
-import com.namelessmc.bot.ConnectionManager.WebsiteConnection;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
@@ -53,23 +53,31 @@ public class URLCommand extends Command {
     	}
     	
     	// Check if API URL works
+    	NamelessAPI api;
     	try {
-    		new NamelessAPI(apiUrl).checkWebAPIConnection();
+    		api = new NamelessAPI(apiUrl);
+    		api.checkWebAPIConnection();
     	} catch (final NamelessException e) {
     		channel.sendMessage("The provided API URL is invalid or we are blocked by a proxy (e.g. cloudflare)"); // TODO Message
     		return;
     	}
     	
-    	final Optional<WebsiteConnection> connection = Main.getConnectionManager().getConnection(guildId);
-    	
-    	if (connection.isEmpty()) {
-    		// User is setting up new connection
-    		Main.getConnectionManager().createNewConnection(apiUrl, guildId);
-    		channel.sendMessage("Successfully changed API URL"); // TODO Message
-    	} else {
-    		// User is modifying API url for existing connection
-    		connection.get().setApiUrl(apiUrl);
-    		channel.sendMessage("Successfully set up API URL"); // TODO Message
+    	try {
+	    	final Optional<NamelessAPI> dbApi = Main.getConnectionManager().getApi(guildId);
+	    	
+	    	if (dbApi.isEmpty()) {
+	    		// User is setting up new connection
+	    		Main.getConnectionManager().newConnection(guildId, apiUrl);
+	    		channel.sendMessage("Successfully changed API URL"); // TODO Message
+	    	} else {
+	    		// User is modifying API url for existing connection
+	    		Main.getConnectionManager().updateConnection(guildId, apiUrl);
+	    		channel.sendMessage("Successfully set up API URL"); // TODO Message
+	    	}
+	    	
+	    	api.setDiscordBotUrl(Main.getBotUrl());
+    	} catch (final BackendStorageException | NamelessException e) {
+    		e.printStackTrace(); // TODO handle properly
     	}
     }
 }

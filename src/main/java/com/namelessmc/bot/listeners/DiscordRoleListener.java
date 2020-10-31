@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
@@ -40,7 +41,13 @@ public class DiscordRoleListener extends ListenerAdapter {
     }
     
     private void process(final long guildId, final long userId, final List<Role> roles, final boolean add) {
-        final Optional<NamelessAPI> api = Main.getConnectionManager().getApi(guildId);
+        Optional<NamelessAPI> api;
+		try {
+			api = Main.getConnectionManager().getApi(guildId);
+		} catch (final BackendStorageException e) {
+			e.printStackTrace(); // TODO handle
+			return;
+		}
 
         if (api.isEmpty()) {
             Main.debug("API URL not setup in " + guildId);

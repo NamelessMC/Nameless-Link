@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.Utils;
+import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
@@ -17,11 +18,15 @@ public class GuildJoinHandler extends ListenerAdapter {
     public void onGuildJoin(final GuildJoinEvent event) {
         Main.log("Joined guild: " + event.getGuild().getName());
 
-//        final String owner_id = event.getGuild().retrieveOwner().complete().getId();
-
         Language language = Language.DEFAULT;
         
-        final Optional<NamelessAPI> api = Main.getConnectionManager().getApi(event.getGuild().getIdLong());
+        Optional<NamelessAPI> api;
+		try {
+			api = Main.getConnectionManager().getApi(event.getGuild().getIdLong());
+		} catch (final BackendStorageException e) {
+			e.printStackTrace(); // TODO handle
+			return;
+		}
         
         if (api.isEmpty()) {
         	// DM owner that we don't have an api for this guild

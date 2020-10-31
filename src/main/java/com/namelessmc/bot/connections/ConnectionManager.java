@@ -11,6 +11,8 @@ public abstract class ConnectionManager {
 	
 	public abstract void newConnection(long guildId, URL apiUrl) throws BackendStorageException;
 	
+	public abstract boolean updateConnection(long guildId, URL apiUrl) throws BackendStorageException;
+	
 	public abstract boolean removeConnection(long guildId) throws BackendStorageException;
 	
 	public abstract Optional<Long> getLastUsed(long guildId) throws BackendStorageException;

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
@@ -37,7 +38,13 @@ public class VerifyCommand extends Command {
     	}
     	final String verify = token.substring(token.indexOf('.') + 1); // TODO Different sep character?
     	
-    	final Optional<NamelessAPI> api = Main.getConnectionManager().getApi(guildId);
+    	Optional<NamelessAPI> api;
+		try {
+			api = Main.getConnectionManager().getApi(guildId);
+		} catch (final BackendStorageException e) {
+			e.printStackTrace(); // TODO handle
+			return;
+		}
     	
     	if (api.isEmpty()) {
     		channel.sendMessage("This bot is no longer (or never was) used by this server."); // TODO Language
@@ -45,7 +52,7 @@ public class VerifyCommand extends Command {
     	}
     	
     	try {
-    		api.get().verifyDiscord(verify);
+    		api.get().verifyDiscord(verify, guildId);
     	} catch (final ApiError e) {
     		if (e.getError() == ApiError.INVALID_VALIDATE_CODE) {
     			channel.sendMessage("Invalid validation code"); // TODO Language

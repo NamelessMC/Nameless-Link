@@ -64,6 +64,19 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 			throw new BackendStorageException(e);
 		}
 	}
+	
+	@Override
+	public boolean updateConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
+		try (Connection connection = this.getNewDatabaseConnection()) {
+			try (PreparedStatement statement = connection.prepareStatement("UPDATE connections SET api_url=? WHERE guild_id=?")) {
+				statement.setString(1, apiUrl.toString());
+				statement.setLong(2, guildId);
+				return statement.executeUpdate() > 0;
+			}
+		} catch (final SQLException e) {
+			throw new BackendStorageException(e);
+		}
+	}
 
 	@Override
 	public boolean removeConnection(final long guildId) throws BackendStorageException {

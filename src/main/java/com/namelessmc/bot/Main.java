@@ -1,6 +1,8 @@
 package com.namelessmc.bot;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Logger;
 
 import javax.security.auth.login.LoginException;
@@ -36,6 +38,10 @@ public class Main {
     private static final Gson gson = new GsonBuilder().create();
     @Getter
     private static ConnectionManager connectionManager;
+    @Getter
+    private static URL botUrl;
+    @Getter
+    private static int webserverPort;
     
     private static boolean debugging = false;
 
@@ -56,6 +62,32 @@ public class Main {
 //        }
         
         initializeConnectionManager();
+        
+    	final String botUrlStr = System.getenv("BOT_URL");
+    	if (botUrlStr == null) {
+    		System.err.println("Environment variable BOT_URL not specified");
+    		System.exit(1);
+    	}
+    	
+    	try {
+    		botUrl = new URL(botUrlStr);
+    	} catch (final MalformedURLException e) {
+    		System.err.println("Environment variable BOT_URL is not a valid URL");
+    		System.exit(1);
+    	}
+    	
+    	final String webserverPortStr = System.getenv("WEBSERVER_PORT");
+    	if (webserverPortStr == null) {
+    		System.err.println("Environment variable BOT_URL not specified");
+    		System.exit(1);
+    	}
+    	
+    	try {
+    		webserverPort = Integer.parseInt(webserverPortStr);
+    	} catch (final NumberFormatException e) {
+    		System.err.println("Environment variable BOT_URL is not a valid number");
+    		System.exit(1);
+    	}
 
         try {
         	final String token = System.getenv("DISCORD_TOKEN");

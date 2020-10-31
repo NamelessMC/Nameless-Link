@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.namelessmc.bot.ConnectionManager.WebsiteConnection;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
+import com.namelessmc.java_api.NamelessAPI;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -32,12 +33,18 @@ public class RoleChange extends HttpServlet {
 
 		String htmlResponse;
 
-		final Optional<WebsiteConnection> connection = Main.getConnectionManager().getConnection(guildId);
+		Optional<NamelessAPI> api;
+		try {
+			api = Main.getConnectionManager().getApi(guildId);
+		} catch (final BackendStorageException e) {
+			e.printStackTrace(); // TODO handle
+			return;
+		}
 
-		if (!guild.getMemberById(Main.getJda().getSelfUser().getId()).canInteract(member) || connection.isEmpty()) {
+		if (!guild.getMemberById(Main.getJda().getSelfUser().getId()).canInteract(member) || api.isEmpty()) {
 			Main.log("Cannot interact with " + member.getEffectiveName() + " in " + guild.getName());
 			htmlResponse = "failure-cannot-interact";
-		} else if (!apiUrl.equals(connection.get().getApiUrl())) {
+		} else if (!apiUrl.equals(api.get().getApiUrl().toString())) {
 			// TODO Why this check?
 			Main.log("Invalid Guild API URL sent for " + member.getEffectiveName() + " in " + guild.getName());
 			htmlResponse = "failure-invalid-api-url";

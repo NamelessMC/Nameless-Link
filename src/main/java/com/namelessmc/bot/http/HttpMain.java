@@ -4,7 +4,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
-import com.namelessmc.bot.Config;
 import com.namelessmc.bot.Main;
 
 public class HttpMain {
@@ -17,15 +16,7 @@ public class HttpMain {
 		server.setHandler(handler);
 
         final ServerConnector connector = new ServerConnector(server);
-
-        int port = 8001;
-        try {
-            port = Config.PORT;
-        } catch (final NumberFormatException e) {
-            Main.log("[ERROR] Invalid port. Using fallback: " + port);
-        }
-        
-        connector.setPort(port);
+        connector.setPort(Main.getWebserverPort());
   
         server.addConnector(connector);
         

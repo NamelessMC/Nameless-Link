@@ -9,7 +9,6 @@ import com.namelessmc.java_api.NamelessAPI;
 
 public class StatelessConnectionManager extends ConnectionManager {
 
-	
 	private final long guildId;
 	private final Optional<NamelessAPI> api; // Keep one instance for performance
 	
@@ -42,6 +41,12 @@ public class StatelessConnectionManager extends ConnectionManager {
 
 	@Override
 	public Optional<Long> getLastUsed(final long guildId) throws BackendStorageException {
+		throw new BackendStorageException(new UnsupportedOperationException());
+	}
+
+
+	@Override
+	public boolean updateConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 }
