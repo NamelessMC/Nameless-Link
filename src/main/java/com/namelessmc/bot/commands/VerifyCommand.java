@@ -31,12 +31,12 @@ public class VerifyCommand extends Command {
     	final String token = args[0];
     	final long guildId;
     	try {
-    		guildId = Long.parseLong(token.substring(0, token.indexOf('.') - 1)); // TODO Different sep character?
+    		guildId = Long.parseLong(token.substring(0, token.indexOf(':') - 1));
     	} catch (final NumberFormatException e) {
     		channel.sendMessage("Invalid token");// TODO Language
     		return;
     	}
-    	final String verify = token.substring(token.indexOf('.') + 1); // TODO Different sep character?
+    	final String verify = token.substring(token.indexOf(':') + 1);
     	
     	Optional<NamelessAPI> api;
 		try {
