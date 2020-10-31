@@ -1,6 +1,5 @@
 package com.namelessmc.bot.connections;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
@@ -14,17 +13,11 @@ public class StatelessConnectionManager extends ConnectionManager {
 	private final long guildId;
 	private final Optional<NamelessAPI> api; // Keep one instance for performance
 	
-	public StatelessConnectionManager(final long guildId, final String apiUrl) {
+	public StatelessConnectionManager(final long guildId, final URL apiUrl) {
 		Validate.notNull(guildId, "Guild ID not specified");
 		Validate.notNull(apiUrl, "API URL not specified");
 		this.guildId = guildId;
-		URL url;
-		try {
-			url = new URL(apiUrl);
-		} catch (final MalformedURLException e) {
-			throw new IllegalArgumentException("Malformed URL", e);
-		}
-		this.api = Optional.of(new NamelessAPI(url));
+		this.api = Optional.of(new NamelessAPI(apiUrl));
 	}
 
 	
