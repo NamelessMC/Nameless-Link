@@ -1,10 +1,7 @@
 package com.namelessmc.bot;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import javax.security.auth.login.LoginException;
 
@@ -43,20 +40,20 @@ public class Main {
     private static boolean debugging = false;
 
     public static void main(final String[] args) throws IOException {
-        try {
-            final File log = new File("./logs/" + (new java.text.SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new java.util.Date(System.currentTimeMillis()))) + ".log");
-            if (!log.exists()) {
-                log.getParentFile().mkdirs();
-                log.createNewFile();
-            }
-            final FileHandler fh = new FileHandler(log.getAbsolutePath(), true);
-            logger.addHandler(fh);
-            fh.setFormatter(new SimpleFormatter());
-        } catch (final SecurityException | IOException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] Cannot start logger.");
-            System.exit(0);
-        }
+//        try {
+//            final File log = new File("./logs/" + (new java.text.SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new java.util.Date(System.currentTimeMillis()))) + ".log");
+//            if (!log.exists()) {
+//                log.getParentFile().mkdirs();
+//                log.createNewFile();
+//            }
+//            final FileHandler fh = new FileHandler(log.getAbsolutePath(), true);
+//            logger.addHandler(fh);
+//            fh.setFormatter(new SimpleFormatter());
+//        } catch (final SecurityException | IOException e) {
+//            e.printStackTrace();
+//            System.out.println("[ERROR] Cannot start logger.");
+//            System.exit(0);
+//        }
         
         initializeConnectionManager();
 
