@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:13-alpine
+    volumes: ['/opt/nameless-link/postgres:/var/lib/postgresql/data']
+    environment:
+      POSTGRES_PASSWORD: something_secure
+    restart: always
+
+  link:
+    image: namelessmc/discord-link
+    ports: ['8181:80'] # Not for production, use a reverse proxy!
+    environment:
+      BOT_URL: http://localhost:8080 # Externally reachable URL to your bot
+      DISCORD_TOKEN:
+      STORAGE_TYPE: postgres
+      POSTGRES_NAME: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: something_secure
+
