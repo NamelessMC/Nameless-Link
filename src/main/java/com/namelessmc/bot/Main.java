@@ -77,14 +77,14 @@ public class Main {
     	
     	final String webserverPortStr = System.getenv("WEBSERVER_PORT");
     	if (webserverPortStr == null) {
-    		System.err.println("Environment variable BOT_URL not specified");
+    		System.err.println("Environment variable WEBSERVER_PORT not specified");
     		System.exit(1);
     	}
     	
     	try {
     		webserverPort = Integer.parseInt(webserverPortStr);
     	} catch (final NumberFormatException e) {
-    		System.err.println("Environment variable BOT_URL is not a valid number");
+    		System.err.println("Environment variable WEBSERVER_PORT is not a valid number");
     		System.exit(1);
     	}
 
