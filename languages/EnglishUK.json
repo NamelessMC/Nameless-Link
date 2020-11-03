@@ -10,16 +10,11 @@
     "invalid_command": "Invalid command. Valid Commands: \n`!url`, \n`!verify`.",
 
     "verification_title": "Verification",
-    "verification_loading": "Loading...",
-    "verification_loading_message": "Please wait while I verify your web account...",
-    "verification_failed_no_token": "Failed: `You need to provide your token`",
-    "verification_failed_none_pending": "Failed: `You do not have a pending verification`",
-    "verification_failed_wrong_token": "Failed: `Incorrect token`",
-    "verification_failed_generic": "Error: `Could not link your account. Stacktrace: %s`",
-    "verification_failed_db": "Error: `Unable to remove your pending verification from the database.`",
-    "verification_success": "Thank you for linking your account.",
-
-    "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the message you got on the website. If this was not you, you can safely ignore this message.",
+    "verification_usage": "Usage: !verify <token>",
+    "verification_token_invalid": "Failed to verify your account, you have provided an invalid token.",
+    "verification_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
+    "verification_error": "An error occured while trying to verify your account.",
+    "verification_success": "Thank you for verifying, your account is now linked.",
 
     "link_guild_title": "Link Guild",
     "link_guild_saving": "The API URL and Guild ID you sent were valid. Saving now...",

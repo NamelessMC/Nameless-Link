@@ -24,7 +24,7 @@ public class VerifyCommand extends Command {
     	final Language language = Language.DEFAULT;
     	
     	if (args.length != 1) {
-    		channel.sendMessage("Usage: !verify <token>"); // TODO Language
+    		channel.sendMessage(language.get("verification_usage"));
     		return;
     	}
     	
@@ -33,7 +33,7 @@ public class VerifyCommand extends Command {
     	try {
     		guildId = Long.parseLong(token.substring(0, token.indexOf(':') - 1));
     	} catch (final NumberFormatException e) {
-    		channel.sendMessage("Invalid token");// TODO Language
+    		channel.sendMessage(language.get("verification_token_invalid"));
     		return;
     	}
     	final String verify = token.substring(token.indexOf(':') + 1);
@@ -42,12 +42,13 @@ public class VerifyCommand extends Command {
 		try {
 			api = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
-			e.printStackTrace(); // TODO handle
+			e.printStackTrace();
+			channel.sendMessage(language.get("verification_error"));
 			return;
 		}
     	
     	if (api.isEmpty()) {
-    		channel.sendMessage("This bot is no longer (or never was) used by this server."); // TODO Language
+    		channel.sendMessage(language.get("verification_not_used"));
     		return;
     	}
     	
@@ -55,16 +56,16 @@ public class VerifyCommand extends Command {
     		api.get().verifyDiscord(verify, guildId);
     	} catch (final ApiError e) {
     		if (e.getError() == ApiError.INVALID_VALIDATE_CODE) {
-    			channel.sendMessage("Invalid validation code"); // TODO Language
+    			channel.sendMessage(language.get("verification_token_invalid"));
         		return;
     		} else {
     			e.printStackTrace();
-        		channel.sendMessage("An unknown error occurred"); // TODO Language
+    			channel.sendMessage(language.get("verification_error"));
         		return;
     		}
     	} catch (final NamelessException e) {
     		e.printStackTrace();
-    		channel.sendMessage("An unknown error occurred"); // TODO Language
+    		channel.sendMessage(language.get("verification_error"));
     		return;
     	}
     }
