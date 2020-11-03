@@ -16,10 +16,6 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	
 	public abstract Connection getNewDatabaseConnection() throws SQLException;
 	
-	public void initDb() {
-		
-	}
-	
 	@Override
 	public Optional<NamelessAPI> getApi(final long guildId) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {

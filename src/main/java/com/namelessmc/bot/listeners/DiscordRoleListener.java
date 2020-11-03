@@ -45,7 +45,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 		try {
 			api = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
-			e.printStackTrace(); // TODO handle
+			e.printStackTrace();
 			return;
 		}
 
@@ -59,7 +59,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			user = api.get().getUserByDiscordId(guildId);
 		} catch (final NamelessException e) {
 			// API URL is invalid or website is down
-			// TODO handle properly
+			// TODO handle properly, probably just silence
 			e.printStackTrace();
 			return;
 		}
