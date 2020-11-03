@@ -36,7 +36,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 	
 	private static final Map<String, StorageInitializer<? extends ConnectionManager>> BY_STRING = Map.of(
 			"stateless", STATELESS,
-			"postgress", POSTGRES
+			"postgres", POSTGRES
 			);
 	
 	public static final StorageInitializer<? extends ConnectionManager> getByName(final String name) {
