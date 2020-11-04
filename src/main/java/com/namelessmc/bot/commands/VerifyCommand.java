@@ -24,7 +24,7 @@ public class VerifyCommand extends Command {
     	final Language language = Language.DEFAULT;
     	
     	if (args.length != 1) {
-    		channel.sendMessage(language.get("verification_usage"));
+    		channel.sendMessage(language.get("verification_usage")).queue();
     		return;
     	}
     	
@@ -33,7 +33,7 @@ public class VerifyCommand extends Command {
     	try {
     		guildId = Long.parseLong(token.substring(0, token.indexOf(':') - 1));
     	} catch (final NumberFormatException e) {
-    		channel.sendMessage(language.get("verification_token_invalid"));
+    		channel.sendMessage(language.get("verification_token_invalid")).queue();
     		return;
     	}
     	final String verify = token.substring(token.indexOf(':') + 1);
@@ -43,12 +43,12 @@ public class VerifyCommand extends Command {
 			api = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
 			e.printStackTrace();
-			channel.sendMessage(language.get("verification_error"));
+			channel.sendMessage(language.get("verification_error")).queue();
 			return;
 		}
     	
     	if (api.isEmpty()) {
-    		channel.sendMessage(language.get("verification_not_used"));
+    		channel.sendMessage(language.get("verification_not_used")).queue();
     		return;
     	}
     	
@@ -56,16 +56,16 @@ public class VerifyCommand extends Command {
     		api.get().verifyDiscord(verify, guildId);
     	} catch (final ApiError e) {
     		if (e.getError() == ApiError.INVALID_VALIDATE_CODE) {
-    			channel.sendMessage(language.get("verification_token_invalid"));
+    			channel.sendMessage(language.get("verification_token_invalid")).queue();
         		return;
     		} else {
     			e.printStackTrace();
-    			channel.sendMessage(language.get("verification_error"));
+    			channel.sendMessage(language.get("verification_error")).queue();
         		return;
     		}
     	} catch (final NamelessException e) {
     		e.printStackTrace();
-    		channel.sendMessage(language.get("verification_error"));
+    		channel.sendMessage(language.get("verification_error")).queue();
     		return;
     	}
     }

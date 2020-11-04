@@ -26,7 +26,7 @@ public class URLCommand extends Command {
 		final Language language = Language.DEFAULT;
 
 		if (args.length != 2) {
-			channel.sendMessage(language.get("apiurl_usage"));
+			channel.sendMessage(language.get("apiurl_usage")).queue();
 			return;
 		}
 
@@ -34,7 +34,7 @@ public class URLCommand extends Command {
 		try {
 			guildId = Long.parseLong(args[0]);
 		} catch (final NumberFormatException e) {
-			channel.sendMessage(language.get("apiurl_guild_invalid"));
+			channel.sendMessage(language.get("apiurl_guild_invalid")).queue();
 			return;
 		}
 
@@ -42,19 +42,19 @@ public class URLCommand extends Command {
 		try {
 			apiUrl = new URL(args[1]);
 		} catch (final MalformedURLException e) {
-			channel.sendMessage(language.get("apiurl_url_malformed"));
+			channel.sendMessage(language.get("apiurl_url_malformed")).queue();
 			return;
 		}
 
 		final Guild guild = Main.getJda().getGuildById(guildId);
 
 		if (guild == null) {
-			channel.sendMessage(language.get("apiurl_guild_invalid"));
+			channel.sendMessage(language.get("apiurl_guild_invalid")).queue();
 			return;
 		}
 
 		if (guild.getOwnerIdLong() != user.getIdLong()) {
-			channel.sendMessage(language.get("apiurl_not_owner"));
+			channel.sendMessage(language.get("apiurl_not_owner")).queue();
 			return;
 		}
 
@@ -64,7 +64,7 @@ public class URLCommand extends Command {
 			api = new NamelessAPI(apiUrl);
 			api.checkWebAPIConnection();
 		} catch (final NamelessException e) {
-			channel.sendMessage(language.get("apiurl_failed_connection"));																										// Message
+			channel.sendMessage(language.get("apiurl_failed_connection")).queue();																										// Message
 			return;
 		}
 
@@ -74,16 +74,16 @@ public class URLCommand extends Command {
 			if (oldApi.isEmpty()) {
 				// User is setting up new connection
 				Main.getConnectionManager().newConnection(guildId, apiUrl);
-				channel.sendMessage(language.get("apiurl_success_new"));
+				channel.sendMessage(language.get("apiurl_success_new")).queue();
 			} else {
 				// User is modifying API url for existing connection
 				Main.getConnectionManager().updateConnection(guildId, apiUrl);
-				channel.sendMessage(language.get("apiurl_success_updated"));
+				channel.sendMessage(language.get("apiurl_success_updated")).queue();
 			}
 
 			api.setDiscordBotUrl(Main.getBotUrl());
 		} catch (final BackendStorageException | NamelessException e) {
-			channel.sendMessage(language.get("apiurl_error"));
+			channel.sendMessage(language.get("apiurl_error")).queue();
 		}
 	}
 }
