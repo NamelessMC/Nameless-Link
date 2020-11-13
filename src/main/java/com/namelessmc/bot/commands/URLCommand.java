@@ -71,6 +71,8 @@ public class URLCommand extends Command {
 		}
 
 		try {
+			api.setDiscordBotUrl(Main.getBotUrl());
+			
 			final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
 
 			if (oldApi.isEmpty()) {
@@ -82,9 +84,8 @@ public class URLCommand extends Command {
 				Main.getConnectionManager().updateConnection(guildId, apiUrl);
 				channel.sendMessage(language.get("apiurl_success_updated")).queue();
 			}
-
-			api.setDiscordBotUrl(Main.getBotUrl());
 		} catch (final BackendStorageException | NamelessException e) {
+			System.out.println("NOT AN ERROR");
 			e.printStackTrace();
 			channel.sendMessage(language.get("apiurl_error")).queue();
 		}
