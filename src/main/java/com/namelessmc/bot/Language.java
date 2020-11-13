@@ -42,7 +42,7 @@ public class Language {
 	}
 
 	private void readFromFile() throws LanguageLoadException {
-		try (InputStream stream = Language.class.getResourceAsStream("languages/" + this.language + ".json")) {
+		try (InputStream stream = Language.class.getResourceAsStream("/languages/" + this.language + ".json")) {
 			if (stream == null) {
 				throw new LanguageLoadException();
 			}
