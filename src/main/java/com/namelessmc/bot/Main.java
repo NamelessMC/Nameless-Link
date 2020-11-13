@@ -9,6 +9,7 @@ import javax.security.auth.login.LoginException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.namelessmc.bot.commands.URLCommand;
 import com.namelessmc.bot.commands.VerifyCommand;
 import com.namelessmc.bot.connections.ConnectionManager;
 import com.namelessmc.bot.connections.StorageInitializer;
@@ -118,6 +119,7 @@ public class Main {
 
         // Register commands
         new VerifyCommand();
+        new URLCommand();
     }
     
     private static void initializeConnectionManager() throws IOException {
