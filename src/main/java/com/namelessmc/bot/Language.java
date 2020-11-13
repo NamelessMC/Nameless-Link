@@ -1,16 +1,15 @@
 package com.namelessmc.bot;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
@@ -20,45 +19,58 @@ import net.dv8tion.jda.api.entities.User;
 
 public class Language {
 
-	public static final Language DEFAULT = new Language("EnglishUK");
+	public static final Language DEFAULT;
+	static {
+		try {
+			DEFAULT = new Language("EnglishUK");
+		} catch (final LanguageLoadException e) {
+			throw new Error(e);
+		}
+	}
+
 	// Avoid having to instantiate new language objects all the time
 	private static final Map<String, Language> LANGUAGE_CACHE = new HashMap<>();
-	
-    @Getter
-    private final String language;
-    
-    private Language(final String language) {
-        this.language = language;
-    }
 
-    public String get(final String term, final Object... replacements) {
-        final String value = get(this.language, term);
-        if (value != null) {
-            return String.format(value, replacements);
+	@Getter
+	private final String language;
+
+	private transient JsonObject json;
+
+	private Language(final String language) throws LanguageLoadException {
+		this.language = language;
+		readFromFile();
+	}
+
+	private void readFromFile() throws LanguageLoadException {
+		try (InputStream stream = Language.class.getResourceAsStream("languages/" + this.language + ".json")) {
+			if (stream == null) {
+				throw new LanguageLoadException();
+			}
+
+			try (Reader reader = new InputStreamReader(stream)) {
+				this.json = JsonParser.parseReader(reader).getAsJsonObject();
+			}
+		} catch (final IOException e) {
+			throw new LanguageLoadException(e);
+		}
+	}
+
+	public String get(final String term, final Object... replacements) {
+        String translation;
+    	if (this.json.has(term)) {
+        	translation = this.json.get(term).getAsString();
+        } else if (this == DEFAULT) {
+        	// oh no
+        	throw new RuntimeException(String.format("Term '%s' is missing from default (%s) translation", term, DEFAULT.language));
         } else {
-            final String backup_value = get("EnglishUK", term);
-            if (backup_value != null) {
-                return String.format(backup_value, replacements);
-            } else {
-                return "Term `" + term + "` is not set.";
-            }
+        	System.err.println(String.format("Language '%s' is missing term '%s', using default (%s) term instead.", this.language, term, DEFAULT.language));
+        	return DEFAULT.get(term, replacements);
         }
-    }
+    	
+    	return String.format(translation, replacements);
+	}
 
-    @Getter
-    private static final List<String> languages = new ArrayList<>();
-
-    static {
-        for (final File file : new File("languages/").listFiles()) {
-            languages.add(file.getName().replace(".json", ""));
-        }
-    }
-
-    public static boolean isValid(final String language) {
-        return languages.contains(language);
-    }
-    
-    public static Language getDiscordUserLanguage(final NamelessAPI api, final User user) {
+	public static Language getDiscordUserLanguage(final NamelessAPI api, final User user) {
     	try {
 	        final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
 	        if (nameless.isPresent()){
@@ -70,25 +82,37 @@ public class Language {
     		// If we can't communicate with the website, fall back to english
     		return DEFAULT;
     	}
+	}
+
+	public static Language getLanguage(final String languageName) {
+		Language language = LANGUAGE_CACHE.get(languageName);
+		if (language != null) {
+			return language;
+		}
+		
+    	try {
+			language = new Language(languageName);
+		} catch (final LanguageLoadException e) {
+			System.err.println("Failed to load language '" + languageName + "', falling back to '" + DEFAULT.language + "'.");
+			e.printStackTrace();
+			language = DEFAULT;
+		}
+    	
+    	return language;
     }
 
-    private String get(final String language, final String term) {
-        try {
-            try {
-                return JsonParser.parseReader(new JsonReader(new FileReader("languages/" + language + ".json"))).getAsJsonObject().get(language).getAsJsonObject().get(term).getAsString();
-            } catch (final NullPointerException e) {
-                return null;
-            }
-        } catch (final FileNotFoundException e) {
-            e.printStackTrace();
-            return "Fatal error getting term: `" + term + "`, using language: `" + language + "`.";
-        }
-    }
-    
-    public static Language getLanguage(final String languageName) {
-    	// TODO Handle lange not exists
-    	LANGUAGE_CACHE.computeIfAbsent(languageName, (s) -> new Language(languageName));
-    	return LANGUAGE_CACHE.get(languageName);
-    }
+	private class LanguageLoadException extends Exception {
+
+		private static final long serialVersionUID = 1335651150585947607L;
+
+		public LanguageLoadException(final Throwable cause) {
+			super("Language failed to load", cause);
+		}
+
+		public LanguageLoadException() {
+			super("Language failed to load");
+		}
+
+	}
 
 }
