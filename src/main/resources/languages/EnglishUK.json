@@ -16,7 +16,7 @@
     "verification_success": "Thank you for verifying, your account is now linked.",
 
     "apiurl_title": "Set API URL",
-    "apiurl_usage": "Usage: `!url <guild id> <api url>`",
+    "apiurl_usage": "Usage: `!apiurl <guild id> <api url>`",
     "apiurl_success": "Your discord server has been successfully linked to your NamelessMC website.",
     "apiurl_guild_invalid": "The provided guild ID is invalid.",
     "apiurl_url_malformed": "The provided API URL is malformed.",
