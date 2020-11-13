@@ -1,5 +1,4 @@
 {
-  "EnglishUK": {
     "success": "Success",
     "failed": "Failed",
     "settings": "Settings",
@@ -31,5 +30,4 @@
     "guild_join_failed_db": "Hello! Thank you for using the NamelessMC Bot. I tried to setup your guild, but failed.",
     "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please reply with `!url ` followed by your API URL found in `StaffCP -> Configuration -> API`.",
     "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL. Welcome back."
-  }
 }
