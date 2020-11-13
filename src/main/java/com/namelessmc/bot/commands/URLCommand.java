@@ -25,14 +25,14 @@ public class URLCommand extends Command {
 	public void execute(final User user, final String[] args, final MessageChannel channel) {
 		final Language language = Language.DEFAULT;
 
-		if (args.length != 2) {
+		if (args.length != 3) {
 			channel.sendMessage(language.get("apiurl_usage")).queue();
 			return;
 		}
 
 		final long guildId;
 		try {
-			guildId = Long.parseLong(args[0]);
+			guildId = Long.parseLong(args[1]);
 		} catch (final NumberFormatException e) {
 			channel.sendMessage(language.get("apiurl_guild_invalid")).queue();
 			return;
@@ -40,7 +40,7 @@ public class URLCommand extends Command {
 
 		URL apiUrl;
 		try {
-			apiUrl = new URL(args[1]);
+			apiUrl = new URL(args[2]);
 		} catch (final MalformedURLException e) {
 			channel.sendMessage(language.get("apiurl_url_malformed")).queue();
 			return;

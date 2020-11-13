@@ -23,12 +23,12 @@ public class VerifyCommand extends Command {
     public void execute(final User user, final String[] args, final MessageChannel channel) {
     	final Language language = Language.DEFAULT;
     	
-    	if (args.length != 1) {
+    	if (args.length != 2) {
     		channel.sendMessage(language.get("verification_usage")).queue();
     		return;
     	}
     	
-    	final String token = args[0];
+    	final String token = args[1];
     	final long guildId;
     	try {
     		guildId = Long.parseLong(token.substring(0, token.indexOf(':') - 1));
