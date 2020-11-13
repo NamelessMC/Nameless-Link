@@ -19,7 +19,6 @@ public class PostgresConnectionManager extends JDBCConnectionManager {
 	
 	@Override
 	public Connection getNewDatabaseConnection() throws SQLException {
-//		Class.forName("org.postgresql.Driver");
 		return DriverManager.getConnection(String.format("jdbc:postgresql://%s:%s/%s", this.hostname, this.port, this.databaseName),
 				this.username, this.password);
 	}
