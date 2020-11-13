@@ -3,7 +3,7 @@ version: '3'
 services:
 
   postgres:
-    image: postgres:13-alpine
+    image: namelessmc/discord-link-postgres
     volumes: ['/opt/nameless-link/postgres:/var/lib/postgresql/data']
     environment:
       POSTGRES_PASSWORD: something_secure
