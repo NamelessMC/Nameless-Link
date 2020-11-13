@@ -29,6 +29,12 @@ public class VerifyCommand extends Command {
     	}
     	
     	final String token = args[1];
+    	
+    	if (token.length() < 20 || !token.contains(":")) { // TODO Correct length
+    		channel.sendMessage(language.get("verification_token_invalid")).queue();
+    		return;
+    	}
+    	
     	final long guildId;
     	try {
     		guildId = Long.parseLong(token.substring(0, token.indexOf(':') - 1));
