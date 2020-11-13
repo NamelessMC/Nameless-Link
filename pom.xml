@@ -36,7 +36,8 @@
 				
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
-					<minimizeJar>true</minimizeJar>
+					<!-- TODO enable this and force include postgres driver -->
+					<minimizeJar>false</minimizeJar>
 				</configuration>
 				
 				<executions>
