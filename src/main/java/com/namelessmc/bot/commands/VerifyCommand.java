@@ -70,6 +70,7 @@ public class VerifyCommand extends Command {
         		return;
     		}
     	} catch (final NamelessException e) {
+    		System.out.println("NOT AN ERROR");
     		e.printStackTrace();
     		channel.sendMessage(language.get("verification_error")).queue();
     		return;

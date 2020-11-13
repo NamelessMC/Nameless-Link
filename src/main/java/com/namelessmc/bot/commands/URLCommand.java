@@ -64,6 +64,8 @@ public class URLCommand extends Command {
 			api = new NamelessAPI(apiUrl);
 			api.checkWebAPIConnection();
 		} catch (final NamelessException e) {
+			System.out.println("NOT AN ERROR");
+			e.printStackTrace();
 			channel.sendMessage(language.get("apiurl_failed_connection")).queue();																										// Message
 			return;
 		}
@@ -83,6 +85,7 @@ public class URLCommand extends Command {
 
 			api.setDiscordBotUrl(Main.getBotUrl());
 		} catch (final BackendStorageException | NamelessException e) {
+			e.printStackTrace();
 			channel.sendMessage(language.get("apiurl_error")).queue();
 		}
 	}
