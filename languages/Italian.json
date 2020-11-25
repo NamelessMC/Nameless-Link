@@ -21,16 +21,16 @@
 
     "verify_id_message": "Qualcuno ha richiesto di collegare questo account Discord con un account web di NamelessMC. Se sei stato tu, rispondi con il token che hai ricevuto sul sito web. Se non sei stato tu, puoi tranquillamente ignorare questo messaggio.\nPer cambiare la lingua digita `!language set`.",
 
-    "link_guild_title": "Collega gilda",
-    "link_guild_saving": "L'URL API e l'ID della Gilda che hai mandato sono validi. Salvataggio...",
+    "link_guild_title": "Collega server",
+    "link_guild_saving": "L'URL API e l'ID del server che hai mandato sono validi. Salvataggio...",
     "link_guild_success": "Il tuo URL API è stato collegato a \"%s\".",
     "link_guild_failed_no_url": "Errore: `Devi fornire un URL API di NamelessMC`.",
     "link_guild_failed_db": "Errore: `Non è stato possibile salvare il tuo URL API.`",
     "link_guild_failed_generic": "Stacktrace: `%s`",
     "link_guild_failed_api_disabled": "Errore: `%s`.\nPer favore, assicurati che la tua API sia abilitata in `Pannello Staff - Configurazione - API`.",
-    "link_guild_failed_no_guilds": "Errore: `Non sei il possessore di una gilda con il bot Nameless Link.`",
-    "link_guild_failed_invalid_id": "Errore: `ID Gilda non valido.\nGilde disponibili:\n%s`",
-    "link_guild_failed_multiple": "Errore: `Sei il possessore di più gilde con il bot Nameless Link, per favore inserisci l'ID della Gilda come secondo argomento.\nGilde disponibili:\n%s`",
+    "link_guild_failed_no_guilds": "Errore: `Non sei il possessore di un server con il bot Nameless Link.`",
+    "link_guild_failed_invalid_id": "Errore: `ID server non valido.\nServer disponibili:\n%s`",
+    "link_guild_failed_multiple": "Errore: `Sei il possessore di più server con il bot Nameless Link, per favore inserisci l'ID del server come secondo argomento.\nServer disponibili:\n%s`",
 
     "language_title": "Lingua",
     "language_update_success": "Lingua cambiata a `%s`.",
@@ -43,7 +43,7 @@
     "language_subcommands": "Argomenti validi: `set, list`.",
 
     "guild_join_success": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Per iniziare, rispondi con il tuo URL API che puoi trovare in `Pannello Staff -> Configurazione -> API`.\nPer cambiare la lingua scrivi `!language set`.",
-    "guild_join_failed_db": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Ho provato ad impostare la tua Gilda, ma ho riscontrato un errore.\nPer cambiare la lingua scrivi `!language set`.",
+    "guild_join_failed_db": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Ho provato ad impostare il tuo server, ma ho riscontrato un errore.\nPer cambiare la lingua scrivi `!language set`.",
     "guild_join_needs_renew": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Sembra che tu abbia già impostato il tuo URL API, ma non è più funzionante. Per favore rispondi con il tuo URL API che puoi trovare in `Pannello Staff -> Configurazione -> API`.\nPer cambiare la lingua scrivi `!language set`.",
     "guild_join_welcome_back": "Ciao! Ti ringraziamo per usare il bot NamelessMC. Sembra che tu abbia già impostato il tuo URL API. Bentornato.\nPer cambiare la lingua scrivi `!language set`."
   }
