@@ -72,6 +72,7 @@ public class URLCommand extends Command {
 
 		try {
 			api.setDiscordBotUrl(Main.getBotUrl());
+			api.setDiscordGuildId(guildId);
 			
 			final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
 
