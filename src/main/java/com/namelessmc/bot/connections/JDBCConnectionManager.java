@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.Validate;
@@ -77,9 +79,30 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	@Override
 	public boolean removeConnection(final long guildId) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
-			try (PreparedStatement statement = connection.prepareStatement("DLETE FROM connections WHERE guild_id=?")) {
+			try (PreparedStatement statement = connection.prepareStatement("DELETE FROM connections WHERE guild_id=?")) {
 				statement.setLong(1, guildId);
 				return statement.execute();
+			}
+		} catch (final SQLException e) {
+			throw new BackendStorageException(e);
+		}
+	}
+
+	@Override
+	public List<URL> listConnections() throws BackendStorageException {
+		try (Connection connection = this.getNewDatabaseConnection()) {
+			try (PreparedStatement statement = connection.prepareStatement("SELECT api_url FROM connections")) {
+				final ResultSet result = statement.executeQuery();
+				final List<URL> urls = new ArrayList<>();
+				while (result.next()) {
+					try {
+						urls.add(new URL(result.getString("api_url")));
+					} catch (final MalformedURLException e) {
+						System.err.println("Skipped invalid URL in listConnections(): " + result.getString("api_url"));
+						e.printStackTrace();
+					}
+				}
+				return urls;
 			}
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);

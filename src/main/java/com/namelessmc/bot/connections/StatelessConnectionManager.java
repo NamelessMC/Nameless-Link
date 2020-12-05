@@ -1,6 +1,8 @@
 package com.namelessmc.bot.connections;
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.Validate;
@@ -43,10 +45,15 @@ public class StatelessConnectionManager extends ConnectionManager {
 	public Optional<Long> getLastUsed(final long guildId) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
-
+	
+	@Override
+	public List<URL> listConnections() throws BackendStorageException {
+		return Collections.singletonList(this.api.get().getApiUrl());
+	}
 
 	@Override
 	public boolean updateConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
+
 }
