@@ -63,6 +63,7 @@ public class VerifyCommand extends Command {
     	
     	try {
     		api.get().verifyDiscord(verify, user.getIdLong());
+    		channel.sendMessage(language.get("verification_success")).queue();
     	} catch (final ApiError e) {
     		if (e.getError() == ApiError.INVALID_VALIDATE_CODE) {
     			channel.sendMessage(language.get("verification_token_invalid")).queue();
