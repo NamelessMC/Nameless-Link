@@ -30,14 +30,14 @@ public class VerifyCommand extends Command {
     	
     	final String token = args[1];
     	
-    	if (token.length() < 20 || !token.contains(":")) { // TODO Correct length
+    	if (token.length() < 40 || !token.contains(":")) {
     		channel.sendMessage(language.get("verification_token_invalid")).queue();
     		return;
     	}
     	
     	final long guildId;
     	try {
-    		guildId = Long.parseLong(token.substring(0, token.indexOf(':') - 1));
+    		guildId = Long.parseLong(token.substring(0, token.indexOf(':')));
     	} catch (final NumberFormatException e) {
     		channel.sendMessage(language.get("verification_token_invalid")).queue();
     		return;
@@ -46,12 +46,15 @@ public class VerifyCommand extends Command {
     	
     	Optional<NamelessAPI> api;
 		try {
+			System.out.println("looking up guild id " + guildId);
 			api = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
 			e.printStackTrace();
 			channel.sendMessage(language.get("verification_error")).queue();
 			return;
 		}
+		
+		System.out.println("verify token " + verify);
     	
     	if (api.isEmpty()) {
     		channel.sendMessage(language.get("verification_not_used")).queue();
@@ -59,7 +62,7 @@ public class VerifyCommand extends Command {
     	}
     	
     	try {
-    		api.get().verifyDiscord(verify, guildId);
+    		api.get().verifyDiscord(verify, user.getIdLong());
     	} catch (final ApiError e) {
     		if (e.getError() == ApiError.INVALID_VALIDATE_CODE) {
     			channel.sendMessage(language.get("verification_token_invalid")).queue();
