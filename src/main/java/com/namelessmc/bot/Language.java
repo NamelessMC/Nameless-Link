@@ -56,32 +56,34 @@ public class Language {
 	}
 
 	public String get(final String term, final Object... replacements) {
-        String translation;
-    	if (this.json.has(term)) {
-        	translation = this.json.get(term).getAsString();
-        } else if (this == DEFAULT) {
-        	// oh no
-        	throw new RuntimeException(String.format("Term '%s' is missing from default (%s) translation", term, DEFAULT.language));
-        } else {
-        	System.err.println(String.format("Language '%s' is missing term '%s', using default (%s) term instead.", this.language, term, DEFAULT.language));
-        	return DEFAULT.get(term, replacements);
-        }
-    	
-    	return String.format(translation, replacements);
+		String translation;
+		if (this.json.has(term)) {
+			translation = this.json.get(term).getAsString();
+		} else if (this == DEFAULT) {
+			// oh no
+			throw new RuntimeException(
+					String.format("Term '%s' is missing from default (%s) translation", term, DEFAULT.language));
+		} else {
+			System.err.println(String.format("Language '%s' is missing term '%s', using default (%s) term instead.",
+					this.language, term, DEFAULT.language));
+			return DEFAULT.get(term, replacements);
+		}
+
+		return String.format(translation, replacements);
 	}
 
 	public static Language getDiscordUserLanguage(final NamelessAPI api, final User user) {
-    	try {
-	        final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
-	        if (nameless.isPresent()){
-	        	return getLanguage(nameless.get().getLangage());
-	        } else {
-	        	return getLanguage(api.getWebsite().getLanguage());
-	        }
-    	} catch (final NamelessException e) {
-    		// If we can't communicate with the website, fall back to english
-    		return DEFAULT;
-    	}
+		try {
+			final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
+			if (nameless.isPresent()) {
+				return getLanguage(nameless.get().getLangage());
+			} else {
+				return getLanguage(api.getWebsite().getLanguage());
+			}
+		} catch (final NamelessException e) {
+			// If we can't communicate with the website, fall back to english
+			return DEFAULT;
+		}
 	}
 
 	public static Language getLanguage(final String languageName) {
@@ -89,17 +91,18 @@ public class Language {
 		if (language != null) {
 			return language;
 		}
-		
-    	try {
+
+		try {
 			language = new Language(languageName);
 		} catch (final LanguageLoadException e) {
-			System.err.println("Failed to load language '" + languageName + "', falling back to '" + DEFAULT.language + "'.");
+			System.err.println(
+					"Failed to load language '" + languageName + "', falling back to '" + DEFAULT.language + "'.");
 			e.printStackTrace();
 			language = DEFAULT;
 		}
-    	
-    	return language;
-    }
+
+		return language;
+	}
 
 	private class LanguageLoadException extends Exception {
 

@@ -13,7 +13,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 
 	private final long guildId;
 	private final Optional<NamelessAPI> api; // Keep one instance for performance
-	
+
 	public StatelessConnectionManager(final long guildId, final URL apiUrl) {
 		Validate.notNull(guildId, "Guild ID not specified");
 		Validate.notNull(apiUrl, "API URL not specified");
@@ -21,7 +21,6 @@ public class StatelessConnectionManager extends ConnectionManager {
 		this.api = Optional.of(new NamelessAPI(apiUrl));
 	}
 
-	
 	@Override
 	public Optional<NamelessAPI> getApi(final long guildId) {
 		if (guildId != this.guildId) {
@@ -45,7 +44,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	public Optional<Long> getLastUsed(final long guildId) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
-	
+
 	@Override
 	public List<URL> listConnections() throws BackendStorageException {
 		return Collections.singletonList(this.api.get().getApiUrl());

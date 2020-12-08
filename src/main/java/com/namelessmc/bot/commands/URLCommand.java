@@ -66,14 +66,14 @@ public class URLCommand extends Command {
 		} catch (final NamelessException e) {
 			System.out.println("NOT AN ERROR");
 			e.printStackTrace();
-			channel.sendMessage(language.get("apiurl_failed_connection")).queue();																										// Message
+			channel.sendMessage(language.get("apiurl_failed_connection")).queue(); // Message
 			return;
 		}
 
 		try {
 			api.setDiscordBotUrl(Main.getBotUrl());
 			api.setDiscordGuildId(guildId);
-			
+
 			final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
 
 			if (oldApi.isEmpty()) {

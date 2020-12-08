@@ -8,19 +8,19 @@ import com.namelessmc.bot.Main;
 
 public class HttpMain {
 
-    public static void init() {
-    	final Server server = new Server();
-    	final ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+	public static void init() {
+		final Server server = new Server();
+		final ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		handler.addServlet(ConnectionTest.class, "/");
 		handler.addServlet(RoleChange.class, "/roleChange");
 		server.setHandler(handler);
 
-        final ServerConnector connector = new ServerConnector(server);
-        connector.setPort(Main.getWebserverPort());
-  
-        server.addConnector(connector);
-        
-        new Thread() {
+		final ServerConnector connector = new ServerConnector(server);
+		connector.setPort(Main.getWebserverPort());
+
+		server.addConnector(connector);
+
+		new Thread() {
 			@Override
 			public void run() {
 				try {
@@ -30,8 +30,8 @@ public class HttpMain {
 					e.printStackTrace();
 					System.exit(1);
 				}
-				
+
 			}
 		}.start();
-    }
+	}
 }

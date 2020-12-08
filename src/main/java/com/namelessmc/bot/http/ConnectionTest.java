@@ -21,5 +21,5 @@ public class ConnectionTest extends HttpServlet {
 			response.getWriter().print("success");
 		}
 	}
-    
+
 }

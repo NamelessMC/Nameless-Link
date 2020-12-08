@@ -19,29 +19,31 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordRoleListener extends ListenerAdapter {
 
-    @Getter
-    private static final List<Member> recentlyEdited = new ArrayList<>();
+	@Getter
+	private static final List<Member> recentlyEdited = new ArrayList<>();
 
-    @Override
-    public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
-        if (getRecentlyEdited().contains(event.getMember()) || event.getUser().isBot()) {
-			return;
-		}
-        
-        process(event.getGuild().getIdLong(), event.getUser().getIdLong(), event.getRoles(), true);
-    }
-
-    @Override
-    public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-        if (getRecentlyEdited().contains(event.getMember()) || event.getUser().isBot()) {
+	@Override
+	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
+		if (getRecentlyEdited().contains(event.getMember()) || event.getUser().isBot()) {
 			return;
 		}
 
-        process(event.getGuild().getIdLong(), event.getUser().getIdLong(), event.getRoles(), false);
-    }
-    
-    private void process(final long guildId, final long userId, final List<Role> roles, final boolean add) {
-        Optional<NamelessAPI> api;
+		process(event.getGuild().getIdLong(), event.getUser().getIdLong(), event.getRoles(), true);
+	}
+
+	@Override
+	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
+		if (getRecentlyEdited().contains(event.getMember()) || event.getUser().isBot()) {
+			return;
+		}
+
+		process(event.getGuild().getIdLong(), event.getUser().getIdLong(), event.getRoles(), false);
+	}
+
+	private void process(final long guildId, final long userId, final List<Role> roles, final boolean add) {
+		System.out.println(String.format("Processing role change guildid=%s userid=%s add=%s", guildId, userId, add));
+
+		Optional<NamelessAPI> api;
 		try {
 			api = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
@@ -49,35 +51,35 @@ public class DiscordRoleListener extends ListenerAdapter {
 			return;
 		}
 
-        if (api.isEmpty()) {
-            Main.debug("API URL not setup in " + guildId);
-            return;
-        }
-        
-        Optional<NamelessUser> user;
+		if (api.isEmpty()) {
+			Main.debug("API URL not setup in " + guildId);
+			return;
+		}
+
+		Optional<NamelessUser> user;
 		try {
 			user = api.get().getUserByDiscordId(guildId);
 		} catch (final NamelessException e) {
-			// API URL is invalid or website is down
-			// TODO handle properly, probably just silence
+			// TODO handle properly
+			System.out.println("Website down - probably not an error");
 			e.printStackTrace();
 			return;
 		}
-        
-        if (user.isEmpty()) {
+
+		if (user.isEmpty()) {
 			Main.debug("User is not registered in " + guildId);
 			return;
 		}
-        
-        try {
-        	final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
-        	if (add) {
-        		user.get().addDiscordRoles(roleIds);
-        	} else {
-        		user.get().removeDiscordRoles(roleIds);
-        	}
-	    } catch (final NamelessException e) {
-	        Main.debug("[ERROR] Error while updating webrank: " + e.getMessage() + " for " + userId);
-	    }
-    }
+
+		try {
+			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
+			if (add) {
+				user.get().addDiscordRoles(roleIds);
+			} else {
+				user.get().removeDiscordRoles(roleIds);
+			}
+		} catch (final NamelessException e) {
+			Main.debug("[ERROR] Error while updating webrank: " + e.getMessage() + " for " + userId);
+		}
+	}
 }

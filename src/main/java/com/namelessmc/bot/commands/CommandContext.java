@@ -1,7 +1,5 @@
 package com.namelessmc.bot.commands;
 
 public enum CommandContext {
-    PRIVATE_MESSAGE,
-    GUILD_MESSAGE,
-    BOTH
+	PRIVATE_MESSAGE, GUILD_MESSAGE, BOTH
 }
