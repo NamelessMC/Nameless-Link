@@ -46,15 +46,12 @@ public class VerifyCommand extends Command {
     	
     	Optional<NamelessAPI> api;
 		try {
-			System.out.println("looking up guild id " + guildId);
 			api = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
 			e.printStackTrace();
 			channel.sendMessage(language.get("verification_error")).queue();
 			return;
 		}
-		
-		System.out.println("verify token " + verify);
     	
     	if (api.isEmpty()) {
     		channel.sendMessage(language.get("verification_not_used")).queue();
@@ -62,14 +59,14 @@ public class VerifyCommand extends Command {
     	}
     	
     	try {
-    		api.get().verifyDiscord(verify, user.getIdLong());
+    		api.get().verifyDiscord(verify, user.getIdLong(), user.getName() + "#" + user.getDiscriminator());
     		channel.sendMessage(language.get("verification_success")).queue();
     	} catch (final ApiError e) {
-    		if (e.getError() == ApiError.INVALID_VALIDATE_CODE) {
+    		if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
     			channel.sendMessage(language.get("verification_token_invalid")).queue();
         		return;
     		} else {
-    			e.printStackTrace();
+    			System.out.println("Unexpected error code " + e.getError() + " when trying to verify user");
     			channel.sendMessage(language.get("verification_error")).queue();
         		return;
     		}
