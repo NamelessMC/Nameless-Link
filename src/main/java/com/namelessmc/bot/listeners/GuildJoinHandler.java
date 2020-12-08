@@ -40,15 +40,9 @@ public class GuildJoinHandler extends ListenerAdapter {
 				language = Language.getDiscordUserLanguage(api.get(),
 						event.getGuild().retrieveOwner().complete().getUser());
 				Utils.messageGuildOwner(event.getGuild().getId(), language.get("guild_join_welcome_back"));
-				Main.debug("Sent already complete message to "
-						+ event.getGuild().retrieveOwner().complete().getEffectiveName() + " for guild "
-						+ event.getGuild().getName());
 			} catch (final NamelessException e) {
 				// Error with their stored url. Make them update the url
 				Utils.messageGuildOwner(event.getGuild().getId(), language.get("guild_join_needs_renew"));
-				Main.debug("Sent update api url message to "
-						+ event.getGuild().retrieveOwner().complete().getEffectiveName() + " for guild "
-						+ event.getGuild().getName());
 			}
 		}
 	}

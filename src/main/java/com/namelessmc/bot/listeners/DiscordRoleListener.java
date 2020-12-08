@@ -52,13 +52,12 @@ public class DiscordRoleListener extends ListenerAdapter {
 		}
 
 		if (api.isEmpty()) {
-			Main.debug("API URL not setup in " + guildId);
 			return;
 		}
 
 		Optional<NamelessUser> user;
 		try {
-			user = api.get().getUserByDiscordId(guildId);
+			user = api.get().getUserByDiscordId(userId);
 		} catch (final NamelessException e) {
 			// TODO handle properly
 			System.out.println("Website down - probably not an error");
@@ -67,7 +66,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 		}
 
 		if (user.isEmpty()) {
-			Main.debug("User is not registered in " + guildId);
 			return;
 		}
 
@@ -79,7 +77,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 				user.get().removeDiscordRoles(roleIds);
 			}
 		} catch (final NamelessException e) {
-			Main.debug("[ERROR] Error while updating webrank: " + e.getMessage() + " for " + userId);
+			System.err.println("Error while updating webrank: " + e.getMessage() + " for " + userId);
 		}
 	}
 }

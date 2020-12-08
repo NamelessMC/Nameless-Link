@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.Validate;
 
+import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
 
 public abstract class JDBCConnectionManager extends ConnectionManager {
@@ -39,7 +40,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				statement.executeUpdate();
 			}
 
-			return Optional.of(new NamelessAPI(new URL(apiUrl)));
+			return Optional.of(Main.newApiConnection(new URL(apiUrl)));
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
 		} catch (final MalformedURLException e) {

@@ -61,7 +61,7 @@ public class URLCommand extends Command {
 		// Check if API URL works
 		NamelessAPI api;
 		try {
-			api = new NamelessAPI(apiUrl);
+			api = Main.newApiConnection(apiUrl);
 			api.checkWebAPIConnection();
 		} catch (final NamelessException e) {
 			System.out.println("NOT AN ERROR");

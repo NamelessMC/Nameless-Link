@@ -49,8 +49,6 @@ public class Main {
 	@Getter
 	private static int webserverPort;
 
-	private static boolean debugging = false;
-
 	public static void main(final String[] args) throws IOException, BackendStorageException {
 		initializeConnectionManager();
 
@@ -95,11 +93,6 @@ public class Main {
 			return;
 		}
 
-		if (args.length >= 1 && args[0].equals("-debug")) {
-			log("Debugging enabled");
-			debugging = true;
-		}
-
 		HttpMain.init();
 
 		// Register commands
@@ -115,7 +108,7 @@ public class Main {
 				for (final URL url : connectionManager.listConnections()) {
 					System.out.print("Sending to " + url.toString() + "... ");
 					try {
-						new NamelessAPI(url).setDiscordBotUrl(botUrl);
+						Main.newApiConnection(url).setDiscordBotUrl(botUrl);
 						System.out.println("OK");
 					} catch (final NamelessException e) {
 						System.out.println("error");
@@ -143,14 +136,16 @@ public class Main {
 
 		connectionManager = init.get();
 	}
+	
+	public static NamelessAPI newApiConnection(final URL url) {
+		// TODO api object caching
+		final String userAgent = "Nameless-Link"; // TODO proper user agent
+		final boolean debug = true; // TODO debug configurable
+		return new NamelessAPI(url, userAgent, debug);
+	}
 
 	public static void log(final String message) {
 		logger.info("[INFO] " + message);
 	}
 
-	public static void debug(final String message) {
-		if (debugging) {
-			logger.info("[DEBUG] " + message);
-		}
-	}
 }

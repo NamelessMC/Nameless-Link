@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.Validate;
 
+import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
 
 public class StatelessConnectionManager extends ConnectionManager {
@@ -18,7 +19,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 		Validate.notNull(guildId, "Guild ID not specified");
 		Validate.notNull(apiUrl, "API URL not specified");
 		this.guildId = guildId;
-		this.api = Optional.of(new NamelessAPI(apiUrl));
+		this.api = Optional.of(Main.newApiConnection(apiUrl));
 	}
 
 	@Override
