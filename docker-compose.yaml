@@ -1,22 +1,24 @@
+# start with
+# ./build.sh && docker-compose up --build
+
 version: '3'
 
 services:
 
   postgres:
-    image: namelessmc/discord-link-postgres
-    volumes: ['/opt/nameless-link/postgres:/var/lib/postgresql/data']
+    build: postgres-docker
+    volumes: ['/opt/nameless-link:/var/lib/postgresql/data']
     environment:
-      POSTGRES_PASSWORD: something_secure
-    restart: always
+      POSTGRES_PASSWORD: postgres
 
   link:
-    image: namelessmc/discord-link
-    ports: ['8181:80'] # Not for production, use a reverse proxy!
+    build: .
+    ports: ['27362:80']
+    env_file: secrets.env # Contains DISCORD_TOKEN= and BOT_URL=
     environment:
-      BOT_URL: http://localhost:8080 # Externally reachable URL to your bot
-      DISCORD_TOKEN:
       STORAGE_TYPE: postgres
+      POSTGRES_HOSTNAME: postgres
       POSTGRES_NAME: postgres
       POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: something_secure
+      POSTGRES_PASSWORD: postgres
 
