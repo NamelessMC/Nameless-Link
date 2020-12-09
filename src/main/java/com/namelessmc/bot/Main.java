@@ -29,6 +29,7 @@ import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -103,12 +104,16 @@ public class Main {
 
 		// TODO be smarter about this, don't spam requests at startup
 		scheduler.schedule(() -> {
-			System.out.println("Updating external bot URLs..");
+			System.out.println("Updating bot settings..");
 			try {
+				final User user = jda.getSelfUser();
+				final String username = user.getName() + "#" + user.getDiscriminator();
 				for (final URL url : connectionManager.listConnections()) {
 					System.out.print("Sending to " + url.toString() + "... ");
 					try {
-						Main.newApiConnection(url).setDiscordBotUrl(botUrl);
+						final NamelessAPI api = Main.newApiConnection(url);
+						api.setDiscordBotUrl(botUrl);
+						api.setDiscordBotUser(username, user.getIdLong());
 						System.out.println("OK");
 					} catch (final NamelessException e) {
 						System.out.println("error");
