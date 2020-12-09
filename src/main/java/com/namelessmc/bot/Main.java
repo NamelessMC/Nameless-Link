@@ -99,6 +99,7 @@ public class Main {
 		// Register commands
 		new VerifyCommand();
 		new URLCommand();
+		new VerifyCommand();
 
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 

@@ -12,7 +12,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
 public class URLCommand extends Command {
@@ -22,11 +22,11 @@ public class URLCommand extends Command {
 	}
 
 	@Override
-	public void execute(final User user, final String[] args, final MessageChannel channel) {
+	public void execute(final User user, final String[] args, final Message message) {
 		final Language language = Language.DEFAULT;
 
 		if (args.length != 3) {
-			channel.sendMessage(language.get("apiurl_usage")).queue();
+			message.reply(language.get("apiurl_usage")).queue();
 			return;
 		}
 
@@ -34,7 +34,7 @@ public class URLCommand extends Command {
 		try {
 			guildId = Long.parseLong(args[1]);
 		} catch (final NumberFormatException e) {
-			channel.sendMessage(language.get("apiurl_guild_invalid")).queue();
+			message.reply(language.get("apiurl_guild_invalid")).queue();
 			return;
 		}
 
@@ -42,19 +42,19 @@ public class URLCommand extends Command {
 		try {
 			apiUrl = new URL(args[2]);
 		} catch (final MalformedURLException e) {
-			channel.sendMessage(language.get("apiurl_url_malformed")).queue();
+			message.reply(language.get("apiurl_url_malformed")).queue();
 			return;
 		}
 
 		final Guild guild = Main.getJda().getGuildById(guildId);
 
 		if (guild == null) {
-			channel.sendMessage(language.get("apiurl_guild_invalid")).queue();
+			message.reply(language.get("apiurl_guild_invalid")).queue();
 			return;
 		}
 
 		if (guild.getOwnerIdLong() != user.getIdLong()) {
-			channel.sendMessage(language.get("apiurl_not_owner")).queue();
+			message.reply(language.get("apiurl_not_owner")).queue();
 			return;
 		}
 
@@ -64,9 +64,7 @@ public class URLCommand extends Command {
 			api = Main.newApiConnection(apiUrl);
 			api.checkWebAPIConnection();
 		} catch (final NamelessException e) {
-			System.out.println("NOT AN ERROR");
-			e.printStackTrace();
-			channel.sendMessage(language.get("apiurl_failed_connection")).queue(); // Message
+			message.reply(language.get("apiurl_failed_connection")).queue();
 			return;
 		}
 
@@ -79,16 +77,16 @@ public class URLCommand extends Command {
 			if (oldApi.isEmpty()) {
 				// User is setting up new connection
 				Main.getConnectionManager().newConnection(guildId, apiUrl);
-				channel.sendMessage(language.get("apiurl_success_new")).queue();
+				message.reply(language.get("apiurl_success_new")).queue();
 			} else {
 				// User is modifying API url for existing connection
 				Main.getConnectionManager().updateConnection(guildId, apiUrl);
-				channel.sendMessage(language.get("apiurl_success_updated")).queue();
+				message.reply(language.get("apiurl_success_updated")).queue();
 			}
-		} catch (final BackendStorageException | NamelessException e) {
-			System.out.println("NOT AN ERROR");
-			e.printStackTrace();
-			channel.sendMessage(language.get("apiurl_error")).queue();
+		} catch (final BackendStorageException e) {
+			message.reply(language.get("error_generic")).queue();
+		} catch (final NamelessException e) {
+			message.reply(language.get("apiurl_failed_connection")).queue();
 		}
 	}
 }

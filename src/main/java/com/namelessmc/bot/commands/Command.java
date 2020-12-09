@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import lombok.Getter;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
 public abstract class Command {
@@ -45,7 +45,7 @@ public abstract class Command {
 		}
 	}
 
-	public abstract void execute(User user, String[] args, MessageChannel channel);
+	public abstract void execute(User user, String[] args, Message message);
 
 	public static Command getCommand(final String label, final CommandContext context) {
 		for (final Command command : registeredCommands.values()) {

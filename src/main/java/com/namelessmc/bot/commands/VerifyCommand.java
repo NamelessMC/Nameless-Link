@@ -10,7 +10,7 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
 public class VerifyCommand extends Command {
@@ -20,18 +20,18 @@ public class VerifyCommand extends Command {
 	}
 
 	@Override
-	public void execute(final User user, final String[] args, final MessageChannel channel) {
+	public void execute(final User user, final String[] args, final Message message) {
 		final Language language = Language.DEFAULT;
 
 		if (args.length != 2) {
-			channel.sendMessage(language.get("verification_usage")).queue();
+			message.reply(language.get("verification_usage")).queue();
 			return;
 		}
 
 		final String token = args[1];
 
 		if (token.length() < 40 || !token.contains(":")) {
-			channel.sendMessage(language.get("verification_token_invalid")).queue();
+			message.reply(language.get("verification_token_invalid")).queue();
 			return;
 		}
 
@@ -39,7 +39,7 @@ public class VerifyCommand extends Command {
 		try {
 			guildId = Long.parseLong(token.substring(0, token.indexOf(':')));
 		} catch (final NumberFormatException e) {
-			channel.sendMessage(language.get("verification_token_invalid")).queue();
+			message.reply(language.get("verification_token_invalid")).queue();
 			return;
 		}
 		final String verify = token.substring(token.indexOf(':') + 1);
@@ -49,31 +49,29 @@ public class VerifyCommand extends Command {
 			api = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
 			e.printStackTrace();
-			channel.sendMessage(language.get("verification_error")).queue();
+			message.reply(language.get("error_generic")).queue();
 			return;
 		}
 
 		if (api.isEmpty()) {
-			channel.sendMessage(language.get("verification_not_used")).queue();
+			message.reply(language.get("verification_not_used")).queue();
 			return;
 		}
 
 		try {
 			api.get().verifyDiscord(verify, user.getIdLong(), user.getName() + "#" + user.getDiscriminator());
-			channel.sendMessage(language.get("verification_success")).queue();
+			message.reply(language.get("verification_success")).queue();
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
-				channel.sendMessage(language.get("verification_token_invalid")).queue();
+				message.reply(language.get("verification_token_invalid")).queue();
 				return;
 			} else {
 				System.out.println("Unexpected error code " + e.getError() + " when trying to verify user");
-				channel.sendMessage(language.get("verification_error")).queue();
+				message.reply(language.get("verification_error")).queue();
 				return;
 			}
 		} catch (final NamelessException e) {
-			System.out.println("NOT AN ERROR");
-			e.printStackTrace();
-			channel.sendMessage(language.get("verification_error")).queue();
+			message.reply(language.get("error_website_connection")).queue();
 			return;
 		}
 	}

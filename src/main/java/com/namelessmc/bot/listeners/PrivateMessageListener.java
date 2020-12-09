@@ -28,7 +28,7 @@ public class PrivateMessageListener extends ListenerAdapter {
 
 		final Command command = Command.getCommand(args[0], CommandContext.PRIVATE_MESSAGE);
 		if (command != null) {
-			command.execute(user, args, event.getChannel());
+			command.execute(user, args, event.getMessage());
 		} else {
 			// TODO How do we get the user's language here? Which website do we use?
 			final Language language = Language.DEFAULT;
