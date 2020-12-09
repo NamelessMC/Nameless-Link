@@ -12,7 +12,7 @@
         "verification_failed_db": "Error: `No se puede eliminar su verificación pendiente de la base de datos.`",
         "verification_success": "Su cuenta fue verificada correctamente!",
 
-        "verify_id_message": "Someone has request to link this Discord account with a NamelessMC web account. If this was you, please reply with the token you got on the website. If this was not you, you can safely ignore this message.\nTo change my language type `!language set`.",
+        "verify_id_message": "Alguien ha solicitado vincular esta cuenta de Discord con una cuenta web de NamelessMC. Si fue usted, responda con el token que recibió en el sitio web. Si no fue usted, puede ignorar este mensaje con seguridad. \nTo change my language type `!language set`.",
 
         "link_guild_title": "Enlaze de el gremio",
         "link_guild_saving": "La URL de API y la identificación de gremio que envió fueron válidas. Guardando datos ...",

@@ -33,13 +33,13 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.4</version>
-				
+
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<!-- TODO enable this and force include postgres driver -->
 					<minimizeJar>false</minimizeJar>
 				</configuration>
-				
+
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_214</version>
+			<version>4.2.0_222</version>
 		</dependency>
 
 		<dependency>
