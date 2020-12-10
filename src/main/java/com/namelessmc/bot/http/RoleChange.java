@@ -27,7 +27,6 @@ public class RoleChange extends HttpServlet {
 		final long guildId = Long.parseLong(request.getParameter("guild_id"));
 		final Guild guild = Main.getJda().getGuildById(guildId);
 		final Member member = guild.getMemberById(Long.parseLong(request.getParameter("id")));
-		DiscordRoleListener.getRecentlyEdited().add(member);
 		final String apiUrl = request.getParameter("api_url");
 
 		String htmlResponse;
@@ -36,7 +35,7 @@ public class RoleChange extends HttpServlet {
 		try {
 			api = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
-			e.printStackTrace(); // TODO handle
+			e.printStackTrace();
 			return;
 		}
 
@@ -54,18 +53,17 @@ public class RoleChange extends HttpServlet {
 				if (newRole != null) {
 					guild.addRoleToMember(member.getId(), newRole).complete();
 				}
-			} catch (NullPointerException | NumberFormatException ignored) {
-			} // TODO don't ignore
-			try {
 				final String oldRoleId = request.getParameter("oldRole").toString();
 				final Role oldRole = guild.getRoleById(oldRoleId);
 				if (oldRole != null) {
 					guild.removeRoleFromMember(member.getId(), oldRole).complete();
 				}
+				Main.log("Processed role update (Website -> Discord) for " + member.getEffectiveName() + ".");
+				htmlResponse = "success";
+				DiscordRoleListener.usersRecentlyUpdatedByWebsite.add(member.getIdLong());
 			} catch (NullPointerException | NumberFormatException ignored) {
 			} // TODO don't ignore
-			Main.log("Processed role update (Website -> Discord) for " + member.getEffectiveName() + ".");
-			htmlResponse = "success";
+			htmlResponse = "error";
 		}
 
 		response.setContentLength(htmlResponse.length());
@@ -73,8 +71,6 @@ public class RoleChange extends HttpServlet {
 		try (OutputStream stream = response.getOutputStream()) {
 			stream.write(htmlResponse.getBytes());
 		}
-
-		DiscordRoleListener.getRecentlyEdited().remove(member);
 	}
 
 }

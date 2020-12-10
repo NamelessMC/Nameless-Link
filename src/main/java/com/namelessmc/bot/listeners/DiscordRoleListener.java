@@ -1,8 +1,11 @@
 package com.namelessmc.bot.listeners;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
@@ -10,39 +13,69 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 
-import lombok.Getter;
-import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
+import net.dv8tion.jda.api.events.role.RoleCreateEvent;
+import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordRoleListener extends ListenerAdapter {
-
-	@Getter
-	private static final List<Member> recentlyEdited = new ArrayList<>();
+	
+	@Override
+	public void onRoleCreate(final RoleCreateEvent event) {
+		sendRoleListToWebsite(event.getGuild());
+	}
+	
+	@Override
+	public void onRoleDelete(final RoleDeleteEvent event) {
+		sendRoleListToWebsite(event.getGuild());
+	}
+	
+	public static void sendRoleListToWebsite(final Guild guild) {
+		System.out.println("Sending roles for " + guild.getIdLong() + " to website");
+		try {
+			final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApi(guild.getIdLong());
+			if (optApi.isPresent()) {
+				final Map<Long, String> roles = guild.getRoles().stream().collect(Collectors.toMap(Role::getIdLong, Role::getName));
+				optApi.get().submitDiscordRoleList(roles);
+			}
+		} catch (final BackendStorageException e) {
+			e.printStackTrace();
+		} catch (final NamelessException e) {
+			System.err.println("API error sending role update for guild " + guild.getIdLong());
+		}
+	}
+	
+	public static final Set<Long> usersRecentlyUpdatedByWebsite = new HashSet<>();
 
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
-		if (getRecentlyEdited().contains(event.getMember()) || event.getUser().isBot()) {
-			return;
-		}
-
-		process(event.getGuild().getIdLong(), event.getUser().getIdLong(), event.getRoles(), true);
+		process(event.getGuild().getIdLong(), event.getUser(), event.getRoles(), true);
 	}
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-		if (getRecentlyEdited().contains(event.getMember()) || event.getUser().isBot()) {
-			return;
-		}
-
-		process(event.getGuild().getIdLong(), event.getUser().getIdLong(), event.getRoles(), false);
+		process(event.getGuild().getIdLong(), event.getUser(), event.getRoles(), false);
 	}
 
-	private void process(final long guildId, final long userId, final List<Role> roles, final boolean add) {
+	private void process(final long guildId, final User discordUser, final List<Role> roles, final boolean add) {
+		if (discordUser.isBot()) {
+			return;
+		}
+		
+		final long userId = discordUser.getIdLong();
+		if (usersRecentlyUpdatedByWebsite.contains(userId)) {
+			// No need to send rank change to website if we
+			// just received this role update from the website
+			usersRecentlyUpdatedByWebsite.remove(userId);
+			return;
+		}
+		
 		System.out.println(String.format("Processing role change guildid=%s userid=%s add=%s", guildId, userId, add));
-
+		
 		Optional<NamelessAPI> api;
 		try {
 			api = Main.getConnectionManager().getApi(guildId);
@@ -59,9 +92,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 		try {
 			user = api.get().getUserByDiscordId(userId);
 		} catch (final NamelessException e) {
-			// TODO handle properly
-			System.out.println("Website down - probably not an error");
-			e.printStackTrace();
+			System.err.println("API error sending role update for user " + userId + " guild " + guildId);
 			return;
 		}
 

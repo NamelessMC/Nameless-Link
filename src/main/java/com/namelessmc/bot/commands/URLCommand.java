@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
@@ -83,6 +84,8 @@ public class URLCommand extends Command {
 				Main.getConnectionManager().updateConnection(guildId, apiUrl);
 				message.reply(language.get("apiurl_success_updated")).queue();
 			}
+			
+			DiscordRoleListener.sendRoleListToWebsite(guild);
 		} catch (final BackendStorageException e) {
 			message.reply(language.get("error_generic")).queue();
 		} catch (final NamelessException e) {
