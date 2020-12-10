@@ -1,9 +1,11 @@
 package com.namelessmc.bot.http;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Optional;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
@@ -19,58 +21,112 @@ import net.dv8tion.jda.api.entities.Role;
 public class RoleChange extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static boolean timingSafeEquals(final byte[] a, final byte[] b) {
+	    if (a.length != b.length) {
+	        return false;
+	    }
+
+	    int result = 0;
+	    for (int i = 0; i < a.length; i++) {
+	      result |= a[i] ^ b[i];
+	    }
+	    return result == 0;
+	}
 
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		// TODO Check if parameters exist
-		// TODO Catch long parse exceptions
-		final long guildId = Long.parseLong(request.getParameter("guild_id"));
-		final Guild guild = Main.getJda().getGuildById(guildId);
-		final Member member = guild.getMemberById(Long.parseLong(request.getParameter("id")));
-		final String apiUrl = request.getParameter("api_url");
-
-		String htmlResponse;
-
-		Optional<NamelessAPI> api;
+	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		response.setContentType("text/plain");
+		
+		final JsonObject json;
+		final long guildId;
+		final long userId;
+		final String apiKey;
 		try {
-			api = Main.getConnectionManager().getApi(guildId);
-		} catch (final BackendStorageException e) {
-			e.printStackTrace();
+			json = (JsonObject) JsonParser.parseReader(request.getReader());
+			guildId = json.get("guild_id").getAsLong();
+			userId = json.get("user_id").getAsLong();
+			apiKey = request.getParameter("api_key");
+		} catch (JsonSyntaxException | IllegalArgumentException e) {
+			response.getWriter().write("badparameter");
 			return;
 		}
 
-		if (!guild.getMemberById(Main.getJda().getSelfUser().getId()).canInteract(member) || api.isEmpty()) {
-			Main.log("Cannot interact with " + member.getEffectiveName() + " in " + guild.getName());
-			htmlResponse = "failure-cannot-interact";
-		} else if (!apiUrl.equals(api.get().getApiUrl().toString())) {
-			// TODO Why this check?
-			Main.log("Invalid Guild API URL sent for " + member.getEffectiveName() + " in " + guild.getName());
-			htmlResponse = "failure-invalid-api-url";
-		} else {
-			try {
-				final String newRoleId = request.getParameter("role").toString();
-				final Role newRole = guild.getRoleById(newRoleId);
-				if (newRole != null) {
-					guild.addRoleToMember(member.getId(), newRole).complete();
-				}
-				final String oldRoleId = request.getParameter("oldRole").toString();
-				final Role oldRole = guild.getRoleById(oldRoleId);
-				if (oldRole != null) {
-					guild.removeRoleFromMember(member.getId(), oldRole).complete();
-				}
-				Main.log("Processed role update (Website -> Discord) for " + member.getEffectiveName() + ".");
-				htmlResponse = "success";
-				DiscordRoleListener.usersRecentlyUpdatedByWebsite.add(member.getIdLong());
-			} catch (NullPointerException | NumberFormatException ignored) {
-			} // TODO don't ignore
-			htmlResponse = "error";
+		
+		
+		final Guild guild = Main.getJda().getGuildById(guildId);
+		if (guild == null) {
+			response.getWriter().write("invguild");
+			return;
 		}
+		
+		final Member member = guild.getMemberById(userId);
+		
+		if (member == null) {
+			response.getWriter().write("invuser");
+			return;
+		}
+		
+		Optional<NamelessAPI> optApi;
+		try {
+			optApi = Main.getConnectionManager().getApi(guildId);
+		} catch (final BackendStorageException e) {
+			response.getWriter().write("error");
+			e.printStackTrace();
+			return;
+		}
+		
+		if (optApi.isEmpty()) {
+			response.getWriter().write("notlinked");
+			return;
+		}
+		
+		final NamelessAPI api = optApi.get();
+		
+		if (!timingSafeEquals(apiKey.getBytes(), api.getApiKey().getBytes())) {
+			response.getWriter().write("unauthorized");
+			return;
+		}
+		
+		synchronized(DiscordRoleListener.usersRecentlyUpdatedByWebsite) {
+			final Boolean a = changeRoles(json, true, member, guild);
+			final Boolean b = changeRoles(json, true, member, guild);
+			
+			if (a == false || b == false) {
+				response.getWriter().write("invrole");
+				return;
+			}
+			
+			DiscordRoleListener.usersRecentlyUpdatedByWebsite.add(userId);
+		}
+		response.getWriter().write("success");
+	}
 
-		response.setContentLength(htmlResponse.length());
-		response.setContentType("text/plain");
-		try (OutputStream stream = response.getOutputStream()) {
-			stream.write(htmlResponse.getBytes());
+	private Boolean changeRoles(final JsonObject json, final boolean add, final Member member, final Guild guild) {
+		final String memberName = add ? "add_role_id" : "remove_role_id";
+		if (!json.has(memberName)) {
+			return null;
 		}
+		
+		final long roleId;
+		try {
+			roleId = json.get(memberName).getAsLong();
+		} catch (JsonSyntaxException | IllegalArgumentException e) {
+			return false;
+		}
+		
+		final Role role = Main.getJda().getRoleById(roleId);
+		if (role == null) {
+			return false;
+		}
+		
+		if (add) {
+			guild.addRoleToMember(member, role);
+		} else {
+			guild.removeRoleFromMember(member, role);
+		}
+		
+		return true;
 	}
 
 }
