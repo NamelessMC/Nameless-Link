@@ -60,7 +60,8 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-			synchronized(usersRecentlyUpdatedByWebsite) {
+		synchronized(usersRecentlyUpdatedByWebsite) {
+			process(event.getGuild().getIdLong(), event.getUser(), event.getRoles(), false);
 		}
 	}
 
