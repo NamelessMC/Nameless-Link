@@ -13,6 +13,7 @@ import javax.security.auth.login.LoginException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.commands.URLCommand;
+import com.namelessmc.bot.commands.UpdateUsernameCommand;
 import com.namelessmc.bot.commands.VerifyCommand;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.connections.ConnectionManager;
@@ -85,10 +86,15 @@ public class Main {
 				System.err.println("Environment variable DISCORD_TOKEN not specified");
 				System.exit(1);
 			}
-			jda = JDABuilder.createDefault(token).addEventListeners(new GuildJoinHandler())
-					.addEventListeners(new PrivateMessageListener()).addEventListeners(new GuildMessageListener())
-					.addEventListeners(new DiscordRoleListener()).setChunkingFilter(ChunkingFilter.ALL)
-					.setMemberCachePolicy(MemberCachePolicy.ALL).enableIntents(GatewayIntent.GUILD_MEMBERS).build();
+			jda = JDABuilder.createDefault(token)
+					.addEventListeners(new GuildJoinHandler())
+					.addEventListeners(new PrivateMessageListener())
+					.addEventListeners(new GuildMessageListener())
+					.addEventListeners(new DiscordRoleListener())
+					.setChunkingFilter(ChunkingFilter.ALL)
+					.setMemberCachePolicy(MemberCachePolicy.ALL)
+					.enableIntents(GatewayIntent.GUILD_MEMBERS)
+					.build();
 		} catch (final LoginException e) {
 			e.printStackTrace();
 			return;
@@ -97,7 +103,7 @@ public class Main {
 		HttpMain.init();
 
 		// Register commands
-		new VerifyCommand();
+		new UpdateUsernameCommand();
 		new URLCommand();
 		new VerifyCommand();
 
