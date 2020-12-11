@@ -16,10 +16,12 @@ import com.namelessmc.java_api.NamelessUser;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
 import net.dv8tion.jda.api.events.role.RoleCreateEvent;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordRoleListener extends ListenerAdapter {
@@ -31,6 +33,10 @@ public class DiscordRoleListener extends ListenerAdapter {
 	
 	@Override
 	public void onRoleDelete(final RoleDeleteEvent event) {
+		sendRoleListToWebsite(event.getGuild());
+	}
+	
+	public void onRoleUpdate(final RoleUpdateNameEvent event) {
 		sendRoleListToWebsite(event.getGuild());
 	}
 	
@@ -54,18 +60,22 @@ public class DiscordRoleListener extends ListenerAdapter {
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
 		synchronized(usersRecentlyUpdatedByWebsite) {
-			process(event.getGuild().getIdLong(), event.getUser(), event.getRoles(), true);
+			process(event);
 		}
 	}
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
 		synchronized(usersRecentlyUpdatedByWebsite) {
-			process(event.getGuild().getIdLong(), event.getUser(), event.getRoles(), false);
+			process(event);
 		}
 	}
 
-	private void process(final long guildId, final User discordUser, final List<Role> roles, final boolean add) {
+	private void process(final GenericGuildMemberEvent event) {
+		final User discordUser = event.getUser();
+		final List<Role> roles = event.getGuild().getMember(discordUser).getRoles();
+		final long guildId = event.getGuild().getIdLong();
+		
 		if (discordUser.isBot()) {
 			return;
 		}
@@ -78,7 +88,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			return;
 		}
 		
-		System.out.println(String.format("Processing role change guildid=%s userid=%s add=%s", guildId, userId, add));
+		System.out.println(String.format("Processing role change guildid=%s userid=%s", guildId, userId));
 		
 		Optional<NamelessAPI> api;
 		try {
@@ -106,11 +116,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 		try {
 			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
-			if (add) {
-				user.get().addDiscordRoles(roleIds);
-			} else {
-				user.get().removeDiscordRoles(roleIds);
-			}
+			user.get().setDiscordRoles(roleIds);
 		} catch (final NamelessException e) {
 			System.err.println("Error while updating webrank: " + e.getMessage() + " for " + userId);
 		}
