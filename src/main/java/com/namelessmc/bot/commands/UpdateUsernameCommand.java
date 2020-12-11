@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
@@ -40,23 +41,34 @@ public class UpdateUsernameCommand extends Command {
 		
 		final NamelessAPI api = optApi.get();
 		
+		final Language language = Language.getDiscordUserLanguage(api, user);
+		
 		Optional<NamelessUser> optNameless;
 		try {
 			optNameless = api.getUserByDiscordId(user.getIdLong());
 		} catch (final NamelessException e) {
-			message.reply(Language.DEFAULT.get("error_website_connection")).queue();;
+			message.reply(language.get("error_website_connection")).queue();;
 			return;
 		}
 		
 		if (optNameless.isEmpty()) {
-			message.reply(Language.DEFAULT.get("error_not_linked")).queue();
+			message.reply(language.get("error_not_linked")).queue();
 			return;
 		}
 
 		try {
 			api.updateDiscordUsernames(new long[] {user.getIdLong()}, new String[] {user.getName()});
+		} catch (final ApiError e) {
+			if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
+				message.reply(language.get("error_not_linked")).queue();
+				return;
+			} else {
+				System.err.println("Error code " + e.getError() + " while updating username");
+				message.reply(language.get("error_generic")).queue();
+				return;
+			}
 		} catch (final NamelessException e) {
-			message.reply(Language.DEFAULT.get("error_website_connection")).queue();
+			message.reply(language.get("error_website_connection")).queue();
 			return;
 		}
 		
