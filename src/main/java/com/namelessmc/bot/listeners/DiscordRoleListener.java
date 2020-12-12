@@ -36,7 +36,8 @@ public class DiscordRoleListener extends ListenerAdapter {
 		sendRoleListToWebsite(event.getGuild());
 	}
 	
-	public void onRoleUpdate(final RoleUpdateNameEvent event) {
+	@Override
+	public void onRoleUpdateName(final RoleUpdateNameEvent event) {
 		sendRoleListToWebsite(event.getGuild());
 	}
 	
