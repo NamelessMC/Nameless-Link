@@ -8,14 +8,12 @@ import com.namelessmc.bot.Utils;
 import com.namelessmc.bot.commands.Command;
 import com.namelessmc.bot.commands.CommandContext;
 
-import lombok.SneakyThrows;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class PrivateMessageListener extends ListenerAdapter {
 
-	@SneakyThrows
 	@Override
 	public void onPrivateMessageReceived(final PrivateMessageReceivedEvent event) {
 		final User user = event.getAuthor();
