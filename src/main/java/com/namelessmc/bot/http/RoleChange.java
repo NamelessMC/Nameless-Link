@@ -8,7 +8,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 
 import jakarta.servlet.http.HttpServlet;
@@ -88,17 +87,14 @@ public class RoleChange extends HttpServlet {
 			return;
 		}
 		
-		synchronized(DiscordRoleListener.usersRecentlyUpdatedByWebsite) {
-			final Boolean a = changeRoles(json, true, member, guild);
-			final Boolean b = changeRoles(json, true, member, guild);
-			
-			if (a == false || b == false) {
-				response.getWriter().write("invrole");
-				return;
-			}
-			
-			DiscordRoleListener.usersRecentlyUpdatedByWebsite.add(userId);
+		final Boolean a = changeRoles(json, true, member, guild);
+		final Boolean b = changeRoles(json, true, member, guild);
+		
+		if (a == false || b == false) {
+			response.getWriter().write("invrole");
+			return;
 		}
+		
 		response.getWriter().write("success");
 	}
 

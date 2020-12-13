@@ -1,10 +1,8 @@
 package com.namelessmc.bot.listeners;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.namelessmc.bot.Main;
@@ -55,21 +53,15 @@ public class DiscordRoleListener extends ListenerAdapter {
 			System.err.println("API error sending role update for guild " + guild.getIdLong());
 		}
 	}
-	
-	public static final Set<Long> usersRecentlyUpdatedByWebsite = new HashSet<>();
 
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
-		synchronized(usersRecentlyUpdatedByWebsite) {
-			process(event);
-		}
+		process(event);
 	}
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-		synchronized(usersRecentlyUpdatedByWebsite) {
-			process(event);
-		}
+		process(event);
 	}
 
 	private void process(final GenericGuildMemberEvent event) {
@@ -82,12 +74,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 		}
 		
 		final long userId = discordUser.getIdLong();
-		if (usersRecentlyUpdatedByWebsite.contains(userId)) {
-			// No need to send rank change to website if we
-			// just received this role update from the website
-			usersRecentlyUpdatedByWebsite.remove(userId);
-			return;
-		}
 		
 		System.out.println(String.format("Processing role change guildid=%s userid=%s", guildId, userId));
 		
