@@ -32,8 +32,11 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		return this.initializer.get();
 	}
 
-	private static final Map<String, StorageInitializer<? extends ConnectionManager>> BY_STRING = Map.of("stateless",
-			STATELESS, "postgres", POSTGRES);
+	private static final Map<String, StorageInitializer<? extends ConnectionManager>> BY_STRING =
+			Map.of(
+					"stateless", STATELESS,
+					"postgres", POSTGRES
+					);
 
 	public static final StorageInitializer<? extends ConnectionManager> getByName(final String name) {
 		return BY_STRING.get(name);
