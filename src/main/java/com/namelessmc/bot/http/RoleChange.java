@@ -86,8 +86,6 @@ public class RoleChange extends HttpServlet {
 		
 		final NamelessAPI api = optApi.get();
 		
-		System.out.println(apiKey + " <- received    expected -> " + api.getApiKey());
-		
 		if (!timingSafeEquals(apiKey.getBytes(), api.getApiKey().getBytes())) {
 			response.getWriter().write("unauthorized");
 			return;
@@ -103,8 +101,9 @@ public class RoleChange extends HttpServlet {
 			a = null;
 			hierarchyError = true;
 		}
+		
 		try {
-			b = changeRoles(json, true, member, guild);
+			b = changeRoles(json, false, member, guild);
 		} catch (final HierarchyException e) {
 			b = null;
 			hierarchyError = true;
@@ -140,10 +139,12 @@ public class RoleChange extends HttpServlet {
 			return false;
 		}
 		
+		System.out.println((add ? "Add " : "Remove ") + " role " + role.getId() + " member " + member.getId() + " guild " + guild.getId());
+		
 		if (add) {
-			guild.addRoleToMember(member, role);
+			guild.addRoleToMember(member, role).queue();
 		} else {
-			guild.removeRoleFromMember(member, role);
+			guild.removeRoleFromMember(member, role).queue();
 		}
 		
 		return true;
