@@ -1,5 +1,6 @@
 package com.namelessmc.bot.listeners;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +24,16 @@ import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordRoleListener extends ListenerAdapter {
+	
+	public static final Object EVENT_LOCK = new Object();
+	
+	private static final long EVENT_DISABLE_DURATION = 2000;
+	
+	private static final HashMap<Long, Long> temporarilyDisabledEvents = new HashMap<>();
+
+	public static void temporarilyDisableEvents(final long userId) {
+		temporarilyDisabledEvents.put(userId, System.currentTimeMillis());
+	}
 	
 	@Override
 	public void onRoleCreate(final RoleCreateEvent event) {
@@ -53,15 +64,19 @@ public class DiscordRoleListener extends ListenerAdapter {
 			System.err.println("API error sending role update for guild " + guild.getIdLong());
 		}
 	}
-
+	
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
-		process(event);
+		synchronized(EVENT_LOCK) {
+			process(event);
+		}
 	}
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-		process(event);
+		synchronized(EVENT_LOCK) {
+			process(event);
+		}
 	}
 
 	private void process(final GenericGuildMemberEvent event) {
@@ -74,6 +89,18 @@ public class DiscordRoleListener extends ListenerAdapter {
 		}
 		
 		final long userId = discordUser.getIdLong();
+		if (temporarilyDisabledEvents.containsKey(userId)) {
+			final long diff = System.currentTimeMillis() - temporarilyDisabledEvents.get(userId);
+			
+			// No need to send rank change to website if we
+			// just received this role update from the website
+			if (diff < EVENT_DISABLE_DURATION) {
+				System.out.println("Ignoring rank update event for " + discordUser.getId());
+				return;
+			} else {
+				temporarilyDisabledEvents.remove(userId);
+			}
+		}
 		
 		System.out.println(String.format("Processing role change guildid=%s userid=%s", guildId, userId));
 		

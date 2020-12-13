@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 
 import jakarta.servlet.http.HttpServlet;
@@ -92,26 +93,29 @@ public class RoleChange extends HttpServlet {
 		}
 		
 		boolean hierarchyError = false;
-		
-		Boolean a;
-		Boolean b;
-		try {
-			a = changeRoles(json, true, member, guild);
-		} catch (final HierarchyException e) {
-			a = null;
-			hierarchyError = true;
-		}
-		
-		try {
-			b = changeRoles(json, false, member, guild);
-		} catch (final HierarchyException e) {
-			b = null;
-			hierarchyError = true;
-		}
+		synchronized(DiscordRoleListener.EVENT_LOCK) {
+			DiscordRoleListener.temporarilyDisableEvents(userId);
 			
-		if ((a != null && !a) || (b != null && !b)) {
-			response.getWriter().write("invrole");
-			return;
+			Boolean a;
+			Boolean b;
+			try {
+				a = changeRoles(json, true, member, guild);
+			} catch (final HierarchyException e) {
+				a = null;
+				hierarchyError = true;
+			}
+			
+			try {
+				b = changeRoles(json, false, member, guild);
+			} catch (final HierarchyException e) {
+				b = null;
+				hierarchyError = true;
+			}
+				
+			if ((a != null && !a) || (b != null && !b)) {
+				response.getWriter().write("invrole");
+				return;
+			}
 		}
 		
 		if (hierarchyError) {
