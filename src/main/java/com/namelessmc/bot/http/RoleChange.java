@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 public class RoleChange extends HttpServlet {
 
@@ -45,13 +46,16 @@ public class RoleChange extends HttpServlet {
 			json = (JsonObject) JsonParser.parseReader(request.getReader());
 			guildId = json.get("guild_id").getAsLong();
 			userId = json.get("user_id").getAsLong();
-			apiKey = request.getParameter("api_key");
+			apiKey = json.get("api_key").getAsString();
 		} catch (JsonSyntaxException | IllegalArgumentException e) {
 			response.getWriter().write("badparameter");
 			return;
 		}
-
 		
+		if (json == null || guildId == 0 || apiKey == null) {
+			response.getWriter().write("badparameter");
+			return;
+		}
 		
 		final Guild guild = Main.getJda().getGuildById(guildId);
 		if (guild == null) {
@@ -82,20 +86,40 @@ public class RoleChange extends HttpServlet {
 		
 		final NamelessAPI api = optApi.get();
 		
+		System.out.println(apiKey + " <- received    expected -> " + api.getApiKey());
+		
 		if (!timingSafeEquals(apiKey.getBytes(), api.getApiKey().getBytes())) {
 			response.getWriter().write("unauthorized");
 			return;
 		}
 		
-		final Boolean a = changeRoles(json, true, member, guild);
-		final Boolean b = changeRoles(json, true, member, guild);
+		boolean hierarchyError = false;
 		
-		if (a == false || b == false) {
+		Boolean a;
+		Boolean b;
+		try {
+			a = changeRoles(json, true, member, guild);
+		} catch (final HierarchyException e) {
+			a = null;
+			hierarchyError = true;
+		}
+		try {
+			b = changeRoles(json, true, member, guild);
+		} catch (final HierarchyException e) {
+			b = null;
+			hierarchyError = true;
+		}
+			
+		if ((a != null && !a) || (b != null && !b)) {
 			response.getWriter().write("invrole");
 			return;
 		}
 		
-		response.getWriter().write("success");
+		if (hierarchyError) {
+			response.getWriter().write("hierarchy");
+		} else {
+			response.getWriter().write("success");
+		}
 	}
 
 	private Boolean changeRoles(final JsonObject json, final boolean add, final Member member, final Guild guild) {
