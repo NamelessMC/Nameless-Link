@@ -1,125 +1,163 @@
 package com.namelessmc.bot;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+
+import javax.security.auth.login.LoginException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.namelessmc.bot.commands.LanguageCommand;
 import com.namelessmc.bot.commands.URLCommand;
+import com.namelessmc.bot.commands.UpdateUsernameCommand;
 import com.namelessmc.bot.commands.VerifyCommand;
+import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.connections.ConnectionManager;
+import com.namelessmc.bot.connections.StorageInitializer;
 import com.namelessmc.bot.http.HttpMain;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.bot.listeners.GuildMessageListener;
 import com.namelessmc.bot.listeners.PrivateMessageListener;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+
 import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
-import javax.security.auth.login.LoginException;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-
 public class Main {
 
-    @Getter
-    private static JDA jda;
-    private static Connection connection;
-    private static final Logger logger = Logger.getLogger("NamelessLink");
-    @Getter
-    private static final EmbedBuilder embedBuilder = new EmbedBuilder();
-    @Getter
-    private static final Gson gson = new GsonBuilder().create();
+	@Getter
+	private static JDA jda;
+	private static final Logger logger = Logger.getLogger("NamelessLink");
+	@Getter
+	private static final EmbedBuilder embedBuilder = new EmbedBuilder();
+	@Getter
+	private static final Gson gson = new GsonBuilder().create();
+	@Getter
+	private static ConnectionManager connectionManager;
+	@Getter
+	private static URL botUrl;
+	@Getter
+	private static int webserverPort;
 
-    private static boolean debugging = false;
+	public static void main(final String[] args) throws IOException, BackendStorageException {
+		initializeConnectionManager();
 
-    public static void main(String[] args) {
-    	if (!Config.check()) {
-    		return;
-    	}
+		final String botUrlStr = System.getenv("BOT_URL");
+		if (botUrlStr == null) {
+			System.err.println("Environment variable BOT_URL not specified");
+			System.exit(1);
+		}
 
-        try {
-            File log = new File("./logs/" + (new java.text.SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new java.util.Date(System.currentTimeMillis()))) + ".log");
-            if (!log.exists()) {
-                log.getParentFile().mkdirs();
-                log.createNewFile();
-            }
-            FileHandler fh = new FileHandler(log.getAbsolutePath(), true);
-            logger.addHandler(fh);
-            fh.setFormatter(new SimpleFormatter());
-        } catch (final SecurityException | IOException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] Cannot start logger.");
-            System.exit(0);
-        }
+		try {
+			botUrl = new URL(botUrlStr);
+		} catch (final MalformedURLException e) {
+			System.err.println("Environment variable BOT_URL is not a valid URL");
+			System.exit(1);
+		}
 
-        try {
-            final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true&serverTimezone=UTC";
-            connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
-            log("Connected to database.");
-        } catch (final SQLException e) {
-            e.printStackTrace();
-            log("[ERROR] Could not connect to database!");
-            return;
-        }
+		final String webserverPortStr = System.getenv("WEBSERVER_PORT");
+		if (webserverPortStr == null) {
+			System.err.println("Environment variable WEBSERVER_PORT not specified");
+			System.exit(1);
+		}
 
-        try {
-            jda = JDABuilder
-                    .createDefault(Config.DISCORD_TOKEN)
-                    .addEventListeners(new GuildJoinHandler())
-                    .addEventListeners(new PrivateMessageListener())
-                    .addEventListeners(new GuildMessageListener())
-                    .addEventListeners(new DiscordRoleListener())
-                    .setChunkingFilter(ChunkingFilter.ALL)
-                    .setMemberCachePolicy(MemberCachePolicy.ALL)
-                    .enableIntents(GatewayIntent.GUILD_MEMBERS)
-                    .build();
-        } catch (final LoginException e) {
-            e.printStackTrace();
-            return;
-        }
+		try {
+			webserverPort = Integer.parseInt(webserverPortStr);
+		} catch (final NumberFormatException e) {
+			System.err.println("Environment variable WEBSERVER_PORT is not a valid number");
+			System.exit(1);
+		}
 
-        if (args.length >= 1 && args[0].equals("-debug")) {
-            log("Debugging enabled");
-            debugging = true;
-        }
+		try {
+			final String token = System.getenv("DISCORD_TOKEN");
+			if (token == null) {
+				System.err.println("Environment variable DISCORD_TOKEN not specified");
+				System.exit(1);
+			}
+			jda = JDABuilder.createDefault(token)
+					.addEventListeners(new GuildJoinHandler())
+					.addEventListeners(new PrivateMessageListener())
+					.addEventListeners(new GuildMessageListener())
+					.addEventListeners(new DiscordRoleListener())
+					.setChunkingFilter(ChunkingFilter.ALL)
+					.setMemberCachePolicy(MemberCachePolicy.ALL)
+					.enableIntents(GatewayIntent.GUILD_MEMBERS)
+					.build();
+		} catch (final LoginException e) {
+			e.printStackTrace();
+			return;
+		}
 
-        HttpMain.init();
+		HttpMain.init();
 
-        // Register commands
-        new LanguageCommand();
-        new VerifyCommand();
-        new URLCommand();
-    }
+		// Register commands
+		new UpdateUsernameCommand();
+		new URLCommand();
+		new VerifyCommand();
 
-    public static Connection getConnection() {
-        try {
-            if (connection.isClosed() || !connection.isValid(3)) {
-                final String url = "jdbc:mysql://" + Config.MYSQL_HOSTNAME + "/" + Config.MYSQL_DATABASE + "?failOverReadOnly=false&maxReconnects=10&autoReconnect=true&serverTimezone=UTC";
-                connection = DriverManager.getConnection(url, Config.MYSQL_USERNAME, Config.MYSQL_PASSWORD);
-                debug("Database connection was lost, but re-established.");
-            }
-            return connection;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            log("[ERROR] Connection is invalid, and cannot recover.");
-            return null;
-        }
-    }
+		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-    public static void log(String message) {
-        logger.info("[INFO] " + message);
-    }
+		// TODO be smarter about this, don't spam requests at startup
+		scheduler.schedule(() -> {
+			System.out.println("Updating bot settings..");
+			try {
+				final User user = jda.getSelfUser();
+				final String username = user.getName() + "#" + user.getDiscriminator();
+				for (final URL url : connectionManager.listConnections()) {
+					System.out.print("Sending to " + url.toString() + "... ");
+					try {
+						final NamelessAPI api = Main.newApiConnection(url);
+						api.setDiscordBotUrl(botUrl);
+						api.setDiscordBotUser(username, user.getIdLong());
+						System.out.println("OK");
+					} catch (final NamelessException e) {
+						System.out.println("error");
+					}
+				}
+			} catch (final BackendStorageException e) {
+				e.printStackTrace();
+			}
+		}, 5, TimeUnit.SECONDS);
+	}
 
-    public static void debug(String message) {
-        if (debugging) logger.info("[DEBUG] " + message);
-    }
+	private static void initializeConnectionManager() throws IOException {
+		String storageType = System.getenv("STORAGE_TYPE");
+		if (storageType == null) {
+			System.out.println("STORAGE_TYPE not specified, assuming STORAGE_TYPE=stateless");
+			storageType = "stateless";
+		}
+
+		final StorageInitializer<? extends ConnectionManager> init = StorageInitializer.getByName(storageType);
+		if (init == null) {
+			System.err.println("The chosen STORAGE_TYPE is not available, please choose from "
+					+ String.join(", ", StorageInitializer.getAvailableNames()));
+			System.exit(1);
+		}
+
+		connectionManager = init.get();
+	}
+	
+	public static NamelessAPI newApiConnection(final URL url) {
+		// TODO api object caching
+		final String userAgent = "Nameless-Link"; // TODO proper user agent
+		final boolean debug = true; // TODO debug configurable
+		return new NamelessAPI(url, userAgent, debug);
+	}
+
+	public static void log(final String message) {
+		logger.info("[INFO] " + message);
+	}
+
 }

@@ -5,3 +5,4 @@ Nameless-Link.iml
 .classpath
 .settings/
 .project
+secrets.env

@@ -1,0 +1,24 @@
+# start with
+# ./build.sh && docker-compose up --build
+
+version: '3'
+
+services:
+
+  postgres:
+    build: postgres-docker
+    volumes: ['/opt/nameless-link:/var/lib/postgresql/data']
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  link:
+    build: .
+    ports: ['27362:80']
+    env_file: secrets.env # Contains DISCORD_TOKEN= and BOT_URL=
+    environment:
+      STORAGE_TYPE: postgres
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_NAME: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+
