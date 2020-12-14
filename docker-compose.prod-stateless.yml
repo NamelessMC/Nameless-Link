@@ -10,10 +10,11 @@ services:
   #   set up a reverse proxy to port 80 of this container and set BOT_URL to 'https://something'
 
   link:
-    image: namelessmc/discord-link
+    image: namelessmc/discord-link:1.0
     environment:
       BOT_URL:
       DISCORD_TOKEN: # discord bot token
       STORAGE_TYPE: stateless
       API_URL:  # Your NamelessMC API URL
       GULID_ID:  # Your Discord guild id
+    restart: always

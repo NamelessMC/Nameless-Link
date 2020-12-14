@@ -3,10 +3,11 @@ version: '3'
 services:
 
   postgres:
-    image: namelessmc/discord-link-postgres
+    image: namelessmc/discord-link-postgres:1.0
     volumes: ['/opt/nameless-link:/var/lib/postgresql/data']
     environment:
       POSTGRES_PASSWORD: postgres
+    restart: always
 
   # If you run namelessmc on the same machine, in docker:
   #   make sure they're on the same docker network and set BOT_URL to 'http://link'
@@ -16,7 +17,7 @@ services:
   #   set up a reverse proxy to port 80 of this container and set BOT_URL to 'https://something'
 
   link:
-    image: namelessmc/discord-link
+    image: namelessmc/discord-link:1.0
     environment:
       BOT_URL:
       DISCORD_TOKEN: # discord bot token
@@ -25,3 +26,4 @@ services:
       POSTGRES_NAME: postgres
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres
+    restart: always
