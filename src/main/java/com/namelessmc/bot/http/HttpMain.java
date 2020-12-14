@@ -11,7 +11,7 @@ public class HttpMain {
 	public static void init() {
 		final Server server = new Server();
 		final ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		handler.addServlet(ConnectionTest.class, "/");
+		handler.addServlet(ConnectionTest.class, "/status");
 		handler.addServlet(RoleChange.class, "/roleChange");
 		server.setHandler(handler);
 
