@@ -134,7 +134,7 @@ public class RoleChange extends HttpServlet {
 		final long roleId;
 		try {
 			roleId = json.get(memberName).getAsLong();
-		} catch (JsonSyntaxException | IllegalArgumentException e) {
+		} catch (JsonSyntaxException | IllegalArgumentException | UnsupportedOperationException e) {
 			return false;
 		}
 		
