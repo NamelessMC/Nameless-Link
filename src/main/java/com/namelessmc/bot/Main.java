@@ -3,6 +3,8 @@ package com.namelessmc.bot;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -153,10 +155,12 @@ public class Main {
 		connectionManager = init.get();
 	}
 	
+	private static final Map<URL, NamelessAPI> API_CACHE = new HashMap<>();
+	
 	public static NamelessAPI newApiConnection(final URL url) {
-		// TODO api object caching
 		final boolean debug = true; // TODO debug configurable
-		return new NamelessAPI(url, USER_AGENT, debug);
+		API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, debug));
+		return API_CACHE.get(url);
 	}
 
 	public static void log(final String message) {
