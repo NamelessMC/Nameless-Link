@@ -37,6 +37,8 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class Main {
 
+	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
+	
 	@Getter
 	private static JDA jda;
 	private static final Logger logger = Logger.getLogger("NamelessLink");
@@ -52,6 +54,8 @@ public class Main {
 	private static int webserverPort;
 
 	public static void main(final String[] args) throws IOException, BackendStorageException {
+		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
+		
 		initializeConnectionManager();
 
 		final String botUrlStr = System.getenv("BOT_URL");
@@ -151,9 +155,8 @@ public class Main {
 	
 	public static NamelessAPI newApiConnection(final URL url) {
 		// TODO api object caching
-		final String userAgent = "Nameless-Link"; // TODO proper user agent
 		final boolean debug = true; // TODO debug configurable
-		return new NamelessAPI(url, userAgent, debug);
+		return new NamelessAPI(url, USER_AGENT, debug);
 	}
 
 	public static void log(final String message) {

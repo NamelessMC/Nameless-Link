@@ -6,7 +6,7 @@
 
 	<groupId>com.namelessmc.bot</groupId>
 	<artifactId>Nameless-Link</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>dev</version>
 
 	<build>
 		<sourceDirectory>src/main/java/</sourceDirectory>
@@ -31,13 +31,24 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>
+								true
+							</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.4</version>
 
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
-					<!-- TODO enable this and force include postgres driver -->
-					<minimizeJar>false</minimizeJar>
 				</configuration>
 
 				<executions>
