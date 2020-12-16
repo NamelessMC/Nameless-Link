@@ -1,1 +1,6 @@
-{}
+{
+    "success": "Gelukt",
+    "failed": "Mislukt",
+    "settings": "Instellingen",
+    "pending": "In afwachting"
+}
