@@ -2,5 +2,8 @@
     "success": "Gelukt",
     "failed": "Mislukt",
     "settings": "Instellingen",
-    "pending": "In afwachting"
+    "pending": "In afwachting",
+    "error_generic": "Er is een fout opgetreden.",
+    "commands": "Commando's",
+    "error_not_set_up": "Het is momenteel niet mogelijk om dit commando te gebruiken, de bot is nog niet ingesteld."
 }
