@@ -57,7 +57,7 @@ public abstract class Command {
 	protected abstract void execute(User user, String[] args, Message message);
 	
 	public static void execute(final Message message) {
-		message.addReaction("U+1F7E0").complete(); // 🟠
+		
 		
 		String[] args = message.getContentRaw().split(" ");
 		final String commandName = args[0];
@@ -79,6 +79,8 @@ public abstract class Command {
 			}
 			return;
 		}
+		
+		message.addReaction("U+1F7E0").complete(); // 🟠
 		
 		command.execute(user, args, message);
 		
