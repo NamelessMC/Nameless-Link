@@ -19,10 +19,20 @@ import net.dv8tion.jda.api.entities.User;
 
 public class Language {
 	
-	private static String namelessLanguageToISO(final String language) {
+	private static String namelessLanguageToWeblate(final String language) {
 		switch(language) {
+		case "Czech":
+			return "cz";
 		case "EnglishUK":
+		case "EnglishUS":
 			return "en";
+		case "Spanish":
+		case "SpanishES":
+			return "es";
+		case "Norwegian":
+			return "nb_NO";
+		case "Dutch":
+			return "nl";
 		default:
 			return null;
 		}
@@ -85,9 +95,9 @@ public class Language {
 		try {
 			final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
 			if (nameless.isPresent()) {
-				return getLanguage(namelessLanguageToISO(nameless.get().getLangage()));
+				return getLanguage(namelessLanguageToWeblate(nameless.get().getLangage()));
 			} else {
-				return getLanguage(namelessLanguageToISO(api.getWebsite().getLanguage()));
+				return getLanguage(namelessLanguageToWeblate(api.getWebsite().getLanguage()));
 			}
 		} catch (final NamelessException e) {
 			// If we can't communicate with the website, fall back to english
