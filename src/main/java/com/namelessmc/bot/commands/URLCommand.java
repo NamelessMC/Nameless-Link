@@ -71,6 +71,13 @@ public class URLCommand extends Command {
 		}
 
 		try {
+			final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
+			
+			if (optExistingGuildId.isPresent()) {
+				message.reply(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
+				return;
+			}
+			
 			api.setDiscordBotUrl(Main.getBotUrl());
 			api.setDiscordGuildId(guildId);
 
