@@ -1,11 +1,20 @@
 package com.namelessmc.bot.commands;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import com.namelessmc.bot.Language;
+import com.namelessmc.bot.Language.Term;
+import com.namelessmc.bot.Main;
+import com.namelessmc.bot.Utils;
+
 import lombok.Getter;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public abstract class Command {
@@ -45,7 +54,46 @@ public abstract class Command {
 		}
 	}
 
-	public abstract void execute(User user, String[] args, Message message);
+	protected abstract void execute(User user, String[] args, Message message);
+	
+	public static void execute(final Message message) {
+		message.addReaction("U+1F7E0").complete(); // 🟠
+		
+		String[] args = message.getContentRaw().split(" ");
+		final String commandName = args[0];
+		args = Arrays.copyOfRange(args, 1, args.length);
+	
+		final User user = message.getAuthor();
+		
+		final CommandContext context = getContext(message);
+		final Command command = Command.getCommand(commandName, context);
+		
+		if (command == null) {
+			if (context == CommandContext.PRIVATE_MESSAGE) {
+				final Language language = Language.DEFAULT;
+				final String s = language.get(Term.INVALID_COMMAND, "commands", "`!unlink`, `!updateusername`, `!apiurl`, `!verify`");
+				Main.getEmbedBuilder().clear().setColor(Color.GREEN)
+						.setTitle(language.get(Term.COMMANDS))
+						.addField(language.get(Term.HELP), s, false);
+				Utils.messageUser(user, Main.getEmbedBuilder());
+			}
+			return;
+		}
+		
+		command.execute(user, args, message);
+		
+		message.removeReaction("U+1F7E0").queue(); // 🟠
+	}
+	
+	private static CommandContext getContext(final Message message) {
+		if (message.getChannel() instanceof PrivateChannel) {
+			return CommandContext.PRIVATE_MESSAGE;
+		} else if (message.getChannel() instanceof TextChannel) {
+			return CommandContext.GUILD_MESSAGE;
+		} else {
+			throw new IllegalArgumentException("Unknown Channel instance");
+		}
+	}
 
 	public static Command getCommand(final String label, final CommandContext context) {
 		for (final Command command : registeredCommands.values()) {

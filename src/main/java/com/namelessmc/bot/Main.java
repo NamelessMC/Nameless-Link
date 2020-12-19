@@ -22,10 +22,9 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.connections.ConnectionManager;
 import com.namelessmc.bot.connections.StorageInitializer;
 import com.namelessmc.bot.http.HttpMain;
+import com.namelessmc.bot.listeners.CommandListener;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
-import com.namelessmc.bot.listeners.GuildMessageListener;
-import com.namelessmc.bot.listeners.PrivateMessageListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
@@ -96,8 +95,7 @@ public class Main {
 			}
 			jda = JDABuilder.createDefault(token)
 					.addEventListeners(new GuildJoinHandler())
-					.addEventListeners(new PrivateMessageListener())
-					.addEventListeners(new GuildMessageListener())
+					.addEventListeners(new CommandListener())
 					.addEventListeners(new DiscordRoleListener())
 					.setChunkingFilter(ChunkingFilter.ALL)
 					.setMemberCachePolicy(MemberCachePolicy.ALL)

@@ -1,13 +1,13 @@
 package com.namelessmc.bot.listeners;
 
 import com.namelessmc.bot.commands.Command;
-import com.namelessmc.bot.commands.CommandContext;
 
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class GuildMessageListener extends ListenerAdapter {
+public class CommandListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildMessageReceived(final GuildMessageReceivedEvent event) {
@@ -17,12 +17,17 @@ public class GuildMessageListener extends ListenerAdapter {
 			return;
 		}
 
-		final String message = event.getMessage().getContentRaw();
-		final String[] args = message.split(" ");
+		Command.execute(event.getMessage());
+	}
+	
+	@Override
+	public void onPrivateMessageReceived(final PrivateMessageReceivedEvent event) {
+		final User user = event.getAuthor();
 
-		final Command command = Command.getCommand(args[0], CommandContext.GUILD_MESSAGE);
-		if (command != null) {
-			command.execute(user, args, event.getMessage());
+		if (user.isBot()) {
+			return;
 		}
+		
+		Command.execute(event.getMessage());
 	}
 }

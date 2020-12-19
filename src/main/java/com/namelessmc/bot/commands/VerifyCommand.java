@@ -24,12 +24,12 @@ public class VerifyCommand extends Command {
 	public void execute(final User user, final String[] args, final Message message) {
 		final Language language = Language.DEFAULT;
 
-		if (args.length != 2) {
+		if (args.length != 1) {
 			message.reply(language.get(Term.VERIFY_USAGE, "command", "!verify")).queue();
 			return;
 		}
 
-		final String token = args[1];
+		final String token = args[0];
 
 		if (token.length() < 40 || !token.contains(":")) {
 			message.reply(language.get(Term.VERIFY_TOKEN_INVALID)).queue();

@@ -21,22 +21,18 @@ public class UnlinkCommand extends Command {
 
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
-		message.addReaction("U+1F7E0").queue(); // 🟠
-		
 		Language language = Language.DEFAULT;
 		
-		if (args.length != 2) {
+		if (args.length != 1) {
 			message.reply(language.get(Term.UNLINK_USAGE, "!unlink")).queue();
-			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
 		
 		long guildId;
 		try {
-			guildId = Long.parseLong(args[1]);
+			guildId = Long.parseLong(args[0]);
 		} catch (final NumberFormatException e) {
 			message.reply(language.get(Term.APIURL_GUILD_INVALID)).queue();
-			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
 		
@@ -45,14 +41,12 @@ public class UnlinkCommand extends Command {
 			optApi = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
-			message.removeReaction("U+1F7E0").queue(); // 🟠
 			e.printStackTrace();
 			return;
 		}
 		
 		if (optApi.isEmpty()) {
 			message.reply(language.get(Term.UNLINK_GUILD_INVALID)).queue();
-			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
 		
@@ -64,13 +58,11 @@ public class UnlinkCommand extends Command {
 	
 		if (guild == null) {
 			message.reply(language.get(Term.UNLINK_GUILD_INVALID)).queue();
-			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
 		
 		if (!user.equals(guild.getOwner().getUser())) {
 			message.reply(language.get(Term.ERROR_NOT_OWNER)).queue();
-			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
 		
@@ -78,12 +70,10 @@ public class UnlinkCommand extends Command {
 			Main.getConnectionManager().removeConnection(guildId);
 		} catch (final BackendStorageException e) {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
-			message.removeReaction("U+1F7E0").queue(); // 🟠
 			e.printStackTrace();
 			return;
 		}
 		
-		message.removeReaction("U+1F7E0").queue(); // 🟠
 		message.addReaction("U+2705").queue(); // ✅
 	}
 
