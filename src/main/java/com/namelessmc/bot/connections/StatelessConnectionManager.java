@@ -32,6 +32,11 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
+	public boolean isReadOnly() {
+		return true;
+	}
+
+	@Override
 	public void newConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
@@ -54,6 +59,25 @@ public class StatelessConnectionManager extends ConnectionManager {
 	@Override
 	public boolean updateConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
+	}
+
+	@Override
+	public List<URL> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+		throw new BackendStorageException(new UnsupportedOperationException());
+	}
+
+	@Override
+	public List<URL> listConnectionsUsedSince(final long time) throws BackendStorageException {
+		throw new BackendStorageException(new UnsupportedOperationException());
+	}
+
+	@Override
+	public Optional<Long> getGuildIdByURL(final URL url) throws BackendStorageException {
+		if (url == this.api.get().getApiUrl()) {
+			return Optional.of(this.guildId);
+		} else {
+			throw new BackendStorageException(new UnsupportedOperationException());
+		}
 	}
 
 }

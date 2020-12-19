@@ -18,11 +18,20 @@ import lombok.Getter;
 import net.dv8tion.jda.api.entities.User;
 
 public class Language {
+	
+	private static String namelessLanguageToISO(final String language) {
+		switch(language) {
+		case "EnglishUK":
+			return "en";
+		default:
+			return null;
+		}
+	}
 
 	public static final Language DEFAULT;
 	static {
 		try {
-			DEFAULT = new Language("EnglishUK");
+			DEFAULT = new Language("en");
 		} catch (final LanguageLoadException e) {
 			throw new Error(e);
 		}
@@ -64,7 +73,7 @@ public class Language {
 			throw new RuntimeException(
 					String.format("Term '%s' is missing from default (%s) translation", term, DEFAULT.language));
 		} else {
-			System.err.println(String.format("Language '%s' is missing term '%s', using default (%s) term instead.",
+			Main.getLogger().warning(String.format("Language '%s' is missing term '%s', using default (%s) term instead.",
 					this.language, term, DEFAULT.language));
 			return DEFAULT.get(term, replacements);
 		}
@@ -76,9 +85,9 @@ public class Language {
 		try {
 			final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
 			if (nameless.isPresent()) {
-				return getLanguage(nameless.get().getLangage());
+				return getLanguage(namelessLanguageToISO(nameless.get().getLangage()));
 			} else {
-				return getLanguage(api.getWebsite().getLanguage());
+				return getLanguage(namelessLanguageToISO(api.getWebsite().getLanguage()));
 			}
 		} catch (final NamelessException e) {
 			// If we can't communicate with the website, fall back to english
@@ -87,6 +96,10 @@ public class Language {
 	}
 
 	public static Language getLanguage(final String languageName) {
+		if (languageName == null) {
+			return DEFAULT;
+		}
+		
 		Language language = LANGUAGE_CACHE.get(languageName);
 		if (language != null) {
 			return language;
@@ -100,6 +113,8 @@ public class Language {
 			e.printStackTrace();
 			language = DEFAULT;
 		}
+		
+		LANGUAGE_CACHE.put(languageName, language);
 
 		return language;
 	}

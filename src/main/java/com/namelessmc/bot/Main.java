@@ -15,6 +15,7 @@ import javax.security.auth.login.LoginException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.commands.URLCommand;
+import com.namelessmc.bot.commands.UnlinkCommand;
 import com.namelessmc.bot.commands.UpdateUsernameCommand;
 import com.namelessmc.bot.commands.VerifyCommand;
 import com.namelessmc.bot.connections.BackendStorageException;
@@ -43,6 +44,7 @@ public class Main {
 	
 	@Getter
 	private static JDA jda;
+	@Getter
 	private static final Logger logger = Logger.getLogger("NamelessLink");
 	@Getter
 	private static final EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -109,6 +111,7 @@ public class Main {
 		HttpMain.init();
 
 		// Register commands
+		new UnlinkCommand();
 		new UpdateUsernameCommand();
 		new URLCommand();
 		new VerifyCommand();
@@ -136,6 +139,8 @@ public class Main {
 				e.printStackTrace();
 			}
 		}, 5, TimeUnit.SECONDS);
+		
+		scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(7), TimeUnit.HOURS.toMillis(2), TimeUnit.MILLISECONDS);
 	}
 
 	private static void initializeConnectionManager() throws IOException {
@@ -158,13 +163,9 @@ public class Main {
 	private static final Map<URL, NamelessAPI> API_CACHE = new HashMap<>();
 	
 	public static NamelessAPI newApiConnection(final URL url) {
-		final boolean debug = true; // TODO debug configurable
+		final boolean debug = false; // TODO debug configurable
 		API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, debug));
 		return API_CACHE.get(url);
-	}
-
-	public static void log(final String message) {
-		logger.info("[INFO] " + message);
 	}
 
 }

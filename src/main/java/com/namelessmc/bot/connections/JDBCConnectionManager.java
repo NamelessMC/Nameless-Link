@@ -20,6 +20,11 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	public abstract Connection getNewDatabaseConnection() throws SQLException;
 
 	@Override
+	public boolean isReadOnly() {
+		return false;
+	}
+	
+	@Override
 	public Optional<NamelessAPI> getApi(final long guildId) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			String apiUrl;
@@ -71,9 +76,10 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	public boolean updateConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
-					.prepareStatement("UPDATE connections SET api_url=? WHERE guild_id=?")) {
+					.prepareStatement("UPDATE connections SET api_url=?, last_use=? WHERE guild_id=?")) {
 				statement.setString(1, apiUrl.toString());
-				statement.setLong(2, guildId);
+				statement.setLong(2, System.currentTimeMillis());
+				statement.setLong(3, guildId);
 				return statement.executeUpdate() > 0;
 			}
 		} catch (final SQLException e) {
@@ -93,11 +99,13 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 			throw new BackendStorageException(e);
 		}
 	}
-
-	@Override
-	public List<URL> listConnections() throws BackendStorageException {
+	
+	private List<URL> listConnectionsQuery(final String query, final Long optLong) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
-			try (PreparedStatement statement = connection.prepareStatement("SELECT api_url FROM connections")) {
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				if (optLong != null) {
+					statement.setLong(1, optLong);
+				}
 				final ResultSet result = statement.executeQuery();
 				final List<URL> urls = new ArrayList<>();
 				while (result.next()) {
@@ -116,6 +124,21 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
+	public List<URL> listConnections() throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url FROM connections", null);
+	}
+	
+	@Override
+	public List<URL> listConnectionsUsedSince(final long time) throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url FROM connections WHERE last_use > ?", time);
+	}
+	
+	@Override
+	public List<URL> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url FROM connections WHERE last_use < ?", time);
+	}
+
+	@Override
 	public Optional<Long> getLastUsed(final long guildId) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
@@ -127,6 +150,34 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				}
 				return Optional.of(result.getLong(1));
 			}
+		} catch (final SQLException e) {
+			throw new BackendStorageException(e);
+		}
+	}
+	
+
+	@Override
+	public Optional<Long> getGuildIdByURL(final URL url) throws BackendStorageException {
+		try (Connection connection = this.getNewDatabaseConnection()) {
+			long guildId;
+			try (PreparedStatement statement = connection
+					.prepareStatement("SELECT guild_id FROM connections WHERE api_url=?")) {
+				statement.setString(1, url.toString());
+				final ResultSet result = statement.executeQuery();
+				if (!result.next()) {
+					return Optional.empty();
+				}
+				guildId = result.getLong(1);
+			}
+
+			try (PreparedStatement statement = connection
+					.prepareStatement("UPDATE connections SET last_use=? WHERE guild_id=?")) {
+				statement.setLong(1, System.currentTimeMillis());
+				statement.setLong(2, guildId);
+				statement.executeUpdate();
+			}
+
+			return Optional.of(guildId);
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
 		}

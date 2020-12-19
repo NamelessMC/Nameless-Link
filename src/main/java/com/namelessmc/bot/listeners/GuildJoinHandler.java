@@ -16,7 +16,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 
 	@Override
 	public void onGuildJoin(final GuildJoinEvent event) {
-		Main.log("Joined guild: " + event.getGuild().getName());
+		Main.getLogger().info("Joined guild: " + event.getGuild().getName());
 
 		Language language = Language.DEFAULT;
 
@@ -31,7 +31,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 		if (api.isEmpty()) {
 			// DM owner that we don't have an api for this guild
 			Utils.messageGuildOwner(event.getGuild().getId(), language.get("guild_join_success"));
-			Main.log("Sent new join message to " + event.getGuild().retrieveOwner().complete().getEffectiveName()
+			Main.getLogger().info("Sent new join message to " + event.getGuild().retrieveOwner().complete().getEffectiveName()
 					+ " for guild " + event.getGuild().getName());
 		} else {
 			try {
