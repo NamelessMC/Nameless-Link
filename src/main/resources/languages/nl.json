@@ -5,5 +5,17 @@
     "pending": "In afwachting",
     "error_generic": "Er is een fout opgetreden.",
     "commands": "Commando's",
-    "error_not_set_up": "Het is momenteel niet mogelijk om dit commando te gebruiken, de bot is nog niet ingesteld."
+    "error_not_set_up": "Het is momenteel niet mogelijk om dit commando te gebruiken, de bot is nog niet ingesteld.",
+    "invalid_command": "Ongeldig commando, geldige commando's: {commands}",
+    "verification_token_invalid": "Kon account niet verifiëren, de opgegeven token is ongeldig.",
+    "verification_not_used": "Kon account niet verifiëren, de opgegeven token is van een website die deze bot niet gebruikt.",
+    "verification_success": "Bedankt voor het verifiëren, je account is nu verbonden.",
+    "apiurl_usage": "Gebruik: `{command} <guild id> <api url>`",
+    "apiurl_success": "Je discord server is nu verbonden met NamelessMC.",
+    "help": "Hulp",
+    "error_not_linked": "Je kan dit commando niet gebruiken omdat je account nog niet verbonden is, dit kan je doen in account instellingen op de website.",
+    "error_website_connection": "Kan niet verbinden met de website.",
+    "apiurl_guild_invalid": "De opgeven guild ID is ongeldig.",
+    "error_not_owner": "Je moet eigenaar zijn van de Discord server om dit commando te gebruiken.",
+    "verify_usage": "Gebruik: `{command} <token>`"
 }
