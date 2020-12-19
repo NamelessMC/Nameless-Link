@@ -34,7 +34,7 @@ public class Language {
 		ERROR_WEBSITE_CONNECTION,
 		ERROR_NOT_OWNER,
 		
-		INVALID_COMMAND,
+		INVALID_COMMAND("commands"),
 		
 		VERIFY_USAGE("command"),
 		VERIFY_TOKEN_INVALID,

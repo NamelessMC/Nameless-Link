@@ -8,7 +8,7 @@
     "error_website_connection": "Could not connect to the website.",
     "error_not_owner": "You must be the owner of the Discord server to use this command.",
 
-    "invalid_command": "Invalid command. Valid Commands: `!unlink`, `!updateusername`, `!apiurl`, `!verify`.",
+    "invalid_command": "Invalid commands. Valid commands: {commands}",
 
     "verify_usage": "Usage: `{command} <token>`",
     "verification_token_invalid": "Failed to verify your account, you have provided an invalid token.",

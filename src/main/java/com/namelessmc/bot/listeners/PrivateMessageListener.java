@@ -34,7 +34,7 @@ public class PrivateMessageListener extends ListenerAdapter {
 
 			Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 					.setTitle(language.get(Term.COMMANDS))
-					.addField(language.get(Term.HELP), language.get(Term.INVALID_COMMAND), false);
+					.addField(language.get(Term.HELP), language.get(Term.INVALID_COMMAND, "commands", "`!unlink`, `!updateusername`, `!apiurl`, `!verify`"), false);
 			Utils.messageUser(user, Main.getEmbedBuilder());
 		}
 	}
