@@ -9,14 +9,14 @@
     "error_not_set_up": "No puede usar este comando en este momento, el bot aún no se ha configurado.",
     "error_not_linked": "No puede usar este comando porque su cuenta aún no está vinculada. Vaya a la configuración de la cuenta en el sitio web para vincular su cuenta de discord.",
     "error_website_connection": "No se pudo conectar al sitio web.",
-    "invalid_command": "Comando inválido. Comandos válidos: \n`!apiurl`, \n`!verify`.",
+    "invalid_command": "Comando inválido. Comandos válidos: {commands}",
     "verification_title": "Verificación",
     "verification_usage": "Utiliza: `!verify <token>`",
     "verification_token_invalid": "No se pudo verificar su cuenta, el token es invalido.",
     "verification_not_used": "No se puede verificar su cuenta, proporcionó un token de verificación para un sitio web que no usa este bot.",
     "verification_success": "Gracias por verificar, su cuenta ahora está vinculada.",
     "apiurl_title": "Colocar API URL",
-    "apiurl_usage": "Utiliza: `!apiurl <guild id> <api url>`",
+    "apiurl_usage": "Utiliza: `{command} <guild id> <api url>`",
     "apiurl_success": "Su servidor de discordia se ha vinculado con éxito a su sitio web NamelessMC.",
     "apiurl_guild_invalid": "La ID proporcionada no es válida.",
     "apiurl_url_malformed": "La URL de la API proporcionada tiene un formato incorrecto.",
@@ -24,7 +24,7 @@
     "apiurl_failed_connection": "No se pudo conectar a su sitio web. Esto significa que la URL de la API proporcionada no era válida o que estamos bloqueados por un proxy (por ejemplo, cloudflare)",
     "apiurl_success_updated": "Se cambió correctamente la URL de la API.",
     "apiurl_success_new": "Configure correctamente la URL de la API.",
-    "guild_join_success": "¡Hola! Gracias por utilizar NamelessMC Bot. Para empezar, responde con `!apiurl <guild id> <api url>`. La URL de la API se puede encontrar en `StaffCP -> Configuracion -> API`.",
-    "guild_join_needs_renew": "¡Hola! Gracias por utilizar NamelessMC Bot. Parece que ya ha configurado la URL de su API, pero ya no es funcional. Configure uno nuevo usando !apiurl <guild id> <api url>",
-    "guild_join_welcome_back": "¡Hola! Gracias por utilizar NamelessMC Bot. El bot ya está configurado para tu servidor. Si desea utilizar una URL de API diferente, puede cambiarla utilizando `!apiurl`"
+    "guild_join_success": "¡Hola! Gracias por utilizar NamelessMC Bot. Para empezar, responde con `{command} <guild id> <api url>`. La URL de la API se puede encontrar en `Panel -> Configuracion -> API`.",
+    "guild_join_needs_renew": "¡Hola! Gracias por utilizar NamelessMC Bot. Parece que ya ha configurado la URL de su API, pero ya no es funcional. Configure uno nuevo usando `{command} <guild id> <api url>`",
+    "guild_join_welcome_back": "¡Hola! Gracias por utilizar NamelessMC Bot. El bot ya está configurado para tu servidor. Si desea utilizar una URL de API diferente, puede cambiarla utilizando `{command} {guildId} <api url>`"
 }
