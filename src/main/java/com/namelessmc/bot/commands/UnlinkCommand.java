@@ -24,7 +24,7 @@ public class UnlinkCommand extends Command {
 		Language language = Language.DEFAULT;
 		
 		if (args.length != 1) {
-			message.reply(language.get(Term.UNLINK_USAGE, "!unlink")).queue();
+			message.reply(language.get(Term.UNLINK_USAGE, "command", "!unlink")).queue();
 			return;
 		}
 		

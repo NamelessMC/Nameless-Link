@@ -28,7 +28,7 @@ public class URLCommand extends Command {
 		final Language language = Language.DEFAULT;
 
 		if (args.length != 2) {
-			message.reply(language.get(Term.APIURL_USAGE, "COMMAND", "!apiurl")).queue();
+			message.reply(language.get(Term.APIURL_USAGE, "command", "!apiurl")).queue();
 			return;
 		}
 
