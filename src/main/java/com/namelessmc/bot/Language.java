@@ -164,13 +164,13 @@ public class Language {
 			return;
 		}
 		
-		Validate.isTrue(replacements.length % 2 == 1, "Replacements array must have even length");
+		Validate.isTrue(replacements.length % 2 == 0, "Replacements array must have even length");
 		
 		final String[] required = term.getPlaceholders();
 		final boolean[] valid = new boolean[required.length];
 		
 		for (int i = 0; i < replacements.length; i += 2) {
-			Validate.isTrue(!(replacements[i] instanceof String), "Replacement keys must be strings");
+			Validate.isTrue(replacements[i] instanceof String, "Replacement keys must be strings");
 			final String key = (String) replacements[i];
 			if (key == required[i/2]) {
 				valid[i/2] = true;
