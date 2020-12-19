@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import com.namelessmc.bot.Language;
+import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.ApiError;
@@ -30,12 +31,12 @@ public class UpdateUsernameCommand extends Command {
 		try {
 			optApi = Main.getConnectionManager().getApi(guild.getIdLong());
 		} catch (final BackendStorageException e) {
-			message.reply(Language.DEFAULT.get("error_generic")).queue();
+			message.reply(Language.DEFAULT.get(Term.ERROR_GENERIC)).queue();
 			return;
 		}
 		
 		if (optApi.isEmpty()) {
-			message.reply(Language.DEFAULT.get("error_not_set_up")).queue();
+			message.reply(Language.DEFAULT.get(Term.ERROR_NOT_SET_UP)).queue();
 			return;
 		}
 		
@@ -47,12 +48,12 @@ public class UpdateUsernameCommand extends Command {
 		try {
 			optNameless = api.getUserByDiscordId(user.getIdLong());
 		} catch (final NamelessException e) {
-			message.reply(language.get("error_website_connection")).queue();;
+			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();;
 			return;
 		}
 		
 		if (optNameless.isEmpty()) {
-			message.reply(language.get("error_not_linked")).queue();
+			message.reply(language.get(Term.ERROR_NOT_LINKED)).queue();
 			return;
 		}
 
@@ -60,15 +61,15 @@ public class UpdateUsernameCommand extends Command {
 			api.updateDiscordUsernames(new long[] {user.getIdLong()}, new String[] {user.getName()});
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
-				message.reply(language.get("error_not_linked")).queue();
+				message.reply(language.get(Term.ERROR_NOT_LINKED)).queue();
 				return;
 			} else {
 				System.err.println("Error code " + e.getError() + " while updating username");
-				message.reply(language.get("error_generic")).queue();
+				message.reply(language.get(Term.ERROR_GENERIC)).queue();
 				return;
 			}
 		} catch (final NamelessException e) {
-			message.reply(language.get("error_website_connection")).queue();
+			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
 		

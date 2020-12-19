@@ -3,6 +3,7 @@ package com.namelessmc.bot.listeners;
 import java.awt.Color;
 
 import com.namelessmc.bot.Language;
+import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.Utils;
 import com.namelessmc.bot.commands.Command;
@@ -31,8 +32,9 @@ public class PrivateMessageListener extends ListenerAdapter {
 			// TODO How do we get the user's language here? Which website do we use?
 			final Language language = Language.DEFAULT;
 
-			Main.getEmbedBuilder().clear().setColor(Color.GREEN).setTitle(language.get("commands"))
-					.addField(language.get("help"), language.get("invalid_command"), false);
+			Main.getEmbedBuilder().clear().setColor(Color.GREEN)
+					.setTitle(language.get(Term.COMMANDS))
+					.addField(language.get(Term.HELP), language.get(Term.INVALID_COMMAND), false);
 			Utils.messageUser(user, Main.getEmbedBuilder());
 		}
 	}

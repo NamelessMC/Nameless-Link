@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.Validate;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.java_api.NamelessAPI;
@@ -18,6 +20,63 @@ import lombok.Getter;
 import net.dv8tion.jda.api.entities.User;
 
 public class Language {
+	
+	private static final String[] EMPTY_STRING_ARRAY = new String[] {};
+	
+	public static enum Term {
+		
+		COMMANDS,
+		HELP,
+		
+		ERROR_GENERIC,
+		ERROR_NOT_SET_UP,
+		ERROR_NOT_LINKED,
+		ERROR_WEBSITE_CONNECTION,
+		ERROR_NOT_OWNER,
+		
+		INVALID_COMMAND,
+		
+		VERIFY_USAGE("command"),
+		VERIFY_TOKEN_INVALID,
+		VERIFY_NOT_USED,
+		VERIFY_SUCCESS,
+		
+		APIURL_USAGE("command"),
+		APIURL_GUILD_INVALID,
+		APIURL_URL_MALFORMED,
+		APIURL_NOT_OWNER,
+		APIURL_FAILED_CONNECTION,
+		APIURL_SUCCESS_UPDATED,
+		APIURL_SUCCESS_NEW,
+		
+		GUILD_JOIN_SUCCESS("command", "guildId"),
+		GUILD_JOIN_NEEDS_RENEW("command", "guildId"),
+		GUILD_JOIN_WELCOME_BACK("command", "guildId"),
+		
+		UNUSED_CONNECTION("discordServerName", "command"),
+		
+		UNLINK_USAGE("command"),
+		UNLINK_GUILD_INVALID,
+		
+		;
+		
+		@Getter
+		private String[] placeholders;
+		
+		Term() {
+			this.placeholders = EMPTY_STRING_ARRAY;
+		}
+		
+		Term(final String... placeholders) {
+			this.placeholders = placeholders;
+		}
+		
+		@Override
+		public String toString() {
+			return this.name().toLowerCase();
+		}
+		
+	}
 	
 	private static String namelessLanguageToWeblate(final String language) {
 		switch(language) {
@@ -74,21 +133,56 @@ public class Language {
 		}
 	}
 
-	public String get(final String term, final Object... replacements) {
+	public String get(final Term term, final Object... replacements) {
+		checkReplacements(term, replacements);
+		
 		String translation;
-		if (this.json.has(term)) {
-			translation = this.json.get(term).getAsString();
+		if (this.json.has(term.toString())) {
+			translation = this.json.get(term.toString()).getAsString();
 		} else if (this == DEFAULT) {
-			// oh no
+			// oh no, cannot fall back to default translation if we are the default translation
 			throw new RuntimeException(
 					String.format("Term '%s' is missing from default (%s) translation", term, DEFAULT.language));
 		} else {
 			Main.getLogger().warning(String.format("Language '%s' is missing term '%s', using default (%s) term instead.",
 					this.language, term, DEFAULT.language));
-			return DEFAULT.get(term, replacements);
+			translation = DEFAULT.get(term, replacements);
+		}
+		
+		for (int i = 0; i < replacements.length; i += 2) {
+			final String key = (String) replacements[i];
+			final String value = replacements[i + 1].toString();
+			translation = translation.replace("{" + key + "}", value);
 		}
 
-		return String.format(translation, replacements);
+		return translation;
+	}
+	
+	private void checkReplacements(final Term term, final Object... replacements) {
+		if (replacements.length == 0) {
+			return;
+		}
+		
+		Validate.isTrue(replacements.length % 2 == 1, "Replacements array must have even length");
+		
+		final String[] required = term.getPlaceholders();
+		final boolean[] valid = new boolean[required.length];
+		
+		for (int i = 0; i < replacements.length; i += 2) {
+			Validate.isTrue(!(replacements[i] instanceof String), "Replacement keys must be strings");
+			final String key = (String) replacements[i];
+			if (key == required[i/2]) {
+				valid[i/2] = true;
+			} else {
+				throw new IllegalArgumentException("Invalid replacement key '" + key + "'");
+			}
+		}
+		
+		for (int i = 0; i < required.length; i++) {
+			if (!valid[i]) {
+				throw new IllegalArgumentException("Missing replacement key '" + required[i] + "'");
+			}
+		}
 	}
 
 	public static Language getDiscordUserLanguage(final NamelessAPI api, final User user) {

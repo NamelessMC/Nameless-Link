@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 
@@ -62,7 +63,8 @@ public class ConnectionCleanup {
 				final NamelessAPI api = Main.newApiConnection(url);
 				final Language language = Language.getDiscordUserLanguage(api, guild.getOwner().getUser());
 				final String command = "!unlink " + guildId;
-				final Message message = channel.sendMessage(language.get("unused_connection", guild.getName(), command)).complete();
+				final String s = language.get(Term.UNUSED_CONNECTION, "discordServerName", guild.getName(), "command", command);
+				final Message message = channel.sendMessage(s).complete();
 				if (message == null) {
 					log.warning("Couldn't send message");
 				}

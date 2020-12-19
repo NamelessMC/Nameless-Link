@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import com.namelessmc.bot.Language;
+import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
@@ -25,7 +26,7 @@ public class UnlinkCommand extends Command {
 		Language language = Language.DEFAULT;
 		
 		if (args.length != 2) {
-			message.reply(language.get("unlink_usage")).queue();;
+			message.reply(language.get(Term.UNLINK_USAGE, "!unlink")).queue();
 			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
@@ -34,7 +35,7 @@ public class UnlinkCommand extends Command {
 		try {
 			guildId = Long.parseLong(args[1]);
 		} catch (final NumberFormatException e) {
-			message.reply(language.get("apiurl_guild_invalid")).queue();
+			message.reply(language.get(Term.APIURL_GUILD_INVALID)).queue();
 			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
@@ -43,14 +44,14 @@ public class UnlinkCommand extends Command {
 		try {
 			optApi = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
-			message.reply(language.get("error_generic")).queue();
+			message.reply(language.get(Term.ERROR_GENERIC)).queue();
 			message.removeReaction("U+1F7E0").queue(); // 🟠
 			e.printStackTrace();
 			return;
 		}
 		
 		if (optApi.isEmpty()) {
-			message.reply(language.get("unlink_guild_invalid")).queue();
+			message.reply(language.get(Term.UNLINK_GUILD_INVALID)).queue();
 			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
@@ -62,13 +63,13 @@ public class UnlinkCommand extends Command {
 		final Guild guild = Main.getJda().getGuildById(guildId);
 	
 		if (guild == null) {
-			message.reply(language.get("unlink_guild_invalid")).queue();
+			message.reply(language.get(Term.UNLINK_GUILD_INVALID)).queue();
 			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
 		
 		if (!user.equals(guild.getOwner().getUser())) {
-			message.reply(language.get("error_not_owner")).queue();
+			message.reply(language.get(Term.ERROR_NOT_OWNER)).queue();
 			message.removeReaction("U+1F7E0").queue(); // 🟠
 			return;
 		}
@@ -76,7 +77,7 @@ public class UnlinkCommand extends Command {
 		try {
 			Main.getConnectionManager().removeConnection(guildId);
 		} catch (final BackendStorageException e) {
-			message.reply(language.get("error_generic")).queue();
+			message.reply(language.get(Term.ERROR_GENERIC)).queue();
 			message.removeReaction("U+1F7E0").queue(); // 🟠
 			e.printStackTrace();
 			return;
