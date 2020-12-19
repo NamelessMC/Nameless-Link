@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
@@ -51,7 +52,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 	}
 	
 	public static void sendRoleListToWebsite(final Guild guild) {
-		System.out.println("Sending roles for " + guild.getIdLong() + " to website");
+		Main.getLogger().info("Sending roles for " + guild.getIdLong() + " to website");
 		try {
 			final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApi(guild.getIdLong());
 			if (optApi.isPresent()) {
@@ -60,8 +61,10 @@ public class DiscordRoleListener extends ListenerAdapter {
 			}
 		} catch (final BackendStorageException e) {
 			e.printStackTrace();
+		} catch (final ApiError e) {
+			Main.getLogger().warning("API error " + e.getError() + " while sending role update for guild " + guild.getIdLong());
 		} catch (final NamelessException e) {
-			System.err.println("API error sending role update for guild " + guild.getIdLong());
+			Main.getLogger().warning("Website communication error while sending role update for guild " + guild.getIdLong());
 		}
 	}
 	
@@ -95,14 +98,14 @@ public class DiscordRoleListener extends ListenerAdapter {
 			// No need to send rank change to website if we
 			// just received this role update from the website
 			if (diff < EVENT_DISABLE_DURATION) {
-				System.out.println("Ignoring rank update event for " + discordUser.getId());
+				Main.getLogger().info("Ignoring rank update event for " + discordUser.getId());
 				return;
 			} else {
 				temporarilyDisabledEvents.remove(userId);
 			}
 		}
 		
-		System.out.println(String.format("Processing role change guildid=%s userid=%s", guildId, userId));
+		Main.getLogger().info(String.format("Processing role change guildid=%s userid=%s", guildId, userId));
 		
 		Optional<NamelessAPI> api;
 		try {
@@ -119,8 +122,11 @@ public class DiscordRoleListener extends ListenerAdapter {
 		Optional<NamelessUser> user;
 		try {
 			user = api.get().getUserByDiscordId(userId);
+		} catch (final ApiError e) {
+			Main.getLogger().warning("API error " + e.getError() + " while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)");
+			return;
 		} catch (final NamelessException e) {
-			System.err.println("API error sending role update for user " + userId + " guild " + guildId);
+			Main.getLogger().warning("Website communication error while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)");
 			return;
 		}
 
@@ -131,8 +137,12 @@ public class DiscordRoleListener extends ListenerAdapter {
 		try {
 			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
 			user.get().setDiscordRoles(roleIds);
+		} catch (final ApiError e) {
+			Main.getLogger().warning("API error " + e.getError() + " while sending role update for user " + userId + " guild " + guildId + " (setDiscordRoles)");
+			return;
 		} catch (final NamelessException e) {
-			System.err.println("Error while updating webrank: " + e.getMessage() + " for " + userId);
+			Main.getLogger().warning("Website communication error while sending role update for user " + userId + " guild " + guildId + " (setDiscordRoles)");
+			return;
 		}
 	}
 }
