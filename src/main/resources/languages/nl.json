@@ -11,7 +11,7 @@
     "verification_not_used": "Kon account niet verifiëren, de opgegeven token is van een website die deze bot niet gebruikt.",
     "verification_success": "Bedankt voor het verifiëren, je account is nu verbonden.",
     "apiurl_usage": "Gebruik: `{command} <server id> <api url>`.",
-    "apiurl_success": "Je discord server is nu verbonden met NamelessMC.",
+    "apiurl_success": "Je Discord server is nu verbonden met NamelessMC.",
     "help": "Hulp",
     "error_not_linked": "Je kan dit commando niet gebruiken omdat je account nog niet verbonden is, dit kan je doen in account instellingen op de website.",
     "error_website_connection": "Kan niet verbinden met de website.",
