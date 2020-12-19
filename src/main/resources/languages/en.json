@@ -1,36 +1,29 @@
 {
     "commands": "Commands",
     "help": "Help",
-
     "error_generic": "An internal error occured.",
     "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet.",
     "error_not_linked": "You cannot use this command because your account is not linked yet. Please go to account settings on the website to link your Discord account.",
     "error_website_connection": "Could not connect to the website.",
     "error_not_owner": "You must be the owner of the Discord server to use this command.",
-
     "invalid_command": "Invalid commands. Valid commands: {commands}",
-
     "verify_usage": "Usage: `{command} <token>`",
     "verification_token_invalid": "Failed to verify your account, you have provided an invalid token.",
     "verification_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
     "verification_success": "Thank you for verifying, your account is now linked.",
-
     "apiurl_usage": "Usage: `{command} <server id> <api url>`",
     "apiurl_success": "Your discord server has been successfully linked to your NamelessMC website.",
     "apiurl_guild_invalid": "The provided Discord server ID is invalid.",
     "apiurl_url_malformed": "The provided API URL is malformed.",
-    "apiurl_not_owner": "You must be the owner of the discord server to change the API URL",
+    "apiurl_not_owner": "You must be the owner of the discord server to change the API URL.",
     "apiurl_failed_connection": "Could not connect to your website. This means the provided API URL was invalid or we are blocked by a proxy (e.g. cloudflare)",
     "apiurl_already_used": "This API URL is already used by a Discord server, use `{command}` to unlink.",
     "apiurl_success_updated": "Successfully changed the API URL.",
     "apiurl_success_new": "Successfully set up the API URL.",
-
     "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, reply with `{command} {guildId} <api url>`. The API URL can be found in `Panel > Configuration > API`.",
     "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please set a new one using `{command} {guildId} <api url>`",
     "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command} {guildId} <api url>`",
-
     "unused_connection": "Hello, you've linked your discord server '{discordServerName}' to NamelessMC using this bot. It looks like the website connection hasn't been used for a while, if you would like to remove your Discord server from this bot run `{command}`",
-
     "unlink_usage": "Usage: `{command} <server id>`",
     "unlink_guild_invalid": "The provided server does not exist or is not linked."
 }
