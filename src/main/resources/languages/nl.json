@@ -24,5 +24,6 @@
     "apiurl_already_used": "Deze API URL wordt al gebruikt door een andere Discord server, gebruik `{command}` om de verbinding te verbreken.",
     "apiurl_success_updated": "API URL succesvol gewijzigd.",
     "apiurl_success_new": "API URL succesvol ingesteld.",
-    "guild_join_success": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Om te beginnen, antwoord met `{command} {guildId} <api url>`. De API URL kan je vinden in `Paneel > Configuratie > API`."
+    "guild_join_success": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Om te beginnen, antwoord met `{command} {guildId} <api url>`. De API URL kan je vinden in `Paneel > Configuratie > API`.",
+    "guild_join_needs_renew": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Er is al een API URL ingesteld, maar deze werkt niet meer. Gebruik `{command} {guildId} <api url>` om een nieuwe in te stellen. De API URL kan je vinden in `StaffCP > Configuratie > API`."
 }
