@@ -25,7 +25,7 @@
     "error_not_linked": "Tento příkaz nelze použít protože váš účet ještě nebyl propojen. Jděte prosím do nastavení účtu na webu pro propojení vašeho Discord účtu.",
     "apiurl_success": "Váš Discord server byl úspěšně propojen s vaším NamelessMC webem.",
     "apiurl_failed_connection": "Nelze se připojit k vašemu webu. To znamená, že je poskytnuté URL API neplatné, nebo byla žádost zablokována proxy (např. Cloudflare).",
-    "guild_join_needs_renew": "Zdravím! Děkujeme za použití NamelessMC bota. Vypadá to, že jste již nastavili URL vašeho API, ale je již nefunkční. Vytvořte prosím novou pomocí `{command} <id serveru> <url api>`.",
+    "guild_join_needs_renew": "Zdravím! Děkujeme za použití NamelessMC bota. Vypadá to, že jste již nastavili URL vašeho API, ale je již nefunkční. Vytvořte prosím novou pomocí `{command} <id serveru> <url api>`. API URL lze naleznout v `StaffCP > Konfigurace > API`.",
     "guild_join_welcome_back": "Zdravím! Děkujeme za použití NamelessMC bota. Bot je již na tomto Discord serveru nastaven. Pokud si přejete použít jiné URL API, můžete jej změnit pomocí `{command} {guidId} <url api>`.",
     "apiurl_already_used": "Toto URL API již používá jiný Discord server, použijte `{command}` pro zrušení propojení.",
     "error_not_owner": "Pro použití tohoto příkazu musíte být majitelem tohoto Discord serveru.",
