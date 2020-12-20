@@ -87,7 +87,6 @@ public class Language {
 		case "EnglishUS":
 			return "en";
 		case "Spanish":
-		case "SpanishES":
 			return "es";
 		case "Norwegian":
 			return "nb_NO";
