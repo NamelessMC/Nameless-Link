@@ -88,6 +88,21 @@ public class Main {
 			System.err.println("Environment variable WEBSERVER_PORT is not a valid number");
 			System.exit(1);
 		}
+		
+		String defaultLang = System.getenv("DEFAULT_LANGUAGE");
+		if (defaultLang == null) {
+			System.out.println("Default language not specified, assuming " + DEFAULT_LANGUAGE_CODE);
+			defaultLang = DEFAULT_LANGUAGE_CODE;
+		}
+		
+		try {
+			Language.setDefaultLanguage(defaultLang);
+		} catch (final LanguageLoadException e) {
+			System.err.println("Could not load language '" + defaultLang + "'");
+			System.exit(1);
+		}
+		
+		HttpMain.init();
 
 		try {
 			final String token = System.getenv("DISCORD_TOKEN");
@@ -107,21 +122,6 @@ public class Main {
 			e.printStackTrace();
 			return;
 		}
-		
-		String defaultLang = System.getenv("DEFAULT_LANGUAGE");
-		if (defaultLang == null) {
-			System.out.println("Default language not specified, assuming " + DEFAULT_LANGUAGE_CODE);
-			defaultLang = DEFAULT_LANGUAGE_CODE;
-		}
-		
-		try {
-			Language.setDefaultLanguage(defaultLang);
-		} catch (final LanguageLoadException e) {
-			System.err.println("Could not load language '" + defaultLang + "'");
-			System.exit(1);
-		}
-
-		HttpMain.init();
 
 		// Register commands
 		new UnlinkCommand();
