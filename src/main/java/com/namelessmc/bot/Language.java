@@ -79,22 +79,22 @@ public class Language {
 		
 	}
 	
-	private static String namelessLanguageToWeblate(final String language) {
-		switch(language) {
-		case "Czech":
-			return "cz";
-		case "EnglishUK":
-		case "EnglishUS":
-			return "en";
-		case "Spanish":
-			return "es";
-		case "Norwegian":
-			return "nb_NO";
-		case "Dutch":
-			return "nl";
-		default:
-			return null;
-		}
+	private static final Map<String, String> NAMELESS_TO_POSIX = new HashMap<>();
+	
+	static {
+		NAMELESS_TO_POSIX.put("Czech", "cz_CZ");
+		NAMELESS_TO_POSIX.put("Greek", "el_GR");
+		NAMELESS_TO_POSIX.put("EnglishUK", "en_UK");
+		NAMELESS_TO_POSIX.put("EnglishUS", "en_US");
+		NAMELESS_TO_POSIX.put("Spanish", "es_419");
+		NAMELESS_TO_POSIX.put("SpanishES", "es_ES");
+		NAMELESS_TO_POSIX.put("French", "fr_FR");
+		NAMELESS_TO_POSIX.put("Italian", "it_IT");
+		NAMELESS_TO_POSIX.put("Lithuanian", "lt_LT");
+		NAMELESS_TO_POSIX.put("Norwegian", "nb_NO");
+		NAMELESS_TO_POSIX.put("Dutch", "nl_NL");
+		NAMELESS_TO_POSIX.put("Slovak", "sk_SK");
+		NAMELESS_TO_POSIX.put("Chinese(Simplified)", "zh_CN");
 	}
 
 	public static final Language DEFAULT;
@@ -189,9 +189,9 @@ public class Language {
 		try {
 			final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
 			if (nameless.isPresent()) {
-				return getLanguage(namelessLanguageToWeblate(nameless.get().getLangage()));
+				return getLanguage(NAMELESS_TO_POSIX.get(nameless.get().getLangage()));
 			} else {
-				return getLanguage(namelessLanguageToWeblate(api.getWebsite().getLanguage()));
+				return getLanguage(NAMELESS_TO_POSIX.get(api.getWebsite().getLanguage()));
 			}
 		} catch (final NamelessException e) {
 			// If we can't communicate with the website, fall back to english
