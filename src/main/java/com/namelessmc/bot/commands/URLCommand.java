@@ -28,7 +28,7 @@ public class URLCommand extends Command {
 
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
-		final Language language = Language.DEFAULT;
+		final Language language = Language.getDefaultLanguage();
 		
 		if (Main.getConnectionManager().isReadOnly()) {
 			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE));

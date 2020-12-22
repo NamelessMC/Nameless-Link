@@ -19,13 +19,13 @@ public class GuildJoinHandler extends ListenerAdapter {
 	public void onGuildJoin(final GuildJoinEvent event) {
 		Main.getLogger().info("Joined guild: " + event.getGuild().getName());
 
-		Language language = Language.DEFAULT;
+		Language language = Language.getDefaultLanguage();
 
 		Optional<NamelessAPI> api;
 		try {
 			api = Main.getConnectionManager().getApi(event.getGuild().getIdLong());
 		} catch (final BackendStorageException e) {
-			e.printStackTrace(); // TODO handle
+			e.printStackTrace();
 			return;
 		}
 		

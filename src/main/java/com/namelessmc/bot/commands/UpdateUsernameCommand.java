@@ -27,22 +27,24 @@ public class UpdateUsernameCommand extends Command {
 	public void execute(final User user, final String[] args, final Message message) {
 		final Guild guild = ((TextChannel) message.getChannel()).getGuild();
 		
+		Language language = Language.getDefaultLanguage();
+		
 		Optional<NamelessAPI> optApi;
 		try {
 			optApi = Main.getConnectionManager().getApi(guild.getIdLong());
 		} catch (final BackendStorageException e) {
-			message.reply(Language.DEFAULT.get(Term.ERROR_GENERIC)).queue();
+			message.reply(language.get(Term.ERROR_GENERIC)).queue();
 			return;
 		}
 		
 		if (optApi.isEmpty()) {
-			message.reply(Language.DEFAULT.get(Term.ERROR_NOT_SET_UP)).queue();
+			message.reply(language.get(Term.ERROR_NOT_SET_UP)).queue();
 			return;
 		}
 		
 		final NamelessAPI api = optApi.get();
 		
-		final Language language = Language.getDiscordUserLanguage(api, user);
+		language = Language.getDiscordUserLanguage(api, user);
 		
 		Optional<NamelessUser> optNameless;
 		try {

@@ -70,7 +70,7 @@ public abstract class Command {
 		
 		if (command == null) {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
-				final Language language = Language.DEFAULT;
+				final Language language = Language.getDefaultLanguage();
 				final String s = language.get(Term.INVALID_COMMAND, "commands", "`!unlink`, `!updateusername`, `!apiurl`, `!verify`");
 				Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 						.setTitle(language.get(Term.COMMANDS))

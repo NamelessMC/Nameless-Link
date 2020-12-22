@@ -21,7 +21,7 @@ public class UnlinkCommand extends Command {
 
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
-		Language language = Language.DEFAULT;
+		Language language = Language.getDefaultLanguage();
 		
 		if (Main.getConnectionManager().isReadOnly()) {
 			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE));

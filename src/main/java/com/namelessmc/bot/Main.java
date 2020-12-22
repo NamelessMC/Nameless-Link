@@ -14,6 +14,7 @@ import javax.security.auth.login.LoginException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.namelessmc.bot.Language.LanguageLoadException;
 import com.namelessmc.bot.commands.URLCommand;
 import com.namelessmc.bot.commands.UnlinkCommand;
 import com.namelessmc.bot.commands.UpdateUsernameCommand;
@@ -40,6 +41,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 public class Main {
 
 	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
+	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
 	
 	@Getter
 	private static JDA jda;
@@ -104,6 +106,19 @@ public class Main {
 		} catch (final LoginException e) {
 			e.printStackTrace();
 			return;
+		}
+		
+		String defaultLang = System.getenv("DEFAULT_LANGUAGE");
+		if (defaultLang == null) {
+			System.out.println("Default language not specified, assuming " + DEFAULT_LANGUAGE_CODE);
+			defaultLang = DEFAULT_LANGUAGE_CODE;
+		}
+		
+		try {
+			Language.setDefaultLanguage(defaultLang);
+		} catch (final LanguageLoadException e) {
+			System.err.println("Could not load language '" + defaultLang + "'");
+			System.exit(1);
 		}
 
 		HttpMain.init();

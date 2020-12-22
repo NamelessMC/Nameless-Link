@@ -99,15 +99,13 @@ public class Language {
 		NAMELESS_TO_POSIX.put("Chinese(Simplified)", "zh_CN");
 	}
 
-	public static final Language DEFAULT;
-	static {
-		try {
-			DEFAULT = new Language("en_UK");
-		} catch (final LanguageLoadException e) {
-			throw new Error(e);
-		}
+	@Getter
+	private static Language defaultLanguage;
+	
+	static void setDefaultLanguage(final String languageCode) throws LanguageLoadException {
+		defaultLanguage = new Language(languageCode);
 	}
-
+	
 	// Avoid having to instantiate new language objects all the time
 	private static final Map<String, Language> LANGUAGE_CACHE = new HashMap<>();
 
@@ -141,14 +139,14 @@ public class Language {
 		String translation;
 		if (this.json.has(term.toString())) {
 			translation = this.json.get(term.toString()).getAsString();
-		} else if (this == DEFAULT) {
+		} else if (this == getDefaultLanguage()) {
 			// oh no, cannot fall back to default translation if we are the default translation
 			throw new RuntimeException(
-					String.format("Term '%s' is missing from default (%s) translation", term, DEFAULT.language));
+					String.format("Term '%s' is missing from default (%s) translation", term, getDefaultLanguage().language));
 		} else {
 			Main.getLogger().warning(String.format("Language '%s' is missing term '%s', using default (%s) term instead.",
-					this.language, term, DEFAULT.language));
-			translation = DEFAULT.get(term, replacements);
+					this.language, term, getDefaultLanguage().language));
+			translation = getDefaultLanguage().get(term, replacements);
 		}
 		
 		for (int i = 0; i < replacements.length; i += 2) {
@@ -197,13 +195,13 @@ public class Language {
 			}
 		} catch (final NamelessException e) {
 			// If we can't communicate with the website, fall back to english
-			return DEFAULT;
+			return getDefaultLanguage();
 		}
 	}
 
 	public static Language getLanguage(final String languageName) {
 		if (languageName == null) {
-			return DEFAULT;
+			return getDefaultLanguage();
 		}
 		
 		Language language = LANGUAGE_CACHE.get(languageName);
@@ -215,9 +213,9 @@ public class Language {
 			language = new Language(languageName);
 		} catch (final LanguageLoadException e) {
 			System.err.println(
-					"Failed to load language '" + languageName + "', falling back to '" + DEFAULT.language + "'.");
+					"Failed to load language '" + languageName + "', falling back to '" + getDefaultLanguage().language + "'.");
 			e.printStackTrace();
-			language = DEFAULT;
+			language = getDefaultLanguage();
 		}
 		
 		LANGUAGE_CACHE.put(languageName, language);
@@ -225,7 +223,7 @@ public class Language {
 		return language;
 	}
 
-	private class LanguageLoadException extends Exception {
+	public static class LanguageLoadException extends Exception {
 
 		private static final long serialVersionUID = 1335651150585947607L;
 
