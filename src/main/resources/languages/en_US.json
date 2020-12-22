@@ -25,5 +25,7 @@
     "unlink_usage": "Usage: `{command} <server id>`.",
     "apiurl_usage": "Usage: `{command} <server id> <api url>`.",
     "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
-    "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet."
+    "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet.",
+    "error_read_only_storage": "This bot instance is configured with read-only storage. If you wish to modify its configuration you must do it manually instead of through commands.",
+    "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API."
 }
