@@ -13,6 +13,7 @@ import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -71,7 +72,8 @@ public class URLCommand extends Command {
 			api = Main.newApiConnection(apiUrl);
 			api.checkWebAPIConnection();
 		} catch (final NamelessException e) {
-			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).complete();
+			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();
 			return;
 		}
 
@@ -103,6 +105,7 @@ public class URLCommand extends Command {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
 		} catch (final NamelessException e) {
 			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();
 		}
 	}
 }
