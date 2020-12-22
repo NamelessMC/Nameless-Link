@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -35,6 +37,11 @@ public class URLCommand extends Command {
 
 		if (args.length != 2) {
 			message.reply(language.get(Term.APIURL_USAGE, "command", "!apiurl")).queue();
+			return;
+		}
+		
+		if (!args[1].contains("/index.php?route=/api/v2/")) {
+			message.reply(language.get(Term.APIURL_URL_INVALID)).queue();
 			return;
 		}
 
@@ -73,7 +80,7 @@ public class URLCommand extends Command {
 			api.checkWebAPIConnection();
 		} catch (final NamelessException e) {
 			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).complete();
-			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();
+			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
 			return;
 		}
 
@@ -105,7 +112,7 @@ public class URLCommand extends Command {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
 		} catch (final NamelessException e) {
 			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();
+			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
 		}
 	}
 }
