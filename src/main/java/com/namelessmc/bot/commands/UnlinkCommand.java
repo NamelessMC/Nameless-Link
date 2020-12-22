@@ -23,6 +23,11 @@ public class UnlinkCommand extends Command {
 	public void execute(final User user, final String[] args, final Message message) {
 		Language language = Language.DEFAULT;
 		
+		if (Main.getConnectionManager().isReadOnly()) {
+			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE));
+			return;
+		}
+		
 		if (args.length != 1) {
 			message.reply(language.get(Term.UNLINK_USAGE, "command", "!unlink")).queue();
 			return;

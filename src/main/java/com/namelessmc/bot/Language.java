@@ -33,6 +33,7 @@ public class Language {
 		ERROR_NOT_LINKED,
 		ERROR_WEBSITE_CONNECTION,
 		ERROR_NOT_OWNER,
+		ERROR_READ_ONLY_STORAGE,
 		
 		INVALID_COMMAND("commands"),
 		

@@ -26,6 +26,11 @@ public class URLCommand extends Command {
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
 		final Language language = Language.DEFAULT;
+		
+		if (Main.getConnectionManager().isReadOnly()) {
+			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE));
+			return;
+		}
 
 		if (args.length != 2) {
 			message.reply(language.get(Term.APIURL_USAGE, "command", "!apiurl")).queue();
