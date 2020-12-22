@@ -116,27 +116,28 @@ public class Main {
 
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-		// TODO be smarter about this, don't spam requests at startup
-		scheduler.schedule(() -> {
-			System.out.println("Updating bot settings..");
-			try {
-				final User user = jda.getSelfUser();
-				final String username = user.getName() + "#" + user.getDiscriminator();
-				for (final URL url : connectionManager.listConnections()) {
-					System.out.print("Sending to " + url.toString() + "... ");
-					try {
-						final NamelessAPI api = Main.newApiConnection(url);
-						api.setDiscordBotUrl(botUrl);
-						api.setDiscordBotUser(username, user.getIdLong());
-						System.out.println("OK");
-					} catch (final NamelessException e) {
-						System.out.println("error");
+		if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
+			scheduler.schedule(() -> {
+				System.out.println("Updating bot settings..");
+				try {
+					final User user = jda.getSelfUser();
+					final String username = user.getName() + "#" + user.getDiscriminator();
+					for (final URL url : connectionManager.listConnections()) {
+						System.out.print("Sending to " + url.toString() + "... ");
+						try {
+							final NamelessAPI api = Main.newApiConnection(url);
+							api.setDiscordBotUrl(botUrl);
+							api.setDiscordBotUser(username, user.getIdLong());
+							System.out.println("OK");
+						} catch (final NamelessException e) {
+							System.out.println("error");
+						}
 					}
+				} catch (final BackendStorageException e) {
+					e.printStackTrace();
 				}
-			} catch (final BackendStorageException e) {
-				e.printStackTrace();
-			}
-		}, 5, TimeUnit.SECONDS);
+			}, 5, TimeUnit.SECONDS);
+		}
 		
 		scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(2), TimeUnit.HOURS.toMillis(2), TimeUnit.MILLISECONDS);
 	}
