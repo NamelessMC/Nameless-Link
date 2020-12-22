@@ -101,7 +101,7 @@ public class Language {
 	public static final Language DEFAULT;
 	static {
 		try {
-			DEFAULT = new Language("en");
+			DEFAULT = new Language("en_UK");
 		} catch (final LanguageLoadException e) {
 			throw new Error(e);
 		}
