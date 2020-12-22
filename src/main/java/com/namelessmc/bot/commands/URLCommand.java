@@ -79,8 +79,8 @@ public class URLCommand extends Command {
 			api = Main.newApiConnection(apiUrl);
 			api.checkWebAPIConnection();
 		} catch (final NamelessException e) {
-			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).complete();
 			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
 			return;
 		}
 
@@ -111,8 +111,8 @@ public class URLCommand extends Command {
 		} catch (final BackendStorageException e) {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
 		} catch (final NamelessException e) {
-			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
 			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
 		}
 	}
 }
