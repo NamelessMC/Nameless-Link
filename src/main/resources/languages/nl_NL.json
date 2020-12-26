@@ -31,5 +31,7 @@
     "unlink_usage": "Gebruik: `{command} <server id>`.",
     "unlink_guild_invalid": "De opgegeven server bestaat niet of is niet verbonden.",
     "apiurl_url_invalid": "De opgegeven API URL lijkt niet op een NamelssMC API URL. Je kan de API URL vinden in StaffCP > Configuratie > API.",
-    "error_read_only_storage": "Deze bot instantie is ingesteld met opslag waar niet naar geschreven kan worden. Als je de bot wilt instellen moet je dit handmatig doen in plaats van via commando's."
+    "error_read_only_storage": "Deze bot instantie is ingesteld met opslag waar niet naar geschreven kan worden. Als je de bot wilt instellen moet je dit handmatig doen in plaats van via commando's.",
+    "error_guild_id_invalid": "De opgegeven Discord server ID is ongeldig.",
+    "verify_token_invalid": "Kon je account niet verifiëren, de opgegeven token is ongeldig."
 }
