@@ -95,6 +95,9 @@ public class URLCommand extends Command {
 			api.setDiscordBotUrl(Main.getBotUrl());
 			api.setDiscordGuildId(guildId);
 
+			final User botUser = Main.getJda().getSelfUser();
+			api.setDiscordBotUser(botUser.getName() + "#" + botUser.getDiscriminator(), botUser.getIdLong());
+
 			final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
 
 			if (oldApi.isEmpty()) {
