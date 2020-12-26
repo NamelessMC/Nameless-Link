@@ -59,7 +59,8 @@ public class Language {
 		UNUSED_CONNECTION("discordServerName", "command"),
 		
 		UNLINK_USAGE("command"),
-		UNLINK_GUILD_INVALID,
+		UNLINK_GUILD_NOT_LINKED,
+		UNLINK_GUILD_UNKNOWN,
 		
 		;
 		

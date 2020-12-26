@@ -51,7 +51,7 @@ public class UnlinkCommand extends Command {
 		}
 		
 		if (optApi.isEmpty()) {
-			message.reply(language.get(Term.UNLINK_GUILD_INVALID)).queue();
+			message.reply(language.get(Term.UNLINK_GUILD_NOT_LINKED)).queue();
 			return;
 		}
 		
@@ -62,7 +62,7 @@ public class UnlinkCommand extends Command {
 		final Guild guild = Main.getJda().getGuildById(guildId);
 	
 		if (guild == null) {
-			message.reply(language.get(Term.UNLINK_GUILD_INVALID)).queue();
+			message.reply(language.get(Term.UNLINK_GUILD_UNKNOWN)).queue();
 			return;
 		}
 		
