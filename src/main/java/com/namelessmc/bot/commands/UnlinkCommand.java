@@ -37,7 +37,7 @@ public class UnlinkCommand extends Command {
 		try {
 			guildId = Long.parseLong(args[0]);
 		} catch (final NumberFormatException e) {
-			message.reply(language.get(Term.APIURL_GUILD_INVALID)).queue();
+			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
 			return;
 		}
 		
