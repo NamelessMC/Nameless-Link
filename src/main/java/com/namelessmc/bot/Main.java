@@ -57,6 +57,7 @@ public class Main {
 	private static URL botUrl;
 	@Getter
 	private static int webserverPort;
+	private static boolean apiDebug;
 
 	public static void main(final String[] args) throws IOException, BackendStorageException {
 		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
@@ -93,6 +94,12 @@ public class Main {
 		if (defaultLang == null) {
 			System.out.println("Default language not specified, assuming " + DEFAULT_LANGUAGE_CODE);
 			defaultLang = DEFAULT_LANGUAGE_CODE;
+		}
+		
+		if (System.getenv("API_DEBUG") != null) {
+			apiDebug = Boolean.parseBoolean(System.getenv("API_DEBUG"));
+		} else {
+			apiDebug = false;
 		}
 		
 		try {
@@ -177,8 +184,7 @@ public class Main {
 	private static final Map<URL, NamelessAPI> API_CACHE = new HashMap<>();
 	
 	public static NamelessAPI newApiConnection(final URL url) {
-		final boolean debug = false; // TODO debug configurable
-		API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, debug));
+		API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, apiDebug));
 		return API_CACHE.get(url);
 	}
 
