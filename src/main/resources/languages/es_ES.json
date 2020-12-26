@@ -6,8 +6,8 @@
     "commands": "Comandos",
     "help": "Ayuda",
     "error_generic": "Ha ocurrido un error interno.",
-    "error_not_set_up": "No puedes usar este comando por el momento, el bot no ha sido configurado todavía.",
-    "error_not_linked": "No puedes usar este comando porque tu cuenta aún no está vinculada. Por favor, ve a la configuración de la cuenta en el sitio web para vincular tu cuenta de Discord.",
+    "error_not_set_up": "No puede usar este comando por el momento, el bot no ha sido configurado todavía.",
+    "error_not_linked": "No puede usar este comando porque su cuenta aún no está vinculada. Por favor, vaya a la configuración de la cuenta en el sitio web para vincular su cuenta de Discord.",
     "error_website_connection": "No se pudo conectar al sitio web.",
     "invalid_command": "Comandos inválidos. Comandos válidos: {commands}.",
     "verification_title": "Verificación",
@@ -32,5 +32,7 @@
     "apiurl_already_used": "Esta API URL ya es usada por un servidor de Discord, usa `{command}` para desvincularse.",
     "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`.",
     "unlink_usage": "Uso: `{command} <id del servidor>`.",
-    "unlink_guild_invalid": "El servidor proporcionado no existe o no está vinculado."
+    "unlink_guild_invalid": "El servidor proporcionado no existe o no está vinculado.",
+    "error_read_only_storage": "Esta instancia del bot está configurada con almacenamiento de sólo lectura. Si desea modificar su configuración debe hacerlo manualmente en vez de con comandos.",
+    "apiurl_url_invalid": "La URL de la API proporcionada no se parece a la URL de la API de NamelessMC. Puedes encontrar la URL de la API en StaffCP > Configuración > API."
 }
