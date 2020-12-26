@@ -12,9 +12,9 @@
     "invalid_command": "Invalid commands. Valid commands: {commands}.",
 
     "verify_usage": "Usage: `{command} <token>`.",
-    "verification_token_invalid": "Failed to verify your account, you have provided an invalid token.",
-    "verification_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
-    "verification_success": "Thank you for verifying, your account is now linked.",
+    "verify_token_invalid": "Failed to verify your account, you have provided an invalid token.",
+    "verify_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
+    "verify_success": "Thank you for verifying, your account is now linked.",
 
     "apiurl_usage": "Usage: `{command} <server id> <api url>`.",
     "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
