@@ -73,6 +73,7 @@ public class UnlinkCommand extends Command {
 		
 		try {
 			Main.getConnectionManager().removeConnection(guildId);
+			Main.getLogger().info("Unlinked from guild " + guildId);
 		} catch (final BackendStorageException e) {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
 			e.printStackTrace();

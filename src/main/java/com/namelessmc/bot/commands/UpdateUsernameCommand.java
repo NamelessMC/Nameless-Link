@@ -60,7 +60,8 @@ public class UpdateUsernameCommand extends Command {
 		}
 
 		try {
-			api.updateDiscordUsernames(new long[] {user.getIdLong()}, new String[] {user.getName()});
+			api.updateDiscordUsernames(new long[] {user.getIdLong()}, new String[] {user.getName() + "#" + user.getDiscriminator()});
+			Main.getLogger().info("Updated username for user " + user.getIdLong() + " to " + user.getName() + "#" + user.getDiscriminator());
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 				message.reply(language.get(Term.ERROR_NOT_LINKED)).queue();

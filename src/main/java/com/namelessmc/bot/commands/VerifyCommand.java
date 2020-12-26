@@ -62,6 +62,7 @@ public class VerifyCommand extends Command {
 		try {
 			api.get().verifyDiscord(verify, user.getIdLong(), user.getName() + "#" + user.getDiscriminator());
 			message.reply(language.get(Term.VERIFY_SUCCESS)).queue();
+			Main.getLogger().info("Verified user " + user.getName() + "#" + user.getDiscriminator() + " in guild " + guildId);
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 				message.reply(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
