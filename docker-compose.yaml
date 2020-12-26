@@ -22,4 +22,5 @@ services:
       POSTGRES_NAME: postgres
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres
+      API_DEBUG: 'true'
 
