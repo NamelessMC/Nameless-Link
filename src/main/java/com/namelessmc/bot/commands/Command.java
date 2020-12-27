@@ -9,7 +9,6 @@ import java.util.List;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
-import com.namelessmc.bot.Utils;
 
 import lombok.Getter;
 import net.dv8tion.jda.api.entities.Message;
@@ -57,8 +56,6 @@ public abstract class Command {
 	protected abstract void execute(User user, String[] args, Message message);
 	
 	public static void execute(final Message message) {
-		
-		
 		String[] args = message.getContentRaw().split(" ");
 		final String commandName = args[0];
 		args = Arrays.copyOfRange(args, 1, args.length);
@@ -72,10 +69,9 @@ public abstract class Command {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
 				final Language language = Language.getDefaultLanguage();
 				final String s = language.get(Term.INVALID_COMMAND, "commands", "`!unlink`, `!updateusername`, `!apiurl`, `!verify`");
-				Main.getEmbedBuilder().clear().setColor(Color.GREEN)
+				message.getChannel().sendMessage(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 						.setTitle(language.get(Term.COMMANDS))
-						.addField(language.get(Term.HELP), s, false);
-				Utils.messageUser(user, Main.getEmbedBuilder());
+						.addField(language.get(Term.HELP), s, false).build()).queue();
 			}
 			return;
 		}
