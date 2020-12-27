@@ -33,6 +33,7 @@ import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
@@ -59,7 +60,7 @@ public class Main {
 	private static int webserverPort;
 	private static boolean apiDebug;
 
-	public static void main(final String[] args) throws IOException, BackendStorageException {
+	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
 		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
 		
 		initializeConnectionManager();
@@ -138,27 +139,39 @@ public class Main {
 
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-		if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
-			scheduler.schedule(() -> {
-				System.out.println("Updating bot settings..");
-				try {
-					final User user = jda.getSelfUser();
-					final String username = user.getName() + "#" + user.getDiscriminator();
-					for (final URL url : connectionManager.listConnections()) {
-						System.out.print("Sending to " + url.toString() + "... ");
-						try {
-							final NamelessAPI api = Main.newApiConnection(url);
-							api.setDiscordBotUrl(botUrl);
-							api.setDiscordBotUser(username, user.getIdLong());
-							System.out.println("OK");
-						} catch (final NamelessException e) {
-							System.out.println("error");
+		final User user = jda.getSelfUser();
+		final String username = user.getName() + "#" + user.getDiscriminator();
+		
+		if (Main.getConnectionManager().isReadOnly()) {
+			final NamelessAPI api = newApiConnection(connectionManager.listConnections().get(0));
+			Main.getLogger().info("Sending bot settings to " + api.getApiUrl());
+			api.setDiscordBotUrl(botUrl);
+			api.setDiscordBotUser(username, user.getIdLong());
+			final long guildId = connectionManager.getGuildIdByURL(api.getApiUrl()).get();
+			api.setDiscordGuildId(guildId);
+			final Guild guild = Main.getJda().getGuildById(guildId);
+			DiscordRoleListener.sendRoleListToWebsite(guild);
+		} else {
+			if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
+				scheduler.schedule(() -> {
+					try {
+						Main.getLogger().info("Updating bot settings..");
+						for (final URL url : connectionManager.listConnections()) {
+							try {
+								final NamelessAPI api = Main.newApiConnection(url);
+								api.setDiscordBotUrl(botUrl);
+								api.setDiscordBotUser(username, user.getIdLong());
+								Main.logger.info(url.toString() + " success");
+							} catch (final NamelessException e) {
+								Main.logger.info(url.toString() + " error");
+							}
 						}
+						Main.getLogger().info("Done updating bot settings");
+					} catch (final BackendStorageException e) {
+						e.printStackTrace();
 					}
-				} catch (final BackendStorageException e) {
-					e.printStackTrace();
-				}
-			}, 5, TimeUnit.SECONDS);
+				}, 5, TimeUnit.SECONDS);
+			}
 		}
 		
 		if (!Main.getConnectionManager().isReadOnly()) {
