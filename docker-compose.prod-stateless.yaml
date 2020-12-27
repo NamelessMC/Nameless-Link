@@ -16,5 +16,5 @@ services:
       DISCORD_TOKEN: # discord bot token
       STORAGE_TYPE: stateless
       API_URL:  # Your NamelessMC API URL
-      GULID_ID:  # Your Discord guild id
+      GUILD_ID:  # Your Discord guild id
     restart: always
