@@ -203,8 +203,10 @@ public class Main {
 	private static final Map<URL, NamelessAPI> API_CACHE = new HashMap<>();
 	
 	public static NamelessAPI newApiConnection(final URL url) {
-		API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, apiDebug));
-		return API_CACHE.get(url);
+		synchronized(API_CACHE) {
+			API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, apiDebug));
+			return API_CACHE.get(url);
+		}
 	}
 
 }
