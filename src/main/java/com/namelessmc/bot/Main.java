@@ -150,6 +150,10 @@ public class Main {
 			final long guildId = connectionManager.getGuildIdByURL(api.getApiUrl()).get();
 			api.setDiscordGuildId(guildId);
 			final Guild guild = Main.getJda().getGuildById(guildId);
+			if (guild == null) {
+				Main.getLogger().severe("Guild with id " + guildId + " does not exist. Is the ID wrong or is the bot not in this guild?");
+				System.exit(1);
+			}
 			DiscordRoleListener.sendRoleListToWebsite(guild);
 		} else {
 			if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
