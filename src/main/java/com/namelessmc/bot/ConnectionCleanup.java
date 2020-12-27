@@ -18,10 +18,6 @@ public class ConnectionCleanup {
 	
 	public static void run() {
 		final Logger log = Main.getLogger();
-		if (Main.getConnectionManager().isReadOnly()) {
-			log.info("Skipping connection cleanup, connection manager is read only (e.g. stateless mode)");
-			return;
-		}
 		
 		log.info("Cleaning up connections...");
 		try {

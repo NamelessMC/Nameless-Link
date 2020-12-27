@@ -161,7 +161,9 @@ public class Main {
 			}, 5, TimeUnit.SECONDS);
 		}
 		
-		scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(2), TimeUnit.HOURS.toMillis(2), TimeUnit.MILLISECONDS);
+		if (!Main.getConnectionManager().isReadOnly()) {
+			scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(2), TimeUnit.HOURS.toMillis(2), TimeUnit.MILLISECONDS);
+		}
 	}
 
 	private static void initializeConnectionManager() throws IOException {
