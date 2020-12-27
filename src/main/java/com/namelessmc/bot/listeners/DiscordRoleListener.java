@@ -62,9 +62,9 @@ public class DiscordRoleListener extends ListenerAdapter {
 		} catch (final BackendStorageException e) {
 			e.printStackTrace();
 		} catch (final ApiError e) {
-			Main.getLogger().warning("API error " + e.getError() + " while sending role update for guild " + guild.getIdLong());
+			Main.getLogger().warning("API error " + e.getError() + " while sending role list for guild " + guild.getIdLong());
 		} catch (final NamelessException e) {
-			Main.getLogger().warning("Website communication error while sending role update for guild " + guild.getIdLong());
+			Main.getLogger().warning("Website communication error while sending role list for guild " + guild.getIdLong());
 		}
 	}
 	
