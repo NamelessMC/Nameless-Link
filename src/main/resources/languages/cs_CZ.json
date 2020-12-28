@@ -32,5 +32,13 @@
     "verify_usage": "Použití: `{command} <token>`.",
     "unlink_usage": "Použití: `{command} <id serveru>`.",
     "unlink_guild_invalid": "Daný server neexistuje nebo není propojen.",
-    "unused_connection": "Zdravím, propojili jste váš Discord server ‚{discordServerName}‘ s Na`{command}`.melessMC pomocí tohoto bota. Zdá se, že propojení s webem nebylo nějakou dobu využito. Pokud chcete odebrat toto propojení, zadejte `{command}`."
+    "unused_connection": "Zdravím, propojili jste váš Discord server ‚{discordServerName}‘ s Na`{command}`.melessMC pomocí tohoto bota. Zdá se, že propojení s webem nebylo nějakou dobu využito. Pokud chcete odebrat toto propojení, zadejte `{command}`.",
+    "error_read_only_storage": "Tato instance bota je nakongifurována s úložištěm pouze ke čtení. Pokud chcete modifikovat jeho konfiguraci, musíte tak učinit ručně, místo příkazů.",
+    "error_guild_id_invalid": "Zadané ID serveru je neplatné.",
+    "apiurl_url_invalid": "Zadaná URL API nevypadá jako NamelessMC URL API. URL API lze nalézt v StaffCP > Konfigurace > API.",
+    "unlink_guild_not_linked": "Zadaný server není propojen.",
+    "unlink_guild_unknown": "Zadaný server neexistuje nebo není bot členem daného serveru.",
+    "verify_token_invalid": "Nepodařilo se ověřit váš účet, zadali jste neplatný token.",
+    "verify_not_used": "Nelze ověřit váš účet, zadali jste ověřovací token webu, který nepoužívá tohoto bota.",
+    "verify_success": "Děkujeme za ověření, váš účet je nyní propojen."
 }

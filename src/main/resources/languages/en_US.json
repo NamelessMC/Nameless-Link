@@ -27,5 +27,11 @@
     "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
     "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet.",
     "error_read_only_storage": "This bot instance is configured with read-only storage. If you wish to modify its configuration you must do it manually instead of through commands.",
-    "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API."
+    "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API.",
+    "error_guild_id_invalid": "The provided Discord server ID is invalid.",
+    "unlink_guild_not_linked": "The provided server is not linked.",
+    "unlink_guild_unknown": "The provided server does not exist or the bot is not a member of the guild.",
+    "verify_token_invalid": "Failed to verify your account, you have provided an invalid token.",
+    "verify_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
+    "verify_success": "Thank you for verifying, your account is now linked."
 }
