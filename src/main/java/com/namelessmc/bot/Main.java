@@ -33,6 +33,7 @@ import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -181,6 +182,10 @@ public class Main {
 		if (!Main.getConnectionManager().isReadOnly()) {
 			scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(2), TimeUnit.HOURS.toMillis(2), TimeUnit.MILLISECONDS);
 		}
+	}
+	
+	public static boolean canModifySettings(final User user, final Guild guild) {
+		return guild.getMember(user).hasPermission(Permission.ADMINISTRATOR);
 	}
 
 	private static void initializeConnectionManager() throws IOException {

@@ -68,8 +68,8 @@ public class URLCommand extends Command {
 			return;
 		}
 
-		if (guild.getOwnerIdLong() != user.getIdLong()) {
-			message.reply(language.get(Term.APIURL_NOT_OWNER)).queue();
+		if (!Main.canModifySettings(user, guild)) {
+			message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
 			return;
 		}
 

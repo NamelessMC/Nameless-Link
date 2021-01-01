@@ -66,8 +66,8 @@ public class UnlinkCommand extends Command {
 			return;
 		}
 		
-		if (!user.equals(guild.getOwner().getUser())) {
-			message.reply(language.get(Term.ERROR_NOT_OWNER)).queue();
+		if (!Main.canModifySettings(user, guild)) {
+			message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
 			return;
 		}
 		
