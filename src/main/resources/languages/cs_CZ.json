@@ -40,5 +40,6 @@
     "unlink_guild_unknown": "Zadaný server neexistuje nebo není bot členem daného serveru.",
     "verify_token_invalid": "Nepodařilo se ověřit váš účet, zadali jste neplatný token.",
     "verify_not_used": "Nelze ověřit váš účet, zadali jste ověřovací token webu, který nepoužívá tohoto bota.",
-    "verify_success": "Děkujeme za ověření, váš účet je nyní propojen."
+    "verify_success": "Děkujeme za ověření, váš účet je nyní propojen.",
+    "error_no_permission": "V daném Discord serveru musíte mít oprávnění 'Administrátor' pro použití tohoto příkazu."
 }
