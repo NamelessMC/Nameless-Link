@@ -85,6 +85,7 @@ public class Language {
 	
 	static {
 		NAMELESS_TO_POSIX.put("Czech", "cz_CZ");
+		NAMELESS_TO_POSIX.put("German", "de_DE");
 		NAMELESS_TO_POSIX.put("Greek", "el_GR");
 		NAMELESS_TO_POSIX.put("EnglishUK", "en_UK");
 		NAMELESS_TO_POSIX.put("EnglishUS", "en_US");
@@ -95,7 +96,10 @@ public class Language {
 		NAMELESS_TO_POSIX.put("Lithuanian", "lt_LT");
 		NAMELESS_TO_POSIX.put("Norwegian", "nb_NO");
 		NAMELESS_TO_POSIX.put("Dutch", "nl_NL");
+		NAMELESS_TO_POSIX.put("Polish", "pl_PL");
+		NAMELESS_TO_POSIX.put("Russian", "ru_RU");
 		NAMELESS_TO_POSIX.put("Slovak", "sk_SK");
+		NAMELESS_TO_POSIX.put("Turkish", "tr_TR");
 		NAMELESS_TO_POSIX.put("Chinese(Simplified)", "zh_CN");
 	}
 
