@@ -33,5 +33,7 @@
     "error_guild_id_invalid": "提供的 Discord 服务器 ID 无效。",
     "verify_token_invalid": "无法验证您的帐号，您提供的 token 无效。",
     "verify_not_used": "无法验证您的帐号，您提供的 token 属于一个并不在使用此机器人的网站。",
-    "unlink_guild_unknown": "提供的服务器不存在，或者此机器人并非此服务器的成员。"
+    "unlink_guild_unknown": "提供的服务器不存在，或者此机器人并非此服务器的成员。",
+    "error_no_permission": "您必须在目标 Discord 服务器中有 \"管理员\" 权限才能使用此指令。",
+    "apiurl_try_https": "您的 API 链接 (URL) 使用的是 http://。即便您正在通过代理使用 HTTPS，网站仍会显示 HTTP 的 API 链接 (URL)。请您再运行此命令一次，并且将 http:// 替换为 https://。"
 }
