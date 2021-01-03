@@ -118,6 +118,9 @@ public class URLCommand extends Command {
 		} catch (final NamelessException e) {
 			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
 			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+			if (apiUrl.toString().startsWith("http://")) {
+				message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
+			}
 		}
 	}
 }

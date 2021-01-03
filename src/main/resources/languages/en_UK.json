@@ -23,6 +23,7 @@
     "apiurl_url_malformed": "The provided API URL is malformed.",
     "apiurl_failed_connection": "Could not connect to your website. This means the provided API URL was invalid or we are blocked by a proxy (e.g. Cloudflare).",
     "apiurl_already_used": "This API URL is already used by a Discord server, use `{command}` to unlink.",
+    "apiurl_try_https": "Your API URL uses http://. If you are using a proxy for HTTPS, the website still displays HTTP API URLs. Please try running this command again, replacing http:// with https:// in the API URL.",
     "apiurl_success_updated": "Successfully changed the API URL.",
     "apiurl_success_new": "Successfully set up the API URL.",
 
