@@ -33,5 +33,7 @@
     "unlink_guild_unknown": "The provided server does not exist or the bot is not a member of the server.",
     "verify_token_invalid": "Failed to verify your account, you have provided an invalid token.",
     "verify_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
-    "verify_success": "Thank you for verifying, your account is now linked."
+    "verify_success": "Thank you for verifying, your account is now linked.",
+    "apiurl_try_https": "Your API URL uses http://. If you are using a proxy for HTTPS, the website still displays HTTP API URLs. Please try running this command again, replacing http:// with https:// in the API URL.",
+    "error_no_permission": "You must have 'Administrator' permission in the target Discord server to use this command."
 }
