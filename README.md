@@ -7,5 +7,5 @@ For documentation please consult the [wiki](https://github.com/NamelessMC/Namele
 ## Translations
 
 <a href="http://translate.namelessmc.com/engage/namelessmc/">
-<img src="http://translate.namelessmc.com/widgets/namelessmc/-/multi-auto.svg" alt="Translation status" />
+<img src="http://translate.namelessmc.com/widgets/namelessmc/-/discord-bot/multi-auto.svg" alt="Translation status" />
 </a>
