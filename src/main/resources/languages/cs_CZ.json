@@ -41,5 +41,6 @@
     "verify_token_invalid": "Nepodařilo se ověřit váš účet, zadali jste neplatný token.",
     "verify_not_used": "Nelze ověřit váš účet, zadali jste ověřovací token webu, který nepoužívá tohoto bota.",
     "verify_success": "Děkujeme za ověření, váš účet je nyní propojen.",
-    "error_no_permission": "V daném Discord serveru musíte mít oprávnění 'Administrátor' pro použití tohoto příkazu."
+    "error_no_permission": "V daném Discord serveru musíte mít oprávnění 'Administrátor' pro použití tohoto příkazu.",
+    "apiurl_try_https": "URL vašeho API používá http://. Pokud používáte proxy pro HTTPS, web i přesto zobrazí HTTP URL API. Zkuste prosím spustit tento příkaz znovu, ale nahraďte v URL API http:// s https://."
 }
