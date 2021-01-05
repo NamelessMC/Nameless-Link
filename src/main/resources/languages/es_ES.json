@@ -40,5 +40,7 @@
     "unlink_guild_unknown": "El servidor proporcionado no existe o el bot no es miembro del servidor.",
     "verify_token_invalid": "Error al verificar su cuenta, no ha proporcionado un token válido.",
     "verify_not_used": "No se puede verificar su cuenta, ha proporcionado un token de verificación para un sitio web que no utiliza este bot.",
-    "verify_success": "Gracias por verificar su cuenta, ahora está vinculada."
+    "verify_success": "Gracias por verificar su cuenta, ahora está vinculada.",
+    "error_no_permission": "Debes tener permiso de \"Administrador\" en el servidor de Discord para usar este comando.",
+    "apiurl_try_https": "La URL de su API utiliza http://. Si está utilizando un proxy para HTTPS, el sitio web aún sigue mostrando las URL de la API HTTP. Intenta ejecutar este comando de nuevo, sustituyendo http:// por https:// en la URL de la API."
 }
