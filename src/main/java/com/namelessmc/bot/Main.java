@@ -32,6 +32,7 @@ import com.namelessmc.java_api.NamelessException;
 import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDA.Status;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -131,12 +132,24 @@ public class Main {
 			e.printStackTrace();
 			return;
 		}
-
+		
 		// Register commands
 		new UnlinkCommand();
 		new UpdateUsernameCommand();
 		new URLCommand();
 		new VerifyCommand();
+		
+		logger.info("Waiting for JDA to connect, this can take a long time (30+ seconds is not unusual)...");
+		logger.info("Note: the JDA message \"Connected to WebSocket\" does not mean it is finished connecting!");
+		
+		try {
+			jda.awaitStatus(Status.CONNECTED);
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		logger.info("JDA connected!");
 
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
@@ -152,7 +165,7 @@ public class Main {
 			api.setDiscordGuildId(guildId);
 			final Guild guild = Main.getJda().getGuildById(guildId);
 			if (guild == null) {
-				Main.getLogger().severe("Guild with id " + guildId + " does not exist. Is the ID wrong or is the bot not in this guild?");
+				logger.severe("Guild with id " + guildId + " does not exist. Is the ID wrong or is the bot not in this guild?");
 				System.exit(1);
 			}
 			DiscordRoleListener.sendRoleListToWebsite(guild);
@@ -166,12 +179,12 @@ public class Main {
 								final NamelessAPI api = Main.newApiConnection(url);
 								api.setDiscordBotUrl(botUrl);
 								api.setDiscordBotUser(username, user.getIdLong());
-								Main.logger.info(url.toString() + " success");
+								logger.info(url.toString() + " success");
 							} catch (final NamelessException e) {
-								Main.logger.info(url.toString() + " error");
+								logger.info(url.toString() + " error");
 							}
 						}
-						Main.getLogger().info("Done updating bot settings");
+						logger.info("Done updating bot settings");
 					} catch (final BackendStorageException e) {
 						e.printStackTrace();
 					}
