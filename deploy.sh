@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e
 VERSION=1.0
 ./build.sh
 docker build -t namelessmc/discord-link:$VERSION .
