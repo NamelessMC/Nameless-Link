@@ -33,7 +33,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 		final String apiUrlCommand = "!apiurl"; // TODO Configurable command prefix
 		final long guildId = event.getGuild().getIdLong();
 		
-		final User owner = event.getGuild().getOwner().getUser();
+		final User owner = Main.getJda().retrieveUserById(event.getGuild().getOwnerIdLong()).complete();
 		final PrivateChannel channel = owner.openPrivateChannel().complete();
 
 		if (api.isEmpty()) {
@@ -44,8 +44,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 			try {
 				api.get().checkWebAPIConnection();
 				// Good to go
-				language = Language.getDiscordUserLanguage(api.get(),
-						event.getGuild().retrieveOwner().complete().getUser());
+				language = Language.getDiscordUserLanguage(api.get(), owner);
 				channel.sendMessage(language.get(Term.GUILD_JOIN_WELCOME_BACK, "command", apiUrlCommand, "guildId", guildId)).queue();
 			} catch (final NamelessException e) {
 				// Error with their stored url. Make them update the url

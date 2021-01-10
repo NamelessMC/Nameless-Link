@@ -13,6 +13,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.User;
 
 public class ConnectionCleanup {
 	
@@ -41,7 +42,7 @@ public class ConnectionCleanup {
 				final long guildId = optGuildId.get();
 				
 				log.info(String.format("Checking %s (guild id %s)", url.getHost(), guildId));
-				
+
 				final Guild guild = Main.getJda().getGuildById(guildId);
 				
 				if (guild == null) {
@@ -52,12 +53,13 @@ public class ConnectionCleanup {
 				
 				log.info("Guild exists, sending message to guild owner.");
 				
-				final PrivateChannel channel = guild.getOwner().getUser().openPrivateChannel().complete();
+				final User owner = Main.getJda().retrieveUserById(guild.getOwnerIdLong()).complete();
+				final PrivateChannel channel = owner.openPrivateChannel().complete();
 				
-				System.out.println(guild.getOwner().getUser().getIdLong() + " " + channel.getIdLong());
+				log.info("user id " + owner.getIdLong() + " channel id " + channel.getIdLong());
 				
 				final NamelessAPI api = Main.newApiConnection(url);
-				final Language language = Language.getDiscordUserLanguage(api, guild.getOwner().getUser());
+				final Language language = Language.getDiscordUserLanguage(api, owner);
 				final String command = "!unlink " + guildId;
 				final String s = language.get(Term.UNUSED_CONNECTION, "discordServerName", guild.getName(), "command", command);
 				final Message message = channel.sendMessage(s).complete();

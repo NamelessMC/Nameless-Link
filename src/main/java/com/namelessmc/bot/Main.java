@@ -37,15 +37,12 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.utils.ChunkingFilter;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class Main {
 
 	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
 	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
-	
+
 	@Getter
 	private static JDA jda;
 	@Getter
@@ -64,7 +61,7 @@ public class Main {
 
 	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
 		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
-		
+
 		initializeConnectionManager();
 
 		final String botUrlStr = System.getenv("BOT_URL");
@@ -92,26 +89,26 @@ public class Main {
 			System.err.println("Environment variable WEBSERVER_PORT is not a valid number");
 			System.exit(1);
 		}
-		
+
 		String defaultLang = System.getenv("DEFAULT_LANGUAGE");
 		if (defaultLang == null) {
 			System.out.println("Default language not specified, assuming " + DEFAULT_LANGUAGE_CODE);
 			defaultLang = DEFAULT_LANGUAGE_CODE;
 		}
-		
+
 		if (System.getenv("API_DEBUG") != null) {
 			apiDebug = Boolean.parseBoolean(System.getenv("API_DEBUG"));
 		} else {
 			apiDebug = false;
 		}
-		
+
 		try {
 			Language.setDefaultLanguage(defaultLang);
 		} catch (final LanguageLoadException e) {
 			System.err.println("Could not load language '" + defaultLang + "'");
 			System.exit(1);
 		}
-		
+
 		HttpMain.init();
 
 		try {
@@ -124,38 +121,39 @@ public class Main {
 					.addEventListeners(new GuildJoinHandler())
 					.addEventListeners(new CommandListener())
 					.addEventListeners(new DiscordRoleListener())
-					.setChunkingFilter(ChunkingFilter.ALL)
-					.setMemberCachePolicy(MemberCachePolicy.ALL)
-					.enableIntents(GatewayIntent.GUILD_MEMBERS)
+//					.setChunkingFilter(ChunkingFilter.ALL)
+//					.setMemberCachePolicy(MemberCachePolicy.ALL)
+					// .enableIntents(GatewayIntent.GUILD_MEMBERS)
+//					.setMemberCachePolicy(MemberCachePolicy.DEFAULT)
 					.build();
 		} catch (final LoginException e) {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		// Register commands
 		new UnlinkCommand();
 		new UpdateUsernameCommand();
 		new URLCommand();
 		new VerifyCommand();
-		
+
 		logger.info("Waiting for JDA to connect, this can take a long time (30+ seconds is not unusual)...");
 		logger.info("Note: the JDA message \"Connected to WebSocket\" does not mean it is finished connecting!");
-		
+
 		try {
 			jda.awaitStatus(Status.CONNECTED);
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		logger.info("JDA connected!");
 
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
 		final User user = jda.getSelfUser();
 		final String username = user.getName() + "#" + user.getDiscriminator();
-		
+
 		if (Main.getConnectionManager().isReadOnly()) {
 			final NamelessAPI api = newApiConnection(connectionManager.listConnections().get(0));
 			Main.getLogger().info("Sending bot settings to " + api.getApiUrl());
@@ -196,12 +194,12 @@ public class Main {
 				}, 5, TimeUnit.SECONDS);
 			}
 		}
-		
+
 		if (!Main.getConnectionManager().isReadOnly()) {
 			scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(2), TimeUnit.HOURS.toMillis(2), TimeUnit.MILLISECONDS);
 		}
 	}
-	
+
 	public static boolean canModifySettings(final User user, final Guild guild) {
 		return guild.getMember(user).hasPermission(Permission.ADMINISTRATOR);
 	}
@@ -222,9 +220,9 @@ public class Main {
 
 		connectionManager = init.get();
 	}
-	
+
 	private static final Map<URL, NamelessAPI> API_CACHE = new HashMap<>();
-	
+
 	public static NamelessAPI newApiConnection(final URL url) {
 		synchronized(API_CACHE) {
 			API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, apiDebug));
