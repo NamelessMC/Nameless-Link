@@ -174,17 +174,22 @@ public class Main {
 				scheduler.schedule(() -> {
 					try {
 						Main.getLogger().info("Updating bot settings..");
+						int countSuccess = 0;
+						int countError = 0;
 						for (final URL url : connectionManager.listConnections()) {
 							try {
 								final NamelessAPI api = Main.newApiConnection(url);
 								api.setDiscordBotUrl(botUrl);
 								api.setDiscordBotUser(username, user.getIdLong());
 								logger.info(url.toString() + " success");
+								countSuccess++;
 							} catch (final NamelessException e) {
 								logger.info(url.toString() + " error");
+								countError++;
 							}
 						}
 						logger.info("Done updating bot settings");
+						logger.info(String.format("%s websites successful, %s websites unsuccessful", countSuccess, countError));
 					} catch (final BackendStorageException e) {
 						e.printStackTrace();
 					}
