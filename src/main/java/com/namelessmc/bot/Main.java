@@ -221,7 +221,7 @@ public class Main {
 	}
 
 	public static boolean canModifySettings(final User user, final Guild guild) {
-		return guild.getMember(user).hasPermission(Permission.ADMINISTRATOR);
+		return guild.retrieveMember(user).complete().hasPermission(Permission.ADMINISTRATOR);
 	}
 
 	private static void initializeConnectionManager() throws IOException {
