@@ -216,7 +216,7 @@ public class Main {
 				} catch (final BackendStorageException e) {
 					e.printStackTrace();
 				}
-			}, TimeUnit.HOURS.toMillis(2), TimeUnit.HOURS.toMillis(8), TimeUnit.MILLISECONDS);
+			}, TimeUnit.HOURS.toMillis(2), TimeUnit.HOURS.toMillis(12), TimeUnit.MILLISECONDS);
 		}
 	}
 
