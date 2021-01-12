@@ -22,7 +22,7 @@ public class ConnectionCleanup {
 		
 		log.info("Cleaning up connections...");
 		try {
-			final long oneWeekAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7);
+			final long oneWeekAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2);
 			final List<URL> urls = Main.getConnectionManager().listConnectionsUsedBefore(oneWeekAgo);
 			
 			if (urls.isEmpty()) {

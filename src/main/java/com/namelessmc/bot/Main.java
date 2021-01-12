@@ -15,6 +15,7 @@ import javax.security.auth.login.LoginException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.Language.LanguageLoadException;
+import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.commands.URLCommand;
 import com.namelessmc.bot.commands.UnlinkCommand;
 import com.namelessmc.bot.commands.UpdateUsernameCommand;
@@ -197,6 +198,25 @@ public class Main {
 
 		if (!Main.getConnectionManager().isReadOnly()) {
 			scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(2), TimeUnit.HOURS.toMillis(2), TimeUnit.MILLISECONDS);
+			
+			// Temporary way to reduce number of guilds for 250 guilds limit
+			scheduler.scheduleAtFixedRate(() -> {
+				logger.info("Sending messages for not set up guilds");
+				try {
+					for (final Guild guild : Main.getJda().getGuilds()) {
+						final long id = guild.getIdLong();
+						if (Main.getConnectionManager().getApi(id).isEmpty()) {
+							logger.info("Sending message for guild " + id);
+							final Language lang = Language.getDefaultLanguage();
+							Main.getJda().retrieveUserById(guild.retrieveOwner().complete().getIdLong()).complete()
+								.openPrivateChannel().complete()
+								.sendMessage(lang.get(Term.SETUP_REMINDER));
+						}
+					}
+				} catch (final BackendStorageException e) {
+					e.printStackTrace();
+				}
+			}, TimeUnit.HOURS.toMillis(2), TimeUnit.HOURS.toMillis(8), TimeUnit.MILLISECONDS);
 		}
 	}
 
