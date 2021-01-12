@@ -5,9 +5,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import javax.security.auth.login.LoginException;
@@ -173,19 +175,29 @@ public class Main {
 				scheduler.schedule(() -> {
 					try {
 						Main.getLogger().info("Updating bot settings..");
-						int countSuccess = 0;
-						int countError = 0;
+						final ExecutorService service = Executors.newFixedThreadPool(10);
+						final AtomicInteger countSuccess = new AtomicInteger();
+						final AtomicInteger countError = new AtomicInteger();
 						for (final URL url : connectionManager.listConnections()) {
-							try {
-								final NamelessAPI api = Main.newApiConnection(url);
-								api.setDiscordBotUrl(botUrl);
-								api.setDiscordBotUser(username, user.getIdLong());
-								logger.info(url.toString() + " success");
-								countSuccess++;
-							} catch (final NamelessException e) {
-								logger.info(url.toString() + " error");
-								countError++;
-							}
+							service.execute(() -> {
+								try {
+									final NamelessAPI api = Main.newApiConnection(url);
+									api.setDiscordBotUrl(botUrl);
+									api.setDiscordBotUser(username, user.getIdLong());
+									logger.info(url.toString() + " success");
+									countSuccess.incrementAndGet();
+								} catch (final NamelessException e) {
+									logger.info(url.toString() + " error");
+									countError.incrementAndGet();
+								}
+							});
+
+						}
+						service.shutdown();
+						try {
+							service.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+						} catch (final InterruptedException e) {
+							e.printStackTrace();
 						}
 						logger.info("Done updating bot settings");
 						logger.info(String.format("%s websites successful, %s websites unsuccessful", countSuccess, countError));
