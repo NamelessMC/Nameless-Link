@@ -11,5 +11,7 @@
     "error_website_connection": "Kon geen verbinding maken met de website.",
     "apiurl_success": "Uw Discord server is met succes gekoppeld aan uw NamelessMC website.",
     "unlink_usage": "Gebruik: `{command} <server id>`.",
-    "error_no_permission": "U moet 'Administrator' rechten hebben in de Discord server om dit commando te kunnen gebruiken."
+    "error_no_permission": "U moet 'Administrator' rechten hebben in de Discord server om dit commando te kunnen gebruiken.",
+    "error_read_only_storage": "Diese Bot-Instanz ist mit schreibgeschütztem Speicher konfiguriert. Wenn Sie die Konfiguration ändern möchten, müssen Sie dies manuell anstatt über Befehle tun.",
+    "error_guild_id_invalid": "Die angegebene Discord-Server-ID ist ungültig."
 }
