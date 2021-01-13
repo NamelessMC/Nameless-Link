@@ -32,7 +32,7 @@
     "verify_usage": "Použití: `{command} <token>`.",
     "unlink_usage": "Použití: `{command} <id serveru>`.",
     "unlink_guild_invalid": "Daný server neexistuje nebo není propojen.",
-    "unused_connection": "Zdravím, propojili jste váš Discord server ‚{discordServerName}‘ s Na`{command}`.melessMC pomocí tohoto bota. Zdá se, že propojení s webem nebylo nějakou dobu využito. Pokud chcete odebrat toto propojení, zadejte `{command}`.",
+    "unused_connection": "Zdravím, propojili jste váš Discord server ‚{discordServerName}‘ s NamelessMC pomocí tohoto bota. Zdá se, že propojení s webem nebylo nějakou dobu využito. Pokud chcete odebrat toto propojení, zadejte `{command}`. Pokud momentálně neplánujete používat bota, vyhoďte jej prosím z vašeho serveru, protože má bot momentálně omezení na 250 Discord serverů, dokud nedostane ověření. Frekvence těchto zpráv bude zmírněna, jakmile bude bot ověřen.",
     "error_read_only_storage": "Tato instance bota je nakongifurována s úložištěm pouze ke čtení. Pokud chcete modifikovat jeho konfiguraci, musíte tak učinit ručně, místo příkazů.",
     "error_guild_id_invalid": "Zadané ID serveru je neplatné.",
     "apiurl_url_invalid": "Zadaná URL API nevypadá jako NamelessMC URL API. URL API lze nalézt v StaffCP > Konfigurace > API.",
@@ -42,5 +42,6 @@
     "verify_not_used": "Nelze ověřit váš účet, zadali jste ověřovací token webu, který nepoužívá tohoto bota.",
     "verify_success": "Děkujeme za ověření, váš účet je nyní propojen.",
     "error_no_permission": "V daném Discord serveru musíte mít oprávnění 'Administrátor' pro použití tohoto příkazu.",
-    "apiurl_try_https": "URL vašeho API používá http://. Pokud používáte proxy pro HTTPS, web i přesto zobrazí HTTP URL API. Zkuste prosím spustit tento příkaz znovu, ale nahraďte v URL API http:// s https://."
+    "apiurl_try_https": "URL vašeho API používá http://. Pokud používáte proxy pro HTTPS, web i přesto zobrazí HTTP URL API. Zkuste prosím spustit tento příkaz znovu, ale nahraďte v URL API http:// s https://.",
+    "setup_reminder": "Zdravím, přidali jste na váš Discord server bota Nameless Link, ale ještě nebyl nastaven. Bot je momentálně omezen na 250 serverů, takže pokud jej neplánujete nyní využívat, vyhoďte jej prosím z vašeho serveru, aby byl dostupný pro ty, kteří jej chtějí použít."
 }
