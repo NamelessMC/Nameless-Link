@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk15-openj9:alpine
+FROM adoptopenjdk/openjdk15-openj9
 
 COPY target/Nameless-Link.jar /app.jar
 
