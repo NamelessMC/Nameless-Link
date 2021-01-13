@@ -87,7 +87,7 @@ public class Language {
 	private static final Map<String, String> NAMELESS_TO_POSIX = new HashMap<>();
 	
 	static {
-		NAMELESS_TO_POSIX.put("Czech", "cz_CZ");
+		NAMELESS_TO_POSIX.put("Czech", "cs_CZ");
 		NAMELESS_TO_POSIX.put("German", "de_DE");
 		NAMELESS_TO_POSIX.put("Greek", "el_GR");
 		NAMELESS_TO_POSIX.put("EnglishUK", "en_UK");
