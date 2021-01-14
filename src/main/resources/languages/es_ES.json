@@ -9,7 +9,7 @@
     "error_not_set_up": "No puede usar este comando por el momento, el bot no ha sido configurado todavía.",
     "error_not_linked": "No puede usar este comando porque su cuenta aún no está vinculada. Por favor, vaya a la configuración de la cuenta en el sitio web para vincular su cuenta de Discord.",
     "error_website_connection": "No se pudo conectar al sitio web.",
-    "invalid_command": "Comandos inválidos. Comandos válidos: {commands}.",
+    "invalid_command": "Comando inválido. Comandos válidos: {commands}.",
     "verification_title": "Verificación",
     "verification_usage": "Utiliza: `!verify <token>`",
     "verification_token_invalid": "No se pudo verificar su cuenta, ha proporcionado un token inválido.",
