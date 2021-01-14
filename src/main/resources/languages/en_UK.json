@@ -10,7 +10,7 @@
     "error_read_only_storage": "This bot instance is configured with read-only storage. If you wish to modify its configuration you must do it manually instead of through commands.",
     "error_guild_id_invalid": "The provided Discord server ID is invalid.",
 
-    "invalid_command": "Invalid commands. Valid commands: {commands}.",
+    "invalid_command": "Invalid command. Valid commands: {commands}.",
 
     "verify_usage": "Usage: `{command} <token>`.",
     "verify_token_invalid": "Failed to verify your account, you have provided an invalid token.",
