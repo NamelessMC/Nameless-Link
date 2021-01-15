@@ -1,5 +1,5 @@
 {
     "commands": "Príkazy",
     "help": "Pomoc",
-    "apiurl_usage": "Použi: `{príkaz} <server id> <api url>`."
+    "apiurl_usage": "Použi: `{command} <server id> <api url>`."
 }
