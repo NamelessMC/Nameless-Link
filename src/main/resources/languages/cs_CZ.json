@@ -1,7 +1,7 @@
 {
     "error_generic": "Vyskytla se interní chyba.",
     "error_website_connection": "Nelze se připojit na web.",
-    "invalid_command": "Neplatné příkazy. Platné příkazy: {commands}.",
+    "invalid_command": "Neplatný příkaz. Platné příkazy: {commands}.",
     "verification_title": "Ověření",
     "verification_usage": "Použití: `!verify <token>`",
     "verification_token_invalid": "Nepodařilo se ověřit váš účet, zadali jste neplatný token.",
