@@ -9,7 +9,7 @@
     "guild_join_success": "您好! 感谢您使用 NamelessMC 机器人。您可回复 `{command} {guildId} <API 链接 (URL)>` 来开始。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
     "guild_join_needs_renew": "您好! 感谢您使用 NamelessMC 机器人。虽然您已经配置好了您的 API 链接 (URL)，但它现在无效了。请您回复 `{command} {guildId} <API 链接 (URL)>` 来配置一个新的 API 链接 (URL)。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
     "guild_join_welcome_back": "您好！感谢您使用 NamelessMC 机器人。此机器人已经为您的 Discord 服务器配置好了。如果您希望使用一个不同的 API 链接 (URL), 您可回复 `{command} {guildId} <新的 API 链接 (URL)>`。",
-    "unused_connection": "您好，您曾将您的 Discord 服务器 \"{discordServerName}\" 通过此机器人链接到了 NamelessMC 网站。此链接似乎有一段时间没有被使用了，如果您希望断开链接，您可回复 `{command}`。",
+    "unused_connection": "您好，您曾将您的 Discord 服务器 \"{discordServerName}\" 通过此机器人链接到了 NamelessMC 网站。此链接似乎有一段时间没有被使用了，如果您希望断开链接，您可回复 `{command}`。若您现在不打算使用此机器人，则请您将此机器人从服务器中移除，因为此机器人尚未验证，且未验证的机器人只能加入 250 个服务器。此类消息在此机器人验证后将减少。",
     "unlink_usage": "用法: `{command} <服务器 ID>`。",
     "unlink_guild_invalid": "您提供的服务器不存在或者并未被链接。",
     "error_not_set_up": "由于机器人尚未被配置，您暂不能使用此指令。",
@@ -35,5 +35,6 @@
     "verify_not_used": "无法验证您的帐号，您提供的 token 属于一个并不在使用此机器人的网站。",
     "unlink_guild_unknown": "提供的服务器不存在，或者此机器人并非此服务器的成员。",
     "error_no_permission": "您必须在目标 Discord 服务器中有 \"管理员\" 权限才能使用此指令。",
-    "apiurl_try_https": "您的 API 链接 (URL) 使用的是 http://。即便您正在通过代理使用 HTTPS，网站仍会显示 HTTP 的 API 链接 (URL)。请您再运行此命令一次，并且将 http:// 替换为 https://。"
+    "apiurl_try_https": "您的 API 链接 (URL) 使用的是 http://。即便您正在通过代理使用 HTTPS，网站仍会显示 HTTP 的 API 链接 (URL)。请您再运行此命令一次，并且将 http:// 替换为 https://。",
+    "setup_reminder": "您好，虽然您已将 Nameless Link 机器人添加到了您的 Discord 服务器，但您尚未配置此机器人。因为此机器人现在只能加入 250 个服务器，若您不计划使用此机器人，则请您移除它，把机器人让给需要的人。"
 }
