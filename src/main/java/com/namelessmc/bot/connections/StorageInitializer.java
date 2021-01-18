@@ -89,7 +89,10 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		try {
 			return new URL(str);
 		} catch (final MalformedURLException e) {
-			System.err.println("Provided URL in " + name + " is malformed.");
+			System.err.println("Provided URL in " + name + " is malformed. The full URL is printed below:");
+			System.err.println(str);
+			System.err.println("The string above should not contain any quotation marks (\" or ').");
+			System.err.println("It should look like this: https://yourdomain.com/index.php?route=/api/v2/apikeyhere");
 			System.exit(1);
 			return null;
 		}
