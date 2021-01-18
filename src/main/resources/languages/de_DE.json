@@ -10,7 +10,7 @@
     "error_not_linked": "Du kannst diesen Befehl nicht verwenden, da Ihr Konto noch nicht verknüpft ist. Bitte gehe zu den Kontoeinstellungen auf der Website, um Ihr Discord-Konto zu verknüpfen.",
     "error_read_only_storage": "Diese Bot-Instanz ist mit schreibgeschütztem Speicher konfiguriert. Wenn Sie die Konfiguration ändern möchten, müssen Sie dies manuell anstatt über Befehle tun.",
     "error_guild_id_invalid": "Die angegebene Discord-Server-ID ist ungültig.",
-    "invalid_command": "Ungültige Befehle. Gültige Befehle: {Befehle}.",
+    "invalid_command": "Ungültige Befehle. Gültige Befehle: {commands}.",
     "verify_usage": "Verwendung: `{Befehl} <Token>`.",
     "verify_token_invalid": "Wenn Sie Ihr Konto nicht verifizieren konnten, haben Sie ein ungültiges Token angegeben.",
     "verify_not_used": "Ihr Konto kann nicht überprüft werden. Sie haben ein Bestätigungstoken für eine Website bereitgestellt, die diesen Bot nicht verwendet.",
