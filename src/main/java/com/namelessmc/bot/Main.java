@@ -59,6 +59,8 @@ public class Main {
 	@Getter
 	private static URL botUrl;
 	@Getter
+	private static String webserverInterface;
+	@Getter
 	private static int webserverPort;
 	private static boolean apiDebug;
 
@@ -103,6 +105,13 @@ public class Main {
 			apiDebug = Boolean.parseBoolean(System.getenv("API_DEBUG"));
 		} else {
 			apiDebug = false;
+		}
+		
+		if (System.getenv("WEBSERVER_BIND") != null) {
+			webserverInterface = System.getenv("WEBSERVER_BIND");
+		} else {
+			System.out.println("Environment variable 'WEBSERVER_BIND' not set, assuming '127.0.0.1'. Note that this means the bot only listens on your localhost interface, but this is likely what you want.");
+			webserverInterface = "127.0.0.1";
 		}
 
 		try {

@@ -17,6 +17,7 @@ public class HttpMain {
 
 		final ServerConnector connector = new ServerConnector(server);
 		connector.setPort(Main.getWebserverPort());
+		connector.setHost(Main.getWebserverInterface());
 
 		server.addConnector(connector);
 
