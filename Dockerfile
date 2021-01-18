@@ -1,6 +1,7 @@
 FROM adoptopenjdk/openjdk15-openj9
 
-COPY target/Nameless-Link.jar /app.jar
+ARG LINK_VERSION=""
+COPY target/Nameless-Link-${LINK_VERSION}.jar /app.jar
 
 ENV WEBSERVER_PORT 80
 ENV WEBSERVER_BIND 0.0.0.0
