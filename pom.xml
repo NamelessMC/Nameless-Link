@@ -47,8 +47,24 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.4</version>
 
+
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<minimizeJar>true</minimizeJar>
+					<filters>
+						<filter>
+							<artifact>org.postgresql:postgresql</artifact>
+							<includes>
+								<include>**</include>
+							</includes>
+						</filter>
+						<filter>
+							<artifact>org.slf4j:slf4j-simple</artifact>
+							<includes>
+								<include>**</include>
+							</includes>
+						</filter>
+					</filters>
 				</configuration>
 
 				<executions>
@@ -67,6 +83,7 @@
 									</manifestEntries>
 								</transformer>
 							</transformers>
+
 						</configuration>
 					</execution>
 				</executions>
