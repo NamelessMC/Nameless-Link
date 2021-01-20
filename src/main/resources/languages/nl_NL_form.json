@@ -3,7 +3,7 @@
     "help": "Help",
     "error_not_set_up": "U kunt dit commando op dit moment niet gebruiken, de bot is nog niet ingesteld.",
     "error_generic": "Er is een interne fout opgetreden.",
-    "invalid_command": "Ongeldige commando's. Geldige commando's: {commands}.",
+    "invalid_command": "Ongeldig commando. Geldige commando's: {commands}.",
     "error_not_linked": "U kunt dit commando niet gebruiken omdat uw account nog niet gekoppeld is. Ga naar de accountinstellingen op de website om uw Discord account te koppelen.",
     "verify_success": "Bedankt voor het verifiëren, uw account is nu gelinkt.",
     "verify_usage": "Gebruik: `{command} <token>`.",
@@ -12,6 +12,6 @@
     "apiurl_success": "Uw Discord server is met succes gekoppeld aan uw NamelessMC website.",
     "unlink_usage": "Gebruik: `{command} <server id>`.",
     "error_no_permission": "U moet 'Administrator' rechten hebben in de Discord server om dit commando te kunnen gebruiken.",
-    "error_read_only_storage": "Diese Bot-Instanz ist mit schreibgeschütztem Speicher konfiguriert. Wenn Sie die Konfiguration ändern möchten, müssen Sie dies manuell anstatt über Befehle tun.",
-    "error_guild_id_invalid": "Die angegebene Discord-Server-ID ist ungültig."
+    "error_read_only_storage": "",
+    "error_guild_id_invalid": ""
 }
