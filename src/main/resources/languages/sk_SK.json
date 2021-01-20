@@ -1,5 +1,14 @@
 {
     "commands": "Príkazy",
     "help": "Pomoc",
-    "apiurl_usage": "Použi: `{command} <server id> <api url>`."
+    "apiurl_usage": "Použi: `{command} <server id> <api url>`.",
+    "error_website_connection": "Nieje možné sa pripojiť na Web.",
+    "verify_usage": "Použitie: `{command} <token>`.",
+    "invalid_command": "Neplatný príkaz. Platné príkazy: {commands}.",
+    "error_generic": "Vyskytla sa interná chyba.",
+    "error_not_set_up": "V túto chvíľu nieje možné použiť tento príkaz, bot ešte nebol nastavený.",
+    "error_no_permission": "V dannom Discord serveri musíte mať oprávnenie 'Administrátor' na použitie tohoto príkazu.",
+    "error_read_only_storage": "Tato instancia bota je nakongifurována s úložiskom iba na čítanie. Pokiaľ chcete modofikovať jeho konfiguráciu, musíte tak učiniť ručne, miesto príkazu.",
+    "error_guild_id_invalid": "Zadané ID serveru je neplatné.",
+    "verify_token_invalid": "Nepodarilo s overiť Váš účet, zadali ste neplatný token."
 }
