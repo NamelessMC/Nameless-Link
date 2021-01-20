@@ -60,21 +60,6 @@ public class RoleChange extends HttpServlet {
 			return;
 		}
 		
-		final Guild guild = Main.getJda().getGuildById(guildId);
-		if (guild == null) {
-			response.getWriter().write("invguild");
-			Main.getLogger().warning("Received bad role change request from website: invalid guild id");
-			return;
-		}
-		
-		final Member member = guild.getMemberById(userId);
-		
-		if (member == null) {
-			response.getWriter().write("invuser");
-			Main.getLogger().warning("Received bad role change request from website: invalid user id");
-			return;
-		}
-		
 		Optional<NamelessAPI> optApi;
 		try {
 			optApi = Main.getConnectionManager().getApi(guildId);
@@ -95,6 +80,21 @@ public class RoleChange extends HttpServlet {
 		if (!timingSafeEquals(apiKey.getBytes(), api.getApiKey().getBytes())) {
 			response.getWriter().write("unauthorized");
 			Main.getLogger().warning("Received bad role change request from website: invalid API key");
+			return;
+		}
+		
+		final Guild guild = Main.getJda().getGuildById(guildId);
+		if (guild == null) {
+			response.getWriter().write("invguild");
+			Main.getLogger().warning("Received bad role change request from website: invalid guild id");
+			return;
+		}
+		
+		final Member member = guild.getMemberById(userId);
+		
+		if (member == null) {
+			response.getWriter().write("invuser");
+			Main.getLogger().warning("Received bad role change request from website: invalid user id");
 			return;
 		}
 		
