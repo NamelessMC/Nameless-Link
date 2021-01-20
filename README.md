@@ -20,8 +20,10 @@ Requirements: Maven, JDK 11, git
 git clone https://github.com/NamelessMC/Nameless-Java-API
 cd Nameless-Java-API
 mvn install
-cd ../Nameless-Link
+cd ..
+
 git clone https://github.com/NamelessMC/Nameless-Link
+cd Nameless-Link
 mvn package shade:shade
 cd target
 # find jar file here
