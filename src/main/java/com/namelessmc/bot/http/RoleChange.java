@@ -86,15 +86,15 @@ public class RoleChange extends HttpServlet {
 		final Guild guild = Main.getJda().getGuildById(guildId);
 		if (guild == null) {
 			response.getWriter().write("invguild");
-			Main.getLogger().warning("Received bad role change request from website: invalid guild id");
+			Main.getLogger().warning("Received bad role change request from website: invalid guild id, guild id = " + guildId);
 			return;
 		}
 		
-		final Member member = guild.getMemberById(userId);
+		final Member member = guild.retrieveMemberById(userId).complete();
 		
 		if (member == null) {
 			response.getWriter().write("invuser");
-			Main.getLogger().warning("Received bad role change request from website: invalid user id");
+			Main.getLogger().warning("Received bad role change request from website: invalid user id, guild id = " + guildId + ", user id = " + userId);
 			return;
 		}
 		
@@ -149,6 +149,7 @@ public class RoleChange extends HttpServlet {
 		
 		final Role role = Main.getJda().getRoleById(roleId);
 		if (role == null) {
+			Main.getLogger().warning("Role does not exist: " + roleId);
 			return false;
 		}
 		
