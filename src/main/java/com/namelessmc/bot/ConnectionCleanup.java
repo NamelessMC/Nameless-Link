@@ -22,8 +22,8 @@ public class ConnectionCleanup {
 		
 		log.info("Cleaning up connections...");
 		try {
-			final long oneWeekAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2);
-			final List<URL> urls = Main.getConnectionManager().listConnectionsUsedBefore(oneWeekAgo);
+			final long someTimeAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(14);
+			final List<URL> urls = Main.getConnectionManager().listConnectionsUsedBefore(someTimeAgo);
 			
 			if (urls.isEmpty()) {
 				log.info("No connections to clean up.");
