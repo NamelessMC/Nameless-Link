@@ -30,7 +30,7 @@
     "error_not_owner": "Debes ser el dueño del servidor de Discord para usar este comando.",
     "verify_usage": "Uso: `{command} <token>`.",
     "apiurl_already_used": "Esta API URL ya es usada por un servidor de Discord, usa `{command}` para desvincularse.",
-    "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`. Si no planeas usar el bot ahora mismo, por favor, expúlselo de su servidor, ahora mismo el bot está limitado a 250 servidores de Discord hasta que seamos verificados. La frecuencia de estos mensajes se reducirá cuando el bot sea verificado.",
+    "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`.",
     "unlink_usage": "Uso: `{command} <id del servidor>`.",
     "unlink_guild_invalid": "El servidor proporcionado no existe o no está vinculado.",
     "error_read_only_storage": "Esta instancia del bot está configurada con almacenamiento de sólo lectura. Si desea modificar su configuración debe hacerlo manualmente en vez de con comandos.",
