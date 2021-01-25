@@ -25,7 +25,7 @@
     "apiurl_success_new": "Az API URL beállítása sikeresen megtörtént.",
     "guild_join_success": "Helló! Köszönjük, hogy a NamelessMC Bot-ot használta. A kezdéshez válaszoljon a következővel: {command} {guildId} <api url> `. Az API URL a „StaffCP> Konfiguráció> API” részben található.",
     "guild_join_needs_renew": "Helló! Köszönjük, hogy a NamelessMC Bot-ot használta. Úgy tűnik, hogy már beállította az API URL-jét, de már nem működik. Kérjük, állítson be újat a (z) {parancs} {guildId} <api url> `használatával. Az API URL a „StaffCP> Konfiguráció> API” részben található.",
-    "unused_connection": "Helló, ezzel a botdal összekapcsolta a (z) {discordServerName} Discord szervert a NamelessMC-vel. Úgy tűnik, hogy a webhely kapcsolatát egy ideje nem használták, ha el akarja távolítani a Discord szervert erről a botról, futtassa a (z) {command} \"parancsot. Ha most nem tervezi a bot használatát, kérjük, rúgja ki a szerveréről is, jelenleg a bot 250 diszkord szerverre korlátozódik, amíg nem ellenőrizzük. Ezeknek az üzeneteknek a gyakorisága csökken, amikor a botot ellenőrizzük.",
+    "unused_connection": "Helló, ezzel a bottal összekapcsolta a (z) {discordServerName} Discord szervert a NamelessMC-vel. Úgy tűnik, hogy a webhely kapcsolatát egy ideje nem használták, ha el akarja távolítani a Discord botot erről a szerverről, futtassa a (z) {command} \"parancsot.",
     "commands": "Parancsok",
     "unlink_guild_unknown": "A megadott kiszolgáló nem létezik, vagy a bot nem tagja a szervernek.",
     "error_not_set_up": "Jelenleg nem tudja használni ezt a parancsot, a botot még nem állították be.",
