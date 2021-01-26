@@ -9,7 +9,7 @@
     "guild_join_success": "您好! 感谢您使用 NamelessMC 机器人。您可回复 `{command} {guildId} <API 链接 (URL)>` 来开始。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
     "guild_join_needs_renew": "您好! 感谢您使用 NamelessMC 机器人。虽然您已经配置好了您的 API 链接 (URL)，但它现在无效了。请您回复 `{command} {guildId} <API 链接 (URL)>` 来配置一个新的 API 链接 (URL)。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
     "guild_join_welcome_back": "您好！感谢您使用 NamelessMC 机器人。此机器人已经为您的 Discord 服务器配置好了。如果您希望使用一个不同的 API 链接 (URL), 您可回复 `{command} {guildId} <新的 API 链接 (URL)>`。",
-    "unused_connection": "您好，您曾将您的 Discord 服务器 \"{discordServerName}\" 通过此机器人链接到了 NamelessMC 网站。此链接似乎有一段时间没有被使用了，如果您希望断开链接，您可回复 `{command}`。若您现在不打算使用此机器人，则请您将此机器人从服务器中移除，因为此机器人尚未验证，且未验证的机器人只能加入 250 个服务器。此类消息在此机器人验证后将减少。",
+    "unused_connection": "您好，您曾将您的 Discord 服务器 \"{discordServerName}\" 通过此机器人链接到了 NamelessMC 网站。此链接似乎有一段时间没有被使用了，如果您希望断开链接，您可回复 `{command}`。",
     "unlink_usage": "用法: `{command} <服务器 ID>`。",
     "unlink_guild_invalid": "您提供的服务器不存在或者并未被链接。",
     "error_not_set_up": "由于机器人尚未被配置，您暂不能使用此指令。",
