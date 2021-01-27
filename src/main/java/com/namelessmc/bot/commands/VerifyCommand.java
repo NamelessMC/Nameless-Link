@@ -17,7 +17,7 @@ import net.dv8tion.jda.api.entities.User;
 public class VerifyCommand extends Command {
 
 	public VerifyCommand() {
-		super("!verify", Arrays.asList("!validate", "!link"), CommandContext.PRIVATE_MESSAGE);
+		super("!verify", Arrays.asList("!validate", "!link"), CommandContext.BOTH);
 	}
 
 	@Override
