@@ -7,10 +7,13 @@ import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
@@ -76,5 +79,18 @@ public class VerifyCommand extends Command {
 			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
+		
+		// User is now linked, trigger group sync
+		final Guild guild = Main.getJda().getGuildById(guildId);
+		if (guild == null) {
+			Main.getLogger().warning(String.format("Skipped sending roles for user %s in guild with id %s, guild is null", user.getId(), guildId));
+			return;
+		}
+		final Member member = guild.getMember(message.getAuthor());
+		if (member == null) {
+			Main.getLogger().warning(String.format("Skipped sending roles for user %s in guild %s, member is null", user.getId(), guildId));
+			return;
+		}
+		DiscordRoleListener.sendRolesToWebsite(member);
 	}
 }

@@ -14,9 +14,9 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
 import net.dv8tion.jda.api.events.role.RoleCreateEvent;
@@ -71,21 +71,21 @@ public class DiscordRoleListener extends ListenerAdapter {
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
 		synchronized(EVENT_LOCK) {
-			process(event);
+			sendRolesToWebsite(event.getMember());
 		}
 	}
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
 		synchronized(EVENT_LOCK) {
-			process(event);
+			sendRolesToWebsite(event.getMember());
 		}
 	}
 
-	private void process(final GenericGuildMemberEvent event) {
-		final User discordUser = event.getUser();
-		final List<Role> roles = event.getGuild().getMember(discordUser).getRoles();
-		final long guildId = event.getGuild().getIdLong();
+	public static void sendRolesToWebsite(final Member member) {
+		final User discordUser = member.getUser();
+		final List<Role> roles = member.getRoles();
+		final long guildId = member.getGuild().getIdLong();
 		
 		if (discordUser.isBot()) {
 			return;
