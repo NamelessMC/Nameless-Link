@@ -17,7 +17,7 @@
     "verify_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
     "verify_success": "Thank you for verifying, your account is now linked.",
 
-    "ping_usage": "Usage: {command} <discord server id>",
+    "ping_usage": "Usage: `{command} <discord server id>`",
     "ping_working": "The API website connection appears to be working. Took {time}ms.",
 
     "apiurl_usage": "Usage: `{command} <server id> <api url>`.",
