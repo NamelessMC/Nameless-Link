@@ -1,1 +1,9 @@
-{}
+{
+    "help": "Aide",
+    "error_generic": "Une erreur interne s'est produite.",
+    "error_not_set_up": "Vous ne pouvez pas utiliser cette commande pour le moment, le bot n'a pas encore été configuré.",
+    "error_not_linked": "Vous ne pouvez pas utiliser cette commande car votre compte n'est pas encore lié. Veuillez accéder aux paramètres de compte sur le site Web pour lier votre compte Discord.",
+    "error_website_connection": "Impossible de se connecter au site Web.",
+    "commands": "Commandes",
+    "error_no_permission": "Vous devez avoir l'autorisation «Administrateur» sur le serveur Discord cible pour utiliser cette commande."
+}
