@@ -17,6 +17,7 @@ import javax.security.auth.login.LoginException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.Language.LanguageLoadException;
+import com.namelessmc.bot.commands.PingCommand;
 import com.namelessmc.bot.commands.URLCommand;
 import com.namelessmc.bot.commands.UnlinkCommand;
 import com.namelessmc.bot.commands.UpdateUsernameCommand;
@@ -143,6 +144,7 @@ public class Main {
 		}
 
 		// Register commands
+		new PingCommand();
 		new UnlinkCommand();
 		new UpdateUsernameCommand();
 		new URLCommand();

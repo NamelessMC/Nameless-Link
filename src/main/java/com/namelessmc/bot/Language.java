@@ -43,6 +43,9 @@ public class Language {
 		VERIFY_NOT_USED,
 		VERIFY_SUCCESS,
 		
+		PING_USAGE("command"),
+		PING_WORKING("time"),
+		
 		APIURL_USAGE("command"),
 		APIURL_URL_INVALID,
 		APIURL_URL_MALFORMED,
