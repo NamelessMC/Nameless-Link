@@ -13,6 +13,7 @@ public class HttpMain {
 		final ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		handler.addServlet(ConnectionTest.class, "/status");
 		handler.addServlet(RoleChange.class, "/roleChange");
+		handler.addServlet(Root.class, "/");
 		server.setHandler(handler);
 
 		final ServerConnector connector = new ServerConnector(server);
