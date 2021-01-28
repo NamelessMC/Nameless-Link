@@ -25,7 +25,7 @@ public class PingCommand  extends Command {
 
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
-		final Language language = Language.getDefaultLanguage();
+		Language language = Language.getDefaultLanguage();
 
 		if (args.length != 1) {
 			message.reply(language.get(Term.PING_USAGE, "command", "!ping")).queue();
@@ -73,6 +73,7 @@ public class PingCommand  extends Command {
 			final long start = System.currentTimeMillis();
 			api.checkWebAPIConnection();
 			final long time = System.currentTimeMillis() - start;
+			language = Language.getDiscordUserLanguage(api, user);
 			message.getChannel().sendMessage(language.get(Term.PING_WORKING, "time", time)).queue();
 		} catch (final NamelessException e) {
 			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
