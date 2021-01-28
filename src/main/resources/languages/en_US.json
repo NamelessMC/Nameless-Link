@@ -17,7 +17,7 @@
     "apiurl_success_updated": "Successfully changed the API URL.",
     "apiurl_already_used": "This API URL is already used by a Discord server, use `{command}` to unlink.",
     "apiurl_failed_connection": "Could not connect to your website. This means the provided API URL was invalid or we are blocked by a proxy (e.g. Cloudflare).",
-    "unused_connection": "Hello, you've linked your Discord server '{discordServerName}' to NamelessMC using this bot. It looks like the website connection hasn't been used for a while, if you would like to remove your Discord server from this bot run `{command}`. If you do not plan to use the bot right now, please kick it from your server as well, right now the bot is limited to 250 Discord servers until we are verified. The frequency of these messages will be reduced when the bot is verified.",
+    "unused_connection": "Hello, you've linked your Discord server '{discordServerName}' to NamelessMC using this bot. It looks like the website connection hasn't been used for a while, if you would like to remove your Discord server from this bot run `{command}`.",
     "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command} {guildId} <api url>`.",
     "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please set a new one using `{command} {guildId} <api url>`. The API URL can be found in `StaffCP > Configuration > API`.",
     "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, reply with `{command} {guildId} <api url>`. The API URL can be found in `StaffCP > Configuration > API`.",
@@ -36,5 +36,7 @@
     "verify_success": "Thank you for verifying, your account is now linked.",
     "apiurl_try_https": "Your API URL uses http://. If you are using a proxy for HTTPS, the website still displays HTTP API URLs. Please try running this command again, replacing http:// with https:// in the API URL.",
     "error_no_permission": "You must have 'Administrator' permission in the target Discord server to use this command.",
-    "setup_reminder": "Hello, you've added the Nameless-Link bot to your Discord server but it has not been set up yet. The bot is currently limited to 250 servers, if you do not plan to use it right now, please kick the bot from your server so it is available for those who do want to use it."
+    "setup_reminder": "Hello, you've added the Nameless-Link bot to your Discord server but it has not been set up yet. The bot is currently limited to 250 servers, if you do not plan to use it right now, please kick the bot from your server so it is available for those who do want to use it.",
+    "ping_usage": "Usage: `{command} <discord server id>`",
+    "ping_working": "The API website connection appears to be working. Took {time}ms."
 }
