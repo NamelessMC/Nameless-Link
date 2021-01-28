@@ -40,5 +40,7 @@
     "verify_success": "Bedankt voor het verifiëren, je account is nu verbonden.",
     "error_no_permission": "Je mag dit commando alleen gebruiken als je 'Administrator' rechten hebt in de Discord server.",
     "apiurl_try_https": "De opgegeven API URL gebruikt http://. Als je een proxy gebruikt voor HTTPS zal de website nog steeds HTTP API URLs laten zien. Probeer dit commando opnieuw met https:// in plaats van http:// in de API URL.",
-    "setup_reminder": "Hallo, je hebt de Nameless-Link bot toegevoegd aan je Discord server maar nog niet ingesteld. De bot kan momenteel maar in 250 servers aanwezig zijn, dus als je niet van plan bent het op dit moment te gebruiken, verwijder alsjeblieft de bot van de servers zodat anderen de bot kunnen gebruiken."
+    "setup_reminder": "Hallo, je hebt de Nameless-Link bot toegevoegd aan je Discord server maar nog niet ingesteld. De bot kan momenteel maar in 250 servers aanwezig zijn, dus als je niet van plan bent het op dit moment te gebruiken, verwijder alsjeblieft de bot van de servers zodat anderen de bot kunnen gebruiken.",
+    "ping_usage": "Gebruik: `{command} <discord server id>`",
+    "ping_working": "De verbinding met de website API lijkt goed te werken (ping duurde {time}ms)."
 }
