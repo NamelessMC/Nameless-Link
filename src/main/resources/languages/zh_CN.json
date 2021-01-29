@@ -36,5 +36,7 @@
     "unlink_guild_unknown": "提供的服务器不存在，或者此机器人并非此服务器的成员。",
     "error_no_permission": "您必须在目标 Discord 服务器中有 \"管理员\" 权限才能使用此指令。",
     "apiurl_try_https": "您的 API 链接 (URL) 使用的是 http://。即便您正在通过代理使用 HTTPS，网站仍会显示 HTTP 的 API 链接 (URL)。请您再运行此命令一次，并且将 http:// 替换为 https://。",
-    "setup_reminder": "您好，虽然您已将 Nameless Link 机器人添加到了您的 Discord 服务器，但您尚未配置此机器人。因为此机器人现在只能加入 250 个服务器，若您不计划使用此机器人，则请您移除它，把机器人让给需要的人。"
+    "setup_reminder": "您好，虽然您已将 Nameless Link 机器人添加到了您的 Discord 服务器，但您尚未配置此机器人。因为此机器人现在只能加入 250 个服务器，若您不计划使用此机器人，则请您移除它，把机器人让给需要的人。",
+    "ping_working": "API 网站连接成功。时间：{time}ms。",
+    "ping_usage": "用法: `{command} <Discord 服务器 ID>`"
 }
