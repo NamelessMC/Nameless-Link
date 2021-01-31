@@ -29,5 +29,7 @@
     "commands": "Parancsok",
     "unlink_guild_unknown": "A megadott kiszolgáló nem létezik, vagy a bot nem tagja a szervernek.",
     "error_not_set_up": "Jelenleg nem tudja használni ezt a parancsot, a botot még nem állították be.",
-    "setup_reminder": "Helló, hozzáadta a Nameless-Link botot a Discord szerveréhez, de még nem állították be. A bot jelenleg 250 szerverre korlátozódik, ha nem most tervezi használni, kérjük, rúgja ki a botot a szerveréről, hogy az mindenki számára elérhető legyen, aki használni szeretné."
+    "setup_reminder": "Helló, hozzáadta a Nameless-Link botot a Discord szerveréhez, de még nem állították be. A bot jelenleg 250 szerverre korlátozódik, ha nem most tervezi használni, kérjük, rúgja ki a botot a szerveréről, hogy az mindenki számára elérhető legyen, aki használni szeretné.",
+    "ping_usage": "Használat: `{command} <discord server id>`",
+    "ping_working": "Úgy tűnik, hogy az API webhely-kapcsolata működik. {time} ms-ot vett igénybe."
 }
