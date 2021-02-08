@@ -68,7 +68,7 @@ public abstract class Command {
 		if (command == null) {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
 				final Language language = Language.getDefaultLanguage();
-				final String s = language.get(Term.INVALID_COMMAND, "commands", "`!unlink`, `!updateusername`, `!apiurl`, `!verify`");
+				final String s = language.get(Term.INVALID_COMMAND, "commands", "`!unlink`, `!updateusername`, `!apiurl`, `!verify`, `!ping`");
 				message.getChannel().sendMessage(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 						.setTitle(language.get(Term.COMMANDS))
 						.addField(language.get(Term.HELP), s, false).build()).queue();
