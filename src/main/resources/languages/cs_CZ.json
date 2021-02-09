@@ -43,5 +43,7 @@
     "verify_success": "Děkujeme za ověření, váš účet je nyní propojen.",
     "error_no_permission": "V daném Discord serveru musíte mít oprávnění 'Administrátor' pro použití tohoto příkazu.",
     "apiurl_try_https": "URL vašeho API používá http://. Pokud používáte proxy pro HTTPS, web i přesto zobrazí HTTP URL API. Zkuste prosím spustit tento příkaz znovu, ale nahraďte v URL API http:// s https://.",
-    "setup_reminder": "Zdravím, přidali jste na váš Discord server bota Nameless Link, ale ještě nebyl nastaven. Bot je momentálně omezen na 250 serverů, takže pokud jej neplánujete nyní využívat, vyhoďte jej prosím z vašeho serveru, aby byl dostupný pro ty, kteří jej chtějí použít."
+    "setup_reminder": "Zdravím, přidali jste na váš Discord server bota Nameless Link, ale ještě nebyl nastaven. Bot je momentálně omezen na 250 serverů, takže pokud jej neplánujete nyní využívat, vyhoďte jej prosím z vašeho serveru, aby byl dostupný pro ty, kteří jej chtějí použít.",
+    "ping_usage": "Použij: `{command} <id discord serveru>`",
+    "ping_working": "Vypadá to, že spojení API s webem funguje. Trvalo {time}ms."
 }
