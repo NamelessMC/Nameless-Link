@@ -1,8 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -11,16 +8,18 @@ import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public class VerifyCommand extends Command {
 
 	public VerifyCommand() {
-		super("!verify", Arrays.asList("!validate", "!link"), CommandContext.BOTH);
+		super("verify", Arrays.asList("validate", "link"), CommandContext.BOTH);
 	}
 
 	@Override
@@ -28,7 +27,7 @@ public class VerifyCommand extends Command {
 		final Language language = Language.getDefaultLanguage();
 
 		if (args.length != 1) {
-			message.reply(language.get(Term.VERIFY_USAGE, "command", "!verify")).queue();
+			message.reply(language.get(Term.VERIFY_USAGE, "command", Main.getCommandPrefix() + "verify")).queue();
 			return;
 		}
 

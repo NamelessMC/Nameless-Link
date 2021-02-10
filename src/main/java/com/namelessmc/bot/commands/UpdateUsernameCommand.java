@@ -1,8 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Collections;
-import java.util.Optional;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -11,16 +8,18 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
+import java.util.Collections;
+import java.util.Optional;
+
 public class UpdateUsernameCommand extends Command {
 
 	public UpdateUsernameCommand() {
-		super("!updateusername", Collections.singletonList("!usernameupdate"), CommandContext.GUILD_MESSAGE);
+		super("updateusername", Collections.singletonList("usernameupdate"), CommandContext.GUILD_MESSAGE);
 	}
 
 	@Override

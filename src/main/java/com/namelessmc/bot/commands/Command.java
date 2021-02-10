@@ -55,7 +55,12 @@ public abstract class Command {
 	protected abstract void execute(User user, String[] args, Message message);
 	
 	public static void execute(final Message message) {
-		String[] splitMessage = message.getContentRaw().split(" ");
+		// Message content doesn't start with the command prefix, it is obviously not a command
+		if(!message.getContentRaw().startsWith(Main.getCommandPrefix()))
+			return;
+
+		String messageContent = message.getContentRaw();
+		String[] splitMessage = messageContent.replaceFirst(Main.getCommandPrefix(), "").split(" ");
 		final String commandName = splitMessage[0];
 		String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
 	
@@ -67,10 +72,10 @@ public abstract class Command {
 		if (command == null) {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
 				final Language language = Language.getDefaultLanguage();
-				final String s = language.get(Term.INVALID_COMMAND, "commands", "`!unlink`, `!updateusername`, `!apiurl`, `!verify`, `!ping`");
+				final String s = language.get(Term.INVALID_COMMAND, "commands", "`" + String.join("`, `{prefix}", registeredCommandLabels) + "`");
 				message.getChannel().sendMessage(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 						.setTitle(language.get(Term.COMMANDS))
-						.addField(language.get(Term.HELP), s, false).build()).queue();
+						.addField(language.get(Term.HELP), s.replace("{prefix}", Main.getCommandPrefix()), false).build()).queue();
 			}
 			return;
 		}

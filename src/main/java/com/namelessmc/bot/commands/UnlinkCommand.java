@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UnlinkCommand extends Command {
 
 	public UnlinkCommand() {
-		super("!unlink", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
+		super("unlink", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class UnlinkCommand extends Command {
 		}
 		
 		if (args.length != 1) {
-			message.reply(language.get(Term.UNLINK_USAGE, "command", "!unlink")).queue();
+			message.reply(language.get(Term.UNLINK_USAGE, "command", Main.getCommandPrefix() + "unlink")).queue();
 			return;
 		}
 		

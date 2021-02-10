@@ -21,7 +21,7 @@ import java.util.Optional;
 public class URLCommand extends Command {
 
 	public URLCommand() {
-		super("!apiurl", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
+		super("apiurl", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class URLCommand extends Command {
 		}
 
 		if (args.length != 2) {
-			message.reply(language.get(Term.APIURL_USAGE, "command", "!apiurl")).queue();
+			message.reply(language.get(Term.APIURL_USAGE, "command", Main.getCommandPrefix() + "apiurl")).queue();
 			return;
 		}
 		

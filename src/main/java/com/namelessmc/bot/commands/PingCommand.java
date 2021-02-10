@@ -1,26 +1,24 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Collections;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Collections;
+import java.util.Optional;
 
 public class PingCommand  extends Command {
 
 	public PingCommand() {
-		super("!ping", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
+		super("ping", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
 	}
 
 	@Override
@@ -28,7 +26,7 @@ public class PingCommand  extends Command {
 		Language language = Language.getDefaultLanguage();
 
 		if (args.length != 1) {
-			message.reply(language.get(Term.PING_USAGE, "command", "!ping")).queue();
+			message.reply(language.get(Term.PING_USAGE, "command", Main.getCommandPrefix() + "ping")).queue();
 			return;
 		}
 
