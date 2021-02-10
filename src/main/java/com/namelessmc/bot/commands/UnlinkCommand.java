@@ -1,17 +1,16 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Collections;
-import java.util.Optional;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+
+import java.util.Collections;
+import java.util.Optional;
 
 public class UnlinkCommand extends Command {
 
@@ -24,7 +23,7 @@ public class UnlinkCommand extends Command {
 		Language language = Language.getDefaultLanguage();
 		
 		if (Main.getConnectionManager().isReadOnly()) {
-			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE));
+			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE)).queue();
 			return;
 		}
 		

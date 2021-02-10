@@ -1,12 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -14,11 +7,16 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import org.apache.commons.lang3.StringUtils;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Optional;
 
 public class URLCommand extends Command {
 
@@ -31,7 +29,7 @@ public class URLCommand extends Command {
 		final Language language = Language.getDefaultLanguage();
 		
 		if (Main.getConnectionManager().isReadOnly()) {
-			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE));
+			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE)).queue();
 			return;
 		}
 
