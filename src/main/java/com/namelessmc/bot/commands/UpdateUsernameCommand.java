@@ -1,8 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Collections;
-import java.util.Optional;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -11,11 +8,13 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+
+import java.util.Collections;
+import java.util.Optional;
 
 public class UpdateUsernameCommand extends Command {
 
@@ -50,7 +49,7 @@ public class UpdateUsernameCommand extends Command {
 		try {
 			optNameless = api.getUserByDiscordId(user.getIdLong());
 		} catch (final NamelessException e) {
-			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();;
+			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
 		

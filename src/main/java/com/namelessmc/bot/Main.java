@@ -1,5 +1,28 @@
 package com.namelessmc.bot;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.namelessmc.bot.Language.LanguageLoadException;
+import com.namelessmc.bot.commands.*;
+import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.connections.ConnectionManager;
+import com.namelessmc.bot.connections.StorageInitializer;
+import com.namelessmc.bot.http.HttpMain;
+import com.namelessmc.bot.listeners.CommandListener;
+import com.namelessmc.bot.listeners.DiscordRoleListener;
+import com.namelessmc.bot.listeners.GuildJoinHandler;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import lombok.Getter;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDA.Status;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
+
+import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,35 +34,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
-
-import javax.security.auth.login.LoginException;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.namelessmc.bot.Language.LanguageLoadException;
-import com.namelessmc.bot.commands.PingCommand;
-import com.namelessmc.bot.commands.URLCommand;
-import com.namelessmc.bot.commands.UnlinkCommand;
-import com.namelessmc.bot.commands.UpdateUsernameCommand;
-import com.namelessmc.bot.commands.VerifyCommand;
-import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.bot.connections.ConnectionManager;
-import com.namelessmc.bot.connections.StorageInitializer;
-import com.namelessmc.bot.http.HttpMain;
-import com.namelessmc.bot.listeners.CommandListener;
-import com.namelessmc.bot.listeners.DiscordRoleListener;
-import com.namelessmc.bot.listeners.GuildJoinHandler;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-
-import lombok.Getter;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDA.Status;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
 
 public class Main {
 
@@ -172,7 +166,11 @@ public class Main {
 			Main.getLogger().info("Sending bot settings to " + api.getApiUrl());
 			api.setDiscordBotUrl(botUrl);
 			api.setDiscordBotUser(username, user.getIdLong());
-			final long guildId = connectionManager.getGuildIdByURL(api.getApiUrl()).get();
+			final long guildId = connectionManager.getGuildIdByURL(api.getApiUrl()).orElse(0L);
+			if(guildId == 0L) {
+				logger.severe("Guild id was not present in the Optional");
+				System.exit(1);
+			}
 			api.setDiscordGuildId(guildId);
 			final Guild guild = Main.getJda().getGuildById(guildId);
 			if (guild == null) {
@@ -246,7 +244,7 @@ public class Main {
 		return guild.retrieveMember(user).complete().hasPermission(Permission.ADMINISTRATOR);
 	}
 
-	private static void initializeConnectionManager() throws IOException {
+	private static void initializeConnectionManager() {
 		String storageType = System.getenv("STORAGE_TYPE");
 		if (storageType == null) {
 			System.out.println("STORAGE_TYPE not specified, assuming STORAGE_TYPE=stateless");

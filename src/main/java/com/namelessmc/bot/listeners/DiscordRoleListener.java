@@ -1,18 +1,11 @@
 package com.namelessmc.bot.listeners;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -23,6 +16,12 @@ import net.dv8tion.jda.api.events.role.RoleCreateEvent;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DiscordRoleListener extends ListenerAdapter {
 	
@@ -139,10 +138,8 @@ public class DiscordRoleListener extends ListenerAdapter {
 			user.get().setDiscordRoles(roleIds);
 		} catch (final ApiError e) {
 			Main.getLogger().warning("API error " + e.getError() + " while sending role update for user " + userId + " guild " + guildId + " (setDiscordRoles)");
-			return;
-		} catch (final NamelessException e) {
+        } catch (final NamelessException e) {
 			Main.getLogger().warning("Website communication error while sending role update for user " + userId + " guild " + guildId + " (setDiscordRoles)");
-			return;
-		}
+        }
 	}
 }

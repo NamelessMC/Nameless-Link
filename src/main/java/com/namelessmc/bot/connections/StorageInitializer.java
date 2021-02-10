@@ -38,11 +38,11 @@ public class StorageInitializer<CM extends ConnectionManager> {
 					"postgres", POSTGRES
 					);
 
-	public static final StorageInitializer<? extends ConnectionManager> getByName(final String name) {
+	public static StorageInitializer<? extends ConnectionManager> getByName(final String name) {
 		return BY_STRING.get(name);
 	}
 
-	public static final String[] getAvailableNames() {
+	public static String[] getAvailableNames() {
 		return BY_STRING.keySet().toArray(String[]::new);
 	}
 
@@ -87,6 +87,8 @@ public class StorageInitializer<CM extends ConnectionManager> {
 	private static URL getEnvUrl(final String name) {
 		final String str = getEnvString(name, null);
 		try {
+			if(str == null)
+				throw new MalformedURLException("Specified URL in " + name + " was null.");
 			return new URL(str);
 		} catch (final MalformedURLException e) {
 			System.err.println("Provided URL in " + name + " is malformed. The full URL is printed below:");

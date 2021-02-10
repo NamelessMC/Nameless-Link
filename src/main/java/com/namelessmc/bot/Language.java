@@ -1,29 +1,28 @@
 package com.namelessmc.bot;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessUser;
+import lombok.Getter;
+import net.dv8tion.jda.api.entities.User;
+import org.apache.commons.lang3.Validate;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-
-import org.apache.commons.lang3.Validate;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-
-import lombok.Getter;
-import net.dv8tion.jda.api.entities.User;
 
 public class Language {
 	
 	private static final String[] EMPTY_STRING_ARRAY = new String[] {};
 	
-	public static enum Term {
+	public enum Term {
 		
 		COMMANDS,
 		HELP,
@@ -68,7 +67,7 @@ public class Language {
 		;
 		
 		@Getter
-		private String[] placeholders;
+		private final String[] placeholders;
 		
 		Term() {
 			this.placeholders = EMPTY_STRING_ARRAY;
@@ -180,7 +179,7 @@ public class Language {
 		for (int i = 0; i < replacements.length; i += 2) {
 			Validate.isTrue(replacements[i] instanceof String, "Replacement keys must be strings");
 			final String key = (String) replacements[i];
-			if (key == required[i/2]) {
+			if (Objects.equals(key, required[i / 2])) {
 				valid[i/2] = true;
 			} else {
 				throw new IllegalArgumentException("Invalid replacement key '" + key + "'");

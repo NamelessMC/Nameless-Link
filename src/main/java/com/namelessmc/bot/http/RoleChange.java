@@ -1,8 +1,5 @@
 package com.namelessmc.bot.http;
 
-import java.io.IOException;
-import java.util.Optional;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -10,7 +7,6 @@ import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
-
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +14,9 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class RoleChange extends HttpServlet {
 
@@ -54,7 +53,7 @@ public class RoleChange extends HttpServlet {
 			return;
 		}
 		
-		if (json == null || guildId == 0 || apiKey == null) {
+		if (guildId == 0 || apiKey == null) {
 			response.getWriter().write("badparameter");
 			Main.getLogger().warning("Received bad role change request from website");
 			return;

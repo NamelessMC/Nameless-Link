@@ -1,21 +1,19 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Collections;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Collections;
+import java.util.Optional;
 
 public class PingCommand  extends Command {
 
@@ -81,8 +79,7 @@ public class PingCommand  extends Command {
 			if (api.getApiUrl().toString().startsWith("http://")) {
 				message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
 			}
-			return;
-		}
+        }
 	}
 
 }

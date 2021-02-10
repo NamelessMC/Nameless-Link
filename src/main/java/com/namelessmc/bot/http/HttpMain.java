@@ -1,10 +1,9 @@
 package com.namelessmc.bot.http;
 
+import com.namelessmc.bot.Main;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-
-import com.namelessmc.bot.Main;
 
 public class HttpMain {
 
@@ -22,18 +21,15 @@ public class HttpMain {
 
 		server.addConnector(connector);
 
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					server.start();
-					server.join();
-				} catch (final Exception e) {
-					e.printStackTrace();
-					System.exit(1);
-				}
+		new Thread(() -> {
+            try {
+                server.start();
+                server.join();
+            } catch (final Exception e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
 
-			}
-		}.start();
+        }).start();
 	}
 }
