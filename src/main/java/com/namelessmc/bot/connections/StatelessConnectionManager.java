@@ -71,7 +71,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 
 	@Override
 	public Optional<Long> getGuildIdByURL(final URL url) throws BackendStorageException {
-		if(this.api.isPresent()) {
+		if (this.api.isPresent()) {
 			if (url == this.api.get().getApiUrl()) {
 				return Optional.of(this.guildId);
 			} else {

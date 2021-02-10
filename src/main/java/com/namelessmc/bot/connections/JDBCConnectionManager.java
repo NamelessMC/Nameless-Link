@@ -1,5 +1,9 @@
 package com.namelessmc.bot.connections;
 
+import com.namelessmc.bot.Main;
+import com.namelessmc.java_api.NamelessAPI;
+import org.apache.commons.lang3.Validate;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
@@ -10,11 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.Validate;
-
-import com.namelessmc.bot.Main;
-import com.namelessmc.java_api.NamelessAPI;
-
 public abstract class JDBCConnectionManager extends ConnectionManager {
 
 	public abstract Connection getNewDatabaseConnection() throws SQLException;
@@ -23,7 +22,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	public boolean isReadOnly() {
 		return false;
 	}
-	
+
 	@Override
 	public Optional<NamelessAPI> getApi(final long guildId) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
@@ -99,7 +98,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 			throw new BackendStorageException(e);
 		}
 	}
-	
+
 	private List<URL> listConnectionsQuery(final String query, final Long optLong) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -127,12 +126,12 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	public List<URL> listConnections() throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url FROM connections", null);
 	}
-	
+
 	@Override
 	public List<URL> listConnectionsUsedSince(final long time) throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url FROM connections WHERE last_use > ?", time);
 	}
-	
+
 	@Override
 	public List<URL> listConnectionsUsedBefore(final long time) throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url FROM connections WHERE last_use < ?", time);
@@ -154,7 +153,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 			throw new BackendStorageException(e);
 		}
 	}
-	
+
 
 	@Override
 	public Optional<Long> getGuildIdByURL(final URL url) throws BackendStorageException {

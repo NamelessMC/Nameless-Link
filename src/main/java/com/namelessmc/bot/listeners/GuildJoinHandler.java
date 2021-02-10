@@ -1,18 +1,17 @@
 package com.namelessmc.bot.listeners;
 
-import java.util.Optional;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.util.Optional;
 
 public class GuildJoinHandler extends ListenerAdapter {
 
@@ -29,10 +28,10 @@ public class GuildJoinHandler extends ListenerAdapter {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		final String apiUrlCommand = "!apiurl"; // TODO Configurable command prefix
 		final long guildId = event.getGuild().getIdLong();
-		
+
 		final User owner = Main.getJda().retrieveUserById(event.getGuild().getOwnerIdLong()).complete();
 		final PrivateChannel channel = owner.openPrivateChannel().complete();
 

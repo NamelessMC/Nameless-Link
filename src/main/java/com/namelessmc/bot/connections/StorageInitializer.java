@@ -36,7 +36,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 			Map.of(
 					"stateless", STATELESS,
 					"postgres", POSTGRES
-					);
+			);
 
 	public static StorageInitializer<? extends ConnectionManager> getByName(final String name) {
 		return BY_STRING.get(name);
@@ -90,7 +90,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 			// passing null to the URL constructor just throws a NullPointerException
 			// that one is not caught here. I'm throwing a MalformedURLException here
 			// to be catched below. That will show a message in the console
-			if(str == null)
+			if (str == null)
 				throw new MalformedURLException("Specified URL in " + name + " was null.");
 			return new URL(str);
 		} catch (final MalformedURLException e) {

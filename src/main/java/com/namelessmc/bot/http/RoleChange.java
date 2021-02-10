@@ -21,23 +21,23 @@ import java.util.Optional;
 public class RoleChange extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	
-	private static boolean timingSafeEquals(final byte[] a, final byte[] b) {
-	    if (a.length != b.length) {
-	        return false;
-	    }
 
-	    int result = 0;
-	    for (int i = 0; i < a.length; i++) {
-	      result |= a[i] ^ b[i];
-	    }
-	    return result == 0;
+	private static boolean timingSafeEquals(final byte[] a, final byte[] b) {
+		if (a.length != b.length) {
+			return false;
+		}
+
+		int result = 0;
+		for (int i = 0; i < a.length; i++) {
+			result |= a[i] ^ b[i];
+		}
+		return result == 0;
 	}
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		response.setContentType("text/plain");
-		
+
 		final JsonObject json;
 		final long guildId;
 		final long userId;
@@ -52,13 +52,13 @@ public class RoleChange extends HttpServlet {
 			Main.getLogger().warning("Received bad role change request from website");
 			return;
 		}
-		
+
 		if (guildId == 0 || apiKey == null) {
 			response.getWriter().write("badparameter");
 			Main.getLogger().warning("Received bad role change request from website");
 			return;
 		}
-		
+
 		Optional<NamelessAPI> optApi;
 		try {
 			optApi = Main.getConnectionManager().getApi(guildId);
@@ -67,40 +67,40 @@ public class RoleChange extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		if (optApi.isEmpty()) {
 			response.getWriter().write("notlinked");
 			Main.getLogger().warning("Received bad role change request from website: website is not linked");
 			return;
 		}
-		
+
 		final NamelessAPI api = optApi.get();
-		
+
 		if (!timingSafeEquals(apiKey.getBytes(), api.getApiKey().getBytes())) {
 			response.getWriter().write("unauthorized");
 			Main.getLogger().warning("Received bad role change request from website: invalid API key");
 			return;
 		}
-		
+
 		final Guild guild = Main.getJda().getGuildById(guildId);
 		if (guild == null) {
 			response.getWriter().write("invguild");
 			Main.getLogger().warning("Received bad role change request from website: invalid guild id, guild id = " + guildId);
 			return;
 		}
-		
+
 		final Member member = guild.retrieveMemberById(userId).complete();
-		
+
 		if (member == null) {
 			response.getWriter().write("invuser");
 			Main.getLogger().warning("Received bad role change request from website: invalid user id, guild id = " + guildId + ", user id = " + userId);
 			return;
 		}
-		
+
 		boolean hierarchyError = false;
-		synchronized(DiscordRoleListener.EVENT_LOCK) {
+		synchronized (DiscordRoleListener.EVENT_LOCK) {
 			DiscordRoleListener.temporarilyDisableEvents(userId);
-			
+
 			Boolean a;
 			Boolean b;
 			try {
@@ -109,21 +109,21 @@ public class RoleChange extends HttpServlet {
 				a = null;
 				hierarchyError = true;
 			}
-			
+
 			try {
 				b = changeRoles(json, false, member, guild);
 			} catch (final HierarchyException e) {
 				b = null;
 				hierarchyError = true;
 			}
-				
+
 			if ((a != null && !a) || (b != null && !b)) {
 				response.getWriter().write("invrole");
 				Main.getLogger().warning("Received bad role change request from website: invalid role id");
 				return;
 			}
 		}
-		
+
 		if (hierarchyError) {
 			response.getWriter().write("hierarchy");
 			Main.getLogger().info("Role change request from website: Hierarchy error.");
@@ -138,22 +138,22 @@ public class RoleChange extends HttpServlet {
 		if (!json.has(memberName)) {
 			return null;
 		}
-		
+
 		final long roleId;
 		try {
 			roleId = json.get(memberName).getAsLong();
 		} catch (JsonSyntaxException | IllegalArgumentException | UnsupportedOperationException e) {
 			return false;
 		}
-		
+
 		final Role role = Main.getJda().getRoleById(roleId);
 		if (role == null) {
 			Main.getLogger().warning("Role does not exist: " + roleId);
 			return false;
 		}
-		
+
 		System.out.println((add ? "Add " : "Remove ") + " role " + role.getId() + " member " + member.getId() + " guild " + guild.getId());
-		
+
 		if (add) {
 			guild.addRoleToMember(member, role).queue();
 			Main.getLogger().info("Adding role " + role.getIdLong() + " to user " + member.getIdLong());
@@ -161,7 +161,7 @@ public class RoleChange extends HttpServlet {
 			guild.removeRoleFromMember(member, role).queue();
 			Main.getLogger().info("Removing role " + role.getIdLong() + " from user " + member.getIdLong());
 		}
-		
+
 		return true;
 	}
 

@@ -22,14 +22,14 @@ public class HttpMain {
 		server.addConnector(connector);
 
 		new Thread(() -> {
-            try {
-                server.start();
-                server.join();
-            } catch (final Exception e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
+			try {
+				server.start();
+				server.join();
+			} catch (final Exception e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
 
-        }).start();
+		}).start();
 	}
 }

@@ -1,12 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -14,11 +7,16 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import org.apache.commons.lang3.StringUtils;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Optional;
 
 public class URLCommand extends Command {
 
@@ -29,7 +27,7 @@ public class URLCommand extends Command {
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
 		final Language language = Language.getDefaultLanguage();
-		
+
 		if (Main.getConnectionManager().isReadOnly()) {
 			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE));
 			return;
@@ -39,7 +37,7 @@ public class URLCommand extends Command {
 			message.reply(language.get(Term.APIURL_USAGE, "command", "!apiurl")).queue();
 			return;
 		}
-		
+
 		if (!args[1].contains("/index.php?route=/api/v2/")) {
 			message.reply(language.get(Term.APIURL_URL_INVALID)).queue();
 			return;
@@ -89,12 +87,12 @@ public class URLCommand extends Command {
 
 		try {
 			final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
-			
+
 			if (optExistingGuildId.isPresent()) {
 				message.reply(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
 				return;
 			}
-			
+
 			api.setDiscordBotUrl(Main.getBotUrl());
 			api.setDiscordGuildId(guildId);
 
@@ -112,9 +110,9 @@ public class URLCommand extends Command {
 				Main.getConnectionManager().updateConnection(guildId, apiUrl);
 				message.reply(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
 			}
-			
+
 			DiscordRoleListener.sendRoleListToWebsite(guild);
-			
+
 			Main.getLogger().info("Set up API URL for guild " + guildId + " to " + apiUrl);
 		} catch (final BackendStorageException e) {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();

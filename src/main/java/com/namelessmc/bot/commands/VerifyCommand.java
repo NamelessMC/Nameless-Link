@@ -77,7 +77,7 @@ public class VerifyCommand extends Command {
 			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
-		
+
 		// User is now linked, trigger group sync
 		final Guild guild = Main.getJda().getGuildById(guildId);
 		if (guild == null) {

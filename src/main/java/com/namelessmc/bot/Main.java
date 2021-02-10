@@ -100,7 +100,7 @@ public class Main {
 		} else {
 			apiDebug = false;
 		}
-		
+
 		if (System.getenv("WEBSERVER_BIND") != null) {
 			webserverInterface = System.getenv("WEBSERVER_BIND");
 		} else {
@@ -167,7 +167,7 @@ public class Main {
 			api.setDiscordBotUrl(botUrl);
 			api.setDiscordBotUser(username, user.getIdLong());
 			final long guildId = connectionManager.getGuildIdByURL(api.getApiUrl()).orElse(0L);
-			if(guildId == 0L) {
+			if (guildId == 0L) {
 				logger.severe("Guild id was not present in the Optional");
 				System.exit(1);
 			}
@@ -218,7 +218,7 @@ public class Main {
 
 		if (!Main.getConnectionManager().isReadOnly()) {
 			scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(4), TimeUnit.HOURS.toMillis(4), TimeUnit.MILLISECONDS);
-			
+
 			// Temporary way to reduce number of guilds for 250 guilds limit
 //			scheduler.scheduleAtFixedRate(() -> {
 //				logger.info("Sending messages for not set up guilds");
@@ -264,7 +264,7 @@ public class Main {
 	private static final Map<URL, NamelessAPI> API_CACHE = new HashMap<>();
 
 	public static NamelessAPI newApiConnection(final URL url) {
-		synchronized(API_CACHE) {
+		synchronized (API_CACHE) {
 			API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, apiDebug));
 			return API_CACHE.get(url);
 		}
