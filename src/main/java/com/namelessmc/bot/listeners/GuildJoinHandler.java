@@ -43,8 +43,8 @@ public class GuildJoinHandler extends ListenerAdapter {
 					Language ownerLanguage = Language.getDiscordUserLanguage(api.get(), channel.getUser());
 					channel.sendMessage(ownerLanguage.get(Term.GUILD_JOIN_WELCOME_BACK, "command", apiUrlCommand, "guildId", guildId)).queue();
 				} catch (final NamelessException e) {
-					channel.sendMessage(language.get(Term.GUILD_JOIN_NEEDS_RENEW, "command", apiUrlCommand, "guildId", guildId)).queue();
 					// Error with their stored url. Make them update the url
+					channel.sendMessage(language.get(Term.GUILD_JOIN_NEEDS_RENEW, "command", apiUrlCommand, "guildId", guildId)).queue();
 				}
 			}
 		});
