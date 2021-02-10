@@ -51,7 +51,8 @@ public class StatelessConnectionManager extends ConnectionManager {
 
 	@Override
 	public List<URL> listConnections() {
-		return this.api.map(namelessAPI -> Collections.singletonList(namelessAPI.getApiUrl())).orElse(Collections.emptyList());
+		// Optional should always be present, this method should never throw an exception here
+		return Collections.singletonList(this.api.orElseThrow().getApiUrl());
 	}
 
 	@Override
