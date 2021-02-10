@@ -50,7 +50,7 @@ public class ConnectionCleanup {
 				}
 
 				log.info("Guild exists, sending message to guild owner.");
-				
+
 				Main.getJda().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 					log.info("user id " + channel.getUser().getIdLong() + " channel id " + channel.getIdLong());
 

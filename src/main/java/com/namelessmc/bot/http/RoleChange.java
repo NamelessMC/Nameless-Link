@@ -88,7 +88,7 @@ public class RoleChange extends HttpServlet {
 			Main.getLogger().warning("Received bad role change request from website: invalid guild id, guild id = " + guildId);
 			return;
 		}
-		
+
 		guild.retrieveMemberById(userId).queue(member -> {
 			try {
 				if (member == null) {
@@ -131,7 +131,7 @@ public class RoleChange extends HttpServlet {
 					response.getWriter().write("success");
 					Main.getLogger().info("Role change request from website processed successfully.");
 				}
-			}catch(IOException exception) {
+			} catch (IOException exception) {
 				// An IOException at getWriter normally indicates an internal server error.
 				response.setStatus(500);
 			}

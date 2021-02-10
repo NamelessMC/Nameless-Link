@@ -30,15 +30,15 @@ public class GuildJoinHandler extends ListenerAdapter {
 
 		final String apiUrlCommand = "!apiurl"; // TODO Configurable command prefix
 		final long guildId = event.getGuild().getIdLong();
-		
+
 		Main.getJda().retrieveUserById(event.getGuild().getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 			if (api.isEmpty()) {
 				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", apiUrlCommand, "guildId", guildId))
 						.queue(message -> Main.getLogger().info("Sent new join message to " + channel.getUser().getName()
 								+ " for guild " + event.getGuild().getName()));
 			} else {
-					api.get().checkWebAPIConnection();
 				try {
+					api.get().checkWebAPIConnection();
 					// Good to go
 					Language ownerLanguage = Language.getDiscordUserLanguage(api.get(), channel.getUser());
 					channel.sendMessage(ownerLanguage.get(Term.GUILD_JOIN_WELCOME_BACK, "command", apiUrlCommand, "guildId", guildId)).queue();

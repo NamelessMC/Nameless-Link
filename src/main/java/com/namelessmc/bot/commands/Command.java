@@ -58,7 +58,7 @@ public abstract class Command {
 		String[] splitMessage = message.getContentRaw().split(" ");
 		final String commandName = splitMessage[0];
 		String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
-	
+
 		final User user = message.getAuthor();
 
 		final CommandContext context = getContext(message);
@@ -74,7 +74,7 @@ public abstract class Command {
 			}
 			return;
 		}
-		
+
 		message.addReaction("U+1F7E0").queue(ignored -> { // 🟠
 			command.execute(user, args, message);
 
