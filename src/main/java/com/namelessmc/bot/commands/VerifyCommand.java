@@ -1,8 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -11,11 +8,13 @@ import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 public class VerifyCommand extends Command {
 
@@ -69,12 +68,11 @@ public class VerifyCommand extends Command {
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 				message.reply(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
-				return;
 			} else {
 				System.out.println("Unexpected error code " + e.getError() + " when trying to verify user");
 				message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
-				return;
 			}
+			return;
 		} catch (final NamelessException e) {
 			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;

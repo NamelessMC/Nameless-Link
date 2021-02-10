@@ -64,12 +64,11 @@ public class UpdateUsernameCommand extends Command {
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 				message.reply(language.get(Term.ERROR_NOT_LINKED)).queue();
-				return;
 			} else {
 				System.err.println("Error code " + e.getError() + " while updating username");
 				message.reply(language.get(Term.ERROR_GENERIC)).queue();
-				return;
 			}
+			return;
 		} catch (final NamelessException e) {
 			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;
