@@ -55,10 +55,10 @@ public abstract class Command {
 	protected abstract void execute(User user, String[] args, Message message);
 
 	public static void execute(final Message message) {
-		String[] args = message.getContentRaw().split(" ");
-		final String commandName = args[0];
-		args = Arrays.copyOfRange(args, 1, args.length);
-
+		String[] splitMessage = message.getContentRaw().split(" ");
+		final String commandName = splitMessage[0];
+		String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
+	
 		final User user = message.getAuthor();
 
 		final CommandContext context = getContext(message);
@@ -74,12 +74,12 @@ public abstract class Command {
 			}
 			return;
 		}
+		
+		message.addReaction("U+1F7E0").queue(ignored -> { // 🟠
+			command.execute(user, args, message);
 
-		message.addReaction("U+1F7E0").complete(); // 🟠
-
-		command.execute(user, args, message);
-
-		message.removeReaction("U+1F7E0").queue(); // 🟠
+			message.removeReaction("U+1F7E0").queue(); // 🟠
+		});
 	}
 
 	private static CommandContext getContext(final Message message) {

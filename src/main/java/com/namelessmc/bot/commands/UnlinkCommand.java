@@ -23,7 +23,7 @@ public class UnlinkCommand extends Command {
 		Language language = Language.getDefaultLanguage();
 
 		if (Main.getConnectionManager().isReadOnly()) {
-			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE));
+			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE)).queue();
 			return;
 		}
 
