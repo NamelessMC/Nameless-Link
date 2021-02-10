@@ -1,8 +1,5 @@
 package com.namelessmc.bot.http;
 
-import java.io.IOException;
-import java.util.Optional;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -10,7 +7,6 @@ import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
-
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +14,9 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class RoleChange extends HttpServlet {
 
@@ -90,48 +89,55 @@ public class RoleChange extends HttpServlet {
 			return;
 		}
 		
-		final Member member = guild.retrieveMemberById(userId).complete();
-		
-		if (member == null) {
-			response.getWriter().write("invuser");
-			Main.getLogger().warning("Received bad role change request from website: invalid user id, guild id = " + guildId + ", user id = " + userId);
-			return;
-		}
-		
-		boolean hierarchyError = false;
-		synchronized(DiscordRoleListener.EVENT_LOCK) {
-			DiscordRoleListener.temporarilyDisableEvents(userId);
-			
-			Boolean a;
-			Boolean b;
+		guild.retrieveMemberById(userId).queue(member -> {
 			try {
-				a = changeRoles(json, true, member, guild);
-			} catch (final HierarchyException e) {
-				a = null;
-				hierarchyError = true;
+				if (member == null) {
+					response.getWriter().write("invuser");
+					Main.getLogger().warning("Received bad role change request from website: invalid user id, guild id = " + guildId + ", user id = " + userId);
+					return;
+				}
+
+				boolean hierarchyError = false;
+				synchronized (DiscordRoleListener.EVENT_LOCK) {
+					DiscordRoleListener.temporarilyDisableEvents(userId);
+
+					Boolean a;
+					Boolean b;
+					try {
+						a = changeRoles(json, true, member, guild);
+					} catch (final HierarchyException e) {
+						a = null;
+						hierarchyError = true;
+					}
+
+					try {
+						b = changeRoles(json, false, member, guild);
+					} catch (final HierarchyException e) {
+						b = null;
+						hierarchyError = true;
+					}
+
+					if ((a != null && !a) || (b != null && !b)) {
+						response.getWriter().write("invrole");
+						Main.getLogger().warning("Received bad role change request from website: invalid role id");
+						return;
+					}
+				}
+
+				if (hierarchyError) {
+					response.getWriter().write("hierarchy");
+					Main.getLogger().info("Role change request from website: Hierarchy error.");
+				} else {
+					response.getWriter().write("success");
+					Main.getLogger().info("Role change request from website processed successfully.");
+				}
+			}catch(IOException exception) {
+				// An IOException at getWriter normally indicates an internal server error.
+				response.setStatus(500);
 			}
-			
-			try {
-				b = changeRoles(json, false, member, guild);
-			} catch (final HierarchyException e) {
-				b = null;
-				hierarchyError = true;
-			}
-				
-			if ((a != null && !a) || (b != null && !b)) {
-				response.getWriter().write("invrole");
-				Main.getLogger().warning("Received bad role change request from website: invalid role id");
-				return;
-			}
-		}
+		});
 		
-		if (hierarchyError) {
-			response.getWriter().write("hierarchy");
-			Main.getLogger().info("Role change request from website: Hierarchy error.");
-		} else {
-			response.getWriter().write("success");
-			Main.getLogger().info("Role change request from website processed successfully.");
-		}
+
 	}
 
 	private Boolean changeRoles(final JsonObject json, final boolean add, final Member member, final Guild guild) {

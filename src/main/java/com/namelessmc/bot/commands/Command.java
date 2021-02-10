@@ -1,20 +1,19 @@
 package com.namelessmc.bot.commands;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
-
 import lombok.Getter;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public abstract class Command {
 
@@ -56,9 +55,9 @@ public abstract class Command {
 	protected abstract void execute(User user, String[] args, Message message);
 	
 	public static void execute(final Message message) {
-		String[] args = message.getContentRaw().split(" ");
-		final String commandName = args[0];
-		args = Arrays.copyOfRange(args, 1, args.length);
+		String[] splitMessage = message.getContentRaw().split(" ");
+		final String commandName = splitMessage[0];
+		String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
 	
 		final User user = message.getAuthor();
 		
@@ -76,11 +75,13 @@ public abstract class Command {
 			return;
 		}
 		
-		message.addReaction("U+1F7E0").complete(); // 🟠
+		message.addReaction("U+1F7E0").queue(ignored -> { // 🟠
+			command.execute(user, args, message);
+
+			message.removeReaction("U+1F7E0").queue(); // 🟠
+		});
 		
-		command.execute(user, args, message);
-		
-		message.removeReaction("U+1F7E0").queue(); // 🟠
+
 	}
 	
 	private static CommandContext getContext(final Message message) {
