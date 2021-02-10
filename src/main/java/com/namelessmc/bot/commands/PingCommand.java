@@ -1,23 +1,21 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Collections;
-import java.util.Optional;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import org.apache.commons.lang3.StringUtils;
 
-public class PingCommand  extends Command {
+import java.util.Collections;
+import java.util.Optional;
+
+public class PingCommand extends Command {
 
 	public PingCommand() {
 		super("!ping", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
@@ -61,14 +59,14 @@ public class PingCommand  extends Command {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		if (optApi.isEmpty()) {
 			message.reply(language.get(Term.ERROR_NOT_SET_UP)).queue();
 			return;
 		}
-		
+
 		final NamelessAPI api = optApi.get();
-		
+
 		try {
 			final long start = System.currentTimeMillis();
 			api.checkWebAPIConnection();
@@ -81,7 +79,6 @@ public class PingCommand  extends Command {
 			if (api.getApiUrl().toString().startsWith("http://")) {
 				message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
 			}
-			return;
 		}
 	}
 

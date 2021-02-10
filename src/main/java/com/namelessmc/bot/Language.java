@@ -1,33 +1,32 @@
 package com.namelessmc.bot;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessUser;
+import lombok.Getter;
+import net.dv8tion.jda.api.entities.User;
+import org.apache.commons.lang3.Validate;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.Validate;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-
-import lombok.Getter;
-import net.dv8tion.jda.api.entities.User;
-
 public class Language {
-	
-	private static final String[] EMPTY_STRING_ARRAY = new String[] {};
-	
-	public static enum Term {
-		
+
+	private static final String[] EMPTY_STRING_ARRAY = new String[]{};
+
+	public enum Term {
+
 		COMMANDS,
 		HELP,
-		
+
 		ERROR_GENERIC,
 		ERROR_NOT_SET_UP,
 		ERROR_NOT_LINKED,
@@ -35,17 +34,17 @@ public class Language {
 		ERROR_NO_PERMISSION,
 		ERROR_READ_ONLY_STORAGE,
 		ERROR_GUILD_ID_INVALID,
-		
+
 		INVALID_COMMAND("commands"),
-		
+
 		VERIFY_USAGE("command"),
 		VERIFY_TOKEN_INVALID,
 		VERIFY_NOT_USED,
 		VERIFY_SUCCESS,
-		
+
 		PING_USAGE("command"),
 		PING_WORKING("time"),
-		
+
 		APIURL_USAGE("command"),
 		APIURL_URL_INVALID,
 		APIURL_URL_MALFORMED,
@@ -54,39 +53,39 @@ public class Language {
 		APIURL_TRY_HTTPS,
 		APIURL_SUCCESS_UPDATED,
 		APIURL_SUCCESS_NEW,
-		
+
 		GUILD_JOIN_SUCCESS("command", "guildId"),
 		GUILD_JOIN_NEEDS_RENEW("command", "guildId"),
 		GUILD_JOIN_WELCOME_BACK("command", "guildId"),
-		
+
 		UNUSED_CONNECTION("discordServerName", "command"),
-		
+
 		UNLINK_USAGE("command"),
 		UNLINK_GUILD_NOT_LINKED,
 		UNLINK_GUILD_UNKNOWN,
-		
+
 		;
-		
+
 		@Getter
-		private String[] placeholders;
-		
+		private final String[] placeholders;
+
 		Term() {
 			this.placeholders = EMPTY_STRING_ARRAY;
 		}
-		
+
 		Term(final String... placeholders) {
 			this.placeholders = placeholders;
 		}
-		
+
 		@Override
 		public String toString() {
 			return this.name().toLowerCase();
 		}
-		
+
 	}
-	
+
 	private static final Map<String, String> NAMELESS_TO_POSIX = new HashMap<>();
-	
+
 	static {
 		NAMELESS_TO_POSIX.put("Czech", "cs_CZ");
 		NAMELESS_TO_POSIX.put("German", "de_DE");
@@ -110,11 +109,11 @@ public class Language {
 
 	@Getter
 	private static Language defaultLanguage;
-	
+
 	static void setDefaultLanguage(final String languageCode) throws LanguageLoadException {
 		defaultLanguage = new Language(languageCode);
 	}
-	
+
 	// Avoid having to instantiate new language objects all the time
 	private static final Map<String, Language> LANGUAGE_CACHE = new HashMap<>();
 
@@ -144,7 +143,7 @@ public class Language {
 
 	public String get(final Term term, final Object... replacements) {
 		checkReplacements(term, replacements);
-		
+
 		String translation;
 		if (this.json.has(term.toString())) {
 			translation = this.json.get(term.toString()).getAsString();
@@ -157,7 +156,7 @@ public class Language {
 					this.language, term, getDefaultLanguage().language));
 			translation = getDefaultLanguage().get(term, replacements);
 		}
-		
+
 		for (int i = 0; i < replacements.length; i += 2) {
 			final String key = (String) replacements[i];
 			final String value = replacements[i + 1].toString();
@@ -166,27 +165,27 @@ public class Language {
 
 		return translation;
 	}
-	
+
 	private void checkReplacements(final Term term, final Object... replacements) {
 		if (replacements.length == 0) {
 			return;
 		}
-		
+
 		Validate.isTrue(replacements.length % 2 == 0, "Replacements array must have even length");
-		
+
 		final String[] required = term.getPlaceholders();
 		final boolean[] valid = new boolean[required.length];
-		
+
 		for (int i = 0; i < replacements.length; i += 2) {
 			Validate.isTrue(replacements[i] instanceof String, "Replacement keys must be strings");
 			final String key = (String) replacements[i];
-			if (key == required[i/2]) {
-				valid[i/2] = true;
+			if (Objects.equals(key, required[i / 2])) {
+				valid[i / 2] = true;
 			} else {
 				throw new IllegalArgumentException("Invalid replacement key '" + key + "'");
 			}
 		}
-		
+
 		for (int i = 0; i < required.length; i++) {
 			if (!valid[i]) {
 				throw new IllegalArgumentException("Missing replacement key '" + required[i] + "'");
@@ -212,7 +211,7 @@ public class Language {
 		if (languageName == null) {
 			return getDefaultLanguage();
 		}
-		
+
 		Language language = LANGUAGE_CACHE.get(languageName);
 		if (language != null) {
 			return language;
@@ -226,7 +225,7 @@ public class Language {
 			e.printStackTrace();
 			language = getDefaultLanguage();
 		}
-		
+
 		LANGUAGE_CACHE.put(languageName, language);
 
 		return language;

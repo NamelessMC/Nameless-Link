@@ -1,14 +1,13 @@
 package com.namelessmc.bot.connections;
 
+import com.namelessmc.bot.Main;
+import com.namelessmc.java_api.NamelessAPI;
+import org.apache.commons.lang3.Validate;
+
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import org.apache.commons.lang3.Validate;
-
-import com.namelessmc.bot.Main;
-import com.namelessmc.java_api.NamelessAPI;
 
 public class StatelessConnectionManager extends ConnectionManager {
 
@@ -16,7 +15,6 @@ public class StatelessConnectionManager extends ConnectionManager {
 	private final Optional<NamelessAPI> api; // Keep one instance for performance
 
 	public StatelessConnectionManager(final long guildId, final URL apiUrl) {
-		Validate.notNull(guildId, "Guild ID not specified");
 		Validate.notNull(apiUrl, "API URL not specified");
 		this.guildId = guildId;
 		this.api = Optional.of(Main.newApiConnection(apiUrl));
@@ -52,8 +50,9 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public List<URL> listConnections() throws BackendStorageException {
-		return Collections.singletonList(this.api.get().getApiUrl());
+	public List<URL> listConnections() {
+		// Optional should always be present, this method should never throw an exception here
+		return Collections.singletonList(this.api.orElseThrow().getApiUrl());
 	}
 
 	@Override
@@ -73,11 +72,14 @@ public class StatelessConnectionManager extends ConnectionManager {
 
 	@Override
 	public Optional<Long> getGuildIdByURL(final URL url) throws BackendStorageException {
-		if (url == this.api.get().getApiUrl()) {
-			return Optional.of(this.guildId);
-		} else {
-			throw new BackendStorageException(new UnsupportedOperationException());
+		if (this.api.isPresent()) {
+			if (url == this.api.get().getApiUrl()) {
+				return Optional.of(this.guildId);
+			} else {
+				throw new BackendStorageException(new UnsupportedOperationException());
+			}
 		}
+		return Optional.empty();
 	}
 
 }

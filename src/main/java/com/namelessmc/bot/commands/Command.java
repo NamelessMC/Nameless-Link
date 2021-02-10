@@ -53,17 +53,17 @@ public abstract class Command {
 	}
 
 	protected abstract void execute(User user, String[] args, Message message);
-	
+
 	public static void execute(final Message message) {
 		String[] splitMessage = message.getContentRaw().split(" ");
 		final String commandName = splitMessage[0];
 		String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
-	
+
 		final User user = message.getAuthor();
-		
+
 		final CommandContext context = getContext(message);
 		final Command command = Command.getCommand(commandName, context);
-		
+
 		if (command == null) {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
 				final Language language = Language.getDefaultLanguage();
@@ -74,16 +74,14 @@ public abstract class Command {
 			}
 			return;
 		}
-		
+
 		message.addReaction("U+1F7E0").queue(ignored -> { // 🟠
 			command.execute(user, args, message);
 
 			message.removeReaction("U+1F7E0").queue(); // 🟠
 		});
-		
-
 	}
-	
+
 	private static CommandContext getContext(final Message message) {
 		if (message.getChannel() instanceof PrivateChannel) {
 			return CommandContext.PRIVATE_MESSAGE;
