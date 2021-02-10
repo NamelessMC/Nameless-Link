@@ -18,7 +18,6 @@ public class StatelessConnectionManager extends ConnectionManager {
 	private final Optional<NamelessAPI> api;
 
 	public StatelessConnectionManager(final long guildId, final URL apiUrl) {
-		Validate.notNull(guildId, "Guild ID not specified");
 		Validate.notNull(apiUrl, "API URL not specified");
 		this.guildId = guildId;
 		this.optGuildId = Optional.of(guildId);
@@ -55,8 +54,9 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public List<URL> listConnections() throws BackendStorageException {
-		return Collections.singletonList(this.api.get().getApiUrl());
+	public List<URL> listConnections() {
+		// Optional should always be present, this method should never throw an exception here
+		return Collections.singletonList(this.api.orElseThrow().getApiUrl());
 	}
 
 	@Override
