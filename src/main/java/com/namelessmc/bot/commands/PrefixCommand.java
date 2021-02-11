@@ -73,7 +73,7 @@ public class PrefixCommand extends Command {
 
 		try {
 			String newPrefix = args[1].equals("reset") ? "" : args[1];
-			Main.getConnectionManager().setCommandPrefix(guildId, args[1]);
+			Main.getConnectionManager().setCommandPrefix(guildId, newPrefix);
 			message.reply(language.get(Language.Term.PREFIX_SUCCESS,
 					"newPrefix", newPrefix.isEmpty() ? Main.getDefaultCommandPrefix() : newPrefix)).queue();
 			Main.getLogger().info("Modified prefix for guild " + guildId);
