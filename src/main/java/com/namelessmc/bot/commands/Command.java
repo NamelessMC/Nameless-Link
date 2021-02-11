@@ -78,8 +78,6 @@ public abstract class Command {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
 				final Language language = Language.getDefaultLanguage();
 				final String s = language.get(Term.INVALID_COMMAND, "commands",
-						// We use the default prefix here as we are in private messages.
-						// There is no guild, where we can get the language from.
 						"`" + String.join("`, `" + commandPrefix, registeredCommandLabels) + "`");
 				message.getChannel().sendMessage(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 						.setTitle(language.get(Term.COMMANDS))
