@@ -1,7 +1,7 @@
 **/.DS_Store
 .idea/
 target/
-Nameless-Link.iml
+*.iml
 .classpath
 .settings/
 .project

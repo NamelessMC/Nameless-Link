@@ -25,9 +25,9 @@ public class UpdateUsernameCommand extends Command {
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
 		final Guild guild = ((TextChannel) message.getChannel()).getGuild();
-		
+
 		Language language = Language.getDefaultLanguage();
-		
+
 		Optional<NamelessAPI> optApi;
 		try {
 			optApi = Main.getConnectionManager().getApi(guild.getIdLong());
@@ -35,46 +35,45 @@ public class UpdateUsernameCommand extends Command {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
 			return;
 		}
-		
+
 		if (optApi.isEmpty()) {
 			message.reply(language.get(Term.ERROR_NOT_SET_UP)).queue();
 			return;
 		}
-		
+
 		final NamelessAPI api = optApi.get();
-		
+
 		language = Language.getDiscordUserLanguage(api, user);
-		
+
 		Optional<NamelessUser> optNameless;
 		try {
 			optNameless = api.getUserByDiscordId(user.getIdLong());
 		} catch (final NamelessException e) {
-			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();;
+			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
-		
+
 		if (optNameless.isEmpty()) {
 			message.reply(language.get(Term.ERROR_NOT_LINKED)).queue();
 			return;
 		}
 
 		try {
-			api.updateDiscordUsernames(new long[] {user.getIdLong()}, new String[] {user.getName() + "#" + user.getDiscriminator()});
+			api.updateDiscordUsernames(new long[]{user.getIdLong()}, new String[]{user.getName() + "#" + user.getDiscriminator()});
 			Main.getLogger().info("Updated username for user " + user.getIdLong() + " to " + user.getName() + "#" + user.getDiscriminator());
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 				message.reply(language.get(Term.ERROR_NOT_LINKED)).queue();
-				return;
 			} else {
 				System.err.println("Error code " + e.getError() + " while updating username");
 				message.reply(language.get(Term.ERROR_GENERIC)).queue();
-				return;
 			}
+			return;
 		} catch (final NamelessException e) {
 			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
-		
+
 		message.addReaction("U+2705").queue(); // ✅
 	}
 

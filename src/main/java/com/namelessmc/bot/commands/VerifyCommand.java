@@ -68,17 +68,16 @@ public class VerifyCommand extends Command {
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 				message.reply(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
-				return;
 			} else {
 				System.out.println("Unexpected error code " + e.getError() + " when trying to verify user");
 				message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
-				return;
 			}
+			return;
 		} catch (final NamelessException e) {
 			message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
-		
+
 		// User is now linked, trigger group sync
 		final Guild guild = Main.getJda().getGuildById(guildId);
 		if (guild == null) {

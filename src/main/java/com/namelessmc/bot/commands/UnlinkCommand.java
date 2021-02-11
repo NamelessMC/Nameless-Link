@@ -21,17 +21,17 @@ public class UnlinkCommand extends Command {
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
 		Language language = Language.getDefaultLanguage();
-		
+
 		if (Main.getConnectionManager().isReadOnly()) {
 			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE)).queue();
 			return;
 		}
-		
+
 		if (args.length != 1) {
 			message.reply(language.get(Term.UNLINK_USAGE, "command", Main.getCommandPrefix() + "unlink")).queue();
 			return;
 		}
-		
+
 		long guildId;
 		try {
 			guildId = Long.parseLong(args[0]);
@@ -39,7 +39,7 @@ public class UnlinkCommand extends Command {
 			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
 			return;
 		}
-		
+
 		Optional<NamelessAPI> optApi;
 		try {
 			optApi = Main.getConnectionManager().getApi(guildId);
@@ -48,28 +48,28 @@ public class UnlinkCommand extends Command {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		if (optApi.isEmpty()) {
 			message.reply(language.get(Term.UNLINK_GUILD_NOT_LINKED)).queue();
 			return;
 		}
-		
+
 		final NamelessAPI api = optApi.get();
-		
+
 		language = Language.getDiscordUserLanguage(api, user);
-		
+
 		final Guild guild = Main.getJda().getGuildById(guildId);
-	
+
 		if (guild == null) {
 			message.reply(language.get(Term.UNLINK_GUILD_UNKNOWN)).queue();
 			return;
 		}
-		
+
 		if (!Main.canModifySettings(user, guild)) {
 			message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
 			return;
 		}
-		
+
 		try {
 			Main.getConnectionManager().removeConnection(guildId);
 			Main.getLogger().info("Unlinked from guild " + guildId);
@@ -78,7 +78,7 @@ public class UnlinkCommand extends Command {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		message.addReaction("U+2705").queue(); // ✅
 	}
 

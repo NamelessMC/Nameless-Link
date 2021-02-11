@@ -14,43 +14,43 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class ConnectionCleanup {
-	
+
 	public static void run() {
 		final Logger log = Main.getLogger();
-		
+
 		log.info("Cleaning up connections...");
 		try {
 			final long someTimeAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(14);
 			final List<URL> urls = Main.getConnectionManager().listConnectionsUsedBefore(someTimeAgo);
-			
+
 			if (urls.isEmpty()) {
 				log.info("No connections to clean up.");
 				return;
 			} else {
 				log.info("Found " + urls.size() + " unused connections");
 			}
-			
+
 			for (final URL url : urls) {
 				final Optional<Long> optGuildId = Main.getConnectionManager().getGuildIdByURL(url);
 				if (optGuildId.isEmpty()) {
 					log.warning("URL does not have guild id in database? " + url.toString());
 					continue;
 				}
-				
+
 				final long guildId = optGuildId.get();
-				
+
 				log.info(String.format("Checking %s (guild id %s)", url.getHost(), guildId));
 
 				final Guild guild = Main.getJda().getGuildById(guildId);
-				
+
 				if (guild == null) {
 					log.info("Guild does not exist. Removing connection from database.");
 					Main.getConnectionManager().removeConnection(guildId);
 					continue;
 				}
-				
+
 				log.info("Guild exists, sending message to guild owner.");
-				
+
 				Main.getJda().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 					log.info("user id " + channel.getUser().getIdLong() + " channel id " + channel.getIdLong());
 
@@ -60,10 +60,8 @@ public class ConnectionCleanup {
 					final String s = language.get(Term.UNUSED_CONNECTION, "discordServerName", guild.getName(), "command", command);
 					channel.sendMessage(s).queue(RestAction.getDefaultSuccess(), ignored -> log.warning("Couldn't send message"));
 				});
-
-
 			}
-			
+
 			log.info("Done cleaning up connections.");
 		} catch (final BackendStorageException e) {
 			log.severe("A database error occured while cleaning up connections");

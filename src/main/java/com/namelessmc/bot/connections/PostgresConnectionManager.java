@@ -10,7 +10,7 @@ public class PostgresConnectionManager extends JDBCConnectionManager {
 	private final int port;
 
 	public PostgresConnectionManager(final String hostname, final int port, final String databaseName,
-			final String username, final String password) {
+									 final String username, final String password) {
 		this.hostname = hostname;
 		this.port = port;
 		this.databaseName = databaseName;

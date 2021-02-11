@@ -27,7 +27,7 @@ public class URLCommand extends Command {
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
 		final Language language = Language.getDefaultLanguage();
-		
+
 		if (Main.getConnectionManager().isReadOnly()) {
 			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE)).queue();
 			return;
@@ -37,7 +37,7 @@ public class URLCommand extends Command {
 			message.reply(language.get(Term.APIURL_USAGE, "command", Main.getCommandPrefix() + "apiurl")).queue();
 			return;
 		}
-		
+
 		if (!args[1].contains("/index.php?route=/api/v2/")) {
 			message.reply(language.get(Term.APIURL_URL_INVALID)).queue();
 			return;
@@ -87,12 +87,12 @@ public class URLCommand extends Command {
 
 		try {
 			final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
-			
+
 			if (optExistingGuildId.isPresent()) {
 				message.reply(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
 				return;
 			}
-			
+
 			api.setDiscordBotUrl(Main.getBotUrl());
 			api.setDiscordGuildId(guildId);
 
@@ -110,9 +110,9 @@ public class URLCommand extends Command {
 				Main.getConnectionManager().updateConnection(guildId, apiUrl);
 				message.reply(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
 			}
-			
+
 			DiscordRoleListener.sendRoleListToWebsite(guild);
-			
+
 			Main.getLogger().info("Set up API URL for guild " + guildId + " to " + apiUrl);
 		} catch (final BackendStorageException e) {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
