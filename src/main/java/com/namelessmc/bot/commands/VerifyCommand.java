@@ -27,7 +27,7 @@ public class VerifyCommand extends Command {
 		final Language language = Language.getDefaultLanguage();
 
 		if (args.length != 1) {
-			message.reply(language.get(Term.VERIFY_USAGE, "command", Main.getCommandPrefix() + "verify")).queue();
+			message.reply(language.get(Term.VERIFY_USAGE, "command", getPrefix(message) + "verify")).queue();
 			return;
 		}
 

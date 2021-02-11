@@ -3,7 +3,12 @@ package com.namelessmc.bot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.Language.LanguageLoadException;
-import com.namelessmc.bot.commands.*;
+import com.namelessmc.bot.commands.PingCommand;
+import com.namelessmc.bot.commands.PrefixCommand;
+import com.namelessmc.bot.commands.URLCommand;
+import com.namelessmc.bot.commands.UnlinkCommand;
+import com.namelessmc.bot.commands.UpdateUsernameCommand;
+import com.namelessmc.bot.commands.VerifyCommand;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.connections.ConnectionManager;
 import com.namelessmc.bot.connections.StorageInitializer;
@@ -58,7 +63,7 @@ public class Main {
 	private static int webserverPort;
 	private static boolean apiDebug;
 	@Getter
-	private static String commandPrefix;
+	private static String defaultCommandPrefix;
 
 	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
 		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
@@ -111,10 +116,10 @@ public class Main {
 		}
 
 		if (System.getenv("COMMAND_PREFIX") != null) {
-			commandPrefix = System.getenv("COMMAND_PREFIX");
+			defaultCommandPrefix = System.getenv("COMMAND_PREFIX");
 		} else {
 			System.out.println("Environment variable 'COMMAND_PREFIX' not set, setting to default (!).");
-			commandPrefix = "!";
+			defaultCommandPrefix = "!";
 		}
 
 		try {
@@ -148,6 +153,7 @@ public class Main {
 
 		// Register commands
 		new PingCommand();
+		new PrefixCommand();
 		new UnlinkCommand();
 		new UpdateUsernameCommand();
 		new URLCommand();

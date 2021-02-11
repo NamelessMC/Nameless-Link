@@ -29,5 +29,7 @@
     "guild_join_welcome_back": "Hallo! Vielen Dank, dass Sie den NamelessMC-Bot verwenden. Der Bot ist bereits für Ihren Discord-Server eingerichtet. Wenn Sie eine andere API-URL verwenden möchten, können Sie diese mit `{command} {guildId} <api url>` ändern.",
     "unused_connection": "Hallo, Sie haben Ihren Discord-Server '{discordServerName}' mit diesem Bot mit NamelessMC verknüpft. Es sieht so aus, als ob die Website-Verbindung eine Weile nicht mehr verwendet wurde, wenn Sie Ihren Discord-Server von diesem Bot entfernen möchten, führen Sie `{command}` aus.",
     "error_not_set_up": "Du kannst diesen Befehl momentan nicht verwenden, der Bot wurde noch nicht eingerichtet.",
-    "setup_reminder": "Hallo, Sie haben den Nameless-Link-Bot zu Ihrem Discord-Server hinzugefügt, aber er wurde noch nicht eingerichtet. Der Bot ist derzeit auf 250 Server beschränkt. Wenn Sie ihn derzeit nicht verwenden möchten, entfernen Sie ihn bitte von Ihrem Server, damit er für diejenigen verfügbar ist, die ihn verwenden möchten."
+    "setup_reminder": "Hallo, Sie haben den Nameless-Link-Bot zu Ihrem Discord-Server hinzugefügt, aber er wurde noch nicht eingerichtet. Der Bot ist derzeit auf 250 Server beschränkt. Wenn Sie ihn derzeit nicht verwenden möchten, entfernen Sie ihn bitte von Ihrem Server, damit er für diejenigen verfügbar ist, die ihn verwenden möchten.",
+    "prefix_usage": "Verwendung: `{command} <Server-ID> <Neuer Prefix>`. Nutze `reset` um wieder den Standard Prefix zu benutzen.",
+    "prefix_success": "Der Prefix wurde zu `{newPrefix}` geändert."
 }

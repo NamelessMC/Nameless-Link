@@ -26,7 +26,7 @@ public class PingCommand extends Command {
 		Language language = Language.getDefaultLanguage();
 
 		if (args.length != 1) {
-			message.reply(language.get(Term.PING_USAGE, "command", Main.getCommandPrefix() + "ping")).queue();
+			message.reply(language.get(Term.PING_USAGE, "command", getPrefix(message) + "ping")).queue();
 			return;
 		}
 

@@ -60,10 +60,11 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		Validate.notNull(apiUrl, "Api url is null");
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
-					.prepareStatement("INSERT INTO connections (guild_id, api_url, last_use) VALUES (?, ?, ?)")) {
+					.prepareStatement("INSERT INTO connections (guild_id, api_url, command_prefix, last_use) VALUES (?, ?, ?, ?)")) {
 				statement.setLong(1, guildId);
 				statement.setString(2, apiUrl.toString());
-				statement.setLong(3, System.currentTimeMillis());
+				statement.setString(3, ""); // Empty string means that we use the default prefix
+				statement.setLong(4, System.currentTimeMillis());
 				statement.execute();
 			}
 		} catch (final SQLException e) {
@@ -182,4 +183,49 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
+	@Override
+	public Optional<String> getCommandPrefixByGuildId(long guildId) throws BackendStorageException {
+		try (Connection connection = this.getNewDatabaseConnection()) {
+			String prefix;
+			try (PreparedStatement statement = connection
+					.prepareStatement("SELECT prefix FROM connections WHERE guild_id=?")) {
+				statement.setLong(1, guildId);
+				final ResultSet result = statement.executeQuery();
+				if (!result.next()) {
+					return Optional.empty();
+				}
+				prefix = result.getString(1);
+				// An empty string is counted as null
+				if (prefix == null || prefix.isEmpty() || prefix.isBlank()) {
+					return Optional.empty();
+				}
+			}
+
+			try (PreparedStatement statement = connection
+					.prepareStatement("UPDATE connections SET last_use=? WHERE guild_id=?")) {
+				statement.setLong(1, System.currentTimeMillis());
+				statement.setLong(2, guildId);
+				statement.executeUpdate();
+			}
+
+			return Optional.of(prefix);
+		} catch (final SQLException e) {
+			throw new BackendStorageException(e);
+		}
+	}
+
+	@Override
+	public boolean setCommandPrefix(long guildId, String newPrefix) throws BackendStorageException {
+		try (Connection connection = this.getNewDatabaseConnection()) {
+			try (PreparedStatement statement = connection
+					.prepareStatement("UPDATE connections SET command_prefix=?, last_use=? WHERE guild_id=?")) {
+				statement.setString(1, newPrefix);
+				statement.setLong(2, System.currentTimeMillis());
+				statement.setLong(3, guildId);
+				return statement.executeUpdate() > 0;
+			}
+		} catch (final SQLException e) {
+			throw new BackendStorageException(e);
+		}
+	}
 }

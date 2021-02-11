@@ -20,8 +20,6 @@ import java.util.Optional;
 
 public class Language {
 
-	private static final String[] EMPTY_STRING_ARRAY = new String[]{};
-
 	public enum Term {
 
 		COMMANDS,
@@ -64,14 +62,13 @@ public class Language {
 		UNLINK_GUILD_NOT_LINKED,
 		UNLINK_GUILD_UNKNOWN,
 
+		PREFIX_USAGE("command"),
+		PREFIX_SUCCESS("newPrefix"),
+
 		;
 
 		@Getter
 		private final String[] placeholders;
-
-		Term() {
-			this.placeholders = EMPTY_STRING_ARRAY;
-		}
 
 		Term(final String... placeholders) {
 			this.placeholders = placeholders;

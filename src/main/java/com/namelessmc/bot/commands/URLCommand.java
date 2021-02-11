@@ -34,7 +34,7 @@ public class URLCommand extends Command {
 		}
 
 		if (args.length != 2) {
-			message.reply(language.get(Term.APIURL_USAGE, "command", Main.getCommandPrefix() + "apiurl")).queue();
+			message.reply(language.get(Term.APIURL_USAGE, "command", getPrefix(message) + "apiurl")).queue();
 			return;
 		}
 
@@ -89,7 +89,7 @@ public class URLCommand extends Command {
 			final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
 
 			if (optExistingGuildId.isPresent()) {
-				message.reply(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
+				message.reply(language.get(Term.APIURL_ALREADY_USED, "command", getPrefix(message) + "unlink " + optExistingGuildId.get())).queue();
 				return;
 			}
 

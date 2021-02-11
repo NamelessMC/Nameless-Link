@@ -38,5 +38,8 @@
 
     "unlink_usage": "Usage: `{command} <server id>`.",
     "unlink_guild_not_linked": "The provided server is not linked.",
-    "unlink_guild_unknown": "The provided server does not exist or the bot is not a member of the server."
+    "unlink_guild_unknown": "The provided server does not exist or the bot is not a member of the server.",
+
+    "prefix_usage": "Usage: `{command} <server id> <new prefix>`. Use `reset` to use the default prefix.",
+    "prefix_success": "The prefix has been modified to `{newPrefix}`."
 }

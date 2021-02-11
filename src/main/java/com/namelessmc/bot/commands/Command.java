@@ -3,7 +3,9 @@ package com.namelessmc.bot.commands;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.connections.BackendStorageException;
 import lombok.Getter;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -55,14 +57,17 @@ public abstract class Command {
 	protected abstract void execute(User user, String[] args, Message message);
 
 	public static void execute(final Message message) {
-		// Message content doesn't start with the command prefix, it is obviously not a command
-		if(!message.getContentRaw().startsWith(Main.getCommandPrefix()))
-			return;
+		final String commandPrefix = getPrefix(message);
+		final String messageContent = message.getContentRaw();
 
-		String messageContent = message.getContentRaw();
-		String[] splitMessage = messageContent.replaceFirst(Main.getCommandPrefix(), "").split(" ");
+		// Message content doesn't start with the command prefix, it is obviously not a command
+		if (!messageContent.startsWith(commandPrefix)) {
+			return;
+		}
+
+		final String[] splitMessage = messageContent.replaceFirst(commandPrefix, "").split(" ");
 		final String commandName = splitMessage[0];
-		String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
+		final String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
 
 		final User user = message.getAuthor();
 
@@ -72,10 +77,13 @@ public abstract class Command {
 		if (command == null) {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
 				final Language language = Language.getDefaultLanguage();
-				final String s = language.get(Term.INVALID_COMMAND, "commands", "`" + String.join("`, `{prefix}", registeredCommandLabels) + "`");
+				final String s = language.get(Term.INVALID_COMMAND, "commands",
+						// We use the default prefix here as we are in private messages.
+						// There is no guild, where we can get the language from.
+						"`" + String.join("`, `" + commandPrefix, registeredCommandLabels) + "`");
 				message.getChannel().sendMessage(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 						.setTitle(language.get(Term.COMMANDS))
-						.addField(language.get(Term.HELP), s.replace("{prefix}", Main.getCommandPrefix()), false).build()).queue();
+						.addField(language.get(Term.HELP), s, false).build()).queue();
 			}
 			return;
 		}
@@ -116,5 +124,22 @@ public abstract class Command {
 
 	private static boolean checkContext(final CommandContext givenContext, final CommandContext receivedContext) {
 		return givenContext == receivedContext || givenContext == CommandContext.BOTH;
+	}
+
+	public static String getPrefix(Message message) {
+		return getContext(message).equals(CommandContext.PRIVATE_MESSAGE) ? Main.getDefaultCommandPrefix() : getGuildPrefix(message.getGuild());
+	}
+
+	public static String getGuildPrefix(Guild guild) {
+		return getGuildPrefix(guild.getIdLong());
+	}
+
+	public static String getGuildPrefix(long guildId) {
+		try {
+			return Main.getConnectionManager().getCommandPrefixByGuildId(guildId).orElse(Main.getDefaultCommandPrefix());
+		} catch (BackendStorageException e) {
+			e.printStackTrace();
+		}
+		return Main.getDefaultCommandPrefix();
 	}
 }

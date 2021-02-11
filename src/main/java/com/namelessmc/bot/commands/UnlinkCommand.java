@@ -28,7 +28,7 @@ public class UnlinkCommand extends Command {
 		}
 
 		if (args.length != 1) {
-			message.reply(language.get(Term.UNLINK_USAGE, "command", Main.getCommandPrefix() + "unlink")).queue();
+			message.reply(language.get(Term.UNLINK_USAGE, "command", getPrefix(message) + "unlink")).queue();
 			return;
 		}
 
