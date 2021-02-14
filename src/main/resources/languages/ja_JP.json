@@ -11,5 +11,7 @@
     "invalid_command": "無効なコマンドです。有効なコマンド: {commands}.",
     "verify_not_used": "アカウントを確認できません。このボットを使用していないウェブサイトの検証トークンでした。",
     "verify_usage": "使い方: `{command} <トークン>`.",
-    "verify_token_invalid": "アカウントの確認に失敗しました。無効なトークンです。"
+    "verify_token_invalid": "アカウントの確認に失敗しました。無効なトークンです。",
+    "verify_success": "確認ありがとうございます、アカウントがリンクされました。",
+    "ping_usage": "使い方: `{command} <DiscordサーバID>`"
 }
