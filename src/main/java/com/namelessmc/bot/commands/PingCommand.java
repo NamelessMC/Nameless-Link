@@ -53,36 +53,38 @@ public class PingCommand extends Command {
 				return;
 			}
 			
-			// Check if API URL works
-			Optional<NamelessAPI> optApi;
-			try {
-				optApi = Main.getConnectionManager().getApi(guildId);
-			} catch (final BackendStorageException e) {
-				message.reply(language.get(Term.ERROR_GENERIC)).queue();
-				e.printStackTrace();
-				return;
-			}
-
-			if (optApi.isEmpty()) {
-				message.reply(language.get(Term.ERROR_NOT_SET_UP)).queue();
-				return;
-			}
-
-			final NamelessAPI api = optApi.get();
-
-			try {
-				final long start = System.currentTimeMillis();
-				api.checkWebAPIConnection();
-				final long time = System.currentTimeMillis() - start;
-				final Language language2 = Language.getDiscordUserLanguage(api, user);
-				message.getChannel().sendMessage(language2.get(Term.PING_WORKING, "time", time)).queue();
-			} catch (final NamelessException e) {
-				message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
-				message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-				if (api.getApiUrl().toString().startsWith("http://")) {
-					message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
+			Main.getExecutorService().execute(() -> {
+				// Check if API URL works
+				Optional<NamelessAPI> optApi;
+				try {
+					optApi = Main.getConnectionManager().getApi(guildId);
+				} catch (final BackendStorageException e) {
+					message.reply(language.get(Term.ERROR_GENERIC)).queue();
+					e.printStackTrace();
+					return;
 				}
-			}
+	
+				if (optApi.isEmpty()) {
+					message.reply(language.get(Term.ERROR_NOT_SET_UP)).queue();
+					return;
+				}
+	
+				final NamelessAPI api = optApi.get();
+	
+				try {
+					final long start = System.currentTimeMillis();
+					api.checkWebAPIConnection();
+					final long time = System.currentTimeMillis() - start;
+					final Language language2 = Language.getDiscordUserLanguage(api, user);
+					message.getChannel().sendMessage(language2.get(Term.PING_WORKING, "time", time)).queue();
+				} catch (final NamelessException e) {
+					message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+					message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+					if (api.getApiUrl().toString().startsWith("http://")) {
+						message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
+					}
+				}
+			});
 		});
 	}
 

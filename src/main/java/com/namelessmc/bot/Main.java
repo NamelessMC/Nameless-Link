@@ -56,14 +56,20 @@ public class Main {
 	@Getter
 	private static final Gson gson = new GsonBuilder().create();
 	@Getter
+	public static final ExecutorService executorService = Executors.newFixedThreadPool(10);
+	
+	@Getter
 	private static ConnectionManager connectionManager;
 	@Getter
 	private static URL botUrl;
 	@Getter
 	private static String webserverInterface;
+	
 	@Getter
 	private static int webserverPort;
 	private static boolean apiDebug;
+	
+	
 
 	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
 		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
@@ -224,26 +230,11 @@ public class Main {
 		}
 
 		if (!Main.getConnectionManager().isReadOnly()) {
-			scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(4), TimeUnit.HOURS.toMillis(4), TimeUnit.MILLISECONDS);
-
-			// Temporary way to reduce number of guilds for 250 guilds limit
-//			scheduler.scheduleAtFixedRate(() -> {
-//				logger.info("Sending messages for not set up guilds");
-//				try {
-//					for (final Guild guild : Main.getJda().getGuilds()) {
-//						final long id = guild.getIdLong();
-//						if (Main.getConnectionManager().getApi(id).isEmpty()) {
-//							logger.info("Sending message for guild " + id);
-//							final Language lang = Language.getDefaultLanguage();
-//							Main.getJda().retrieveUserById(guild.retrieveOwner().complete().getIdLong()).complete()
-//								.openPrivateChannel().complete()
-//								.sendMessage(lang.get(Term.SETUP_REMINDER));
-//						}
-//					}
-//				} catch (final BackendStorageException e) {
-//					e.printStackTrace();
-//				}
-//			}, TimeUnit.HOURS.toMillis(12), TimeUnit.HOURS.toMillis(12), TimeUnit.MILLISECONDS);
+			scheduler.scheduleAtFixedRate(() -> {
+				Main.getExecutorService().execute(() -> {
+					ConnectionCleanup.run();
+				});
+			}, TimeUnit.SECONDS.toMillis(4), TimeUnit.HOURS.toMillis(4), TimeUnit.MILLISECONDS);
 		}
 	}
 	

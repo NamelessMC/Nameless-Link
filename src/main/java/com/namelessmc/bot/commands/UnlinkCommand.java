@@ -72,16 +72,18 @@ public class UnlinkCommand extends Command {
 				return;
 			}
 
-			try {
-				Main.getConnectionManager().removeConnection(guildId);
-				Main.getLogger().info("Unlinked from guild " + guildId);
-			} catch (final BackendStorageException e) {
-				message.reply(language2.get(Term.ERROR_GENERIC)).queue();
-				e.printStackTrace();
-				return;
-			}
-
-			message.addReaction("U+2705").queue(); // ✅
+			Main.getExecutorService().execute(() -> {
+				try {
+					Main.getConnectionManager().removeConnection(guildId);
+					Main.getLogger().info("Unlinked from guild " + guildId);
+				} catch (final BackendStorageException e) {
+					message.reply(language2.get(Term.ERROR_GENERIC)).queue();
+					e.printStackTrace();
+					return;
+				}
+	
+				message.addReaction("U+2705").queue(); // ✅
+			});
 		});
 	}
 
