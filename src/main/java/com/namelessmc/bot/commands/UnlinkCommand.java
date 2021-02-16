@@ -1,16 +1,17 @@
 package com.namelessmc.bot.commands;
 
+import java.util.Collections;
+import java.util.Optional;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
-
-import java.util.Collections;
-import java.util.Optional;
 
 public class UnlinkCommand extends Command {
 
@@ -20,7 +21,7 @@ public class UnlinkCommand extends Command {
 
 	@Override
 	public void execute(final User user, final String[] args, final Message message) {
-		Language language = Language.getDefaultLanguage();
+		final Language language = Language.getDefaultLanguage();
 
 		if (Main.getConnectionManager().isReadOnly()) {
 			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE)).queue();
@@ -56,30 +57,34 @@ public class UnlinkCommand extends Command {
 
 		final NamelessAPI api = optApi.get();
 
-		language = Language.getDiscordUserLanguage(api, user);
+		final Language language2 = Language.getDiscordUserLanguage(api, user);
 
 		final Guild guild = Main.getJda().getGuildById(guildId);
 
 		if (guild == null) {
-			message.reply(language.get(Term.ERROR_GUILD_UNKNOWN)).queue();
+			message.reply(language2.get(Term.ERROR_GUILD_UNKNOWN)).queue();
 			return;
 		}
 
-		if (!Main.canModifySettings(user, guild)) {
-			message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
-			return;
-		}
+		Main.canModifySettings(user, guild, (canModifySettings) -> {
+			if (!canModifySettings) {
+				message.reply(language2.get(Term.ERROR_NO_PERMISSION)).queue();
+				return;
+			}
 
-		try {
-			Main.getConnectionManager().removeConnection(guildId);
-			Main.getLogger().info("Unlinked from guild " + guildId);
-		} catch (final BackendStorageException e) {
-			message.reply(language.get(Term.ERROR_GENERIC)).queue();
-			e.printStackTrace();
-			return;
-		}
-
-		message.addReaction("U+2705").queue(); // ✅
+			Main.getExecutorService().execute(() -> {
+				try {
+					Main.getConnectionManager().removeConnection(guildId);
+					Main.getLogger().info("Unlinked from guild " + guildId);
+				} catch (final BackendStorageException e) {
+					message.reply(language2.get(Term.ERROR_GENERIC)).queue();
+					e.printStackTrace();
+					return;
+				}
+	
+				message.addReaction("U+2705").queue(); // ✅
+			});
+		});
 	}
 
 }

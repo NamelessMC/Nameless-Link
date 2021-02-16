@@ -1,14 +1,5 @@
 package com.namelessmc.bot;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-import lombok.Getter;
-import net.dv8tion.jda.api.entities.User;
-import org.apache.commons.lang3.Validate;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,6 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.apache.commons.lang3.Validate;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessUser;
+
+import lombok.Getter;
+import net.dv8tion.jda.api.entities.User;
 
 public class Language {
 
@@ -98,6 +100,7 @@ public class Language {
 		NAMELESS_TO_POSIX.put("Norwegian", "nb_NO");
 		NAMELESS_TO_POSIX.put("Dutch", "nl_NL");
 		NAMELESS_TO_POSIX.put("Polish", "pl_PL");
+		NAMELESS_TO_POSIX.put("Romanian", "ro_RO");
 		NAMELESS_TO_POSIX.put("Russian", "ru_RU");
 		NAMELESS_TO_POSIX.put("Slovak", "sk_SK");
 		NAMELESS_TO_POSIX.put("Turkish", "tr_TR");

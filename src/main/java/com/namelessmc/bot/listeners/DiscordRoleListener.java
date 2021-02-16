@@ -1,11 +1,18 @@
 package com.namelessmc.bot.listeners;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -16,12 +23,6 @@ import net.dv8tion.jda.api.events.role.RoleCreateEvent;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class DiscordRoleListener extends ListenerAdapter {
 
@@ -37,17 +38,23 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 	@Override
 	public void onRoleCreate(final RoleCreateEvent event) {
-		sendRoleListToWebsite(event.getGuild());
+		Main.getExecutorService().execute(() -> {
+			sendRoleListToWebsite(event.getGuild());
+		});
 	}
 
 	@Override
 	public void onRoleDelete(final RoleDeleteEvent event) {
-		sendRoleListToWebsite(event.getGuild());
+		Main.getExecutorService().execute(() -> {
+			sendRoleListToWebsite(event.getGuild());
+		});
 	}
 
 	@Override
 	public void onRoleUpdateName(final RoleUpdateNameEvent event) {
-		sendRoleListToWebsite(event.getGuild());
+		Main.getExecutorService().execute(() -> {
+			sendRoleListToWebsite(event.getGuild());
+		});
 	}
 
 	public static void sendRoleListToWebsite(final Guild guild) {
@@ -69,28 +76,38 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
-		synchronized (EVENT_LOCK) {
-			sendRolesToWebsite(event.getMember());
-		}
+		Main.getLogger().info("Received guild member role add event for " + event.getUser().getId() + " in " + event.getGuild().getId());
+		Main.getExecutorService().execute(() -> {
+			synchronized (EVENT_LOCK) {
+				sendRolesToWebsite(event.getMember());
+			}
+		});
 	}
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-		synchronized (EVENT_LOCK) {
-			sendRolesToWebsite(event.getMember());
-		}
+		Main.getLogger().info("Received guild member role remove event for " + event.getUser().getId() + " in " + event.getGuild().getId());
+		Main.getExecutorService().execute(() -> {
+			synchronized (EVENT_LOCK) {
+				sendRolesToWebsite(event.getMember());
+			}
+		});
 	}
 
 	public static void sendRolesToWebsite(final Member member) {
+		
 		final User discordUser = member.getUser();
 		final List<Role> roles = member.getRoles();
 		final long guildId = member.getGuild().getIdLong();
+		final long userId = discordUser.getIdLong();
+
+		Main.getLogger().info(String.format("Processing role change guildid=%s userid=%s", guildId, userId));
 
 		if (discordUser.isBot()) {
+			Main.getLogger().info("Skipping, user is a bot.");
 			return;
 		}
 
-		final long userId = discordUser.getIdLong();
 		if (temporarilyDisabledEvents.containsKey(userId)) {
 			final long diff = System.currentTimeMillis() - temporarilyDisabledEvents.get(userId);
 
@@ -104,8 +121,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 			}
 		}
 
-		Main.getLogger().info(String.format("Processing role change guildid=%s userid=%s", guildId, userId));
-
 		Optional<NamelessAPI> api;
 		try {
 			api = Main.getConnectionManager().getApi(guildId);
@@ -115,6 +130,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 		}
 
 		if (api.isEmpty()) {
+			Main.getLogger().info("Skipping, guild is not linked.");
 			return;
 		}
 

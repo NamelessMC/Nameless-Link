@@ -19,15 +19,15 @@ public class PrefixCommand extends Command {
 
 	@Override
 	public void execute(User user, String[] args, Message message) {
-		Language language = Language.getDefaultLanguage();
+		Language defaultLanguage = Language.getDefaultLanguage();
 
 		if (Main.getConnectionManager().isReadOnly()) {
-			message.reply(language.get(Language.Term.ERROR_READ_ONLY_STORAGE)).queue();
+			message.reply(defaultLanguage.get(Language.Term.ERROR_READ_ONLY_STORAGE)).queue();
 			return;
 		}
 
 		if (args.length != 2) {
-			message.reply(language.get(Language.Term.PREFIX_USAGE, "command", getPrefix(message) + "prefix")).queue();
+			message.reply(defaultLanguage.get(Language.Term.PREFIX_USAGE, "command", getPrefix(message) + "prefix")).queue();
 			return;
 		}
 
@@ -35,7 +35,7 @@ public class PrefixCommand extends Command {
 		try {
 			guildId = Long.parseLong(args[0]);
 		} catch (final NumberFormatException e) {
-			message.reply(language.get(Language.Term.ERROR_GUILD_ID_INVALID)).queue();
+			message.reply(defaultLanguage.get(Language.Term.ERROR_GUILD_ID_INVALID)).queue();
 			return;
 		}
 
@@ -43,19 +43,19 @@ public class PrefixCommand extends Command {
 		try {
 			optApi = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
-			message.reply(language.get(Language.Term.ERROR_GENERIC)).queue();
+			message.reply(defaultLanguage.get(Language.Term.ERROR_GENERIC)).queue();
 			e.printStackTrace();
 			return;
 		}
 
 		if (optApi.isEmpty()) {
-			message.reply(language.get(Language.Term.ERROR_NOT_SET_UP)).queue();
+			message.reply(defaultLanguage.get(Language.Term.ERROR_NOT_SET_UP)).queue();
 			return;
 		}
 
 		final NamelessAPI api = optApi.get();
 
-		language = Language.getDiscordUserLanguage(api, user);
+		Language language = Language.getDiscordUserLanguage(api, user);
 
 		final Guild guild = Main.getJda().getGuildById(guildId);
 
@@ -65,23 +65,24 @@ public class PrefixCommand extends Command {
 			return;
 		}
 
-		if (!Main.canModifySettings(user, guild)) {
-			message.reply(language.get(Language.Term.ERROR_NO_PERMISSION)).queue();
-			return;
-		}
+		Main.canModifySettings(user, guild, canModifySettings -> {
+			if(!canModifySettings) {
+				message.reply(language.get(Language.Term.ERROR_NO_PERMISSION)).queue();
+				return;
+			}
+			try {
+				Optional<String> newPrefix = args[1].equals("reset") ? Optional.empty() : Optional.of(args[1]);
+				Main.getConnectionManager().setCommandPrefix(guildId, newPrefix);
+				message.reply(language.get(Language.Term.PREFIX_SUCCESS,
+						"newPrefix", newPrefix.orElse(Main.getDefaultCommandPrefix()))).queue();
+				Main.getLogger().info("Modified prefix for guild " + guildId);
+			} catch (final BackendStorageException e) {
+				message.reply(language.get(Language.Term.ERROR_GENERIC)).queue();
+				e.printStackTrace();
+				return;
+			}
 
-		try {
-			Optional<String> newPrefix = args[1].equals("reset") ? Optional.empty() : Optional.of(args[1]);
-			Main.getConnectionManager().setCommandPrefix(guildId, newPrefix);
-			message.reply(language.get(Language.Term.PREFIX_SUCCESS,
-					"newPrefix", newPrefix.orElse(Main.getDefaultCommandPrefix()))).queue();
-			Main.getLogger().info("Modified prefix for guild " + guildId);
-		} catch (final BackendStorageException e) {
-			message.reply(language.get(Language.Term.ERROR_GENERIC)).queue();
-			e.printStackTrace();
-			return;
-		}
-
-		message.addReaction("U+2705").queue(); // ✅
+			message.addReaction("U+2705").queue(); // ✅
+		});
 	}
 }

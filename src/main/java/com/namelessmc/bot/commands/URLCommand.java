@@ -1,5 +1,12 @@
 package com.namelessmc.bot.commands;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Optional;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -7,16 +14,11 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
-import org.apache.commons.lang3.StringUtils;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.Optional;
 
 public class URLCommand extends Command {
 
@@ -65,60 +67,64 @@ public class URLCommand extends Command {
 			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
 			return;
 		}
-
-		if (!Main.canModifySettings(user, guild)) {
-			message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
-			return;
-		}
-
-		// Check if API URL works
-		NamelessAPI api;
-		try {
-			api = Main.newApiConnection(apiUrl);
-			api.checkWebAPIConnection();
-		} catch (final NamelessException e) {
-			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
-			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-			if (apiUrl.toString().startsWith("http://")) {
-				message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
-			}
-			return;
-		}
-
-		try {
-			final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
-
-			if (optExistingGuildId.isPresent()) {
-				message.reply(language.get(Term.APIURL_ALREADY_USED, "command", getPrefix(message) + "unlink " + optExistingGuildId.get())).queue();
+		
+		Main.canModifySettings(user, guild, (canModifySettings) -> {
+			if (!canModifySettings) {
+				message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
 				return;
 			}
-
-			api.setDiscordBotUrl(Main.getBotUrl());
-			api.setDiscordGuildId(guildId);
-
-			final User botUser = Main.getJda().getSelfUser();
-			api.setDiscordBotUser(botUser.getName() + "#" + botUser.getDiscriminator(), botUser.getIdLong());
-
-			final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
-
-			if (oldApi.isEmpty()) {
-				// User is setting up new connection
-				Main.getConnectionManager().newConnection(guildId, apiUrl);
-				message.reply(language.get(Term.APIURL_SUCCESS_NEW)).queue();
-			} else {
-				// User is modifying API url for existing connection
-				Main.getConnectionManager().updateConnection(guildId, apiUrl);
-				message.reply(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
-			}
-
-			DiscordRoleListener.sendRoleListToWebsite(guild);
-
-			Main.getLogger().info("Set up API URL for guild " + guildId + " to " + apiUrl);
-		} catch (final BackendStorageException e) {
-			message.reply(language.get(Term.ERROR_GENERIC)).queue();
-		} catch (final NamelessException e) {
-			message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
-			message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-		}
+			
+			Main.getExecutorService().execute(() -> {
+				// Check if API URL works
+				NamelessAPI api;
+				try {
+					api = Main.newApiConnection(apiUrl);
+					api.checkWebAPIConnection();
+				} catch (final NamelessException e) {
+					message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+					message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+					if (apiUrl.toString().startsWith("http://")) {
+						message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
+					}
+					return;
+				}
+		
+				try {
+					final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
+		
+					if (optExistingGuildId.isPresent()) {
+						message.reply(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
+						return;
+					}
+		
+					api.setDiscordBotUrl(Main.getBotUrl());
+					api.setDiscordGuildId(guildId);
+		
+					final User botUser = Main.getJda().getSelfUser();
+					api.setDiscordBotUser(botUser.getName() + "#" + botUser.getDiscriminator(), botUser.getIdLong());
+		
+					final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
+		
+					if (oldApi.isEmpty()) {
+						// User is setting up new connection
+						Main.getConnectionManager().newConnection(guildId, apiUrl);
+						message.reply(language.get(Term.APIURL_SUCCESS_NEW)).queue();
+					} else {
+						// User is modifying API url for existing connection
+						Main.getConnectionManager().updateConnection(guildId, apiUrl);
+						message.reply(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
+					}
+		
+					DiscordRoleListener.sendRoleListToWebsite(guild);
+		
+					Main.getLogger().info("Set up API URL for guild " + guildId + " to " + apiUrl);
+				} catch (final BackendStorageException e) {
+					message.reply(language.get(Term.ERROR_GENERIC)).queue();
+				} catch (final NamelessException e) {
+					message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+					message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+				}
+			});
+		});
 	}
 }

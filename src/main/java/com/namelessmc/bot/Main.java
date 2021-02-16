@@ -1,5 +1,20 @@
 package com.namelessmc.bot;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+import java.util.logging.Logger;
+
+import javax.security.auth.login.LoginException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.Language.LanguageLoadException;
@@ -18,6 +33,7 @@ import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+
 import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -26,19 +42,6 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-
-import javax.security.auth.login.LoginException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 public class Main {
 
@@ -54,11 +57,15 @@ public class Main {
 	@Getter
 	private static final Gson gson = new GsonBuilder().create();
 	@Getter
+	public static final ExecutorService executorService = Executors.newFixedThreadPool(10);
+	
+	@Getter
 	private static ConnectionManager connectionManager;
 	@Getter
 	private static URL botUrl;
 	@Getter
 	private static String webserverInterface;
+	
 	@Getter
 	private static int webserverPort;
 	private static boolean apiDebug;
@@ -118,7 +125,7 @@ public class Main {
 		if (System.getenv("DEFAULT_COMMAND_PREFIX") != null) {
 			defaultCommandPrefix = System.getenv("DEFAULT_COMMAND_PREFIX");
 		} else {
-			System.out.println("Environment variable 'COMMAND_PREFIX' not set, setting to default (!).");
+			System.out.println("Environment variable 'DEFAULT_COMMAND_PREFIX' not set, setting to default (!).");
 			defaultCommandPrefix = "!";
 		}
 
@@ -232,31 +239,16 @@ public class Main {
 		}
 
 		if (!Main.getConnectionManager().isReadOnly()) {
-			scheduler.scheduleAtFixedRate(ConnectionCleanup::run, TimeUnit.SECONDS.toMillis(4), TimeUnit.HOURS.toMillis(4), TimeUnit.MILLISECONDS);
-
-			// Temporary way to reduce number of guilds for 250 guilds limit
-//			scheduler.scheduleAtFixedRate(() -> {
-//				logger.info("Sending messages for not set up guilds");
-//				try {
-//					for (final Guild guild : Main.getJda().getGuilds()) {
-//						final long id = guild.getIdLong();
-//						if (Main.getConnectionManager().getApi(id).isEmpty()) {
-//							logger.info("Sending message for guild " + id);
-//							final Language lang = Language.getDefaultLanguage();
-//							Main.getJda().retrieveUserById(guild.retrieveOwner().complete().getIdLong()).complete()
-//								.openPrivateChannel().complete()
-//								.sendMessage(lang.get(Term.SETUP_REMINDER));
-//						}
-//					}
-//				} catch (final BackendStorageException e) {
-//					e.printStackTrace();
-//				}
-//			}, TimeUnit.HOURS.toMillis(12), TimeUnit.HOURS.toMillis(12), TimeUnit.MILLISECONDS);
+			scheduler.scheduleAtFixedRate(() -> {
+				Main.getExecutorService().execute(() -> {
+					ConnectionCleanup.run();
+				});
+			}, TimeUnit.SECONDS.toMillis(4), TimeUnit.HOURS.toMillis(4), TimeUnit.MILLISECONDS);
 		}
 	}
-
-	public static boolean canModifySettings(final User user, final Guild guild) {
-		return guild.retrieveMember(user).complete().hasPermission(Permission.ADMINISTRATOR);
+	
+	public static void canModifySettings(final User user, final Guild guild, final Consumer<Boolean> canModifySettings) {
+		guild.retrieveMember(user).queue((member) -> canModifySettings.accept(member.hasPermission(Permission.ADMINISTRATOR)));
 	}
 
 	private static void initializeConnectionManager() {
