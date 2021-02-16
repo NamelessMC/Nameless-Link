@@ -13,5 +13,10 @@
     "verify_usage": "使い方: `{command} <トークン>`.",
     "verify_token_invalid": "アカウントの確認に失敗しました。無効なトークンです。",
     "verify_success": "確認ありがとうございます、アカウントがリンクされました。",
-    "ping_usage": "使い方: `{command} <DiscordサーバID>`"
+    "ping_usage": "使い方: `{command} <DiscordサーバID>`",
+    "ping_working": "APIウェブサイトの接続は正常に動作しているようです。{time}msかかりました。",
+    "apiurl_url_invalid": "提示されたAPI URLは、NamelessMCのAPI URLのようには見えません。API URLは、StaffCP > 設定 > APIで確認できます。",
+    "apiurl_usage": "使い方: `{command} <サーバid> <api url>`.",
+    "apiurl_success": "Discordサーバーは、NamelessMCウェブサイトとのリンクに成功しました。",
+    "apiurl_url_malformed": "提示されたAPI URLが不正な形式です。"
 }
