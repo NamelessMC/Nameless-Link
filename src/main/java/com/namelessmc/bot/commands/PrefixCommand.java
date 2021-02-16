@@ -60,13 +60,12 @@ public class PrefixCommand extends Command {
 		final Guild guild = Main.getJda().getGuildById(guildId);
 
 		if (guild == null) {
-			// This needs to be discussed, if we should use an own translation here as the message would be the same
 			message.reply(language.get(Language.Term.ERROR_GUILD_UNKNOWN)).queue();
 			return;
 		}
 
 		Main.canModifySettings(user, guild, canModifySettings -> {
-			if(!canModifySettings) {
+			if (!canModifySettings) {
 				message.reply(language.get(Language.Term.ERROR_NO_PERMISSION)).queue();
 				return;
 			}

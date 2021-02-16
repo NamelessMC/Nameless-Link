@@ -63,7 +63,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 					.prepareStatement("INSERT INTO connections (guild_id, api_url, command_prefix, last_use) VALUES (?, ?, ?, ?)")) {
 				statement.setLong(1, guildId);
 				statement.setString(2, apiUrl.toString());
-				statement.setString(3, null); // Empty string means that we use the default prefix
+				statement.setString(3, null);
 				statement.setLong(4, System.currentTimeMillis());
 				statement.execute();
 			}
