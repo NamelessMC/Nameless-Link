@@ -115,8 +115,8 @@ public class Main {
 			webserverInterface = "127.0.0.1";
 		}
 
-		if (System.getenv("COMMAND_PREFIX") != null) {
-			defaultCommandPrefix = System.getenv("COMMAND_PREFIX");
+		if (System.getenv("DEFAULT_COMMAND_PREFIX") != null) {
+			defaultCommandPrefix = System.getenv("DEFAULT_COMMAND_PREFIX");
 		} else {
 			System.out.println("Environment variable 'COMMAND_PREFIX' not set, setting to default (!).");
 			defaultCommandPrefix = "!";

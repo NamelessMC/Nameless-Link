@@ -49,8 +49,7 @@ public class PrefixCommand extends Command {
 		}
 
 		if (optApi.isEmpty()) {
-			// This needs to be discussed, if we should use an own translation here as the message would be the same
-			message.reply(language.get(Language.Term.UNLINK_GUILD_NOT_LINKED)).queue();
+			message.reply(language.get(Language.Term.ERROR_NOT_SET_UP)).queue();
 			return;
 		}
 
@@ -62,7 +61,7 @@ public class PrefixCommand extends Command {
 
 		if (guild == null) {
 			// This needs to be discussed, if we should use an own translation here as the message would be the same
-			message.reply(language.get(Language.Term.UNLINK_GUILD_UNKNOWN)).queue();
+			message.reply(language.get(Language.Term.ERROR_GUILD_UNKNOWN)).queue();
 			return;
 		}
 
@@ -72,10 +71,10 @@ public class PrefixCommand extends Command {
 		}
 
 		try {
-			String newPrefix = args[1].equals("reset") ? "" : args[1];
+			Optional<String> newPrefix = args[1].equals("reset") ? Optional.empty() : Optional.of(args[1]);
 			Main.getConnectionManager().setCommandPrefix(guildId, newPrefix);
 			message.reply(language.get(Language.Term.PREFIX_SUCCESS,
-					"newPrefix", newPrefix.isEmpty() ? Main.getDefaultCommandPrefix() : newPrefix)).queue();
+					"newPrefix", newPrefix.orElse(Main.getDefaultCommandPrefix()))).queue();
 			Main.getLogger().info("Modified prefix for guild " + guildId);
 		} catch (final BackendStorageException e) {
 			message.reply(language.get(Language.Term.ERROR_GENERIC)).queue();

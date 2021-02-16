@@ -63,7 +63,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 					.prepareStatement("INSERT INTO connections (guild_id, api_url, command_prefix, last_use) VALUES (?, ?, ?, ?)")) {
 				statement.setLong(1, guildId);
 				statement.setString(2, apiUrl.toString());
-				statement.setString(3, ""); // Empty string means that we use the default prefix
+				statement.setString(3, null); // Empty string means that we use the default prefix
 				statement.setLong(4, System.currentTimeMillis());
 				statement.execute();
 			}
@@ -195,10 +195,6 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 					return Optional.empty();
 				}
 				prefix = result.getString(1);
-				// An empty string is counted as null
-				if (prefix == null || prefix.isEmpty() || prefix.isBlank()) {
-					return Optional.empty();
-				}
 			}
 
 			try (PreparedStatement statement = connection
@@ -208,18 +204,19 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				statement.executeUpdate();
 			}
 
-			return Optional.of(prefix);
+			return Optional.ofNullable(prefix);
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
 		}
 	}
 
 	@Override
-	public boolean setCommandPrefix(long guildId, String newPrefix) throws BackendStorageException {
+	public boolean setCommandPrefix(long guildId, Optional<String> newPrefix) throws BackendStorageException {
+		newPrefix.ifPresent(Validate::notBlank);
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
 					.prepareStatement("UPDATE connections SET command_prefix=?, last_use=? WHERE guild_id=?")) {
-				statement.setString(1, newPrefix);
+				statement.setString(1, newPrefix.orElse(null));
 				statement.setLong(2, System.currentTimeMillis());
 				statement.setLong(3, guildId);
 				return statement.executeUpdate() > 0;

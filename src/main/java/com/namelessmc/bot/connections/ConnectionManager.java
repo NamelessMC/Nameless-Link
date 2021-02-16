@@ -30,6 +30,6 @@ public abstract class ConnectionManager {
 
 	public abstract Optional<String> getCommandPrefixByGuildId(long guildId) throws BackendStorageException;
 
-	public abstract boolean setCommandPrefix(long guildId, String newPrefix) throws BackendStorageException;
+	public abstract boolean setCommandPrefix(long guildId, Optional<String> newPrefix) throws BackendStorageException;
 
 }

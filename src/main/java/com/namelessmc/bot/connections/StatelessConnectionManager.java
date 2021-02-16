@@ -90,7 +90,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public boolean setCommandPrefix(long guildId, String newPrefix) throws BackendStorageException {
+	public boolean setCommandPrefix(long guildId, Optional<String> newPrefix) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 }

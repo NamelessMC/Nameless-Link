@@ -3,7 +3,7 @@
     "apiurl_try_https": "Ihre API-URL verwendet http://. Wenn Sie einen Proxy für HTTPS verwenden, werden auf der Website weiterhin HTTP-API-URLs angezeigt. Versuchen Sie erneut, diesen Befehl auszuführen, und ersetzen Sie http:// durch https:// in der API-URL.",
     "unlink_usage": "Verwendung: `{command} <Server-ID>`.",
     "unlink_guild_not_linked": "Der bereitgestellte Server ist nicht verbunden.",
-    "unlink_guild_unknown": "Der bereitgestellte Server existiert nicht oder der Bot ist kein Mitglied des Servers.",
+    "error_guild_unknown": "Der bereitgestellte Server existiert nicht oder der Bot ist kein Mitglied des Servers.",
     "commands": "Befehle",
     "help": "Hilfe",
     "error_generic": "Es ist ein interner Fehler aufgetreten.",

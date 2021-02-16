@@ -32,6 +32,7 @@ public class Language {
 		ERROR_NO_PERMISSION,
 		ERROR_READ_ONLY_STORAGE,
 		ERROR_GUILD_ID_INVALID,
+		ERROR_GUILD_UNKNOWN,
 
 		INVALID_COMMAND("commands"),
 
@@ -60,7 +61,6 @@ public class Language {
 
 		UNLINK_USAGE("command"),
 		UNLINK_GUILD_NOT_LINKED,
-		UNLINK_GUILD_UNKNOWN,
 
 		PREFIX_USAGE("command"),
 		PREFIX_SUCCESS("newPrefix"),
