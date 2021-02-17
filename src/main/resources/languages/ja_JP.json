@@ -26,5 +26,9 @@
     "apiurl_already_used": "このAPI URLは既にDiscordサーバで使用されています。リンクを解除するには`{command}`を使用してください。",
     "apiurl_success_updated": "API URLの変更に成功しました。",
     "apiurl_success_new": "API URLの設定に成功しました。",
-    "unlink_guild_not_linked": "サーバーはリンクされていません。"
+    "unlink_guild_not_linked": "サーバーはリンクされていません。",
+    "guild_join_needs_renew": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。API URLは既に設定済みのようですが、機能しなくなっています。新しいURLは`{command} {guildId} <api url>`で設定してください。APIのURLは`StaffCP > 設定 > API`で確認できます。",
+    "unused_connection": "こんにちは、あなたはこのボットを使って、Discordサーバ'{discordServerName}'をNamelessMCにリンクしています。サイトの接続がしばらく使われていないようです。このボットからDiscordサーバを削除したい場合は、`{command}`を実行してください。",
+    "guild_join_success": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。開始するには、`{command} {guildId} <api url>`と返信してください。API URLは`StaffCP > 設定 > API`で確認できます。",
+    "guild_join_welcome_back": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。ボットは既にあなたのDiscordサーバー用に設定されています。別のAPI URLを使用したい場合は、`{command} {guildId} <api url>`を使用して変更することができます。"
 }
