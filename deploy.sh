@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-VERSION=1.1
+VERSION=1.2
 ./build.sh
 docker build -t namelessmc/discord-link:$VERSION --build-arg LINK_VERSION=${VERSION} .
 docker build -t namelessmc/discord-link-postgres:$VERSION postgres-docker
