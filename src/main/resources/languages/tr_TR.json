@@ -22,7 +22,7 @@
     "apiurl_url_invalid": "Yazdığınız API URL'si, NamelessMC API URL'si gibi görünmüyor. API URL'sini StaffCP> Configuration> API'de bulabilirsiniz.",
     "unlink_usage": "Kullanım: `{command} <server id>`.",
     "unlink_guild_not_linked": "Yazdığınız sunucu bağlı değil.",
-    "unlink_guild_unknown": "Sağlanan sunucu mevcut değil veya bot, sunucunun bir üyesi değil.",
+    "error_guild_unknown": "Sağlanan sunucu mevcut değil veya bot, sunucunun bir üyesi değil.",
     "apiurl_failed_connection": "Web sitenize bağlanılamadı. Bu, sağlanan API URL'sinin geçersiz olduğu veya bir proxy tarafından engellendiğimiz anlamına gelir (ör. Cloudflare).",
     "guild_join_success": "Merhaba! NamelessMC Botunu kullandığınız için teşekkür ederiz. Başlamak için, `{command} {guildId} <api url>` Yazın. API URL'si `StaffCP > Configuration > API` bölümünde bulunur.",
     "guild_join_needs_renew": "Merhaba! NamelessMC Botunu kullandığınız için teşekkür ederiz. Görünüşe göre API URL'nizi zaten ayarlamışsınız, ancak artık işlevsel değil. Lütfen `{command} {guildId} <api url>` kullanarak yeni bir tane ayarlayın. API URL'si `StaffCP > Configuration > API` bölümünde bulunur.",
