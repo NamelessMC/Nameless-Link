@@ -45,5 +45,7 @@
     "apiurl_try_https": "La URL de su API utiliza http://. Si está utilizando un proxy para HTTPS, el sitio web aún sigue mostrando las URL de la API HTTP. Intenta ejecutar este comando de nuevo, sustituyendo http:// por https:// en la URL de la API.",
     "setup_reminder": "Buenas, ha añadido el bot de Nameless-Link a tu servidor de Discord pero aún no se ha configurado. El bot está actualmente limitado a 250 servidores, si no planeas usarlo ahora mismo, por favor expulsa al bot de tu servidor para que esté disponible para aquellos que quieran usarlo.",
     "ping_usage": "Uso: `{command} <id del servidor de Discord>`",
-    "ping_working": "La conexión al sitio web de la API parece funcionar. Tardó {time}ms."
+    "ping_working": "La conexión al sitio web de la API parece funcionar. Tardó {time}ms.",
+    "prefix_usage": "Uso: `{command} <id del servidor> <nuevo prefijo>`. Utilice `reset` para utilizar el prefijo por defecto.",
+    "prefix_success": "El prefijo ha sido modificado a `{newPrefix}`."
 }
