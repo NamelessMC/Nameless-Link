@@ -1,1 +1,24 @@
-{}
+{
+    "apiurl_url_malformed": "O URL da API fornecido está malformado.",
+    "apiurl_success": "Seu servidor do Discord foi vinculado com sucesso ao seu site NamelessMC.",
+    "apiurl_url_invalid": "O URL da API fornecido não se parece com um URL da API NamelessMC. Você pode encontrar o URL da API em StaffCP > Configuração > API.",
+    "apiurl_failed_connection": "Não foi possível conectar ao seu site. Isso significa que o URL da API fornecido é inválido ou estamos bloqueados por um proxy (por exemplo, Cloudflare).",
+    "apiurl_already_used": "Essa URL da API já esta sendo usada em um servidor do Discord, use `{command}` para desvincular.",
+    "commands": "Comandos",
+    "help": "Ajuda",
+    "error_generic": "Ocorreu um erro interno.",
+    "error_not_set_up": "Você não pode usar este comando no momento, o bot ainda não foi configurado.",
+    "verify_token_invalid": "Falha ao verificar sua conta, você forneceu um token inválido.",
+    "verify_not_used": "Não é possível verificar sua conta, você forneceu um token de verificação para um site que não usa este bot.",
+    "error_website_connection": "Não foi possível conectar ao site.",
+    "error_no_permission": "Você deve ter permissão de 'Administrador' no servidor do Discord de destino para usar este comando.",
+    "apiurl_usage": "Uso correto: `{command} <id do servidor> <url da api>`.",
+    "verify_success": "Obrigado por verificar, sua conta agora está vinculada.",
+    "ping_usage": "Uso correto: `{command} <id do servidor do discord>`",
+    "error_guild_unknown": "O servidor fornecido não existe ou o bot não é membro do servidor.",
+    "verify_usage": "Uso correto: `{command} <token>`.",
+    "error_not_linked": "Você não pode usar este comando porque sua conta ainda não está vinculada. Acesse as configurações de conta no site para vincular sua conta do Discord.",
+    "unlink_guild_not_linked": "O servidor fornecido não está vinculado.",
+    "error_guild_id_invalid": "O ID do servidor do Discord fornecido é inválido.",
+    "invalid_command": "Comandos inválidos. Comandos válidos: {commands}."
+}
