@@ -160,7 +160,7 @@ public class RoleChange extends HttpServlet {
 			return false;
 		}
 
-		System.out.println((add ? "Add " : "Remove ") + " role " + role.getId() + " member " + member.getId() + " guild " + guild.getId());
+		Main.getLogger().info((add ? "Add " : "Remove ") + " role " + role.getId() + " member " + member.getId() + " guild " + guild.getId());
 
 		if (add) {
 			guild.addRoleToMember(member, role).queue();
