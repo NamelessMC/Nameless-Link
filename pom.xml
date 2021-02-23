@@ -147,13 +147,13 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlet</artifactId>
-			<version>11.0.0</version>
+			<version>11.0.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.18</version>
+			<version>42.2.19</version>
 		</dependency>
 
 		<dependency>
