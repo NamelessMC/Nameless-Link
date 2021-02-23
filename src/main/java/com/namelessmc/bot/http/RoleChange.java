@@ -1,5 +1,8 @@
 package com.namelessmc.bot.http;
 
+import java.io.IOException;
+import java.util.Optional;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -7,6 +10,7 @@ import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
+
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,9 +18,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
-
-import java.io.IOException;
-import java.util.Optional;
 
 public class RoleChange extends HttpServlet {
 
@@ -131,7 +132,7 @@ public class RoleChange extends HttpServlet {
 					response.getWriter().write("success");
 					Main.getLogger().info("Role change request from website processed successfully.");
 				}
-			} catch (IOException exception) {
+			} catch (final IOException exception) {
 				// An IOException at getWriter normally indicates an internal server error.
 				response.setStatus(500);
 			}
@@ -141,6 +142,7 @@ public class RoleChange extends HttpServlet {
 	private Boolean changeRoles(final JsonObject json, final boolean add, final Member member, final Guild guild) {
 		final String memberName = add ? "add_role_id" : "remove_role_id";
 		if (!json.has(memberName)) {
+			Main.getLogger().info("Website didn't send " + memberName);
 			return null;
 		}
 
@@ -148,6 +150,7 @@ public class RoleChange extends HttpServlet {
 		try {
 			roleId = json.get(memberName).getAsLong();
 		} catch (JsonSyntaxException | IllegalArgumentException | UnsupportedOperationException e) {
+			Main.getLogger().warning("Json parse error for " + memberName + " - website sent " + json.get(memberName).toString());
 			return false;
 		}
 

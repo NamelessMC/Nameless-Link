@@ -95,7 +95,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 	}
 
 	public static void sendRolesToWebsite(final Member member) {
-		
 		final User discordUser = member.getUser();
 		final List<Role> roles = member.getRoles();
 		final long guildId = member.getGuild().getIdLong();
