@@ -37,5 +37,7 @@
     "apiurl_try_https": "您的 API 链接 (URL) 使用的是 http://。即便您正在通过代理使用 HTTPS，网站仍会显示 HTTP 的 API 链接 (URL)。请您再运行此命令一次，并且将 http:// 替换为 https://。",
     "setup_reminder": "您好，虽然您已将 Nameless Link 机器人添加到了您的 Discord 服务器，但您尚未配置此机器人。因为此机器人现在只能加入 250 个服务器，若您不计划使用此机器人，则请您移除它，把机器人让给需要的人。",
     "ping_working": "API 网站连接成功。时间：{time}ms。",
-    "ping_usage": "用法: `{command} <Discord 服务器 ID>`"
+    "ping_usage": "用法: `{command} <Discord 服务器 ID>`",
+    "prefix_usage": "用法: `{command} <服务器 ID> <新前缀>`。输入 `reset` 来使用默认前缀。",
+    "prefix_success": "前缀已被修改为 `{newPrefix}`。"
 }
