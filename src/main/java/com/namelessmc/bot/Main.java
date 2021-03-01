@@ -243,7 +243,7 @@ public class Main {
 				Main.getExecutorService().execute(() -> {
 					ConnectionCleanup.run();
 				});
-			}, TimeUnit.SECONDS.toMillis(4), TimeUnit.HOURS.toMillis(4), TimeUnit.MILLISECONDS);
+			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
 	}
 	
