@@ -20,5 +20,17 @@
     "error_not_linked": "Você não pode usar este comando porque sua conta ainda não está vinculada. Acesse as configurações de conta no site para vincular sua conta do Discord.",
     "unlink_guild_not_linked": "O servidor fornecido não está vinculado.",
     "error_guild_id_invalid": "O ID do servidor do Discord fornecido é inválido.",
-    "invalid_command": "Comandos inválidos. Comandos válidos: {commands}."
+    "invalid_command": "Comandos inválidos. Comandos válidos: {commands}.",
+    "apiurl_success_updated": "URL da API alterada com sucesso.",
+    "apiurl_success_new": "A URL da API foi configurada com sucesso.",
+    "guild_join_success": "Olá! Obrigado por usar o NamelessMC Bot. Para começar, responda com `{command} {guildId} <url da api>`. O URL da API pode ser encontrado em `StaffCP > Configuração > API`.",
+    "apiurl_try_https": "A sua URL da API usa http://. Se você estiver usando um proxy para HTTPS, o site ainda exibirá URLs de API HTTP. Tente executar este comando novamente, substituindo http:// para https:// na URL da API.",
+    "unused_connection": "Olá, você vinculou seu servidor do Discord '{discordServerName}' no NamelessMC usando este bot. Parece que a conexão do site não é usada há algum tempo, você pode remover esse servidor do Discord do bot usando `{command}`.",
+    "guild_join_needs_renew": "Olá! Obrigado por usar o NamelessMC Bot. Parece que você já configurou o URL da API, mas ele não está mais funcional. Defina um novo usando `{command} {guildId} <url da api>`. O URL da API pode ser encontrado em `StaffCP > Configuração > API`.",
+    "error_read_only_storage": "Esta instância do bot está configurada como armazenamento de somente leitura. Se você quiser modificar essa configuração, você deverá fazê-la manualmente em vez de utilizar os comandos.",
+    "ping_working": "A conexão do site da API parece estar funcionando. Demorou {time}ms.",
+    "unlink_usage": "Uso correto: `{command} <id do servidor>`.",
+    "prefix_success": "O prefixo foi modificado para `{newPrefix}`.",
+    "prefix_usage": "Uso correto: `{command} <id do servidor> <novo prefixo>`. Utilize `reset` para usar o prefixo padrão.",
+    "guild_join_welcome_back": "Olá! Obrigado por usar o NamelessMC Bot. O bot já está configurado para o seu servidor do Discord. Se você desejar usar um URL de API diferente, você pode alterá-lo usando `{command} {guildId} <url da api>`."
 }
