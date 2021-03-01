@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.Language.LanguageLoadException;
 import com.namelessmc.bot.commands.PingCommand;
+import com.namelessmc.bot.commands.PrefixCommand;
 import com.namelessmc.bot.commands.URLCommand;
 import com.namelessmc.bot.commands.UnlinkCommand;
 import com.namelessmc.bot.commands.UpdateUsernameCommand;
@@ -68,8 +69,8 @@ public class Main {
 	@Getter
 	private static int webserverPort;
 	private static boolean apiDebug;
-	
-	
+	@Getter
+	private static String defaultCommandPrefix;
 
 	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
 		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
@@ -121,6 +122,13 @@ public class Main {
 			webserverInterface = "127.0.0.1";
 		}
 
+		if (System.getenv("DEFAULT_COMMAND_PREFIX") != null) {
+			defaultCommandPrefix = System.getenv("DEFAULT_COMMAND_PREFIX");
+		} else {
+			System.out.println("Environment variable 'DEFAULT_COMMAND_PREFIX' not set, setting to default (!).");
+			defaultCommandPrefix = "!";
+		}
+
 		try {
 			Language.setDefaultLanguage(defaultLang);
 		} catch (final LanguageLoadException e) {
@@ -152,6 +160,7 @@ public class Main {
 
 		// Register commands
 		new PingCommand();
+		new PrefixCommand();
 		new UnlinkCommand();
 		new UpdateUsernameCommand();
 		new URLCommand();
@@ -239,9 +248,7 @@ public class Main {
 	}
 	
 	public static void canModifySettings(final User user, final Guild guild, final Consumer<Boolean> canModifySettings) {
-		guild.retrieveMember(user).queue((member) -> {
-			canModifySettings.accept(member.hasPermission(Permission.ADMINISTRATOR));
-		});
+		guild.retrieveMember(user).queue((member) -> canModifySettings.accept(member.hasPermission(Permission.ADMINISTRATOR)));
 	}
 
 	private static void initializeConnectionManager() {

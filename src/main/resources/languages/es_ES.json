@@ -32,12 +32,12 @@
     "apiurl_already_used": "Esta API URL ya es usada por un servidor de Discord, usa `{command}` para desvincularse.",
     "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`.",
     "unlink_usage": "Uso: `{command} <id del servidor>`.",
-    "unlink_guild_invalid": "El servidor proporcionado no existe o no está vinculado.",
+    "error_guild_invalid": "El servidor proporcionado no existe o no está vinculado.",
     "error_read_only_storage": "Esta instancia del bot está configurada con almacenamiento de sólo lectura. Si desea modificar su configuración debe hacerlo manualmente en vez de con comandos.",
     "apiurl_url_invalid": "La URL de la API proporcionada no se parece a la URL de la API de NamelessMC. Puedes encontrar la URL de la API en StaffCP > Configuración > API.",
     "error_guild_id_invalid": "La identificación del servidor de Discord proporcionada es inválida.",
     "unlink_guild_not_linked": "El servidor proporcionado no está vinculado.",
-    "unlink_guild_unknown": "El servidor proporcionado no existe o el bot no es miembro del servidor.",
+    "error_guild_unknown": "El servidor proporcionado no existe o el bot no es miembro del servidor.",
     "verify_token_invalid": "Error al verificar su cuenta, no ha proporcionado un token válido.",
     "verify_not_used": "No se puede verificar su cuenta, ha proporcionado un token de verificación para un sitio web que no utiliza este bot.",
     "verify_success": "Gracias por verificar su cuenta, ahora está vinculada.",
@@ -45,5 +45,7 @@
     "apiurl_try_https": "La URL de su API utiliza http://. Si está utilizando un proxy para HTTPS, el sitio web aún sigue mostrando las URL de la API HTTP. Intenta ejecutar este comando de nuevo, sustituyendo http:// por https:// en la URL de la API.",
     "setup_reminder": "Buenas, ha añadido el bot de Nameless-Link a tu servidor de Discord pero aún no se ha configurado. El bot está actualmente limitado a 250 servidores, si no planeas usarlo ahora mismo, por favor expulsa al bot de tu servidor para que esté disponible para aquellos que quieran usarlo.",
     "ping_usage": "Uso: `{command} <id del servidor de Discord>`",
-    "ping_working": "La conexión al sitio web de la API parece funcionar. Tardó {time}ms."
+    "ping_working": "La conexión al sitio web de la API parece funcionar. Tardó {time}ms.",
+    "prefix_usage": "Uso: `{command} <id del servidor> <nuevo prefijo>`. Utilice `reset` para utilizar el prefijo por defecto.",
+    "prefix_success": "El prefijo ha sido modificado a `{newPrefix}`."
 }

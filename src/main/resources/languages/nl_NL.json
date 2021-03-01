@@ -29,18 +29,19 @@
     "guild_join_welcome_back": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Er is al een API URL ingesteld, maar deze werkt niet meer. Als je de API URL alsnog wilt veranderen kan dat met `{command} {guildId} <api url>`.",
     "unused_connection": "Hallo, je hebt je Discord server '{discordServerName}' verbonden met NamelessMC via deze bot. Het lijkt alleen op dat de verbinding niet meer gebruikt wordt, als je de server wilt loskoppelen antwoord met het volgende: `{command}`.",
     "unlink_usage": "Gebruik: `{command} <server id>`.",
-    "unlink_guild_invalid": "De opgegeven server bestaat niet of is niet verbonden.",
     "apiurl_url_invalid": "De opgegeven API URL lijkt niet op een NamelssMC API URL. Je kan de API URL vinden in StaffCP > Configuratie > API.",
     "error_read_only_storage": "Deze bot instantie is ingesteld met opslag waar niet naar geschreven kan worden. Als je de bot wilt instellen moet je dit handmatig doen in plaats van via commando's.",
     "error_guild_id_invalid": "De opgegeven Discord server ID is ongeldig.",
     "verify_token_invalid": "Kon je account niet verifiëren, de opgegeven token is ongeldig.",
     "verify_not_used": "Kan je account niet verifieren, je hebt een verificatietoken opgegeven van een website die deze bot niet gebruikt.",
     "unlink_guild_not_linked": "De opgegeven server is niet verbonden.",
-    "unlink_guild_unknown": "De opgegeven server bestaat niet of de bot is niet lid van de server.",
+    "error_guild_unknown": "De opgegeven server bestaat niet of de bot is niet lid van de server.",
     "verify_success": "Bedankt voor het verifiëren, je account is nu verbonden.",
     "error_no_permission": "Je mag dit commando alleen gebruiken als je 'Administrator' rechten hebt in de Discord server.",
     "apiurl_try_https": "De opgegeven API URL gebruikt http://. Als je een proxy gebruikt voor HTTPS zal de website nog steeds HTTP API URLs laten zien. Probeer dit commando opnieuw met https:// in plaats van http:// in de API URL.",
     "setup_reminder": "Hallo, je hebt de Nameless-Link bot toegevoegd aan je Discord server maar nog niet ingesteld. De bot kan momenteel maar in 250 servers aanwezig zijn, dus als je niet van plan bent het op dit moment te gebruiken, verwijder alsjeblieft de bot van de servers zodat anderen de bot kunnen gebruiken.",
     "ping_usage": "Gebruik: `{command} <discord server id>`",
-    "ping_working": "De verbinding met de website API lijkt goed te werken (ping duurde {time}ms)."
+    "ping_working": "De verbinding met de website API lijkt goed te werken (ping duurde {time}ms).",
+    "prefix_success": "Het voorvoegsel voor commando's is nu `{newPrefix}`.",
+    "prefix_usage": "Gebruik: `{command} <server id> <nieuw voervoegsel>`. Vul in `reset` om het standaardvoorvoegsel te gebruiken."
 }

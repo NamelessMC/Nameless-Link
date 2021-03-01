@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.entities.User;
 public class PingCommand extends Command {
 
 	public PingCommand() {
-		super("!ping", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
+		super("ping", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class PingCommand extends Command {
 		final Language language = Language.getDefaultLanguage();
 
 		if (args.length != 1) {
-			message.reply(language.get(Term.PING_USAGE, "command", "!ping")).queue();
+			message.reply(language.get(Term.PING_USAGE, "command", getPrefix(message) + "ping")).queue();
 			return;
 		}
 

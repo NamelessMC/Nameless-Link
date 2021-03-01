@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.entities.User;
 public class VerifyCommand extends Command {
 
 	public VerifyCommand() {
-		super("!verify", Arrays.asList("!validate", "!link"), CommandContext.BOTH);
+		super("verify", Arrays.asList("validate", "link"), CommandContext.BOTH);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class VerifyCommand extends Command {
 		final Language language = Language.getDefaultLanguage();
 
 		if (args.length != 1) {
-			message.reply(language.get(Term.VERIFY_USAGE, "command", "!verify")).queue();
+			message.reply(language.get(Term.VERIFY_USAGE, "command", getPrefix(message) + "verify")).queue();
 			return;
 		}
 

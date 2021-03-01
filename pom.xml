@@ -7,7 +7,7 @@
 	<groupId>com.namelessmc</groupId>
 	<artifactId>bot</artifactId>
 	<name>Nameless-Link</name>
-	<version>1.1</version>
+	<version>1.2</version>
 
 	<build>
 		<sourceDirectory>src/main/java/</sourceDirectory>
@@ -110,7 +110,13 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_228</version>
+			<version>4.2.0_229</version>
+			<exclusions>
+				<exclusion>
+					<groupId>club.minnced</groupId>
+					<artifactId>opus-java</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -147,7 +153,7 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlet</artifactId>
-			<version>11.0.0</version>
+			<version>11.0.1</version>
 		</dependency>
 
 		<dependency>

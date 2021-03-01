@@ -28,4 +28,8 @@ public abstract class ConnectionManager {
 
 	public abstract Optional<Long> getGuildIdByURL(URL url) throws BackendStorageException;
 
+	public abstract Optional<String> getCommandPrefixByGuildId(long guildId) throws BackendStorageException;
+
+	public abstract boolean setCommandPrefix(long guildId, Optional<String> newPrefix) throws BackendStorageException;
+
 }

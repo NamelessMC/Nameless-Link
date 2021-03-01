@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.entities.User;
 public class UnlinkCommand extends Command {
 
 	public UnlinkCommand() {
-		super("!unlink", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
+		super("unlink", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class UnlinkCommand extends Command {
 		}
 
 		if (args.length != 1) {
-			message.reply(language.get(Term.UNLINK_USAGE, "command", "!unlink")).queue();
+			message.reply(language.get(Term.UNLINK_USAGE, "command", getPrefix(message) + "unlink")).queue();
 			return;
 		}
 
@@ -62,7 +62,7 @@ public class UnlinkCommand extends Command {
 		final Guild guild = Main.getJda().getGuildById(guildId);
 
 		if (guild == null) {
-			message.reply(language2.get(Term.UNLINK_GUILD_UNKNOWN)).queue();
+			message.reply(language2.get(Term.ERROR_GUILD_UNKNOWN)).queue();
 			return;
 		}
 

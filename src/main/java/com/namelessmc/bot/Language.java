@@ -22,8 +22,6 @@ import net.dv8tion.jda.api.entities.User;
 
 public class Language {
 
-	private static final String[] EMPTY_STRING_ARRAY = new String[]{};
-
 	public enum Term {
 
 		COMMANDS,
@@ -36,6 +34,7 @@ public class Language {
 		ERROR_NO_PERMISSION,
 		ERROR_READ_ONLY_STORAGE,
 		ERROR_GUILD_ID_INVALID,
+		ERROR_GUILD_UNKNOWN,
 
 		INVALID_COMMAND("commands"),
 
@@ -60,20 +59,19 @@ public class Language {
 		GUILD_JOIN_NEEDS_RENEW("command", "guildId"),
 		GUILD_JOIN_WELCOME_BACK("command", "guildId"),
 
+		@Deprecated
 		UNUSED_CONNECTION("discordServerName", "command"),
 
 		UNLINK_USAGE("command"),
 		UNLINK_GUILD_NOT_LINKED,
-		UNLINK_GUILD_UNKNOWN,
+
+		PREFIX_USAGE("command"),
+		PREFIX_SUCCESS("newPrefix"),
 
 		;
 
 		@Getter
 		private final String[] placeholders;
-
-		Term() {
-			this.placeholders = EMPTY_STRING_ARRAY;
-		}
 
 		Term(final String... placeholders) {
 			this.placeholders = placeholders;

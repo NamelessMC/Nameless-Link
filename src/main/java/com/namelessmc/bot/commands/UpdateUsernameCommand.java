@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.entities.User;
 public class UpdateUsernameCommand extends Command {
 
 	public UpdateUsernameCommand() {
-		super("!updateusername", Collections.singletonList("!usernameupdate"), CommandContext.GUILD_MESSAGE);
+		super("updateusername", Collections.singletonList("usernameupdate"), CommandContext.GUILD_MESSAGE);
 	}
 
 	@Override
