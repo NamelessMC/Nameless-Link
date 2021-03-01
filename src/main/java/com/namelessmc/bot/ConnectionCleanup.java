@@ -6,13 +6,9 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.java_api.NamelessAPI;
 
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.requests.RestAction;
 
 public class ConnectionCleanup {
 
@@ -50,21 +46,21 @@ public class ConnectionCleanup {
 					continue;
 				}
 
-				log.info("Guild exists, sending message to guild owner.");
+				log.info("Guild exists, not removing connection.");
 
-				Main.getJda().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
-					log.info("Guild owner has user id " + channel.getUser().getIdLong() + ", opened channel id " + channel.getIdLong());
-
-					Main.getExecutorService().execute(() -> {
-						log.info("Making request to website for getting language");
-						final NamelessAPI api = Main.newApiConnection(url);
-						final Language language = Language.getDiscordUserLanguage(api, channel.getUser());
-						final String command = "!unlink " + guildId;
-						final String s = language.get(Term.UNUSED_CONNECTION, "discordServerName", guild.getName(), "command", command);
-						log.info("Got language, sending message");
-						channel.sendMessage(s).queue(RestAction.getDefaultSuccess(), ignored -> log.warning("Couldn't send message"));
-					});
-				});
+//				Main.getJda().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
+//					log.info("Guild owner has user id " + channel.getUser().getIdLong() + ", opened channel id " + channel.getIdLong());
+//
+//					Main.getExecutorService().execute(() -> {
+//						log.info("Making request to website for getting language");
+//						final NamelessAPI api = Main.newApiConnection(url);
+//						final Language language = Language.getDiscordUserLanguage(api, channel.getUser());
+//						final String command = "!unlink " + guildId;
+//						final String s = language.get(Term.UNUSED_CONNECTION, "discordServerName", guild.getName(), "command", command);
+//						log.info("Got language, sending message");
+//						channel.sendMessage(s).queue(RestAction.getDefaultSuccess(), ignored -> log.warning("Couldn't send message"));
+//					});
+//				});
 			}
 
 			log.info("Done cleaning up connections.");
