@@ -3,19 +3,19 @@ package com.namelessmc.bot.http;
 import java.io.IOException;
 import java.util.Optional;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 
@@ -43,18 +43,20 @@ public class RoleChange extends HttpServlet {
 		final long guildId;
 		final long userId;
 		final String apiKey;
+		final JsonArray roles;
 		try {
 			json = (JsonObject) JsonParser.parseReader(request.getReader());
 			guildId = json.get("guild_id").getAsLong();
 			userId = json.get("user_id").getAsLong();
 			apiKey = json.get("api_key").getAsString();
-		} catch (JsonSyntaxException | IllegalArgumentException e) {
+			roles = json.getAsJsonArray("roles");
+		} catch (JsonSyntaxException | IllegalArgumentException | ClassCastException e) {
 			response.getWriter().write("badparameter");
 			Main.getLogger().warning("Received bad role change request from website");
 			return;
 		}
 
-		if (guildId == 0 || apiKey == null) {
+		if (guildId == 0 || apiKey == null || roles == null) {
 			response.getWriter().write("badparameter");
 			Main.getLogger().warning("Received bad role change request from website");
 			return;
@@ -97,39 +99,43 @@ public class RoleChange extends HttpServlet {
 					Main.getLogger().warning("Received bad role change request from website: invalid user id, guild id = " + guildId + ", user id = " + userId);
 					return;
 				}
-
+				
 				boolean hierarchyError = false;
-				synchronized (DiscordRoleListener.EVENT_LOCK) {
-					DiscordRoleListener.temporarilyDisableEvents(userId);
-
-					Boolean a;
-					Boolean b;
-					try {
-						a = changeRoles(json, true, member, guild);
-					} catch (final HierarchyException e) {
-						a = null;
-						hierarchyError = true;
+				
+				try {
+					for (final JsonElement e : roles) {
+						final JsonObject roleObject = e.getAsJsonObject();
+						final long roleId = roleObject.get("id").getAsLong();
+						final String action = roleObject.get("action").getAsString();
+						if (roleId == 0 || action == null) {
+							response.getWriter().write("badparameter");
+							Main.getLogger().warning("Received bad role change request from website");
+							return;
+						}
+						final Role role = guild.getRoleById(roleId);
+						try {
+							if (action.equals("add")) {
+								guild.addRoleToMember(member, role).complete();
+							} else if (action.equals("remove")) {
+								guild.removeRoleFromMember(member, role).complete();
+							} else {
+								Main.getLogger().warning("Website sent unknown role change action '" + action + "', it was ignored.");
+							}
+						} catch (final HierarchyException ignored) {
+							hierarchyError = true;
+						}
 					}
-
-					try {
-						b = changeRoles(json, false, member, guild);
-					} catch (final HierarchyException e) {
-						b = null;
-						hierarchyError = true;
-					}
-
-					if ((a != null && !a) || (b != null && !b)) {
-						response.getWriter().write("invrole");
-						Main.getLogger().warning("Received bad role change request from website: invalid role id");
-						return;
-					}
+				} catch (JsonSyntaxException | IllegalArgumentException | ClassCastException e) {
+					response.getWriter().write("badparameter");
+					Main.getLogger().warning("Received bad role change request from website");
+					return;
 				}
 
 				if (hierarchyError) {
-					response.getWriter().write("hierarchy");
-					Main.getLogger().info("Role change request from website: Hierarchy error.");
+					response.getWriter().write("partsuccess");
+					Main.getLogger().info("Role change request from website processed partly successfully, hierarchy error.");
 				} else {
-					response.getWriter().write("success");
+					response.getWriter().write("fullsuccess");
 					Main.getLogger().info("Role change request from website processed successfully.");
 				}
 			} catch (final IOException exception) {
@@ -137,40 +143,6 @@ public class RoleChange extends HttpServlet {
 				response.setStatus(500);
 			}
 		});
-	}
-
-	private Boolean changeRoles(final JsonObject json, final boolean add, final Member member, final Guild guild) {
-		final String memberName = add ? "add_role_id" : "remove_role_id";
-		if (!json.has(memberName)) {
-			Main.getLogger().info("Website didn't send " + memberName);
-			return null;
-		}
-
-		final long roleId;
-		try {
-			roleId = json.get(memberName).getAsLong();
-		} catch (JsonSyntaxException | IllegalArgumentException | UnsupportedOperationException e) {
-			Main.getLogger().warning("Json parse error for " + memberName + " - website sent " + json.get(memberName).toString());
-			return false;
-		}
-
-		final Role role = Main.getJda().getRoleById(roleId);
-		if (role == null) {
-			Main.getLogger().warning("Role does not exist: " + roleId);
-			return false;
-		}
-
-		Main.getLogger().info((add ? "Add " : "Remove ") + " role " + role.getId() + " member " + member.getId() + " guild " + guild.getId());
-
-		if (add) {
-			guild.addRoleToMember(member, role).queue();
-			Main.getLogger().info("Adding role " + role.getIdLong() + " to user " + member.getIdLong());
-		} else {
-			guild.removeRoleFromMember(member, role).queue();
-			Main.getLogger().info("Removing role " + role.getIdLong() + " from user " + member.getIdLong());
-		}
-
-		return true;
 	}
 
 }
