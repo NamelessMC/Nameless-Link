@@ -1,21 +1,22 @@
 package com.namelessmc.bot.commands;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
+
 import lombok.Getter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public abstract class Command {
 
@@ -86,11 +87,13 @@ public abstract class Command {
 			return;
 		}
 
-		message.addReaction("U+1F7E0").queue(ignored -> { // 🟠
-			command.execute(user, args, message);
+//		message.addReaction("U+1F7E0").queue(ignored -> { // 🟠
+//			command.execute(user, args, message);
+//			message.removeReaction("U+1F7E0").queue(); // 🟠
+//		});
 
-			message.removeReaction("U+1F7E0").queue(); // 🟠
-		});
+		message.getChannel().sendTyping().queue();
+		command.execute(user, args, message);
 	}
 
 	private static CommandContext getContext(final Message message) {
@@ -124,18 +127,18 @@ public abstract class Command {
 		return givenContext == receivedContext || givenContext == CommandContext.BOTH;
 	}
 
-	public static String getPrefix(Message message) {
+	public static String getPrefix(final Message message) {
 		return getContext(message).equals(CommandContext.PRIVATE_MESSAGE) ? Main.getDefaultCommandPrefix() : getGuildPrefix(message.getGuild());
 	}
 
-	public static String getGuildPrefix(Guild guild) {
+	public static String getGuildPrefix(final Guild guild) {
 		return getGuildPrefix(guild.getIdLong());
 	}
 
-	public static String getGuildPrefix(long guildId) {
+	public static String getGuildPrefix(final long guildId) {
 		try {
 			return Main.getConnectionManager().getCommandPrefixByGuildId(guildId).orElse(Main.getDefaultCommandPrefix());
-		} catch (BackendStorageException e) {
+		} catch (final BackendStorageException e) {
 			e.printStackTrace();
 		}
 		return Main.getDefaultCommandPrefix();
