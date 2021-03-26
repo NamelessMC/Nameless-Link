@@ -5,7 +5,7 @@
     "error_website_connection": "Nie udało się połączyć ze stroną.",
     "error_not_owner": "Musisz być Właścicilem serwera Discord aby użyć tej komendy.",
     "error_guild_id_invalid": "ID serwera Discord jest błędne.",
-    "invalid_command": "Błędne komendy. Poprawne komendy: {komendy}.",
+    "invalid_command": "Błęda komenda. Poprawne komendy: {komendy}.",
     "verify_usage": "Użycie: `{command} <token>`.",
     "verify_token_invalid": "Nie udało się zweryfikować konta, wprowadziłeś błędny token.",
     "verify_not_used": "Nie udało się zweryfikować Twojego konta, wprowadziłeś błędny token dla strony która nie używa tego BOTA.",
@@ -28,5 +28,7 @@
     "unlink_usage": "Użycie: `{command} <id serwera>`.",
     "unlink_guild_not_linked": "Podany serwer nie jest połączony.",
     "error_not_set_up": "Nie możesz teraz użyć tej komendy, BOT nie został jeszcze zainstalowany.",
-    "error_not_linked": "Nie możesz użyć tej komendy ponieważ Twoje konto nie jest jeszcze połączone. Proszę udać się do ustawień na stronie internetowej aby połączyć swoje konto Discord."
+    "error_not_linked": "Nie możesz użyć tej komendy ponieważ Twoje konto nie jest jeszcze połączone. Proszę udać się do ustawień na stronie internetowej aby połączyć swoje konto Discord.",
+    "error_no_permission": "Musisz mieć permisję 'Administratora' na tym serwerze Discord aby użyć tej komendy.",
+    "ping_usage": "Użycie: '{komenda} <id serwer discord>'"
 }
