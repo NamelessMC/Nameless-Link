@@ -31,5 +31,6 @@
     "error_not_set_up": "Du kannst diesen Befehl momentan nicht verwenden, der Bot wurde noch nicht eingerichtet.",
     "setup_reminder": "Hallo, Sie haben den Nameless-Link-Bot zu Ihrem Discord-Server hinzugefügt, aber er wurde noch nicht eingerichtet. Der Bot ist derzeit auf 250 Server beschränkt. Wenn Sie ihn derzeit nicht verwenden möchten, entfernen Sie ihn bitte von Ihrem Server, damit er für diejenigen verfügbar ist, die ihn verwenden möchten.",
     "prefix_usage": "Verwendung: `{command} <Server-ID> <Neuer Prefix>`. Nutze `reset` um wieder den Standard Prefix zu benutzen.",
-    "prefix_success": "Der Prefix wurde zu `{newPrefix}` geändert."
+    "prefix_success": "Der Prefix wurde zu `{newPrefix}` geändert.",
+    "ping_usage": "Benutzung: `{command} <discord server id>`"
 }
