@@ -84,7 +84,7 @@ public abstract class Command {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
 				final Language language = Language.getDefaultLanguage();
 				final String s = language.get(Term.INVALID_COMMAND, "commands",
-						"`" + String.join("`, `" + commandPrefix, registeredCommandLabels) + "`");
+						"`" + commandPrefix + String.join("`, `" + commandPrefix, registeredCommandLabels) + "`");
 				message.getChannel().sendMessage(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 						.setTitle(language.get(Term.COMMANDS))
 						.addField(language.get(Term.HELP), s, false).build()).queue();
