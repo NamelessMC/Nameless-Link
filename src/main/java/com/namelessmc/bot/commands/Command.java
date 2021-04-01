@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -30,6 +33,8 @@ public abstract class Command {
 	@Getter
 	private static final HashMap<String, Command> registeredCommands = new HashMap<>();
 	private static final List<String> registeredCommandLabels = new ArrayList<>();
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Command parser");
 
 	public Command(final String label, final List<String> aliases, final CommandContext context) {
 		this.label = label;
@@ -93,6 +98,7 @@ public abstract class Command {
 //		});
 
 		message.getChannel().sendTyping().queue();
+		LOGGER.info("User %s#%s ran command %s", user.getName(), user.getDiscriminator(), command.getLabel());
 		command.execute(user, args, message);
 	}
 
