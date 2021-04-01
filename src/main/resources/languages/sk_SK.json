@@ -10,5 +10,12 @@
     "error_no_permission": "V dannom Discord serveri musíte mať oprávnenie 'Administrátor' na použitie tohoto príkazu.",
     "error_read_only_storage": "Tato instancia bota je nakongifurována s úložiskom iba na čítanie. Pokiaľ chcete modofikovať jeho konfiguráciu, musíte tak učiniť ručne, miesto príkazu.",
     "error_guild_id_invalid": "Zadané ID serveru je neplatné.",
-    "verify_token_invalid": "Nepodarilo s overiť Váš účet, zadali ste neplatný token."
+    "verify_token_invalid": "Nepodarilo s overiť Váš účet, zadali ste neplatný token.",
+    "error_not_linked": "Tento príkaz není možné použiť, pretože vás učet nebol este prepojený.",
+    "apiurl_success": "Váš Discord server bol úšpešne spojený s NamelessMC webom.",
+    "error_guild_unknown": "Zadaný server neexistuje alebo bot není členom daného serveru.",
+    "verify_not_used": "Nebolo mozné overiť účet, zadali ste token webu ktory nepoužíva tohto bota.",
+    "verify_success": "Dakujeme za overenie, váš účet bol overený.",
+    "ping_usage": "Použi: `{command} <id discord serveru>`",
+    "ping_working": "Vyzerá to tak, že spojenie s API webu funguje. Trvalo {time}ms."
 }
