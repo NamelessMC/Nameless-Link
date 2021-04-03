@@ -16,7 +16,7 @@
     "verify_success": "Köszönjük, hogy ellenőrizte, a fiókját most összekapcsoltuk.",
     "apiurl_success": "A Discord szervert sikeresen összekapcsolta a NamelessMC webhelyével.",
     "apiurl_url_malformed": "A megadott API URL hibásan van formázva.",
-    "apiurl_failed_connection": "Nem sikerült csatlakozni a webhelyéhez. Ez azt jelenti, hogy a megadott API URL érvénytelen volt, vagy egy proxy blokkol minket (pl. Cloudflare).",
+    "apiurl_failed_connection": "Nem sikerült csatlakozni a webhelyéhez. A részletekért lásd a fenti üzenetet.",
     "apiurl_already_used": "Ezt az API URL-t már használta a Discord szerver, a leválasztáshoz használja a `{command}` elemet.",
     "guild_join_welcome_back": "Helló! Köszönjük, hogy a NamelessMC Bot-ot használta. A bot már be van állítva a Discord szerverhez. Ha másik API URL-t szeretne használni, megváltoztathatja azt a (z) `{command} {guildId} <api url>`paranccsal.",
     "unlink_usage": "Használat: `{command} <szerver id>\".",
