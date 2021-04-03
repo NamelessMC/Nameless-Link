@@ -15,7 +15,7 @@
     "apiurl_url_invalid": "Wprowadzony Link API nie wygląda jak Link NamelessMC. Możesz znaleźć swój link API w Panelu Admina> Konfiguracja> API.",
     "apiurl_url_malformed": "Wprowadzony link API jest nieprawidłowy.",
     "apiurl_not_owner": "Musisz być Właścicielem serwera Discord aby zmienić link API.",
-    "apiurl_failed_connection": "Nie udało się połączyć z Twoją stroną. Oznacza to że wprowadzony Link API jest błędny lub zablokowany przez proxy.",
+    "apiurl_failed_connection": "Nie udało się połączyć z Twoją stroną. Proszę zobacz wiadomość powyżej dla detali.",
     "error_generic": "Wystapił błąd.",
     "apiurl_already_used": "Ten Link API jest już użyty przez inny serwer Discord, użyj `{command}` aby go rozłączyć.",
     "apiurl_success_updated": "Pomyślnie zmieniono Link API.",
@@ -30,5 +30,7 @@
     "error_not_set_up": "Nie możesz teraz użyć tej komendy, BOT nie został jeszcze zainstalowany.",
     "error_not_linked": "Nie możesz użyć tej komendy ponieważ Twoje konto nie jest jeszcze połączone. Proszę udać się do ustawień na stronie internetowej aby połączyć swoje konto Discord.",
     "error_no_permission": "Musisz mieć permisję 'Administratora' na tym serwerze Discord aby użyć tej komendy.",
-    "ping_usage": "Użycie: `{command} <id serwer discord>`"
+    "ping_usage": "Użycie: `{command} <id serwer discord>`",
+    "prefix_usage": "Użycie: `{komenda} <id serwera> <nowy prefix>`. Użyj `reset` aby użyć domyślnego prefix'u.",
+    "prefix_success": "Prefix został zmodyfikowany na `{newPrefix}`."
 }
