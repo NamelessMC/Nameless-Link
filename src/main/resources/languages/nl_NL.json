@@ -20,7 +20,7 @@
     "verify_usage": "Gebruik: `{command} <token>`.",
     "apiurl_url_malformed": "De opgegeven API URL is misvormd.",
     "apiurl_not_owner": "Je kan alleen de API URL veranderen als je eigenaar bent van de opgegeven Discord server.",
-    "apiurl_failed_connection": "Kon niet verbonden met de website. Dit betekent dat de opgegeven API URL niet geldig is, of communicatie geblokkeerd wordt door een proxy (zoals Cloudflare).",
+    "apiurl_failed_connection": "Kon niet verbinden met de website. In het bovenstaande bericht staat een gedetailleerde foutmelding.",
     "apiurl_already_used": "Deze API URL wordt al gebruikt door een andere Discord server, gebruik `{command}` om de verbinding te verbreken.",
     "apiurl_success_updated": "API URL succesvol gewijzigd.",
     "apiurl_success_new": "API URL succesvol ingesteld.",
