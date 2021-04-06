@@ -21,7 +21,7 @@
     "apiurl_guild_invalid": "La identificación del servidor de Discord proporcionada es inválida.",
     "apiurl_url_malformed": "La URL de la API proporcionada está malformada.",
     "apiurl_not_owner": "Debe ser el propietario del servidor de Discord para cambiar la URL de la API.",
-    "apiurl_failed_connection": "No se pudo conectar con su sitio web. Esto significa que la URL de la API proporcionada no es válida o que estamos bloqueados por un proxy (por ejemplo, Cloudflare).",
+    "apiurl_failed_connection": "No se pudo conectar con su sitio web. Para más detalles, consulte el mensaje anterior.",
     "apiurl_success_updated": "Se cambió con éxito la URL de la API.",
     "apiurl_success_new": "Se ha configurado con éxito la URL de la API.",
     "guild_join_success": "¡Hola! Gracias por usar el Bot de NamelessMC. Para empezar, responde con `{command} {guildId} <api url>`. La URL de la API se puede encontrar en `StaffCP > Configuración > API`.",
