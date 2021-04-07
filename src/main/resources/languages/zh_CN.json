@@ -2,7 +2,7 @@
     "help": "帮助",
     "error_generic": "出现了一个内部错误。",
     "commands": "指令",
-    "apiurl_failed_connection": "无法连接到您的网站。这可能意味着您提供的 API 链接 (URL) 无效，或者一个代理 (例如 Cloudflare) 阻止了我们连接。",
+    "apiurl_failed_connection": "无法连接到您的网站。若需获得更多信息，请查看以上消息。",
     "apiurl_already_used": "此 API 链接 (URL) 已经被一个 Discord 服务器使用了，您可使用 `{command}` 来断开链接。",
     "apiurl_success_updated": "API 链接 (URL) 更改成功。",
     "apiurl_success_new": "API 链接 (URL) 配置成功。",
