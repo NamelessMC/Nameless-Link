@@ -7,7 +7,7 @@
     "commands": "Befehle",
     "help": "Hilfe",
     "error_generic": "Es ist ein interner Fehler aufgetreten.",
-    "error_not_linked": "Du kannst diesen Befehl nicht verwenden, da Ihr Konto noch nicht verknüpft ist. Bitte gehe zu den Kontoeinstellungen auf der Website, um Ihr Discord-Konto zu verknüpfen.",
+    "error_not_linked": "Du kannst diesen Befehl nicht verwenden, da dein Konto noch nicht verknüpft ist. Bitte gehe zu den Kontoeinstellungen auf der Website, um dein Discord-Konto zu verknüpfen.",
     "error_read_only_storage": "Diese Bot-Instanz ist mit schreibgeschütztem Speicher konfiguriert. Wenn Sie die Konfiguration ändern möchten, müssen Sie dies manuell machen und können dies nicht über Befehle tun.",
     "error_guild_id_invalid": "Die angegebene Discord-Server-ID ist ungültig.",
     "invalid_command": "Ungültige Befehle. Gültige Befehle: {commands}.",
@@ -32,5 +32,6 @@
     "setup_reminder": "Hallo, Sie haben den Nameless-Link-Bot zu Ihrem Discord-Server hinzugefügt, aber er wurde noch nicht eingerichtet. Der Bot ist derzeit auf 250 Server beschränkt. Wenn Sie ihn derzeit nicht verwenden möchten, entfernen Sie ihn bitte von Ihrem Server, damit er für diejenigen verfügbar ist, die ihn verwenden möchten.",
     "prefix_usage": "Verwendung: `{command} <Server-ID> <Neuer Prefix>`. Nutze `reset` um wieder den Standard Prefix zu benutzen.",
     "prefix_success": "Der Prefix wurde zu `{newPrefix}` geändert.",
-    "ping_usage": "Benutzung: `{command} <discord server id>`"
+    "ping_usage": "Benutzung: `{command} <discord server id>`",
+    "ping_working": "Die API-Website-Verbindung scheint zu funktionieren. Hat {time}ms gedauert."
 }
