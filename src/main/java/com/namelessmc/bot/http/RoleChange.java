@@ -99,9 +99,9 @@ public class RoleChange extends HttpServlet {
 					Main.getLogger().warning("Received bad role change request from website: invalid user id, guild id = " + guildId + ", user id = " + userId);
 					return;
 				}
-				
-				boolean hierarchyError = false;
-				
+
+				boolean error = false;
+
 				try {
 					for (final JsonElement e : roles) {
 						final JsonObject roleObject = e.getAsJsonObject();
@@ -113,6 +113,10 @@ public class RoleChange extends HttpServlet {
 							return;
 						}
 						final Role role = guild.getRoleById(roleId);
+						if (role == null) {
+							error = true;
+							continue;
+						}
 						try {
 							if (action.equals("add")) {
 								guild.addRoleToMember(member, role).complete();
@@ -122,7 +126,7 @@ public class RoleChange extends HttpServlet {
 								Main.getLogger().warning("Website sent unknown role change action '" + action + "', it was ignored.");
 							}
 						} catch (final HierarchyException ignored) {
-							hierarchyError = true;
+							error = true;
 						}
 					}
 				} catch (JsonSyntaxException | IllegalArgumentException | ClassCastException e) {
@@ -131,7 +135,7 @@ public class RoleChange extends HttpServlet {
 					return;
 				}
 
-				if (hierarchyError) {
+				if (error) {
 					response.getWriter().write("partsuccess");
 					Main.getLogger().info("Role change request from website processed partly successfully, hierarchy error.");
 				} else {
