@@ -91,7 +91,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-		Main.getLogger().info("Received guild member role remove event for " + event.getUser().getId() + " in " + event.getGuild().getId());
+		LOGGER.info("Received guild member role remove event for %s in %s", event.getUser().getId(), event.getGuild().getId());
 		Main.getExecutorService().execute(() -> {
 			synchronized (EVENT_LOCK) {
 				sendRolesToWebsite(event.getMember());

@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
@@ -18,6 +20,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
 public class PingCommand extends Command {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Ping command");
 
 	public PingCommand() {
 		super("ping", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
@@ -46,13 +50,13 @@ public class PingCommand extends Command {
 			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
 			return;
 		}
-		
+
 		Main.canModifySettings(user, guild, (canModifySettings) -> {
 			if (!canModifySettings) {
 				message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
 				return;
 			}
-			
+
 			Main.getExecutorService().execute(() -> {
 				// Check if API URL works
 				Optional<NamelessAPI> optApi;
@@ -60,17 +64,17 @@ public class PingCommand extends Command {
 					optApi = Main.getConnectionManager().getApi(guildId);
 				} catch (final BackendStorageException e) {
 					message.reply(language.get(Term.ERROR_GENERIC)).queue();
-					e.printStackTrace();
+					LOGGER.error("storage backend", e);
 					return;
 				}
-	
+
 				if (optApi.isEmpty()) {
 					message.reply(language.get(Term.ERROR_NOT_SET_UP)).queue();
 					return;
 				}
-	
+
 				final NamelessAPI api = optApi.get();
-	
+
 				try {
 					final long start = System.currentTimeMillis();
 					api.checkWebAPIConnection();

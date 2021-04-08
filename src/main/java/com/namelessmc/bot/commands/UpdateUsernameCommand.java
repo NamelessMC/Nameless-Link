@@ -3,6 +3,9 @@ package com.namelessmc.bot.commands;
 import java.util.Collections;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -18,6 +21,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class UpdateUsernameCommand extends Command {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Update username command");
 
 	public UpdateUsernameCommand() {
 		super("updateusername", Collections.singletonList("usernameupdate"), CommandContext.GUILD_MESSAGE);
@@ -44,9 +49,9 @@ public class UpdateUsernameCommand extends Command {
 
 		Main.getExecutorService().execute(() -> {
 			final NamelessAPI api = optApi.get();
-	
+
 			final Language language2 = Language.getDiscordUserLanguage(api, user);
-	
+
 			Optional<NamelessUser> optNameless;
 			try {
 				optNameless = api.getUserByDiscordId(user.getIdLong());
@@ -54,20 +59,20 @@ public class UpdateUsernameCommand extends Command {
 				message.reply(language2.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 				return;
 			}
-	
+
 			if (optNameless.isEmpty()) {
 				message.reply(language2.get(Term.ERROR_NOT_LINKED)).queue();
 				return;
 			}
-	
+
 			try {
-				api.updateDiscordUsernames(new long[]{user.getIdLong()}, new String[]{user.getName() + "#" + user.getDiscriminator()});
-				Main.getLogger().info("Updated username for user " + user.getIdLong() + " to " + user.getName() + "#" + user.getDiscriminator());
+				api.updateDiscordUsername(user.getIdLong(), user.getName() + "#" + user.getDiscriminator());
+				LOGGER.info("Updated username for user %s to '%s#%s'", user.getIdLong(), user.getName(), user.getDiscriminator());
 			} catch (final ApiError e) {
 				if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 					message.reply(language2.get(Term.ERROR_NOT_LINKED)).queue();
 				} else {
-					System.err.println("Error code " + e.getError() + " while updating username");
+					LOGGER.warn("Error code %s while updating username", e.getError());
 					message.reply(language2.get(Term.ERROR_GENERIC)).queue();
 				}
 				return;
@@ -75,7 +80,7 @@ public class UpdateUsernameCommand extends Command {
 				message.reply(language2.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 				return;
 			}
-	
+
 			message.addReaction("U+2705").queue(); // ✅
 		});
 	}

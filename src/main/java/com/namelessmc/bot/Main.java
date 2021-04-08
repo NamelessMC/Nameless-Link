@@ -12,9 +12,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import java.util.logging.Logger;
 
 import javax.security.auth.login.LoginException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,8 +53,7 @@ public class Main {
 	private static JDA jda;
 	public static JDA getJda() { return jda; }
 
-	private static final Logger logger = Logger.getLogger("NamelessLink");
-	public static Logger getLogger() { return logger; }
+	private static final Logger LOGGER = LoggerFactory.getLogger("Core");
 
 	private static final EmbedBuilder embedBuilder = new EmbedBuilder();
 	public static EmbedBuilder getEmbedBuilder() { return embedBuilder; }
@@ -62,7 +63,6 @@ public class Main {
 
 	private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
 	public static ExecutorService getExecutorService() { return executorService; }
-
 
 	private static ConnectionManager connectionManager;
 	public static ConnectionManager getConnectionManager() { return connectionManager; }
@@ -167,8 +167,8 @@ public class Main {
 		new URLCommand();
 		new VerifyCommand();
 
-		logger.info("Waiting for JDA to connect, this can take a long time (30+ seconds is not unusual)...");
-		logger.info("Note: the JDA message \"Connected to WebSocket\" does not mean it is finished connecting!");
+		LOGGER.info("Waiting for JDA to connect, this can take a long time (30+ seconds is not unusual)...");
+		LOGGER.info("Note: the JDA message \"Connected to WebSocket\" does not mean it is finished connecting!");
 
 		try {
 			jda.awaitStatus(Status.CONNECTED);
@@ -177,7 +177,7 @@ public class Main {
 			System.exit(1);
 		}
 
-		logger.info("JDA connected!");
+		LOGGER.info("JDA connected!");
 
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
@@ -186,18 +186,18 @@ public class Main {
 
 		if (Main.getConnectionManager().isReadOnly()) {
 			final NamelessAPI api = newApiConnection(connectionManager.listConnections().get(0));
-			Main.getLogger().info("Sending bot settings to " + api.getApiUrl());
+			LOGGER.info("Sending bot settings to " + api.getApiUrl());
 			api.setDiscordBotUrl(botUrl);
 			api.setDiscordBotUser(username, user.getIdLong());
 			final long guildId = connectionManager.getGuildIdByURL(api.getApiUrl()).orElse(0L);
 			if (guildId == 0L) {
-				logger.severe("Guild id was not present in the Optional");
+				LOGGER.error("Guild id was not present in the Optional");
 				System.exit(1);
 			}
 			api.setDiscordGuildId(guildId);
 			final Guild guild = Main.getJda().getGuildById(guildId);
 			if (guild == null) {
-				logger.severe("Guild with id " + guildId + " does not exist. Is the ID wrong or is the bot not in this guild?");
+				LOGGER.error("Guild with id '%s' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
 				System.exit(1);
 			}
 			DiscordRoleListener.sendRoleListToWebsite(guild);
@@ -205,7 +205,7 @@ public class Main {
 			if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
 				scheduler.schedule(() -> {
 					try {
-						Main.getLogger().info("Updating bot settings..");
+						LOGGER.info("Updating bot settings..");
 						final ExecutorService service = Executors.newFixedThreadPool(10);
 						final AtomicInteger countSuccess = new AtomicInteger();
 						final AtomicInteger countError = new AtomicInteger();
@@ -215,10 +215,10 @@ public class Main {
 									final NamelessAPI api = Main.newApiConnection(url);
 									api.setDiscordBotUrl(botUrl);
 									api.setDiscordBotUser(username, user.getIdLong());
-									logger.info(url.toString() + " success");
+									LOGGER.info(url.toString() + " success");
 									countSuccess.incrementAndGet();
 								} catch (final NamelessException e) {
-									logger.info(url.toString() + " error");
+									LOGGER.info(url.toString() + " error");
 									countError.incrementAndGet();
 								}
 							});
@@ -230,8 +230,8 @@ public class Main {
 						} catch (final InterruptedException e) {
 							e.printStackTrace();
 						}
-						logger.info("Done updating bot settings");
-						logger.info(String.format("%s websites successful, %s websites unsuccessful", countSuccess, countError));
+						LOGGER.info("Done updating bot settings");
+						LOGGER.info(String.format("%s websites successful, %s websites unsuccessful", countSuccess, countError));
 					} catch (final BackendStorageException e) {
 						e.printStackTrace();
 					}

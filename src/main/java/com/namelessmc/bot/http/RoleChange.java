@@ -3,6 +3,9 @@ package com.namelessmc.bot.http;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,6 +23,8 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 public class RoleChange extends HttpServlet {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("RoleChange endpoint");
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,13 +57,13 @@ public class RoleChange extends HttpServlet {
 			roles = json.getAsJsonArray("roles");
 		} catch (JsonSyntaxException | IllegalArgumentException | ClassCastException e) {
 			response.getWriter().write("badparameter");
-			Main.getLogger().warning("Received bad role change request from website");
+			LOGGER.warn("Received bad role change request from website");
 			return;
 		}
 
 		if (guildId == 0 || apiKey == null || roles == null) {
 			response.getWriter().write("badparameter");
-			Main.getLogger().warning("Received bad role change request from website");
+			LOGGER.warn("Received bad role change request from website");
 			return;
 		}
 
@@ -73,7 +78,7 @@ public class RoleChange extends HttpServlet {
 
 		if (optApi.isEmpty()) {
 			response.getWriter().write("notlinked");
-			Main.getLogger().warning("Received bad role change request from website: website is not linked");
+			LOGGER.warn("Received bad role change request from website: website is not linked");
 			return;
 		}
 
@@ -81,14 +86,14 @@ public class RoleChange extends HttpServlet {
 
 		if (!timingSafeEquals(apiKey.getBytes(), api.getApiKey().getBytes())) {
 			response.getWriter().write("unauthorized");
-			Main.getLogger().warning("Received bad role change request from website: invalid API key");
+			LOGGER.warn("Received bad role change request from website: invalid API key");
 			return;
 		}
 
 		final Guild guild = Main.getJda().getGuildById(guildId);
 		if (guild == null) {
 			response.getWriter().write("invguild");
-			Main.getLogger().warning("Received bad role change request from website: invalid guild id, guild id = " + guildId);
+			LOGGER.warn("Received bad role change request from website: invalid guild id, guild id = '%s'", guildId);
 			return;
 		}
 
@@ -96,7 +101,7 @@ public class RoleChange extends HttpServlet {
 			try {
 				if (member == null) {
 					response.getWriter().write("invuser");
-					Main.getLogger().warning("Received bad role change request from website: invalid user id, guild id = " + guildId + ", user id = " + userId);
+					LOGGER.warn("Received bad role change request from website: invalid user id, guild id = %s, user id = %s", guildId, userId);
 					return;
 				}
 
@@ -109,7 +114,7 @@ public class RoleChange extends HttpServlet {
 						final String action = roleObject.get("action").getAsString();
 						if (roleId == 0 || action == null) {
 							response.getWriter().write("badparameter");
-							Main.getLogger().warning("Received bad role change request from website");
+							LOGGER.warn("Received bad role change request from website");
 							return;
 						}
 						final Role role = guild.getRoleById(roleId);
@@ -123,7 +128,7 @@ public class RoleChange extends HttpServlet {
 							} else if (action.equals("remove")) {
 								guild.removeRoleFromMember(member, role).complete();
 							} else {
-								Main.getLogger().warning("Website sent unknown role change action '" + action + "', it was ignored.");
+								LOGGER.warn("Website sent unknown role change action '%s', it was ignored.", action);
 							}
 						} catch (final HierarchyException ignored) {
 							error = true;
@@ -131,20 +136,21 @@ public class RoleChange extends HttpServlet {
 					}
 				} catch (JsonSyntaxException | IllegalArgumentException | ClassCastException e) {
 					response.getWriter().write("badparameter");
-					Main.getLogger().warning("Received bad role change request from website");
+					LOGGER.warn("Received bad role change request from website", e);
 					return;
 				}
 
 				if (error) {
 					response.getWriter().write("partsuccess");
-					Main.getLogger().info("Role change request from website processed partly successfully, hierarchy error.");
+					LOGGER.warn("Role change request from website processed partly successfully (most likely due to a hierarchy error).");
 				} else {
 					response.getWriter().write("fullsuccess");
-					Main.getLogger().info("Role change request from website processed successfully.");
+					LOGGER.info("Role change request from website processed successfully.");
 				}
 			} catch (final IOException exception) {
 				// An IOException at getWriter normally indicates an internal server error.
 				response.setStatus(500);
+				LOGGER.error("IOException", exception);
 			}
 		});
 	}

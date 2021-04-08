@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
@@ -21,6 +23,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
 public class URLCommand extends Command {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Logger command");
 
 	public URLCommand() {
 		super("apiurl", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
@@ -67,13 +71,13 @@ public class URLCommand extends Command {
 			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
 			return;
 		}
-		
+
 		Main.canModifySettings(user, guild, (canModifySettings) -> {
 			if (!canModifySettings) {
 				message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
 				return;
 			}
-			
+
 			Main.getExecutorService().execute(() -> {
 				// Check if API URL works
 				NamelessAPI api;
@@ -88,23 +92,23 @@ public class URLCommand extends Command {
 					}
 					return;
 				}
-		
+
 				try {
 					final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
-		
+
 					if (optExistingGuildId.isPresent()) {
 						message.reply(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
 						return;
 					}
-		
+
 					api.setDiscordBotUrl(Main.getBotUrl());
 					api.setDiscordGuildId(guildId);
-		
+
 					final User botUser = Main.getJda().getSelfUser();
 					api.setDiscordBotUser(botUser.getName() + "#" + botUser.getDiscriminator(), botUser.getIdLong());
-		
+
 					final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
-		
+
 					if (oldApi.isEmpty()) {
 						// User is setting up new connection
 						Main.getConnectionManager().newConnection(guildId, apiUrl);
@@ -114,10 +118,10 @@ public class URLCommand extends Command {
 						Main.getConnectionManager().updateConnection(guildId, apiUrl);
 						message.reply(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
 					}
-		
+
 					DiscordRoleListener.sendRoleListToWebsite(guild);
-		
-					Main.getLogger().info("Set up API URL for guild " + guildId + " to " + apiUrl);
+
+					LOGGER.info("Set API URL for guild %s to %s", guildId, apiUrl);
 				} catch (final BackendStorageException e) {
 					message.reply(language.get(Term.ERROR_GENERIC)).queue();
 				} catch (final NamelessException e) {

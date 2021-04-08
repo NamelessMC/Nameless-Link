@@ -10,6 +10,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -20,6 +22,8 @@ import com.namelessmc.java_api.NamelessUser;
 import net.dv8tion.jda.api.entities.User;
 
 public class Language {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Translation");
 
 	public enum Term {
 
@@ -153,8 +157,8 @@ public class Language {
 			throw new RuntimeException(
 					String.format("Term '%s' is missing from default (%s) translation", term, getDefaultLanguage().language));
 		} else {
-			Main.getLogger().warning(String.format("Language '%s' is missing term '%s', using default (%s) term instead.",
-					this.language, term, getDefaultLanguage().language));
+			LOGGER.warn("Language '%s' is missing term '%s', using default (%s) term instead.",
+					this.language, term, getDefaultLanguage().language);
 			translation = getDefaultLanguage().get(term, replacements);
 		}
 
@@ -223,9 +227,7 @@ public class Language {
 		try {
 			language = new Language(languageName);
 		} catch (final LanguageLoadException e) {
-			System.err.println(
-					"Failed to load language '" + languageName + "', falling back to '" + getDefaultLanguage().language + "'.");
-			e.printStackTrace();
+			LOGGER.error("Failed to load language '%s', falling back to '%s'.", e, languageName, getDefaultLanguage().language);
 			language = getDefaultLanguage();
 		}
 

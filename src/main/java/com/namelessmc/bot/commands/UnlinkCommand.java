@@ -3,6 +3,9 @@ package com.namelessmc.bot.commands;
 import java.util.Collections;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -14,6 +17,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
 public class UnlinkCommand extends Command {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Unlink command");
 
 	public UnlinkCommand() {
 		super("unlink", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
@@ -46,7 +51,7 @@ public class UnlinkCommand extends Command {
 			optApi = Main.getConnectionManager().getApi(guildId);
 		} catch (final BackendStorageException e) {
 			message.reply(language.get(Term.ERROR_GENERIC)).queue();
-			e.printStackTrace();
+			LOGGER.error("storage backend", e);
 			return;
 		}
 
@@ -75,13 +80,13 @@ public class UnlinkCommand extends Command {
 			Main.getExecutorService().execute(() -> {
 				try {
 					Main.getConnectionManager().removeConnection(guildId);
-					Main.getLogger().info("Unlinked from guild " + guildId);
+					LOGGER.info("Unlinked from guild %s", guildId);
 				} catch (final BackendStorageException e) {
 					message.reply(language2.get(Term.ERROR_GENERIC)).queue();
-					e.printStackTrace();
+					LOGGER.error("storage backend", e);
 					return;
 				}
-	
+
 				message.addReaction("U+2705").queue(); // ✅
 			});
 		});

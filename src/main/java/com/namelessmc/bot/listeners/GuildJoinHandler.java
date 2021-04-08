@@ -1,24 +1,30 @@
 package com.namelessmc.bot.listeners;
 
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.util.Optional;
-
 public class GuildJoinHandler extends ListenerAdapter {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Guild join listener");
 
 	@Override
 	public void onGuildJoin(final GuildJoinEvent event) {
-		Main.getLogger().info("Joined guild: " + event.getGuild().getName());
+		LOGGER.info("Joined guild '%s'", event.getGuild().getName());
 
-		Language language = Language.getDefaultLanguage();
+		final Language language = Language.getDefaultLanguage();
 
 		Optional<NamelessAPI> api;
 		try {
@@ -34,13 +40,13 @@ public class GuildJoinHandler extends ListenerAdapter {
 		Main.getJda().retrieveUserById(event.getGuild().getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 			if (api.isEmpty()) {
 				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", apiUrlCommand, "guildId", guildId))
-						.queue(message -> Main.getLogger().info("Sent new join message to " + channel.getUser().getName()
-								+ " for guild " + event.getGuild().getName()));
+						.queue(message -> LOGGER.info("Sent new join message to %s for guild %s",
+								channel.getUser().getName(), event.getGuild().getName()));
 			} else {
 				try {
 					api.get().checkWebAPIConnection();
 					// Good to go
-					Language ownerLanguage = Language.getDiscordUserLanguage(api.get(), channel.getUser());
+					final Language ownerLanguage = Language.getDiscordUserLanguage(api.get(), channel.getUser());
 					channel.sendMessage(ownerLanguage.get(Term.GUILD_JOIN_WELCOME_BACK, "command", apiUrlCommand, "guildId", guildId)).queue();
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url

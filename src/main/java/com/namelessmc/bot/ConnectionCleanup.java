@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.namelessmc.bot.connections.BackendStorageException;
 
@@ -12,41 +14,41 @@ import net.dv8tion.jda.api.entities.Guild;
 
 public class ConnectionCleanup {
 
-	public static void run() {
-		final Logger log = Main.getLogger();
+	private static final Logger LOGGER = LoggerFactory.getLogger("Connection cleanup");
 
-		log.info("Cleaning up connections...");
+	public static void run() {
+		LOGGER.info("Cleaning up connections...");
 		try {
 			final long someTimeAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(14);
 			final List<URL> urls = Main.getConnectionManager().listConnectionsUsedBefore(someTimeAgo);
 
 			if (urls.isEmpty()) {
-				log.info("No connections to clean up.");
+				LOGGER.info("No connections to clean up.");
 				return;
 			} else {
-				log.info("Found " + urls.size() + " unused connections");
+				LOGGER.info("Found %s unused connections", urls.size());
 			}
 
 			for (final URL url : urls) {
 				final Optional<Long> optGuildId = Main.getConnectionManager().getGuildIdByURL(url);
 				if (optGuildId.isEmpty()) {
-					log.warning("URL does not have guild id in database? " + url.toString());
+					LOGGER.warn("URL does not have guild id in database? '%s'", url.toString());
 					continue;
 				}
 
 				final long guildId = optGuildId.get();
 
-				log.info(String.format("Checking %s (guild id %s)", url.getHost(), guildId));
+				LOGGER.info("Checking %s (guild id %s)", url.getHost(), guildId);
 
 				final Guild guild = Main.getJda().getGuildById(guildId);
 
 				if (guild == null) {
-					log.info("Guild does not exist. Removing connection from database.");
+					LOGGER.info("Guild does not exist. Removing connection from database.");
 					Main.getConnectionManager().removeConnection(guildId);
 					continue;
 				}
 
-				log.info("Guild exists, not removing connection.");
+				LOGGER.info("Guild exists, not removing connection.");
 
 //				Main.getJda().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 //					log.info("Guild owner has user id " + channel.getUser().getIdLong() + ", opened channel id " + channel.getIdLong());
@@ -63,10 +65,9 @@ public class ConnectionCleanup {
 //				});
 			}
 
-			log.info("Done cleaning up connections.");
+			LOGGER.info("Done cleaning up connections.");
 		} catch (final BackendStorageException e) {
-			log.severe("A database error occured while cleaning up connections");
-			e.printStackTrace();
+			LOGGER.error("A database error occured while cleaning up connections", e);
 		}
 	}
 

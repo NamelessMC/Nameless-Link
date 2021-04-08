@@ -1,25 +1,31 @@
 package com.namelessmc.bot.commands;
 
+import java.util.Collections;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
-import java.util.Collections;
-import java.util.Optional;
-
 public class PrefixCommand extends Command {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Prefix command");
 
 	public PrefixCommand() {
 		super("prefix", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
 	}
 
 	@Override
-	public void execute(User user, String[] args, Message message) {
-		Language defaultLanguage = Language.getDefaultLanguage();
+	public void execute(final User user, final String[] args, final Message message) {
+		final Language defaultLanguage = Language.getDefaultLanguage();
 
 		if (Main.getConnectionManager().isReadOnly()) {
 			message.reply(defaultLanguage.get(Language.Term.ERROR_READ_ONLY_STORAGE)).queue();
@@ -55,7 +61,7 @@ public class PrefixCommand extends Command {
 
 		final NamelessAPI api = optApi.get();
 
-		Language language = Language.getDiscordUserLanguage(api, user);
+		final Language language = Language.getDiscordUserLanguage(api, user);
 
 		final Guild guild = Main.getJda().getGuildById(guildId);
 
@@ -70,11 +76,11 @@ public class PrefixCommand extends Command {
 				return;
 			}
 			try {
-				Optional<String> newPrefix = args[1].equals("reset") ? Optional.empty() : Optional.of(args[1]);
+				final Optional<String> newPrefix = args[1].equals("reset") ? Optional.empty() : Optional.of(args[1]);
 				Main.getConnectionManager().setCommandPrefix(guildId, newPrefix);
 				message.reply(language.get(Language.Term.PREFIX_SUCCESS,
 						"newPrefix", newPrefix.orElse(Main.getDefaultCommandPrefix()))).queue();
-				Main.getLogger().info("Modified prefix for guild " + guildId);
+				LOGGER.info("Modified prefix for guild " + guildId);
 			} catch (final BackendStorageException e) {
 				message.reply(language.get(Language.Term.ERROR_GENERIC)).queue();
 				e.printStackTrace();
