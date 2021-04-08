@@ -123,7 +123,7 @@ public class Language {
 	private transient JsonObject json;
 
 	private Language(final String language) throws LanguageLoadException {
-		this.language = language;
+		this.language = Objects.requireNonNull(language, "Language string is null");;
 		readFromFile();
 	}
 
@@ -142,6 +142,7 @@ public class Language {
 	}
 
 	public String get(final Term term, final Object... replacements) {
+		Objects.requireNonNull(term, "Term is null");
 		checkReplacements(term, replacements);
 
 		String translation;
@@ -167,7 +168,7 @@ public class Language {
 	}
 
 	private void checkReplacements(final Term term, final Object... replacements) {
-		if (replacements.length == 0) {
+		if (replacements == null || replacements.length == 0) {
 			return;
 		}
 
@@ -194,6 +195,8 @@ public class Language {
 	}
 
 	public static Language getDiscordUserLanguage(final NamelessAPI api, final User user) {
+		Objects.requireNonNull(api, "API is null");
+		Objects.requireNonNull(user, "User is null");
 		try {
 			final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
 			if (nameless.isPresent()) {
