@@ -58,9 +58,6 @@ public class Language {
 		GUILD_JOIN_NEEDS_RENEW("command", "guildId"),
 		GUILD_JOIN_WELCOME_BACK("command", "guildId"),
 
-		@Deprecated
-		UNUSED_CONNECTION("discordServerName", "command"),
-
 		UNLINK_USAGE("command"),
 		UNLINK_GUILD_NOT_LINKED,
 
