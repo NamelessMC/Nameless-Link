@@ -87,12 +87,6 @@ public class StorageInitializer<CM extends ConnectionManager> {
 	private static URL getEnvUrl(final String name) {
 		final String str = getEnvString(name, null);
 		try {
-			// passing null to the URL constructor just throws a NullPointerException
-			// that one is not caught here. I'm throwing a MalformedURLException here
-			// to be catched below. That will show a message in the console
-			if (str == null) {
-				throw new MalformedURLException("Specified URL in " + name + " was null.");
-			}
 			return new URL(str);
 		} catch (final MalformedURLException e) {
 			System.err.println("Provided URL in " + name + " is malformed. The full URL is printed below:");
