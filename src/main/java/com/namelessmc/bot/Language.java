@@ -17,7 +17,6 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.User;
 
 public class Language {
@@ -70,11 +69,14 @@ public class Language {
 
 		;
 
-		@Getter
 		private final String[] placeholders;
 
 		Term(final String... placeholders) {
 			this.placeholders = placeholders;
+		}
+
+		public String[] getPlaceholders() {
+			return this.placeholders;
 		}
 
 		@Override
@@ -108,8 +110,8 @@ public class Language {
 		NAMELESS_TO_POSIX.put("Chinese(Simplified)", "zh_CN");
 	}
 
-	@Getter
 	private static Language defaultLanguage;
+	public static Language getDefaultLanguage() { return defaultLanguage; }
 
 	static void setDefaultLanguage(final String languageCode) throws LanguageLoadException {
 		defaultLanguage = new Language(languageCode);
@@ -118,8 +120,8 @@ public class Language {
 	// Avoid having to instantiate new language objects all the time
 	private static final Map<String, Language> LANGUAGE_CACHE = new HashMap<>();
 
-	@Getter
 	private final String language;
+//	public static Language getLanguage() { return language; }
 
 	private transient JsonObject json;
 

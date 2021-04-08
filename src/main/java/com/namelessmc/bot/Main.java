@@ -34,7 +34,6 @@ import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDA.Status;
@@ -48,29 +47,38 @@ public class Main {
 	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
 	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
 
-	@Getter
 	private static JDA jda;
-	@Getter
+	public static JDA getJda() { return jda; }
+
 	private static final Logger logger = Logger.getLogger("NamelessLink");
-	@Getter
+	public static Logger getLogger() { return logger; }
+
 	private static final EmbedBuilder embedBuilder = new EmbedBuilder();
-	@Getter
+	public static EmbedBuilder getEmbedBuilder() { return embedBuilder; }
+
 	private static final Gson gson = new GsonBuilder().create();
-	@Getter
-	public static final ExecutorService executorService = Executors.newFixedThreadPool(10);
-	
-	@Getter
+	public static Gson getGson() { return gson; }
+
+	private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
+	public static ExecutorService getExecutorService() { return executorService; }
+
+
 	private static ConnectionManager connectionManager;
-	@Getter
+	public static ConnectionManager getConnectionManager() { return connectionManager; }
+
 	private static URL botUrl;
-	@Getter
+	public static URL getBotUrl() { return botUrl; }
+
 	private static String webserverInterface;
-	
-	@Getter
+	public static String getWebserverInterface() { return webserverInterface; }
+
 	private static int webserverPort;
+	public static int getWebserverPort() { return webserverPort; }
+
 	private static boolean apiDebug;
-	@Getter
+
 	private static String defaultCommandPrefix;
+	public static String getDefaultCommandPrefix() { return defaultCommandPrefix; }
 
 	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
 		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
@@ -246,7 +254,7 @@ public class Main {
 			}, TimeUnit.SECONDS.toMillis(4), TimeUnit.HOURS.toMillis(4), TimeUnit.MILLISECONDS);
 		}
 	}
-	
+
 	public static void canModifySettings(final User user, final Guild guild, final Consumer<Boolean> canModifySettings) {
 		guild.retrieveMember(user).queue((member) -> canModifySettings.accept(member.hasPermission(Permission.ADMINISTRATOR)));
 	}

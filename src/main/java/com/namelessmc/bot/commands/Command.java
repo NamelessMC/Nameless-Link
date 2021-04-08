@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PrivateChannel;
@@ -23,15 +23,12 @@ import net.dv8tion.jda.api.entities.User;
 
 public abstract class Command {
 
-	@Getter
 	private final String label;
-	@Getter
 	private final List<String> aliases;
-	@Getter
 	private final CommandContext context;
 
-	@Getter
-	private static final HashMap<String, Command> registeredCommands = new HashMap<>();
+	private static final Map<String, Command> registeredCommands = new HashMap<>();
+	public static Map<String, Command> getRegisteredCommands() { return registeredCommands; }
 	private static final List<String> registeredCommandLabels = new ArrayList<>();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Command parser");
@@ -58,6 +55,18 @@ public abstract class Command {
 		for (final String alias : aliases) {
 			registeredCommands.put(alias, this);
 		}
+	}
+
+	public String getLabel() {
+		return this.label;
+	}
+
+	public List<String> getAliases(){
+		return this.aliases;
+	}
+
+	public CommandContext getContext() {
+		return this.context;
 	}
 
 	protected abstract void execute(User user, String[] args, Message message);
