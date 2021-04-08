@@ -16,8 +16,8 @@ public class StorageInitializer<CM extends ConnectionManager> {
 	public static final StorageInitializer<PostgresConnectionManager> POSTGRES = new StorageInitializer<>(() -> {
 		final String hostname = getEnvString("POSTGRES_HOSTNAME", "localhost");
 		final int port = (int) getEnvLong("POSTGRES_PORT", 5432L);
-		final String name = getEnvString("POSTGRES_NAME");
-		final String username = getEnvString("POSTGRES_USERNAME");
+		final String name = getEnvString("POSTGRES_DB");
+		final String username = getEnvString("POSTGRES_USER");
 		final String password = getEnvString("POSTGRES_PASSWORD");
 		return new PostgresConnectionManager(hostname, port, name, username, password);
 	});
@@ -90,8 +90,9 @@ public class StorageInitializer<CM extends ConnectionManager> {
 			// passing null to the URL constructor just throws a NullPointerException
 			// that one is not caught here. I'm throwing a MalformedURLException here
 			// to be catched below. That will show a message in the console
-			if (str == null)
+			if (str == null) {
 				throw new MalformedURLException("Specified URL in " + name + " was null.");
+			}
 			return new URL(str);
 		} catch (final MalformedURLException e) {
 			System.err.println("Provided URL in " + name + " is malformed. The full URL is printed below:");

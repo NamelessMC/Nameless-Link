@@ -6,6 +6,8 @@ services:
     image: namelessmc/discord-link-postgres:1.2
     volumes: ['/opt/nameless-link:/var/lib/postgresql/data']
     environment:
+      POSTGRES_DB: link
+      POSTGRES_USER: link
       POSTGRES_PASSWORD: postgres
     restart: always
 
@@ -23,7 +25,7 @@ services:
       DISCORD_TOKEN: # discord bot token
       STORAGE_TYPE: postgres
       POSTGRES_HOSTNAME: postgres
-      POSTGRES_NAME: postgres
-      POSTGRES_USERNAME: postgres
+      POSTGRES_DB: link
+      POSTGRES_USER: link
       POSTGRES_PASSWORD: postgres
     restart: always
