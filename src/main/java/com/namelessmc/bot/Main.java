@@ -213,7 +213,14 @@ public class Main {
 				scheduler.schedule(() -> {
 					try {
 						LOGGER.info("Updating bot settings..");
-						final ExecutorService service = Executors.newFixedThreadPool(10);
+						int threads;
+						if (System.getenv("UPDATE_SETTINGS_THREADS") != null) {
+							threads = Integer.parseInt(System.getenv("UPDATE_SETTINGS_THREADS"));
+						} else {
+							threads = 2;
+						}
+
+						final ExecutorService service = Executors.newFixedThreadPool(threads);
 						final AtomicInteger countSuccess = new AtomicInteger();
 						final AtomicInteger countError = new AtomicInteger();
 						for (final URL url : connectionManager.listConnections()) {
