@@ -44,6 +44,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class Main {
 
@@ -145,15 +147,20 @@ public class Main {
 			final String token = Objects.requireNonNull(System.getenv("DISCORD_TOKEN"),
 					"Environment variable DISCORD_TOKEN not specified");
 
-			jda = JDABuilder.createDefault(token)
+
+			final JDABuilder builder = JDABuilder.createDefault(token)
 					.addEventListeners(new GuildJoinHandler())
 					.addEventListeners(new CommandListener())
-					.addEventListeners(new DiscordRoleListener())
-//					.setChunkingFilter(ChunkingFilter.ALL)
-//					.setMemberCachePolicy(MemberCachePolicy.ALL)
-					// .enableIntents(GatewayIntent.GUILD_MEMBERS)
-//					.setMemberCachePolicy(MemberCachePolicy.DEFAULT)
-					.build();
+					.addEventListeners(new DiscordRoleListener());
+
+
+			if (System.getenv("DISABLE_MEMBERS_INTENT") == null) {
+				builder.enableIntents(GatewayIntent.GUILD_MEMBERS)
+						.setMemberCachePolicy(MemberCachePolicy.ALL)
+						.setMemberCachePolicy(MemberCachePolicy.DEFAULT);
+			}
+
+			jda = builder.build();
 		} catch (final LoginException e) {
 			e.printStackTrace();
 			return;
