@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -85,11 +86,8 @@ public class Main {
 
 		initializeConnectionManager();
 
-		final String botUrlStr = System.getenv("BOT_URL");
-		if (botUrlStr == null) {
-			System.err.println("Environment variable BOT_URL not specified");
-			System.exit(1);
-		}
+		final String botUrlStr = Objects.requireNonNull(System.getenv("BOT_URL"),
+				"Environment variable BOT_URL not specified");
 
 		try {
 			botUrl = new URL(botUrlStr);
@@ -98,11 +96,8 @@ public class Main {
 			System.exit(1);
 		}
 
-		final String webserverPortStr = System.getenv("WEBSERVER_PORT");
-		if (webserverPortStr == null) {
-			System.err.println("Environment variable WEBSERVER_PORT not specified");
-			System.exit(1);
-		}
+		final String webserverPortStr = Objects.requireNonNull(System.getenv("WEBSERVER_PORT"),
+				"Environment variable WEBSERVER_PORT not specified");
 
 		try {
 			webserverPort = Integer.parseInt(webserverPortStr);
@@ -147,11 +142,9 @@ public class Main {
 		HttpMain.init();
 
 		try {
-			final String token = System.getenv("DISCORD_TOKEN");
-			if (token == null) {
-				System.err.println("Environment variable DISCORD_TOKEN not specified");
-				System.exit(1);
-			}
+			final String token = Objects.requireNonNull(System.getenv("DISCORD_TOKEN"),
+					"Environment variable DISCORD_TOKEN not specified");
+
 			jda = JDABuilder.createDefault(token)
 					.addEventListeners(new GuildJoinHandler())
 					.addEventListeners(new CommandListener())
