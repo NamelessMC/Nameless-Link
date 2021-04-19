@@ -19,12 +19,14 @@
     "apiurl_success": "Din discord-server har blitt koblet til din NamelessMC-nettside.",
     "apiurl_guild_invalid": "Den oppgitte guild-ID-en er ugyldig.",
     "apiurl_url_malformed": "Den oppgitte API-URL-en er ugyldig.",
-    "apiurl_failed_connection": "Kunne ikke koble til nettsiden din. Dette betyr at du den oppgitte API-URL-en var ugyldig eller at vi er blokkert av en proxy (f.eks. cloudflare).",
+    "apiurl_failed_connection": "Kunne ikke koble til nettsiden din. Vennligst se meldingen over for detaljer.",
     "apiurl_success_updated": "API-URL har nå blitt endret.",
     "apiurl_success_new": "API-URL har nå blitt satt opp.",
     "guild_join_welcome_back": "Hei! Takk for at du bruker NamelessMC Bot. Det ser ut som bot-en allerede er satt opp for din guild. Hvis du ønsker å sette en annen API-URL, kan du endre den ved å skrive `{command} {guildId} <api-url>`.",
     "error_not_linked": "Du kan ikke bruke denne kommandoen fordi kontoen din er ikke tilkoblet enda. Vennligst gå til kontoinnstillinger på nettsiden for å koble til discord-kontoen din.",
     "verification_not_used": "Kunne ikke verifisere kontoen din, du har oppgitt en verifiserings-token for en nettside som ikke bruker denne boten.",
     "guild_join_success": "Hei! Takk for at du bruker NamelessMC Bot. For å sette i gang, svar med `{command} {guildId} <api-url>`. API-URL-en kan bli funnet i `Panel -> Konfigurering -> API`.",
-    "guild_join_needs_renew": "Hei! Takk for at du bruker NamelessMC Bot. Det ser ut som du allerede har satt opp din API-URL, men at den ikke lenger er funksjonell. Vennligst sett en ny en ved å skrive `{command} {guildId} <api-url>`."
+    "guild_join_needs_renew": "Hei! Takk for at du bruker NamelessMC Bot. Det ser ut som du allerede har satt opp din API-URL, men at den ikke lenger er funksjonell. Vennligst sett en ny en ved å skrive `{command} {guildId} <api-url>`.",
+    "unlink_guild_not_linked": "Den oppgitte serveren er ikke koblet til.",
+    "apiurl_try_https": "Din API-URL bruker http://. Hvis du bruker en proxy for HTTPS, vil nettsiden fortsatt vise HTTP-API-URL-er. Vennligst prøv å utføre denne kommandoen på nytt, men erstatt http:// med https:// i API-URL-en."
 }
