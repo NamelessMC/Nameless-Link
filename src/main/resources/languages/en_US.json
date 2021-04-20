@@ -40,5 +40,6 @@
     "ping_usage": "Usage: `{command} <discord server id>`",
     "ping_working": "The API website connection appears to be working. Took {time}ms.",
     "prefix_usage": "Usage: `{command} <server id> <new prefix>`. Use `reset` to use the default prefix.",
-    "prefix_success": "The prefix has been modified to `{newPrefix}`."
+    "prefix_success": "The prefix has been modified to `{newPrefix}`.",
+    "error_website_version": "Your website runs an incompatible NamelessMC version. You are using version {version}, while the bot is compatible with the following versions: {compatibleVersions}."
 }
