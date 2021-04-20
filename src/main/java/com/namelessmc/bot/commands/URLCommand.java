@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,6 +17,8 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessVersion;
+import com.namelessmc.java_api.Website;
 
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -83,7 +86,12 @@ public class URLCommand extends Command {
 				NamelessAPI api;
 				try {
 					api = Main.newApiConnection(apiUrl);
-					api.checkWebAPIConnection();
+					final Website info = api.getWebsite();
+					if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions));
+						return;
+					}
 				} catch (final NamelessException e) {
 					message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
 					message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();

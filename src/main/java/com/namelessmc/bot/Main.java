@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -36,6 +37,7 @@ import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessVersion;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -51,6 +53,9 @@ public class Main {
 
 	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
 	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
+	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = Set.of(
+			NamelessVersion.V2_0_0_PR_9
+	);
 
 	private static JDA jda;
 	public static JDA getJda() { return jda; }

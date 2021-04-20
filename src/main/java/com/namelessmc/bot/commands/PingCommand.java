@@ -2,6 +2,7 @@ package com.namelessmc.bot.commands;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessVersion;
+import com.namelessmc.java_api.Website;
 
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -77,7 +80,12 @@ public class PingCommand extends Command {
 
 				try {
 					final long start = System.currentTimeMillis();
-					api.checkWebAPIConnection();
+					final Website info = api.getWebsite();
+					if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions));
+						return;
+					}
 					final long time = System.currentTimeMillis() - start;
 					final Language language2 = Language.getDiscordUserLanguage(api, user);
 					message.getChannel().sendMessage(language2.get(Term.PING_WORKING, "time", time)).queue();
