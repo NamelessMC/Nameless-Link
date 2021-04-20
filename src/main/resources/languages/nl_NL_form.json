@@ -31,5 +31,6 @@
     "prefix_usage": "Gebruik: `{command} <server id> <nieuw voorvoegsel>`. Gebruik `reset` om het standaard voorvoegsel te gebruiken.",
     "prefix_success": "Het voorvoegsel is veranderd naar `{newPrefix}`.",
     "guild_join_needs_renew": "Goedendag! Bedankt om de NamelessMC Bot te gebruiken. Het lijkt erop dat de API URL al eerder geconfigureerd hebt, maar deze werkt niet meer. Configureer alstublieft een nieuwe door gebruik te maken van `{command} {guildid} <api url>`. U kunt de API URL vinden in `StaffCP > Configuratie > API`.",
-    "verify_token_invalid": "Uw account kan niet worden geverifieerd, u heeft een ongeldig token opgegeven."
+    "verify_token_invalid": "Uw account kan niet worden geverifieerd, u heeft een ongeldig token opgegeven.",
+    "error_website_version": "De versie van NamelessMC die u gebruikt voor de website is niet geschikt voor deze bot. U gebruikt versie {version}, terwijl de bot alleen werkt met de volgende versies: {compatibleVersions}."
 }
