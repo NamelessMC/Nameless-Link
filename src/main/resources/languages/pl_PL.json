@@ -32,5 +32,8 @@
     "error_no_permission": "Musisz mieć permisję 'Administratora' na tym serwerze Discord aby użyć tej komendy.",
     "ping_usage": "Użycie: `{command} <id serwer discord>`",
     "prefix_usage": "Użycie: `{komenda} <id serwera> <nowy prefix>`. Użyj `reset` aby użyć domyślnego prefix'u.",
-    "prefix_success": "Prefix został zmodyfikowany na `{newPrefix}`."
+    "prefix_success": "Prefix został zmodyfikowany na `{newPrefix}`.",
+    "apiurl_try_https": "Twój adres URL interfejsu API używa http://. Jeśli korzystasz z serwera proxy dla HTTPS, strona nadal wyświetla adresy URL interfejsu API protokołu HTTP. Spróbuj ponownie uruchomić to polecenie, zastępuhąc http: // do https: // w adresie URL interfejsu API.",
+    "ping_working": "Wygląda na to, że połączenie API z stroną internetową działa. Zajęlo {time}ms.",
+    "error_website_version": "Twoja strona ma niezgodną wersję NamelessMC. Używasz wesji {version}, podczas gdy bot jest zgodny z następującymi wersjami: {compatibleVersions}."
 }
