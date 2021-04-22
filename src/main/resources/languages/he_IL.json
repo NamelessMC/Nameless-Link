@@ -24,7 +24,7 @@
     "apiurl_usage": "שימוש: `{command} <server id> <api url>`.",
     "apiurl_success": "שרת ה- Discord שלך נקשר בהצלחה לאתר NamelessMC שלך.",
     "apiurl_url_malformed": "כתובת ה- API המסופקת אינה מתבצעת.",
-    "apiurl_failed_connection": "לא ניתן היה להתחבר לאתר שלך. המשמעות היא שכתובת ה- API שסופקה הייתה לא חוקית או שאנחנו חסומים על ידי פרוקסי (למשל Cloudflare).",
+    "apiurl_failed_connection": "לא ניתן היה להתחבר לאתר שלך. אנא עיין בהודעה שלמעלה לפרטים.",
     "apiurl_already_used": "כתובת אתר API זו כבר משמשת שרת Discord, השתמש ב- '{command}' כדי לבטל את הקישור.",
     "apiurl_success_updated": "שונתה בהצלחה את כתובת ה- API.",
     "apiurl_success_new": "הגדר את כתובת ה- API בהצלחה.",
@@ -32,5 +32,6 @@
     "unused_connection": "שלום, קישרת את שרת הדיסקורד שלך '{discordServerName}' ל- NamelessMC באמצעות הבוט הזה. נראה כי לא נעשה שימוש בחיבור האתר במשך זמן מה, אם ברצונך להסיר את שרת ה- Discord שלך מריצת הבוט הזו '{command} `.",
     "unlink_usage": "שימוש: `{command} <server id>`.",
     "unlink_guild_not_linked": "השרת שסופק אינו מקושר.",
-    "prefix_success": "הקידומת שונתה ל- '{newPrefix}'."
+    "prefix_success": "הקידומת שונתה ל- '{newPrefix}'.",
+    "error_website_version": "האתר שלך פועל בגרסת NamelessMC לא תואמת. אתה משתמש בגרסה {version}, בעוד שהבוט תואם לגרסאות הבאות: {compatibleVersions}."
 }

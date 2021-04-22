@@ -32,5 +32,6 @@
     "unlink_usage": "Uso correto: `{command} <id do servidor>`.",
     "prefix_success": "O prefixo foi modificado para `{newPrefix}`.",
     "prefix_usage": "Uso correto: `{command} <id do servidor> <novo prefixo>`. Utilize `reset` para usar o prefixo padrão.",
-    "guild_join_welcome_back": "Olá! Obrigado por usar o NamelessMC Bot. O bot já está configurado para o seu servidor do Discord. Se você desejar usar um URL de API diferente, você pode alterá-lo usando `{command} {guildId} <url da api>`."
+    "guild_join_welcome_back": "Olá! Obrigado por usar o NamelessMC Bot. O bot já está configurado para o seu servidor do Discord. Se você desejar usar um URL de API diferente, você pode alterá-lo usando `{command} {guildId} <url da api>`.",
+    "error_website_version": "O seu site está executando uma versão incompatível do NamelessMC. Você está usando a versão {version}, enquanto o bot é compatível com as seguintes versões: {compatibleVersions}."
 }
