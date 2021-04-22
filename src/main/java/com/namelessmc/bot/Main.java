@@ -294,7 +294,7 @@ public class Main {
 
 	public static NamelessAPI newApiConnection(final URL url) {
 		synchronized (API_CACHE) {
-			API_CACHE.computeIfAbsent(url, x -> new NamelessAPI(url, USER_AGENT, apiDebug));
+			API_CACHE.computeIfAbsent(url, x -> NamelessAPI.builder().apiUrl(url).userAgent(USER_AGENT).debug(apiDebug).build());
 			return API_CACHE.get(url);
 		}
 	}
