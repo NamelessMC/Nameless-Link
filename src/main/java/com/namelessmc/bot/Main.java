@@ -3,6 +3,7 @@ package com.namelessmc.bot;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -53,8 +54,9 @@ public class Main {
 
 	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
 	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
-	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = Set.of(
-			NamelessVersion.V2_0_0_PR_9
+	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = EnumSet.of(
+			NamelessVersion.V2_0_0_PR_9,
+			NamelessVersion.V2_0_0_PR_10
 	);
 
 	private static JDA jda;
