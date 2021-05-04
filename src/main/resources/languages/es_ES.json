@@ -47,5 +47,6 @@
     "ping_usage": "Uso: `{command} <id del servidor de Discord>`",
     "ping_working": "La conexión al sitio web de la API parece funcionar. Tardó {time}ms.",
     "prefix_usage": "Uso: `{command} <id del servidor> <nuevo prefijo>`. Utilice `reset` para utilizar el prefijo por defecto.",
-    "prefix_success": "El prefijo ha sido modificado a `{newPrefix}`."
+    "prefix_success": "El prefijo ha sido modificado a `{newPrefix}`.",
+    "error_website_version": "Su sitio web ejecuta una versión de NamelessMC incompatible. Está utilizando la versión {version}, mientras que el bot es compatible con las siguientes versiones: {compatibleVersions}."
 }
