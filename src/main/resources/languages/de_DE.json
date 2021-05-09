@@ -19,7 +19,7 @@
     "apiurl_success": "Ihr Discord-Server wurde erfolgreich mit Ihrer NamelessMC-Website verknüpft.",
     "apiurl_url_invalid": "Die angegebene API-URL sieht nicht wie eine NamelessMC-API-URL aus. Die API-URL finden Sie unter StaffCP> Konfiguration > API.",
     "apiurl_url_malformed": "Die angegebene API-URL ist fehlerhaft.",
-    "apiurl_failed_connection": "Es konnte keine Verbindung zu Ihrer Website hergestellt werden. Dies bedeutet, dass die angegebene API-URL ungültig war oder wir von einem Proxy (z. B. Cloudflare) blockiert werden.",
+    "apiurl_failed_connection": "Es konnte keine Verbindung zu Ihrer Website hergestellt werden. Siehe die Nachricht oben für mehr Details.",
     "apiurl_already_used": "Diese API-URL wird bereits von einem Discord-Server verwendet. Verwenden Sie `{command}`, um die Verknüpfung aufzuheben.",
     "apiurl_success_updated": "Die API-URL wurde erfolgreich geändert.",
     "apiurl_success_new": "Die API-URL wurde erfolgreich gesetzt.",
