@@ -39,5 +39,6 @@
     "ping_working": "API 网站连接成功。时间：{time}ms。",
     "ping_usage": "用法: `{command} <Discord 服务器 ID>`",
     "prefix_usage": "用法: `{command} <服务器 ID> <新前缀>`。输入 `reset` 来使用默认前缀。",
-    "prefix_success": "前缀已被修改为 `{newPrefix}`。"
+    "prefix_success": "前缀已被修改为 `{newPrefix}`。",
+    "error_website_version": "您的网站正在运行不受机器人兼容的 NamelessMC 版本。 您正在使用版本 {version}，而机器人只和下列版本兼容: {compatibleVersions}。"
 }
