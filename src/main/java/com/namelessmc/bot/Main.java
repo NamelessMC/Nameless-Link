@@ -252,7 +252,7 @@ public class Main {
 							e.printStackTrace();
 						}
 						LOGGER.info("Done updating bot settings");
-						LOGGER.info(String.format("{} websites successful, {} websites unsuccessful", countSuccess, countError));
+						LOGGER.info("{} websites successful, {} websites unsuccessful", countSuccess, countError);
 					} catch (final BackendStorageException e) {
 						e.printStackTrace();
 					}
