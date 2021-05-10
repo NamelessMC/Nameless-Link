@@ -75,8 +75,11 @@ public abstract class Command {
 		final String commandPrefix = getPrefix(message);
 		final String messageContent = message.getContentRaw();
 
-		// Message content doesn't start with the command prefix, it is obviously not a command
-		if (!messageContent.startsWith(commandPrefix)) {
+		final CommandContext context = getContext(message);
+		if (!messageContent.startsWith(commandPrefix) && context != CommandContext.PRIVATE_MESSAGE) {
+			if (context == CommandContext.PRIVATE_MESSAGE) {
+				sendHelp(commandPrefix, message);
+			}
 			return;
 		}
 
@@ -86,29 +89,26 @@ public abstract class Command {
 
 		final User user = message.getAuthor();
 
-		final CommandContext context = getContext(message);
+
 		final Command command = Command.getCommand(commandName, context);
 
 		if (command == null) {
-			if (context == CommandContext.PRIVATE_MESSAGE) {
-				final Language language = Language.getDefaultLanguage();
-				final String s = language.get(Term.INVALID_COMMAND, "commands",
-						"`" + commandPrefix + String.join("`, `" + commandPrefix, registeredCommandLabels) + "`");
-				message.getChannel().sendMessage(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
-						.setTitle(language.get(Term.COMMANDS))
-						.addField(language.get(Term.HELP), s, false).build()).queue();
-			}
+			sendHelp(commandPrefix, message);
 			return;
 		}
-
-//		message.addReaction("U+1F7E0").queue(ignored -> { // 🟠
-//			command.execute(user, args, message);
-//			message.removeReaction("U+1F7E0").queue(); // 🟠
-//		});
 
 		message.getChannel().sendTyping().queue();
 		LOGGER.info("User %s#%s ran command %s", user.getName(), user.getDiscriminator(), command.getLabel());
 		command.execute(user, args, message);
+	}
+
+	private static void sendHelp(final String commandPrefix, final Message originalMessage) {
+		final Language language = Language.getDefaultLanguage();
+		final String s = language.get(Term.INVALID_COMMAND, "commands",
+				"`" + commandPrefix + String.join("`, `" + commandPrefix, registeredCommandLabels) + "`");
+		originalMessage.reply(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
+				.setTitle(language.get(Term.COMMANDS))
+				.addField(language.get(Term.HELP), s, false).build()).queue();
 	}
 
 	private static CommandContext getContext(final Message message) {
