@@ -33,5 +33,6 @@
     "prefix_usage": "Verwendung: `{command} <Server-ID> <Neuer Prefix>`. Nutze `reset` um wieder den Standard Prefix zu benutzen.",
     "prefix_success": "Der Prefix wurde zu `{newPrefix}` geändert.",
     "ping_usage": "Benutzung: `{command} <discord server id>`",
-    "ping_working": "Die API-Website-Verbindung scheint zu funktionieren. Hat {time}ms gedauert."
+    "ping_working": "Die API-Website-Verbindung scheint zu funktionieren. Hat {time}ms gedauert.",
+    "error_website_version": "Deine Webseite benutzt eine inkomatibele Version von NamelessMC. Du benutzt die Version {version}, aber der Bot ist nur mit den folgenden Versionen kompatibel: {compatibleVersions}."
 }
