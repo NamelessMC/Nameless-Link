@@ -67,12 +67,12 @@ public class UpdateUsernameCommand extends Command {
 
 			try {
 				api.updateDiscordUsername(user.getIdLong(), user.getName() + "#" + user.getDiscriminator());
-				LOGGER.info("Updated username for user %s to '%s#%s'", user.getIdLong(), user.getName(), user.getDiscriminator());
+				LOGGER.info("Updated username for user {} to '{}#{}'", user.getIdLong(), user.getName(), user.getDiscriminator());
 			} catch (final ApiError e) {
 				if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 					message.reply(language2.get(Term.ERROR_NOT_LINKED)).queue();
 				} else {
-					LOGGER.warn("Error code %s while updating username", e.getError());
+					LOGGER.warn("Error code {} while updating username", e.getError());
 					message.reply(language2.get(Term.ERROR_GENERIC)).queue();
 				}
 				return;

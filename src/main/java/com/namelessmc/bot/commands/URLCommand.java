@@ -129,7 +129,7 @@ public class URLCommand extends Command {
 
 					DiscordRoleListener.sendRoleListToWebsite(guild);
 
-					LOGGER.info("Set API URL for guild %s to %s", guildId, apiUrl);
+					LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
 				} catch (final BackendStorageException e) {
 					message.reply(language.get(Term.ERROR_GENERIC)).queue();
 				} catch (final NamelessException e) {

@@ -93,7 +93,7 @@ public class RoleChange extends HttpServlet {
 		final Guild guild = Main.getJda().getGuildById(guildId);
 		if (guild == null) {
 			response.getWriter().write("invguild");
-			LOGGER.warn("Received bad role change request from website: invalid guild id, guild id = '%s'", guildId);
+			LOGGER.warn("Received bad role change request from website: invalid guild id, guild id = '{}'", guildId);
 			return;
 		}
 
@@ -101,7 +101,7 @@ public class RoleChange extends HttpServlet {
 			try {
 				if (member == null) {
 					response.getWriter().write("invuser");
-					LOGGER.warn("Received bad role change request from website: invalid user id, guild id = %s, user id = %s", guildId, userId);
+					LOGGER.warn("Received bad role change request from website: invalid user id, guild id = {}, user id = {}", guildId, userId);
 					return;
 				}
 
@@ -128,7 +128,7 @@ public class RoleChange extends HttpServlet {
 							} else if (action.equals("remove")) {
 								guild.removeRoleFromMember(member, role).complete();
 							} else {
-								LOGGER.warn("Website sent unknown role change action '%s', it was ignored.", action);
+								LOGGER.warn("Website sent unknown role change action '{}', it was ignored.", action);
 							}
 						} catch (final HierarchyException ignored) {
 							error = true;

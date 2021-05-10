@@ -71,12 +71,12 @@ public class VerifyCommand extends Command {
 			try {
 				api.get().verifyDiscord(verify, user.getIdLong(), user.getName() + "#" + user.getDiscriminator());
 				message.reply(language.get(Term.VERIFY_SUCCESS)).queue();
-				LOGGER.info("Verified user " + user.getName() + "#" + user.getDiscriminator() + " in guild " + guildId);
+				LOGGER.info("Verified user {}%{} in guild {}", user.getName(), user.getDiscriminator(), guildId);
 			} catch (final ApiError e) {
 				if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 					message.reply(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
 				} else {
-					LOGGER.warn("Unexpected error code %s", e.getError());
+					LOGGER.warn("Unexpected error code {}", e.getError());
 					message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 				}
 				return;
@@ -89,12 +89,12 @@ public class VerifyCommand extends Command {
 			// User is now linked, trigger group sync
 			final Guild guild = Main.getJda().getGuildById(guildId);
 			if (guild == null) {
-				LOGGER.warn("Skipped sending roles for user %s in guild with id %s, guild is null", user.getId(), guildId);
+				LOGGER.warn("Skipped sending roles for user {} in guild with id {}, guild is null", user.getId(), guildId);
 				return;
 			}
 			final Member member = guild.getMember(message.getAuthor());
 			if (member == null) {
-				LOGGER.warn("Skipped sending roles for user %s in guild %s, member is null", user.getId(), guildId);
+				LOGGER.warn("Skipped sending roles for user {} in guild {}, member is null", user.getId(), guildId);
 				return;
 			}
 			DiscordRoleListener.sendRolesToWebsite(member);

@@ -158,7 +158,7 @@ public class Language {
 			throw new RuntimeException(
 					String.format("Term '%s' is missing from default (%s) translation", term, getDefaultLanguage().language));
 		} else {
-			LOGGER.warn("Language '%s' is missing term '%s', using default (%s) term instead.",
+			LOGGER.warn("Language '{}' is missing term '{}', using default ({}) term instead.",
 					this.language, term, getDefaultLanguage().language);
 			translation = getDefaultLanguage().get(term, replacements);
 		}
@@ -228,7 +228,7 @@ public class Language {
 		try {
 			language = new Language(languageName);
 		} catch (final LanguageLoadException e) {
-			LOGGER.error("Failed to load language '%s', falling back to '%s'.", e, languageName, getDefaultLanguage().language);
+			LOGGER.error("Failed to load language '{}', falling back to '{}'.", e, languageName, getDefaultLanguage().language);
 			language = getDefaultLanguage();
 		}
 

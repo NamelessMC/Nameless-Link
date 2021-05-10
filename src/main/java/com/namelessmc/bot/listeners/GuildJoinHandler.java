@@ -22,7 +22,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 
 	@Override
 	public void onGuildJoin(final GuildJoinEvent event) {
-		LOGGER.info("Joined guild '%s'", event.getGuild().getName());
+		LOGGER.info("Joined guild '{}'", event.getGuild().getName());
 
 		final Language language = Language.getDefaultLanguage();
 
@@ -40,7 +40,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 		Main.getJda().retrieveUserById(event.getGuild().getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 			if (api.isEmpty()) {
 				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", apiUrlCommand, "guildId", guildId))
-						.queue(message -> LOGGER.info("Sent new join message to %s for guild %s",
+						.queue(message -> LOGGER.info("Sent new join message to {} for guild {}",
 								channel.getUser().getName(), event.getGuild().getName()));
 			} else {
 				try {

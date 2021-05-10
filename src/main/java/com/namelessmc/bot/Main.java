@@ -211,7 +211,7 @@ public class Main {
 			api.setDiscordGuildId(guildId);
 			final Guild guild = Main.getJda().getGuildById(guildId);
 			if (guild == null) {
-				LOGGER.error("Guild with id '%s' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
+				LOGGER.error("Guild with id '{}' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
 				System.exit(1);
 			}
 			DiscordRoleListener.sendRoleListToWebsite(guild);
@@ -252,7 +252,7 @@ public class Main {
 							e.printStackTrace();
 						}
 						LOGGER.info("Done updating bot settings");
-						LOGGER.info(String.format("%s websites successful, %s websites unsuccessful", countSuccess, countError));
+						LOGGER.info(String.format("{} websites successful, {} websites unsuccessful", countSuccess, countError));
 					} catch (final BackendStorageException e) {
 						e.printStackTrace();
 					}

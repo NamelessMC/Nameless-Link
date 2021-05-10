@@ -91,7 +91,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-		LOGGER.info("Received guild member role remove event for %s in %s", event.getUser().getId(), event.getGuild().getId());
+		LOGGER.info("Received guild member role remove event for {} in {}", event.getUser().getId(), event.getGuild().getId());
 		Main.getExecutorService().execute(() -> {
 			synchronized (EVENT_LOCK) {
 				sendRolesToWebsite(event.getMember());
@@ -105,7 +105,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 		final long guildId = member.getGuild().getIdLong();
 		final long userId = discordUser.getIdLong();
 
-		LOGGER.info(String.format("Processing role change guildid=%s userid=%s", guildId, userId));
+		LOGGER.info(String.format("Processing role change guildid={} userid={}", guildId, userId));
 
 		if (discordUser.isBot()) {
 			LOGGER.info("Skipping, user is a bot.");

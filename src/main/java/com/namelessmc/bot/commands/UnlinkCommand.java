@@ -80,7 +80,7 @@ public class UnlinkCommand extends Command {
 			Main.getExecutorService().execute(() -> {
 				try {
 					Main.getConnectionManager().removeConnection(guildId);
-					LOGGER.info("Unlinked from guild %s", guildId);
+					LOGGER.info("Unlinked from guild {}", guildId);
 				} catch (final BackendStorageException e) {
 					message.reply(language2.get(Term.ERROR_GENERIC)).queue();
 					LOGGER.error("storage backend", e);

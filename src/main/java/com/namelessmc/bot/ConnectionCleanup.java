@@ -26,19 +26,19 @@ public class ConnectionCleanup {
 				LOGGER.info("No connections to clean up.");
 				return;
 			} else {
-				LOGGER.info("Found %s unused connections", urls.size());
+				LOGGER.info("Found {} unused connections", urls.size());
 			}
 
 			for (final URL url : urls) {
 				final Optional<Long> optGuildId = Main.getConnectionManager().getGuildIdByURL(url);
 				if (optGuildId.isEmpty()) {
-					LOGGER.warn("URL does not have guild id in database? '%s'", url.toString());
+					LOGGER.warn("URL does not have guild id in database? '{}'", url.toString());
 					continue;
 				}
 
 				final long guildId = optGuildId.get();
 
-				LOGGER.info("Checking %s (guild id %s)", url.getHost(), guildId);
+				LOGGER.info("Checking {} (guild id {})", url.getHost(), guildId);
 
 				final Guild guild = Main.getJda().getGuildById(guildId);
 

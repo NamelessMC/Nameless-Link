@@ -98,7 +98,7 @@ public abstract class Command {
 		}
 
 		message.getChannel().sendTyping().queue();
-		LOGGER.info("User %s#%s ran command %s", user.getName(), user.getDiscriminator(), command.getLabel());
+		LOGGER.info("User {}#{} ran command '{}'", user.getName(), user.getDiscriminator(), command.getLabel());
 		command.execute(user, args, message);
 	}
 
