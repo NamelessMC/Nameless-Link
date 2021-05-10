@@ -16,13 +16,13 @@ services:
     build:
       context: .
       args:
-        LINK_VERSION: 1.2
+        LINK_VERSION: 2.0
     ports: ['27362:80']
     env_file: secrets.env # Contains DISCORD_TOKEN= and BOT_URL=
     environment:
       STORAGE_TYPE: postgres
       POSTGRES_HOSTNAME: postgres
-      POSTGRES_NAME: postgres
-      POSTGRES_USERNAME: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       API_DEBUG: 'true'
