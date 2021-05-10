@@ -27,7 +27,7 @@ import net.dv8tion.jda.api.entities.User;
 
 public class URLCommand extends Command {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Logger command");
+	private static final Logger LOGGER = LoggerFactory.getLogger("URL command");
 
 	public URLCommand() {
 		super("apiurl", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
