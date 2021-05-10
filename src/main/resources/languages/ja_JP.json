@@ -22,7 +22,7 @@
     "apiurl_try_https": "API URLはhttp://を使用しています。HTTPS用のプロキシを使用している場合、ウェブサイトにはHTTP API URLが表示されたままです。API URLのhttp://をhttps://に置き換えて、コマンドをもう一度実行してみてください。",
     "unlink_usage": "使い方: `{command} <サーバid>`",
     "unlink_guild_unknown": "サーバーが存在しないか、ボットがサーバーのメンバーではありません。",
-    "apiurl_failed_connection": "ウェブサイトに接続できませんでした。API URLが無効であるか、プロキシ（例：Cloudflare）によってブロックされていることを意味します。",
+    "apiurl_failed_connection": "ウェブサイトに接続できませんでした。詳細は上記のメッセージをご確認ください。",
     "apiurl_already_used": "このAPI URLは既にDiscordサーバで使用されています。リンクを解除するには`{command}`を使用してください。",
     "apiurl_success_updated": "API URLの変更に成功しました。",
     "apiurl_success_new": "API URLの設定に成功しました。",
@@ -33,5 +33,6 @@
     "guild_join_welcome_back": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。ボットは既にあなたのDiscordサーバー用に設定されています。別のAPI URLを使用したい場合は、`{command} {guildId} <api url>`を使用して変更することができます。",
     "prefix_usage": "使い方: `{command} <サーバid> <新しいプレフィックス>` デフォルトのプレフィックスにするには`reset`を使ってください。",
     "error_guild_unknown": "サーバーが存在しないか、ボットがサーバーのメンバーではありません。",
-    "prefix_success": "プレフィックスは`{newPrefix}`に変更されました。"
+    "prefix_success": "プレフィックスは`{newPrefix}`に変更されました。",
+    "error_website_version": "あなたのウェブサイトでは、互換性のないNamelessMCのバージョンが実行されています。あなたはバージョン{version}を使用していますが、ボットは次のバージョンと互換性があります: {compatibleVersions}"
 }
