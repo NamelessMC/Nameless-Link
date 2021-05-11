@@ -12,8 +12,10 @@ import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class UnlinkCommand extends Command {
@@ -21,7 +23,7 @@ public class UnlinkCommand extends Command {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Unlink command");
 
 	public UnlinkCommand() {
-		super("unlink", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
+		super("unlink", Collections.emptyList(), CommandContext.BOTH);
 	}
 
 	@Override
@@ -33,17 +35,28 @@ public class UnlinkCommand extends Command {
 			return;
 		}
 
-		if (args.length != 1) {
+		long guildId;
+		if (args.length == 0) {
+			// no server id provided
+			if (message.getChannelType() == ChannelType.TEXT) {
+				// get server id from guild
+				guildId = ((TextChannel) message.getChannel()).getGuild().getIdLong();
+			} else {
+				// not in a guild, user needs to provide the id
+				message.reply(language.get(Term.UNLINK_USAGE, "command", getPrefix(message) + "unlink")).queue();
+				return;
+			}
+		} else if (args.length != 1) {
 			message.reply(language.get(Term.UNLINK_USAGE, "command", getPrefix(message) + "unlink")).queue();
 			return;
-		}
+		} else {
 
-		long guildId;
-		try {
-			guildId = Long.parseLong(args[0]);
-		} catch (final NumberFormatException e) {
-			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
-			return;
+			try {
+				guildId = Long.parseLong(args[0]);
+			} catch (final NumberFormatException e) {
+				message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
+				return;
+			}
 		}
 
 		Optional<NamelessAPI> optApi;
@@ -56,7 +69,7 @@ public class UnlinkCommand extends Command {
 		}
 
 		if (optApi.isEmpty()) {
-			message.reply(language.get(Term.UNLINK_GUILD_NOT_LINKED)).queue();
+			message.reply(language.get(Term.UNLINK_NOT_LINKED)).queue();
 			return;
 		}
 

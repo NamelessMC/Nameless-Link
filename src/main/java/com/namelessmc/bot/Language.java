@@ -64,7 +64,7 @@ public class Language {
 		GUILD_JOIN_WELCOME_BACK("command", "guildId"),
 
 		UNLINK_USAGE("command"),
-		UNLINK_GUILD_NOT_LINKED,
+		UNLINK_NOT_LINKED,
 
 		PREFIX_USAGE("command"),
 		PREFIX_SUCCESS("newPrefix"),
