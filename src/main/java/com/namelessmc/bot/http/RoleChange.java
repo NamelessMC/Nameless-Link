@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 public class RoleChange extends HttpServlet {
 
@@ -130,7 +131,8 @@ public class RoleChange extends HttpServlet {
 							} else {
 								LOGGER.warn("Website sent unknown role change action '{}', it was ignored.", action);
 							}
-						} catch (final HierarchyException ignored) {
+						} catch (final HierarchyException | InsufficientPermissionException ignored) {
+							LOGGER.warn("Cannot process role change: {}", ignored.getClass().getSimpleName());
 							error = true;
 						}
 					}
@@ -142,7 +144,7 @@ public class RoleChange extends HttpServlet {
 
 				if (error) {
 					response.getWriter().write("partsuccess");
-					LOGGER.warn("Role change request from website processed partly successfully (most likely due to a hierarchy error).");
+					LOGGER.warn("Role change request from website processed partly successfully.");
 				} else {
 					response.getWriter().write("fullsuccess");
 					LOGGER.info("Role change request from website processed successfully.");
