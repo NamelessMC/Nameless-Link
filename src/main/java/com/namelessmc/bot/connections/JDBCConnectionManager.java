@@ -1,9 +1,5 @@
 package com.namelessmc.bot.connections;
 
-import com.namelessmc.bot.Main;
-import com.namelessmc.java_api.NamelessAPI;
-import org.apache.commons.lang3.Validate;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
@@ -13,6 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.commons.lang3.Validate;
+
+import com.namelessmc.bot.Main;
+import com.namelessmc.java_api.NamelessAPI;
 
 public abstract class JDBCConnectionManager extends ConnectionManager {
 
@@ -184,11 +185,11 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public Optional<String> getCommandPrefixByGuildId(long guildId) throws BackendStorageException {
+	public Optional<String> getCommandPrefixByGuildId(final long guildId) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			String prefix;
 			try (PreparedStatement statement = connection
-					.prepareStatement("SELECT prefix FROM connections WHERE guild_id=?")) {
+					.prepareStatement("SELECT command_prefix FROM connections WHERE guild_id=?")) {
 				statement.setLong(1, guildId);
 				final ResultSet result = statement.executeQuery();
 				if (!result.next()) {
@@ -211,7 +212,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public boolean setCommandPrefix(long guildId, Optional<String> newPrefix) throws BackendStorageException {
+	public boolean setCommandPrefix(final long guildId, final Optional<String> newPrefix) throws BackendStorageException {
 		newPrefix.ifPresent(Validate::notBlank);
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
