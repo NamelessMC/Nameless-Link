@@ -35,5 +35,6 @@
     "prefix_success": "Prefix został zmodyfikowany na `{newPrefix}`.",
     "apiurl_try_https": "Twój adres URL interfejsu API używa http://. Jeśli korzystasz z serwera proxy dla HTTPS, strona nadal wyświetla adresy URL interfejsu API protokołu HTTP. Spróbuj ponownie uruchomić to polecenie, zastępuhąc http: // do https: // w adresie URL interfejsu API.",
     "ping_working": "Wygląda na to, że połączenie API z stroną internetową działa. Zajęlo {time}ms.",
-    "error_website_version": "Twoja strona ma niezgodną wersję NamelessMC. Używasz wesji {version}, podczas gdy bot jest zgodny z następującymi wersjami: {compatibleVersions}."
+    "error_website_version": "Twoja strona ma niezgodną wersję NamelessMC. Używasz wesji {version}, podczas gdy bot jest zgodny z następującymi wersjami: {compatibleVersions}.",
+    "unlink_not_linked": "Twoje konto nie jest połączone."
 }
