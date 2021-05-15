@@ -48,5 +48,6 @@
     "ping_working": "Vypadá to, že spojení API s webem funguje. Trvalo {time}ms.",
     "prefix_success": "Prefix byl změněn na `{newPrefix}`.",
     "prefix_usage": "Použití: `{command} <id serveru> <nový prefix>`. Použijte `reset` k použití výchozího prefixu.",
-    "error_website_version": "Váš web běží na nepodporované verzi NamelessMC. Používáte verzi {version}, zatímco bot je kompatibilní s následujícími verzemi: {compatibleVersions}."
+    "error_website_version": "Váš web běží na nepodporované verzi NamelessMC. Používáte verzi {version}, zatímco bot je kompatibilní s následujícími verzemi: {compatibleVersions}.",
+    "unlink_not_linked": "Váš účet není propojen."
 }

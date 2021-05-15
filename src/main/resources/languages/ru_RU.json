@@ -34,5 +34,6 @@
     "ping_working": "API сайта вроде-бы работает. Запрос занял {time}мс.",
     "prefix_success": "Префикс был изменён на `{newPrefix}`.",
     "prefix_usage": "Применение:`{command} <server id> <новый префикс>`. Используйте команду`reset` для использования стандартного префикса.",
-    "error_website_version": "Ваш сайт использует неподдерживаемую версию NamelessMC. У вас стоит версия {version}, хотя бот совместим только с этими версиями: {compatibleVersions}."
+    "error_website_version": "Ваш сайт использует неподдерживаемую версию NamelessMC. У вас стоит версия {version}, хотя бот совместим только с этими версиями: {compatibleVersions}.",
+    "unlink_not_linked": "Ваш аккаунт не подключён."
 }
