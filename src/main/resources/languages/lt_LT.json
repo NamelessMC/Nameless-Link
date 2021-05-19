@@ -19,7 +19,7 @@
     "verify_token_invalid": "Nepavyko patvirtinti jūsų paskyros, pateikėte neteisingą raktą.",
     "verify_success": "Dėkojame kad patvirtinote savo paskyra, jūsų paskyra dabar susieta sėkmingai.",
     "error_no_permission": "Norėdami naudoti šią komandą, turite turėti „Administratoriaus“ leidimą, discord serveryje.",
-    "invalid_command": "Neteisingai įvesta komanda. Galimos komandos: {komandos}.",
+    "invalid_command": "Neteisingai įvesta komanda. Galimos komandos: {commands}.",
     "ping_usage": "Naudokite: `{command} <discord server id>`",
     "ping_working": "Svetainės API veikia puikiai. Užtruko {time} ms pakrauti.",
     "unlink_not_linked": "Jūsų paskyra nesusieta.",
@@ -28,7 +28,7 @@
     "apiurl_success_new": "Sėkmingai nustatete API URL.",
     "guild_join_needs_renew": "Sveiki! Dėkojame, kad naudojatės „NamelessMC Bot“. Panašu, kad jau nustatėte API URL, tačiau jis nebeveikia. Nustatykite naują naudodami `{command} {guildId} <api url>`. API URL galite rasti skiltyje „StaffCP> Configuration> API“.",
     "guild_join_welcome_back": "Sveiki! Dėkojame, kad naudojatės „NamelessMC Bot“. Robotas jau nustatytas jūsų „Discord“ serveriui. Jei norite naudoti kitą API URL, galite jį pakeisti naudodami `{command} {guildId} <api url>`.",
-    "prefix_usage": "Naudokite: {command} <server id> <new prefix>, Naudokite 'reset' naudoti numatytąjį pavadinima.",
+    "prefix_usage": "Naudokite: `{command} <server id> <new prefix>`, Naudokite `reset` naudoti numatytąjį pavadinima.",
     "apiurl_url_malformed": "Pateiktas API URL yra netinkamai suformuotas.",
     "apiurl_failed_connection": "Nepavyko prisijungti prie jūsų svetainės. Išsamesnės informacijos ieškokite aukščiau pateiktame pranešime.",
     "apiurl_already_used": "Šį API URL jau naudoja „Discord“ serveryje. Norėdami atsieti naudokite `{command}`."
