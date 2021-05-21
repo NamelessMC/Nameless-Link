@@ -28,9 +28,11 @@
     "verify_not_used": "No se puede verificar su cuenta, ha proporcionado un token de verificación para un sitio web que no utiliza este bot.",
     "verify_token_invalid": "Error al verificar su cuenta, no ha proporcionado un token válido.",
     "apiurl_success": "Su servidor de Discord ha sido enlazado con éxito a su sitio web NamelessMC.",
-    "apiurl_failed_connection": "No se pudo conectar con su sitio web. Esto significa que la URL de la API proporcionada no es válida o que estamos bloqueados por un proxy (por ejemplo, Cloudflare).",
+    "apiurl_failed_connection": "No se pudo conectar con su sitio web. Por favor, vea el mensaje anterior para obtener más detalles.",
     "apiurl_try_https": "La URL de su API utiliza http://. Si está utilizando un proxy para HTTPS, el sitio web aún sigue mostrando las URL de la API HTTP. Intenta ejecutar este comando de nuevo, sustituyendo http:// por https:// en la URL de la API.",
     "guild_join_success": "¡Hola! Gracias por usar el Bot de NamelessMC. Para empezar, responde con `{command} {guildId} <api url>`. La URL de la API se puede encontrar en `StaffCP > Configuración > API`.",
     "guild_join_needs_renew": "¡Hola! Gracias por usar el Bot de NamelessMC. Parece que ya has configurado la URL de tu API, pero ya no es funcional. Por favor, establece una nueva usando `{command} {guildId} <api url>`. La URL de la API se puede encontrar en `StaffCP > Configuración > API`.",
-    "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`."
+    "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`.",
+    "error_website_version": "Su sitio web ejecuta una versión de NamelessMC incompatible. Estás usando la versión {version}, mientras que el bot es compatible con las siguientes versiones: {compatibleVersions}.",
+    "unlink_not_linked": "Tu cuenta no está vinculada."
 }
