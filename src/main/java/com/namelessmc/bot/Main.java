@@ -154,12 +154,21 @@ public class Main {
 			final String token = Objects.requireNonNull(System.getenv("DISCORD_TOKEN"),
 					"Environment variable DISCORD_TOKEN not specified");
 
+			final JDABuilder builder = JDABuilder.createDefault(token);
 
-			final JDABuilder builder = JDABuilder.createDefault(token)
-					.addEventListeners(new GuildJoinHandler())
+			if (System.getenv("SHARDS") != null) {
+				final int shards = Integer.parseInt(System.getenv("SHARDS"));
+				LOGGER.info("Using {} shards", shards);
+				for (int i = 0; i < shards; i++) {
+					builder.useSharding(i, shards);
+				}
+			} else {
+				LOGGER.info("Not using sharding");
+			}
+
+			builder.addEventListeners(new GuildJoinHandler())
 					.addEventListeners(new CommandListener())
 					.addEventListeners(new DiscordRoleListener());
-
 
 			if (System.getenv("DISABLE_MEMBERS_INTENT") == null) {
 				builder.enableIntents(GatewayIntent.GUILD_MEMBERS)
