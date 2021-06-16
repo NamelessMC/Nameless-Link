@@ -8,7 +8,7 @@
     "error_website_connection": "Could not connect to the website.",
     "error_website_version": "Your website runs an incompatible NamelessMC version. You are using version {version}, while the bot is compatible with the following versions: {compatibleVersions}.",
     "error_no_permission": "You must have 'Administrator' permission in the target Discord server to use this command.",
-    "error_read_only_storage": "This bot instance is configured with read-only storage. If you wish to modify its configuration you must do it manually instead of through commands.",
+    "error_read_only_storage": "This bot instance is configured without a database. If you wish to modify its configuration you must do it manually (by modifying environment variables) instead of through commands.",
     "error_guild_id_invalid": "The provided Discord server ID is invalid.",
     "error_guild_unknown": "The provided server does not exist or the bot is not a member of the server.",
 
