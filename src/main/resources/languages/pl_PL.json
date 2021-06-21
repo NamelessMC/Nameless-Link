@@ -23,7 +23,7 @@
     "guild_join_needs_renew": "Witaj! Dziękujemy za skorzystanie z Bota NamelessMC. Wygląda na to, że masz już ustawiony adres Link API, ale nie działa. Ustaw nowy używając `{command} {guildId} <link api>`. Link API można znaleźć w `Panel Admina> Konfiguracja> API`.",
     "guild_join_success": "Witaj! Dziekujemy za skorzystanie z Bota NamelessMC. Aby zaczac, odpisz `{command} {guildld} <link api>`. Link API można znaleźć w Panel Admina> Konfiguracja> API`.",
     "error_guild_unknown": "Podany serwer nie istnieje lub Bot nie jest członkiem serwera.",
-    "error_read_only_storage": "Ta instancja bota jest skonfigurowana z magazynem tylko do odczytu. Jeśli chcesz zmienić jego konfigurację, musisz to zrobić ręcznie, a nie za pomocą poleceń.",
+    "error_read_only_storage": "Ta instancja bota jest skonfigurowana bez bazy danych. Jeśli chcesz zmienić jego konfigurację, musisz to zrobić ręcznie, a nie za pomocą poleceń.",
     "unused_connection": "Witaj, połączyłeś swój serwer Discord „{discordServerName}” z NamelessMC za pomocą tego bota. Wygląda na to, że połączenie z witryną nie było używane przez jakiś czas, jeśli chcesz usunąć serwer Discord z tego bota, uruchom `{command}`.",
     "unlink_usage": "Użycie: `{command} <id serwera>`.",
     "unlink_guild_not_linked": "Podany serwer nie jest połączony.",

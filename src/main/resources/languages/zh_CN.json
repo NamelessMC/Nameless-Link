@@ -26,7 +26,7 @@
     "apiurl_url_malformed": "提供的 API 链接 (URL) 格式不正确。",
     "apiurl_not_owner": "您必须是此 Discord 服务器的服主才能更改 API 链接 (URL)。",
     "apiurl_url_invalid": "提供的 API 链接 (URL) 不是一个 NamelessMC API 链接 (URL)。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
-    "error_read_only_storage": "此机器人实例的配置不允许写配置。如果您希望修改配置，则您需要手动操作。",
+    "error_read_only_storage": "此机器人实例尚未配置数据库。如果您希望修改配置，则您需要手动操作 (修改环境变量)。",
     "verify_success": "感谢您验证，您的帐号现在已被链接。",
     "unlink_guild_not_linked": "提供的服务器并未被链接。",
     "error_guild_id_invalid": "提供的 Discord 服务器 ID 无效。",
