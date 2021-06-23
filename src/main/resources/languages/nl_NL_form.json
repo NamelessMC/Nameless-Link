@@ -12,7 +12,7 @@
     "apiurl_success": "Uw Discord server is met succes gekoppeld aan uw NamelessMC website.",
     "unlink_usage": "Gebruik: `{command} <server id>`.",
     "error_no_permission": "U moet 'Administrator' rechten hebben in de Discord server om dit commando te kunnen gebruiken.",
-    "error_read_only_storage": "Deze bot is geconfigureerd met alleen-lezen opslag. Als u de configuratie wilt aanpassen zult u dit manueel moeten doen in plaats van met de commando's.",
+    "error_read_only_storage": "Deze bot is geconfigureerd zonder een database. Als u de configuratie wilt aanpassen zult u dit manueel moeten doen (door de omgevingsvariabelen aan te passen) in plaats van met de commando's.",
     "error_guild_id_invalid": "De opgegeven Discord server ID is ongeldig.",
     "ping_usage": "Gebruik: `{command} <discord server id>`",
     "apiurl_failed_connection": "Kon niet verbinden met uw website. Bekijk alstublieft het bericht hierboven voor details.",
