@@ -63,7 +63,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 	}
 
 	public static void sendRoleListToWebsite(final Guild guild) {
-		LOGGER.info("Sending roles for " + guild.getIdLong() + " to website");
+		LOGGER.info("Sending roles for {} to website", guild.getIdLong());
 		try {
 			final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApi(guild.getIdLong());
 			if (optApi.isPresent()) {
@@ -73,15 +73,15 @@ public class DiscordRoleListener extends ListenerAdapter {
 		} catch (final BackendStorageException e) {
 			LOGGER.error("Storage error", e);
 		} catch (final ApiError e) {
-			LOGGER.warn("API error " + e.getError() + " while sending role list for guild " + guild.getIdLong());
+			LOGGER.warn("API error {} while sending role list for guild {}", e.getError(), guild.getIdLong());
 		} catch (final NamelessException e) {
-			LOGGER.warn("Website communication error while sending role list for guild " + guild.getIdLong());
+			LOGGER.warn("Website communication error while sending role list for guild {}", guild.getIdLong());
 		}
 	}
 
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
-		LOGGER.info("[Received guild member role add event for " + event.getUser().getId() + " in " + event.getGuild().getId());
+		LOGGER.info("[Received guild member role add event for {} in {}", event.getUser().getId(), event.getGuild().getId());
 		Main.getExecutorService().execute(() -> {
 			synchronized (EVENT_LOCK) {
 				sendRolesToWebsite(event.getMember());
@@ -105,7 +105,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 		final long guildId = member.getGuild().getIdLong();
 		final long userId = discordUser.getIdLong();
 
-		LOGGER.info(String.format("Processing role change guildid={} userid={}", guildId, userId));
+		LOGGER.info("Processing role change guildid={} userid={}", guildId, userId);
 
 		if (discordUser.isBot()) {
 			LOGGER.info("Skipping, user is a bot.");
@@ -118,7 +118,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			// No need to send rank change to website if we
 			// just received this role update from the website
 			if (diff < EVENT_DISABLE_DURATION) {
-				LOGGER.info("Ignoring rank update event for " + discordUser.getId());
+				LOGGER.info("Ignoring rank update event for {}", discordUser.getId());
 				return;
 			} else {
 				temporarilyDisabledEvents.remove(userId);
@@ -142,7 +142,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 		try {
 			user = api.get().getUserByDiscordId(userId);
 		} catch (final ApiError e) {
-			LOGGER.warn("API error " + e.getError() + " while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)");
+			LOGGER.warn("API error " + e.getError() + " while sending role update for user {} guild {} (getUserByDiscordId)", userId, guildId);
 			return;
 		} catch (final NamelessException e) {
 			LOGGER.warn("Website communication error while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)", e);
@@ -158,7 +158,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
 			user.get().setDiscordRoles(roleIds);
 		} catch (final ApiError e) {
-			LOGGER.warn("API error " + e.getError() + " while sending role update for user " + userId + " guild " + guildId + " (setDiscordRoles)");
+			LOGGER.warn("API error " + e.getError() + " while sending role update for user {} guild (setDiscordRoles)", userId, guildId);
 		} catch (final NamelessException e) {
 			LOGGER.warn("Website communication error while sending role update for user " + userId + " guild " + guildId + " (setDiscordRoles)", e);
 		}
