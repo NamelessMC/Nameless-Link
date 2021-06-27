@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
@@ -98,63 +99,57 @@ public class RoleChange extends HttpServlet {
 			return;
 		}
 
-		guild.retrieveMemberById(userId).queue(member -> {
-			try {
-				if (member == null) {
-					response.getWriter().write("invuser");
-					LOGGER.warn("Received bad role change request from website: invalid user id, guild id = {}, user id = {}", guildId, userId);
-					return;
-				}
+		final Member member = guild.retrieveMemberById(userId).complete();
 
-				boolean error = false;
+		if (member == null) {
+			response.getWriter().write("invuser");
+			LOGGER.warn("Received bad role change request from website: invalid user id, guild id = {}, user id = {}", guildId, userId);
+			return;
+		}
 
-				try {
-					for (final JsonElement e : roles) {
-						final JsonObject roleObject = e.getAsJsonObject();
-						final long roleId = roleObject.get("id").getAsLong();
-						final String action = roleObject.get("action").getAsString();
-						if (roleId == 0 || action == null) {
-							response.getWriter().write("badparameter");
-							LOGGER.warn("Received bad role change request from website");
-							return;
-						}
-						final Role role = guild.getRoleById(roleId);
-						if (role == null) {
-							error = true;
-							continue;
-						}
-						try {
-							if (action.equals("add")) {
-								guild.addRoleToMember(member, role).complete();
-							} else if (action.equals("remove")) {
-								guild.removeRoleFromMember(member, role).complete();
-							} else {
-								LOGGER.warn("Website sent unknown role change action '{}', it was ignored.", action);
-							}
-						} catch (final HierarchyException | InsufficientPermissionException ignored) {
-							LOGGER.warn("Cannot process role change: {}", ignored.getClass().getSimpleName());
-							error = true;
-						}
-					}
-				} catch (JsonSyntaxException | IllegalArgumentException | ClassCastException e) {
+		boolean error = false;
+
+		try {
+			for (final JsonElement e : roles) {
+				final JsonObject roleObject = e.getAsJsonObject();
+				final long roleId = roleObject.get("id").getAsLong();
+				final String action = roleObject.get("action").getAsString();
+				if (roleId == 0 || action == null) {
 					response.getWriter().write("badparameter");
-					LOGGER.warn("Received bad role change request from website", e);
+					LOGGER.warn("Received bad role change request from website");
 					return;
 				}
-
-				if (error) {
-					response.getWriter().write("partsuccess");
-					LOGGER.warn("Role change request from website processed partly successfully.");
-				} else {
-					response.getWriter().write("fullsuccess");
-					LOGGER.info("Role change request from website processed successfully.");
+				final Role role = guild.getRoleById(roleId);
+				if (role == null) {
+					error = true;
+					continue;
 				}
-			} catch (final IOException exception) {
-				// An IOException at getWriter normally indicates an internal server error.
-				response.setStatus(500);
-				LOGGER.error("IOException", exception);
+				try {
+					if (action.equals("add")) {
+						guild.addRoleToMember(member, role).complete();
+					} else if (action.equals("remove")) {
+						guild.removeRoleFromMember(member, role).complete();
+					} else {
+						LOGGER.warn("Website sent unknown role change action '{}', it was ignored.", action);
+					}
+				} catch (final HierarchyException | InsufficientPermissionException ignored) {
+					LOGGER.warn("Cannot process role change: {}", ignored.getClass().getSimpleName());
+					error = true;
+				}
 			}
-		});
+		} catch (JsonSyntaxException | IllegalArgumentException | ClassCastException e) {
+			response.getWriter().write("badparameter");
+			LOGGER.warn("Received bad role change request from website", e);
+			return;
+		}
+
+		if (error) {
+			response.getWriter().write("partsuccess");
+			LOGGER.warn("Role change request from website processed partly successfully.");
+		} else {
+			response.getWriter().write("fullsuccess");
+			LOGGER.info("Role change request from website processed successfully.");
+		}
 	}
 
 }
