@@ -68,7 +68,7 @@ public class URLCommand extends Command {
 			return;
 		}
 
-		final Guild guild = Main.getJda().getGuildById(guildId);
+		final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 
 		if (guild == null) {
 			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
@@ -112,7 +112,7 @@ public class URLCommand extends Command {
 					api.setDiscordBotUrl(Main.getBotUrl());
 					api.setDiscordGuildId(guildId);
 
-					final User botUser = Main.getJda().getSelfUser();
+					final User botUser = Main.getJdaForGuild(guildId).getSelfUser();
 					api.setDiscordBotUser(botUser.getName() + "#" + botUser.getDiscriminator(), botUser.getIdLong());
 
 					final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);

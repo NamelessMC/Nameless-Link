@@ -47,7 +47,7 @@ public class PingCommand extends Command {
 			return;
 		}
 
-		final Guild guild = Main.getJda().getGuildById(guildId);
+		final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 
 		if (guild == null) {
 			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();

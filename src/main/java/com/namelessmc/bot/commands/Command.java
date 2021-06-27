@@ -76,11 +76,14 @@ public abstract class Command {
 		final String messageContent = message.getContentRaw();
 
 		final CommandContext context = getContext(message);
-		if (!messageContent.startsWith(commandPrefix) && context != CommandContext.PRIVATE_MESSAGE) {
+
+		if (!messageContent.startsWith(commandPrefix)) {
 			if (context == CommandContext.PRIVATE_MESSAGE) {
 				sendHelp(commandPrefix, message);
+				return;
+			} else {
+				return;
 			}
-			return;
 		}
 
 		final String[] splitMessage = messageContent.replaceFirst(commandPrefix, "").split(" ");
@@ -88,7 +91,6 @@ public abstract class Command {
 		final String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
 
 		final User user = message.getAuthor();
-
 
 		final Command command = Command.getCommand(commandName, context);
 

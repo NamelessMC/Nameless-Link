@@ -40,7 +40,7 @@ public class ConnectionCleanup {
 
 				LOGGER.info("Checking {} (guild id {})", url.getHost(), guildId);
 
-				final Guild guild = Main.getJda().getGuildById(guildId);
+				final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 
 				if (guild == null) {
 					LOGGER.info("Guild does not exist. Removing connection from database.");

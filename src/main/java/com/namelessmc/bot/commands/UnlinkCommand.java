@@ -77,7 +77,7 @@ public class UnlinkCommand extends Command {
 
 		final Language language2 = Language.getDiscordUserLanguage(api, user);
 
-		final Guild guild = Main.getJda().getGuildById(guildId);
+		final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 
 		if (guild == null) {
 			message.reply(language2.get(Term.ERROR_GUILD_UNKNOWN)).queue();

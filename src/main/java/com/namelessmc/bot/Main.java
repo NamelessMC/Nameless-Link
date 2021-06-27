@@ -59,8 +59,11 @@ public class Main {
 			NamelessVersion.V2_0_0_PR_10
 	);
 
-	private static JDA jda;
-	public static JDA getJda() { return jda; }
+	private static JDA[] jda;
+	public static JDA getJda(final int shardId) { return jda[shardId]; }
+	public static JDA getJdaForGuild(final long guildId) {
+		return getJda((int) ((guildId >> 22) % getShardCount()));
+	}
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Core");
 
@@ -89,6 +92,9 @@ public class Main {
 
 	private static String defaultCommandPrefix;
 	public static String getDefaultCommandPrefix() { return defaultCommandPrefix; }
+
+	private static int shards;
+	public static int getShardCount() { return shards; }
 
 	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
 		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
@@ -148,6 +154,12 @@ public class Main {
 			System.exit(1);
 		}
 
+		if (System.getenv("SHARDS") != null) {
+			shards = Integer.parseInt(System.getenv("SHARDS"));
+		} else {
+			shards = 1;
+		}
+
 		HttpMain.init();
 
 		try {
@@ -156,19 +168,20 @@ public class Main {
 
 			final JDABuilder builder = JDABuilder.createDefault(token);
 
-			if (System.getenv("SHARDS") != null) {
-				final int shards = Integer.parseInt(System.getenv("SHARDS"));
-				LOGGER.info("Using {} shards", shards);
-				for (int i = 0; i < shards; i++) {
-					builder.useSharding(i, shards);
-				}
-			} else {
-				LOGGER.info("Not using sharding");
-			}
+
 
 			builder.addEventListeners(new GuildJoinHandler())
 					.addEventListeners(new CommandListener())
 					.addEventListeners(new DiscordRoleListener());
+
+			builder.enableIntents(
+					GatewayIntent.DIRECT_MESSAGES,
+					GatewayIntent.DIRECT_MESSAGE_TYPING,
+					GatewayIntent.DIRECT_MESSAGE_REACTIONS,
+					GatewayIntent.GUILD_MESSAGE_REACTIONS,
+					GatewayIntent.GUILD_MESSAGE_TYPING,
+					GatewayIntent.GUILD_MESSAGES
+					);
 
 			if (System.getenv("DISABLE_MEMBERS_INTENT") == null) {
 				builder.enableIntents(GatewayIntent.GUILD_MEMBERS)
@@ -176,7 +189,11 @@ public class Main {
 						.setMemberCachePolicy(MemberCachePolicy.DEFAULT);
 			}
 
-			jda = builder.build();
+			LOGGER.info("Using {} shards", shards);
+			jda = new JDA[shards];
+			for (int i = 0; i < shards; i++) {
+				jda[i] = builder.useSharding(i, shards).build();
+			}
 		} catch (final LoginException e) {
 			e.printStackTrace();
 			return;
@@ -194,7 +211,10 @@ public class Main {
 		LOGGER.info("Note: the JDA message \"Connected to WebSocket\" does not mean it is finished connecting!");
 
 		try {
-			jda.awaitStatus(Status.CONNECTED);
+			for (int i = 0; i < Main.getShardCount(); i++) {
+				Main.getJda(i).awaitStatus(Status.CONNECTED);
+				LOGGER.info("Shard {} connected", i);
+			}
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -204,9 +224,20 @@ public class Main {
 
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-		final User user = jda.getSelfUser();
-		final String username = user.getName() + "#" + user.getDiscriminator();
+		sendBotSettings(scheduler);
 
+		if (!Main.getConnectionManager().isReadOnly()) {
+			scheduler.scheduleAtFixedRate(() -> {
+				Main.getExecutorService().execute(() -> {
+					ConnectionCleanup.run();
+				});
+			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
+		}
+	}
+
+	private static void sendBotSettings(final ScheduledExecutorService scheduler) throws NamelessException, BackendStorageException {
+		final User user = Main.getJda(0).getSelfUser();
+		final String username = user.getName() + "#" + user.getDiscriminator();
 		if (Main.getConnectionManager().isReadOnly()) {
 			final NamelessAPI api = newApiConnection(connectionManager.listConnections().get(0));
 			LOGGER.info("Sending bot settings to " + api.getApiUrl());
@@ -218,7 +249,7 @@ public class Main {
 				System.exit(1);
 			}
 			api.setDiscordGuildId(guildId);
-			final Guild guild = Main.getJda().getGuildById(guildId);
+			final Guild guild = Main.getJda(0).getGuildById(guildId);
 			if (guild == null) {
 				LOGGER.error("Guild with id '{}' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
 				System.exit(1);
@@ -226,6 +257,7 @@ public class Main {
 			DiscordRoleListener.sendRoleListToWebsite(guild);
 		} else {
 			if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
+
 				scheduler.schedule(() -> {
 					try {
 						LOGGER.info("Updating bot settings..");
@@ -267,14 +299,6 @@ public class Main {
 					}
 				}, 5, TimeUnit.SECONDS);
 			}
-		}
-
-		if (!Main.getConnectionManager().isReadOnly()) {
-			scheduler.scheduleAtFixedRate(() -> {
-				Main.getExecutorService().execute(() -> {
-					ConnectionCleanup.run();
-				});
-			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
 	}
 

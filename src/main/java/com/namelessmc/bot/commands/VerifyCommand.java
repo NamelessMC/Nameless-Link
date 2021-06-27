@@ -87,7 +87,7 @@ public class VerifyCommand extends Command {
 			}
 
 			// User is now linked, trigger group sync
-			final Guild guild = Main.getJda().getGuildById(guildId);
+			final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 			if (guild == null) {
 				LOGGER.warn("Skipped sending roles for user {} in guild with id {}, guild is null", user.getId(), guildId);
 				return;

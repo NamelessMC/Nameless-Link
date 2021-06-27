@@ -91,7 +91,7 @@ public class RoleChange extends HttpServlet {
 			return;
 		}
 
-		final Guild guild = Main.getJda().getGuildById(guildId);
+		final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 		if (guild == null) {
 			response.getWriter().write("invguild");
 			LOGGER.warn("Received bad role change request from website: invalid guild id, guild id = '{}'", guildId);
