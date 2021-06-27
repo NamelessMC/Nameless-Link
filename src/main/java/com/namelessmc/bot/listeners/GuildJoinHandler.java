@@ -51,6 +51,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url
 					channel.sendMessage(language.get(Term.GUILD_JOIN_NEEDS_RENEW, "command", apiUrlCommand, "guildId", guildId)).queue();
+					Main.logConnectionError(LOGGER, "Guild join, previously stored URL doesn't work", e);
 				}
 			}
 		});

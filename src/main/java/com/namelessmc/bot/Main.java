@@ -331,4 +331,20 @@ public class Main {
 		}
 	}
 
+	private static final Set<String> IGNORED_EXCEPTIONS = Set.of(
+			"UnknownHostException",
+			"SSLHandshakeException",
+			"CertificateException"
+	);
+
+	public static void logConnectionError(final Logger logger, final String message, final NamelessException e) {
+		final String causeName = e.getCause().getClass().getSimpleName();
+
+		if (IGNORED_EXCEPTIONS.contains(causeName)) {
+			logger.warn(message + " (" + causeName + ")");
+		} else {
+			logger.warn(message, e);
+		}
+	}
+
 }

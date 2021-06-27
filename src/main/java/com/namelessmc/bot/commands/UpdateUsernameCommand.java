@@ -56,6 +56,7 @@ public class UpdateUsernameCommand extends Command {
 			try {
 				optNameless = api.getUserByDiscordId(user.getIdLong());
 			} catch (final NamelessException e) {
+				Main.logConnectionError(LOGGER, "Website connection error during get user by discord id", e);
 				message.reply(language2.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 				return;
 			}
@@ -77,6 +78,7 @@ public class UpdateUsernameCommand extends Command {
 				}
 				return;
 			} catch (final NamelessException e) {
+				Main.logConnectionError(LOGGER, "Website connection error during update discord username", e);
 				message.reply(language2.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 				return;
 			}

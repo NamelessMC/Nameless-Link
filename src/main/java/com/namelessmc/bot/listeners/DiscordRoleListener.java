@@ -145,7 +145,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			LOGGER.warn("API error " + e.getError() + " while sending role update for user {} guild {} (getUserByDiscordId)", userId, guildId);
 			return;
 		} catch (final NamelessException e) {
-			LOGGER.warn("Website communication error while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)", e);
+			Main.logConnectionError(LOGGER, "Website communication error while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)", e);
 			return;
 		}
 
@@ -160,7 +160,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 		} catch (final ApiError e) {
 			LOGGER.warn("API error " + e.getError() + " while sending role update for user {} guild (setDiscordRoles)", userId, guildId);
 		} catch (final NamelessException e) {
-			LOGGER.warn("Website communication error while sending role update for user " + userId + " guild " + guildId + " (setDiscordRoles)", e);
+			Main.logConnectionError(LOGGER, "Website communication error while sending role update for user " + userId + " guild " + guildId + " (setDiscordRoles)", e);
 		}
 	}
 }

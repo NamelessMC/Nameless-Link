@@ -82,7 +82,7 @@ public class VerifyCommand extends Command {
 				return;
 			} catch (final NamelessException e) {
 				message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
-				LOGGER.warn("Website communication error", e);
+				Main.logConnectionError(LOGGER, "Website connection error", e);
 				return;
 			}
 

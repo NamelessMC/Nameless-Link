@@ -95,6 +95,7 @@ public class PingCommand extends Command {
 					if (api.getApiUrl().toString().startsWith("http://")) {
 						message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
 					}
+					Main.logConnectionError(LOGGER, "NamelessException during ping", e);
 				}
 			});
 		});
