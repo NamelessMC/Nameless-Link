@@ -81,7 +81,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
-		LOGGER.info("[Received guild member role add event for {} in {}", event.getUser().getId(), event.getGuild().getId());
+		LOGGER.info("Received guild member role add event for {} in {}", event.getUser().getId(), event.getGuild().getId());
 		Main.getExecutorService().execute(() -> {
 			synchronized (EVENT_LOCK) {
 				sendRolesToWebsite(event.getMember());
