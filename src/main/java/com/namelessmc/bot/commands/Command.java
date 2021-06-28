@@ -108,7 +108,7 @@ public abstract class Command {
 		final Language language = Language.getDefaultLanguage();
 		final String s = language.get(Term.INVALID_COMMAND, "commands",
 				"`" + commandPrefix + String.join("`, `" + commandPrefix, registeredCommandLabels) + "`");
-		originalMessage.reply(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
+		originalMessage.replyEmbeds(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
 				.setTitle(language.get(Term.COMMANDS))
 				.addField(language.get(Term.HELP), s, false).build()).queue();
 	}
