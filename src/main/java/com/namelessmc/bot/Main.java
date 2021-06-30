@@ -3,6 +3,8 @@ package com.namelessmc.bot;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.security.cert.CertificateException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+import javax.net.ssl.SSLHandshakeException;
 import javax.security.auth.login.LoginException;
 
 import org.slf4j.Logger;
@@ -331,17 +334,15 @@ public class Main {
 		}
 	}
 
-	private static final Set<String> IGNORED_EXCEPTIONS = Set.of(
-			"UnknownHostException",
-			"SSLHandshakeException",
-			"CertificateException"
+	private static final Set<Class<?>> IGNORED_EXCEPTIONS = Set.of(
+			UnknownHostException.class,
+			SSLHandshakeException.class,
+			CertificateException.class
 	);
 
 	public static void logConnectionError(final Logger logger, final String message, final NamelessException e) {
-		final String causeName = e.getCause().getClass().getSimpleName();
-
-		if (IGNORED_EXCEPTIONS.contains(causeName)) {
-			logger.warn(message + " (" + causeName + ")");
+		if (IGNORED_EXCEPTIONS.contains(e.getCause().getClass())) {
+			logger.warn(message + " (" + e.getCause().getClass().getSimpleName() + ")");
 		} else {
 			logger.warn(message, e);
 		}
