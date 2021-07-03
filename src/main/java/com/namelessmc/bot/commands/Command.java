@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import com.namelessmc.bot.connections.BackendStorageException;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -27,9 +31,12 @@ public abstract class Command {
 	private final List<String> aliases;
 	private final CommandContext context;
 
-	private static final Map<String, Command> registeredCommands = new HashMap<>();
-	public static Map<String, Command> getRegisteredCommands() { return registeredCommands; }
-	private static final List<String> registeredCommandLabels = new ArrayList<>();
+	private static final Map<String, Command> BY_LABEL = new HashMap<>(); // For command matching
+	private static final Set<String> LABELS_AND_ALIASES = new HashSet<>(); // For duplicate checking
+
+	// For help command
+	private static final List<String> DM_COMMANDS = new ArrayList<>();
+	private static final List<String> GUILD_COMMANDS = new ArrayList<>();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Command parser");
 
@@ -39,21 +46,24 @@ public abstract class Command {
 		this.context = context;
 
 		// check for duplicate labels or aliases
-		if (registeredCommandLabels.contains(label)) {
-			throw new IllegalStateException("Command already registered. Label: " + label);
-		}
-		if (registeredCommandLabels.stream().anyMatch(aliases::contains)) {
-			throw new IllegalStateException("Command already registered. Label: " + label);
+		if (LABELS_AND_ALIASES.contains(label) ||
+				LABELS_AND_ALIASES.stream().anyMatch(aliases::contains)) {
+			throw new IllegalStateException("Command label " + label + " or one of its aliases is already registered");
 		}
 
-		// add these labels and aliases to check for duplication next time
-		registeredCommandLabels.add(label);
-		registeredCommandLabels.addAll(aliases);
+		LABELS_AND_ALIASES.add(label);
+		aliases.forEach(LABELS_AND_ALIASES::add);
 
-		// register the command and aliases
-		registeredCommands.put(label, this);
+		BY_LABEL.put(label, this);
 		for (final String alias : aliases) {
-			registeredCommands.put(alias, this);
+			BY_LABEL.put(alias, this);
+		}
+
+		if (context == CommandContext.PRIVATE_MESSAGE || context == CommandContext.BOTH) {
+			DM_COMMANDS.add(label);
+		}
+		if (context == CommandContext.GUILD_MESSAGE || context == CommandContext.BOTH) {
+			GUILD_COMMANDS.add(label);
 		}
 	}
 
@@ -92,25 +102,26 @@ public abstract class Command {
 
 		final User user = message.getAuthor();
 
-		final Command command = Command.getCommand(commandName, context);
-
-		if (command == null) {
-			sendHelp(commandPrefix, message);
-			return;
-		}
-
-		message.getChannel().sendTyping().queue();
-		LOGGER.info("User {}#{} ran command '{}'", user.getName(), user.getDiscriminator(), command.getLabel());
-		command.execute(user, args, message);
+		Command.getCommand(commandName, context).ifPresentOrElse(command -> {
+			message.getChannel().sendTyping().queue();
+			LOGGER.info("User {}#{} ran command '{}'", user.getName(), user.getDiscriminator(), command.getLabel());
+			command.execute(user, args, message);
+		}, () -> sendHelp(commandPrefix, message));
 	}
 
 	private static void sendHelp(final String commandPrefix, final Message originalMessage) {
 		final Language language = Language.getDefaultLanguage();
-		final String s = language.get(Term.INVALID_COMMAND, "commands",
-				"`" + commandPrefix + String.join("`, `" + commandPrefix, registeredCommandLabels) + "`");
-		originalMessage.replyEmbeds(Main.getEmbedBuilder().clear().setColor(Color.GREEN)
-				.setTitle(language.get(Term.COMMANDS))
-				.addField(language.get(Term.HELP), s, false).build()).queue();
+
+		final List<String> labels = getContext(originalMessage) == CommandContext.PRIVATE_MESSAGE ? DM_COMMANDS : GUILD_COMMANDS;
+
+		final String commandsContent = language.get(Term.HELP_COMMANDS_CONTENT, "commands",
+				"`" + commandPrefix + String.join("`, `" + commandPrefix, labels) + "`");
+		final MessageEmbed embed = Main.getEmbedBuilder().clear().setColor(Color.GREEN)
+				.setTitle(language.get(Term.HELP_TITLE))
+				.addField(language.get(Term.HELP_COMMANDS_TITLE), commandsContent, false)
+				.addField(language.get(Term.HELP_CONTEXT_TITLE), language.get(Term.HELP_CONTEXT_CONTENT), false)
+				.build();
+		originalMessage.replyEmbeds(embed).queue();
 	}
 
 	private static CommandContext getContext(final Message message) {
@@ -123,21 +134,13 @@ public abstract class Command {
 		}
 	}
 
-	public static Command getCommand(final String label, final CommandContext context) {
-		for (final Command command : registeredCommands.values()) {
-			if (command.getLabel().equals(label)) {
-				if (checkContext(command.getContext(), context)) {
-					return command;
-				}
-			} else {
-				if (command.getAliases().contains(label)) {
-					if (checkContext(command.getContext(), context)) {
-						return command;
-					}
-				}
-			}
+	public static Optional<Command> getCommand(final String label, final CommandContext context) {
+		final Command command = BY_LABEL.get(label);
+		if (command == null) {
+			return Optional.empty();
 		}
-		return null;
+
+		return checkContext(command.getContext(), context) ? Optional.of(command) : Optional.empty();
 	}
 
 	private static boolean checkContext(final CommandContext givenContext, final CommandContext receivedContext) {

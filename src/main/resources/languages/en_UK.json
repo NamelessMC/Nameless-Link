@@ -1,6 +1,9 @@
-{
-    "commands": "Commands",
-    "help": "Help",
+{    
+    "help_title": "Help",
+    "help_commands_title": "Commands",
+    "help_commands_content": "Invalid command. Valid commands: {commands}.",
+    "help_context_title": "Context",
+    "help_context_content": "Some commands are only available in DMs, while others are only available in servers.",
 
     "error_generic": "An internal error occured.",
     "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet.",
@@ -11,8 +14,6 @@
     "error_read_only_storage": "This bot instance is configured without a database. If you wish to modify its configuration you must do it manually (by modifying environment variables) instead of through commands.",
     "error_guild_id_invalid": "The provided Discord server ID is invalid.",
     "error_guild_unknown": "The provided server does not exist or the bot is not a member of the server.",
-
-    "invalid_command": "Invalid command. Valid commands: {commands}.",
 
     "verify_usage": "Usage: `{command} <token>`.",
     "verify_token_invalid": "Failed to verify your account, you have provided an invalid token.",

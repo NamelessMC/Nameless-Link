@@ -27,8 +27,11 @@ public class Language {
 
 	public enum Term {
 
-		COMMANDS,
-		HELP,
+		HELP_TITLE,
+		HELP_COMMANDS_TITLE,
+		HELP_COMMANDS_CONTENT("commands"),
+		HELP_CONTEXT_TITLE,
+		HELP_CONTEXT_CONTENT,
 
 		ERROR_GENERIC,
 		ERROR_NOT_SET_UP,
@@ -39,8 +42,6 @@ public class Language {
 		ERROR_READ_ONLY_STORAGE,
 		ERROR_GUILD_ID_INVALID,
 		ERROR_GUILD_UNKNOWN,
-
-		INVALID_COMMAND("commands"),
 
 		VERIFY_USAGE("command"),
 		VERIFY_TOKEN_INVALID,
