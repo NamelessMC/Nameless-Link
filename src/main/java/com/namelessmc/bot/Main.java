@@ -113,8 +113,13 @@ public class Main {
 			System.exit(1);
 		}
 
-		final String webserverPortStr = Objects.requireNonNull(System.getenv("WEBSERVER_PORT"),
-				"Environment variable WEBSERVER_PORT not specified");
+
+		String webserverPortStr = System.getenv("WEBSERVER_PORT");
+		if (webserverPortStr == null) {
+			webserverPortStr = System.getenv("SERVER_PORT"); // Variable name as set by Pterodactyl panel
+		}
+
+		Objects.requireNonNull(webserverPortStr, "Environment variable WEBSERVER_PORT or SERVER_PORT not specified");
 
 		try {
 			webserverPort = Integer.parseInt(webserverPortStr);
