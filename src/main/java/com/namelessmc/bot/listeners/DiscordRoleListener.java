@@ -105,12 +105,12 @@ public class DiscordRoleListener extends ListenerAdapter {
 		final long guildId = member.getGuild().getIdLong();
 		final long userId = discordUser.getIdLong();
 
-		LOGGER.info("Processing role change guildid={} userid={}", guildId, userId);
-
 		if (discordUser.isBot()) {
-			LOGGER.info("Skipping, user is a bot.");
+			LOGGER.info("Skipping role change in guild {}, user {} is a bot.", guildId, userId);
 			return;
 		}
+
+		LOGGER.info("Processing role change guildid={} userid={}", guildId, userId);
 
 		if (temporarilyDisabledEvents.containsKey(userId)) {
 			final long diff = System.currentTimeMillis() - temporarilyDisabledEvents.get(userId);
