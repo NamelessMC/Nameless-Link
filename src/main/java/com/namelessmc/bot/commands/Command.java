@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 public abstract class Command {
 
@@ -106,7 +107,13 @@ public abstract class Command {
 			message.getChannel().sendTyping().queue();
 			LOGGER.info("User {}#{} ran command '{}'", user.getName(), user.getDiscriminator(), command.getLabel());
 			command.execute(user, args, message);
-		}, () -> sendHelp(commandPrefix, message));
+		}, () -> {
+			try {
+				sendHelp(commandPrefix, message);
+			} catch (final InsufficientPermissionException e) {
+				LOGGER.warn("Couldn't send help message to {}#{}, insufficient permissions", user.getName(), user.getDiscriminator());
+			}
+		});
 	}
 
 	private static void sendHelp(final String commandPrefix, final Message originalMessage) {
