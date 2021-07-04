@@ -1,0 +1,98 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2021-07-04T12:34:25+02:00",
+    "name": "Nameless Link Egg",
+    "author": "robin@derkad.es",
+    "description": "The official Pterodactyl egg for the NamelessMC Discord bot (\"Nameless-Link\").",
+    "features": null,
+    "images": [
+        "namelessmc\/discord-link:1.0",
+        "namelessmc\/discord-link:1.1",
+        "namelessmc\/discord-link:1.2",
+        "namelessmc\/discord-link:2.0"
+    ],
+    "file_denylist": [],
+    "startup": "java -Xmx{{MEMORY}}M -jar {{JARFILE}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"[main] INFO Core - JDA connected!\"\r\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": null,
+            "container": "debian:buster-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Discord token",
+            "description": "",
+            "env_variable": "DISCORD_TOKEN",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:100"
+        },
+        {
+            "name": "Website API URL",
+            "description": "",
+            "env_variable": "API_URL",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:100"
+        },
+        {
+            "name": "Bot URL",
+            "description": "",
+            "env_variable": "BOT_URL",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:100"
+        },
+        {
+            "name": "Discord Guild ID",
+            "description": "",
+            "env_variable": "GUILD_ID",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Default Command Prefix",
+            "description": "",
+            "env_variable": "DEFAULT_COMMAND_PREFIX",
+            "default_value": "!",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Default Language",
+            "description": "",
+            "env_variable": "DEFAULT_LANGUAGE",
+            "default_value": "en_UK",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Memory",
+            "description": "",
+            "env_variable": "MEMORY",
+            "default_value": "128",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|integer"
+        }
+    ]
+}
