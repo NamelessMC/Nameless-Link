@@ -11,7 +11,7 @@
     "error_not_linked": "אינך יכול להשתמש בפקודה זו מכיוון שחשבונך עדיין לא מקושר. אנא היכנס להגדרות החשבון באתר כדי לקשר את חשבון ה- Discord שלך.",
     "error_website_connection": "לא ניתן היה להתחבר לאתר.",
     "error_no_permission": "עליך להשתמש באישור 'מנהל' בשרת Discord היעד כדי להשתמש בפקודה זו.",
-    "error_read_only_storage": "מופע בוט זה מוגדר עם אחסון לקריאה בלבד. אם ברצונך לשנות את תצורתו עליך לעשות זאת באופן ידני במקום באמצעות פקודות.",
+    "error_read_only_storage": "מופע בוט זה מוגדר עם אחסון לקריאה בלבד של מסד נתונים. אם ברצונך לשנות את תצורתו עליך לעשות זאת באופן ידני (על ידי שינוי משתני סביבה) במקום באמצעות פקודות.",
     "error_guild_id_invalid": "מזהה שרת Discord שסופק אינו חוקי.",
     "error_guild_unknown": "השרת המסופק אינו קיים או שהבוט אינו חבר בשרת.",
     "invalid_command": "פקודה שגויה. פקודה נכונה: {commands}.",
@@ -33,5 +33,11 @@
     "unlink_usage": "שימוש: `{command} <server id>`.",
     "unlink_guild_not_linked": "השרת שסופק אינו מקושר.",
     "prefix_success": "הקידומת שונתה ל- '{newPrefix}'.",
-    "error_website_version": "האתר שלך פועל בגרסת NamelessMC לא תואמת. אתה משתמש בגרסה {version}, בעוד שהבוט תואם לגרסאות הבאות: {compatibleVersions}."
+    "error_website_version": "האתר שלך פועל בגרסת NamelessMC לא תואמת. אתה משתמש בגרסה {version}, בעוד שהבוט תואם לגרסאות הבאות: {compatibleVersions}.",
+    "help_title": "עזרה",
+    "help_commands_title": "פקודות",
+    "help_commands_content": "פקודה שגויה. פקודות תקפות: {commands}.",
+    "help_context_title": "הקשר",
+    "help_context_content": "פקודות מסוימות זמינות רק ב- DM, בעוד שאחרות זמינות רק בשרתים.",
+    "unlink_not_linked": "חשבונך אינו מקושר."
 }
