@@ -27,12 +27,17 @@
     "apiurl_try_https": "A sua URL da API usa http://. Se você estiver usando um proxy para HTTPS, o site ainda exibirá URLs de API HTTP. Tente executar este comando novamente, substituindo http:// para https:// na URL da API.",
     "unused_connection": "Olá, você vinculou seu servidor do Discord '{discordServerName}' no NamelessMC usando este bot. Parece que a conexão do site não é usada há algum tempo, você pode remover esse servidor do Discord do bot usando `{command}`.",
     "guild_join_needs_renew": "Olá! Obrigado por usar o NamelessMC Bot. Parece que você já configurou o URL da API, mas ele não está mais funcional. Defina um novo usando `{command} {guildId} <url da api>`. O URL da API pode ser encontrado em `StaffCP > Configuração > API`.",
-    "error_read_only_storage": "Esta instância do bot está configurada como armazenamento de somente leitura. Se você quiser modificar essa configuração, você deverá fazê-la manualmente em vez de utilizar os comandos.",
+    "error_read_only_storage": "Esta instância do bot é configurada sem um banco de dados. Se você deseja modificar sua configuração, deverá fazê-lo manualmente (modificando as variáveis de ambiente) em vez de por meio de comandos.",
     "ping_working": "A conexão do site da API parece estar funcionando. Demorou {time}ms.",
     "unlink_usage": "Uso correto: `{command} <id do servidor>`.",
     "prefix_success": "O prefixo foi modificado para `{newPrefix}`.",
     "prefix_usage": "Uso correto: `{command} <id do servidor> <novo prefixo>`. Utilize `reset` para usar o prefixo padrão.",
     "guild_join_welcome_back": "Olá! Obrigado por usar o NamelessMC Bot. O bot já está configurado para o seu servidor do Discord. Se você desejar usar um URL de API diferente, você pode alterá-lo usando `{command} {guildId} <url da api>`.",
     "error_website_version": "O seu site está executando uma versão incompatível do NamelessMC. Você está usando a versão {version}, enquanto o bot é compatível com as seguintes versões: {compatibleVersions}.",
-    "unlink_not_linked": "A sua conta não está vinculada."
+    "unlink_not_linked": "A sua conta não está vinculada.",
+    "help_title": "Ajuda",
+    "help_commands_title": "Comandos",
+    "help_commands_content": "Comando inválido. Comandos válidos: {commands}.",
+    "help_context_title": "Contexto",
+    "help_context_content": "Alguns comandos estão disponíveis apenas nas DMs, enquanto outros estão disponíveis apenas em servidores."
 }
