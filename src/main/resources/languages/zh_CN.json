@@ -41,5 +41,10 @@
     "prefix_usage": "用法: `{command} <服务器 ID> <新前缀>`。输入 `reset` 来使用默认前缀。",
     "prefix_success": "前缀已被修改为 `{newPrefix}`。",
     "error_website_version": "您的网站正在运行不受机器人兼容的 NamelessMC 版本。 您正在使用版本 {version}，而机器人只和下列版本兼容: {compatibleVersions}。",
-    "unlink_not_linked": "您的账号尚未被链接。"
+    "unlink_not_linked": "您的账号尚未被链接。",
+    "help_title": "帮助",
+    "help_commands_title": "指令",
+    "help_commands_content": "无效指令。有效指令: {commands}。",
+    "help_context_title": "可用区域",
+    "help_context_content": "一些指令只能在私信中使用，一些只能在服务器中使用。"
 }
