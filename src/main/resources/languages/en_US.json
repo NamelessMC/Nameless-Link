@@ -26,7 +26,7 @@
     "apiurl_usage": "Usage: `{command} <server id> <api url>`.",
     "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
     "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet.",
-    "error_read_only_storage": "This bot instance is configured with read-only storage. If you wish to modify its configuration you must do it manually instead of through commands.",
+    "error_read_only_storage": "This bot instance is configured without a database. If you wish to modify its configuration you must do it manually (by modifying environment variables) instead of through commands.",
     "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API.",
     "error_guild_id_invalid": "The provided Discord server ID is invalid.",
     "unlink_guild_not_linked": "The provided server is not linked.",
@@ -42,5 +42,10 @@
     "prefix_usage": "Usage: `{command} <server id> <new prefix>`. Use `reset` to use the default prefix.",
     "prefix_success": "The prefix has been modified to `{newPrefix}`.",
     "error_website_version": "Your website runs an incompatible NamelessMC version. You are using version {version}, while the bot is compatible with the following versions: {compatibleVersions}.",
-    "unlink_not_linked": "Your account is not linked."
+    "unlink_not_linked": "Your account is not linked.",
+    "help_title": "Help",
+    "help_commands_title": "Commands",
+    "help_commands_content": "Invalid command. Valid commands: {commands}.",
+    "help_context_title": "Context",
+    "help_context_content": "Some commands are only available in DMs, while others are only available in servers."
 }
