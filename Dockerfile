@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk16-openj9:alpine-jre
+FROM adoptopenjdk:16-jre
 
 ARG LINK_VERSION=""
 COPY target/Nameless-Link-${LINK_VERSION}.jar /app.jar
