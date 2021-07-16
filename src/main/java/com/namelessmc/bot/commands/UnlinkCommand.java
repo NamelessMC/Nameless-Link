@@ -50,7 +50,6 @@ public class UnlinkCommand extends Command {
 			message.reply(language.get(Term.UNLINK_USAGE, "command", getPrefix(message) + "unlink")).queue();
 			return;
 		} else {
-
 			try {
 				guildId = Long.parseLong(args[0]);
 			} catch (final NumberFormatException e) {
