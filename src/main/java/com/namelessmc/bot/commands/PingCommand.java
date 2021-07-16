@@ -83,7 +83,7 @@ public class PingCommand extends Command {
 					final Website info = api.getWebsite();
 					if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
 						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions));
+						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 						return;
 					}
 					final long time = System.currentTimeMillis() - start;

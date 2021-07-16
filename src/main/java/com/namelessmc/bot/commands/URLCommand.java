@@ -89,7 +89,7 @@ public class URLCommand extends Command {
 					final Website info = api.getWebsite();
 					if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
 						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions));
+						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 						return;
 					}
 				} catch (final NamelessException e) {
@@ -109,7 +109,6 @@ public class URLCommand extends Command {
 						message.reply(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
 						return;
 					}
-
 					api.setDiscordBotUrl(Main.getBotUrl());
 					api.setDiscordGuildId(guildId);
 
@@ -123,7 +122,7 @@ public class URLCommand extends Command {
 						Main.getConnectionManager().newConnection(guildId, apiUrl);
 						message.reply(language.get(Term.APIURL_SUCCESS_NEW)).queue();
 					} else {
-						// User is modifying API url for existing connection
+						// User is modifying API URL for existing connection
 						Main.getConnectionManager().updateConnection(guildId, apiUrl);
 						message.reply(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
 					}
