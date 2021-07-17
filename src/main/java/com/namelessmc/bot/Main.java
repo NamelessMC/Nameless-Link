@@ -99,7 +99,7 @@ public class Main {
 	public static int getShardCount() { return shards; }
 
 	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
-		System.out.println("Starting Nameless Link version " + Main.class.getPackage().getImplementationVersion());
+		LOGGER.info("Starting Nameless Link version {}", Main.class.getPackage().getImplementationVersion());
 
 		initializeConnectionManager();
 
@@ -113,19 +113,17 @@ public class Main {
 			System.exit(1);
 		}
 
-
-		String webserverPortStr = System.getenv("WEBSERVER_PORT");
-		if (webserverPortStr == null) {
-			webserverPortStr = System.getenv("SERVER_PORT"); // Variable name as set by Pterodactyl panel
-		}
-
-		Objects.requireNonNull(webserverPortStr, "Environment variable WEBSERVER_PORT or SERVER_PORT not specified");
-
-		try {
-			webserverPort = Integer.parseInt(webserverPortStr);
-		} catch (final NumberFormatException e) {
-			System.err.println("Environment variable WEBSERVER_PORT is not a valid number");
-			System.exit(1);
+		if (System.getenv("SERVER_PORT") != null) {
+			LOGGER.info("Environment variable SERVER_PORT is set (by Pterodactyl Panel). Using that instead of WEBSERVER_PORT.");
+			webserverPort = Integer.parseInt(System.getenv("SERVER_PORT"));
+		} else {
+			final String webserverPortStr = Objects.requireNonNull(System.getenv("WEBSERVER_PORT"), "Environment variable WEBSERVER_PORT or SERVER_PORT not specified");
+			try {
+				webserverPort = Integer.parseInt(webserverPortStr);
+			} catch (final NumberFormatException e) {
+				System.err.println("Environment variable WEBSERVER_PORT is not a valid number");
+				System.exit(1);
+			}
 		}
 
 		String defaultLang = System.getenv("DEFAULT_LANGUAGE");
