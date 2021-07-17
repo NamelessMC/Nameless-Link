@@ -34,5 +34,10 @@
     "guild_join_needs_renew": "¡Hola! Gracias por usar el Bot de NamelessMC. Parece que ya has configurado la URL de tu API, pero ya no es funcional. Por favor, establece una nueva usando `{command} {guildId} <api url>`. La URL de la API se puede encontrar en `StaffCP > Configuración > API`.",
     "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`.",
     "error_website_version": "Su sitio web ejecuta una versión de NamelessMC incompatible. Estás usando la versión {version}, mientras que el bot es compatible con las siguientes versiones: {compatibleVersions}.",
-    "unlink_not_linked": "Tu cuenta no está vinculada."
+    "unlink_not_linked": "Tu cuenta no está vinculada.",
+    "help_title": "Ayuda",
+    "help_commands_title": "Comandos",
+    "help_commands_content": "Comando inválido. Comandos válidos:",
+    "help_context_title": "Contexto",
+    "help_context_content": "Algunos comandos sólo están disponibles en los MD, mientras que otros sólo están disponibles en los servidores."
 }
