@@ -35,7 +35,7 @@
     "prefix_success": "Префикс был изменён на `{newPrefix}`.",
     "prefix_usage": "Применение:`{command} <server id> <новый префикс>`. Используйте команду`reset` для использования стандартного префикса.",
     "error_website_version": "Ваш сайт использует неподдерживаемую версию NamelessMC. У вас стоит версия {version}, хотя бот совместим только с этими версиями: {compatibleVersions}.",
-    "unlink_not_linked": "Ваш аккаунт не подключён.",
+    "unlink_not_linked": "Предоставленный Discord сервер не подключён к боту.",
     "help_commands_title": "Команды",
     "help_context_content": "Некоторые команды пишутся только в ЛС, а некоторые только на сервере.",
     "help_title": "Помощь",
