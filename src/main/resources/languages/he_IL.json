@@ -33,11 +33,11 @@
     "unlink_usage": "שימוש: `{command} <server id>`.",
     "unlink_guild_not_linked": "השרת שסופק אינו מקושר.",
     "prefix_success": "הקידומת שונתה ל- '{newPrefix}'.",
-    "error_website_version": "האתר שלך פועל בגרסת NamelessMC לא תואמת. אתה משתמש בגרסה {version}, בעוד שהבוט תואם לגרסאות הבאות: {compatibleVersions}.",
+    "error_website_version": "האתר שלך פועלת גרסת NamelessMC לא תואמת. אתה משתמש בגרסה {version}, בעוד שהבוט תואם לגרסאות הבאות: {compatibleVersions}.",
     "help_title": "עזרה",
     "help_commands_title": "פקודות",
     "help_commands_content": "פקודה שגויה. פקודות תקפות: {commands}.",
     "help_context_title": "הקשר",
     "help_context_content": "פקודות מסוימות זמינות רק ב- DM, בעוד שאחרות זמינות רק בשרתים.",
-    "unlink_not_linked": "חשבונך אינו מקושר."
+    "unlink_not_linked": "שרת ה- Discord שסופק אינו מוגדר עם הבוט הזה."
 }
