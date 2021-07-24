@@ -91,6 +91,15 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:20"
+        },
+        {
+            "name": "Webserver Bind",
+            "description": "This should typically stay as 0.0.0.0, so that the bot can bind to whatever address it's assigned to.",
+            "env_variable": "WEBSERVER_BIND",
+            "default_value": "0.0.0.0",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string"
         }
     ]
 }
