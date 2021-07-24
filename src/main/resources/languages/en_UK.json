@@ -5,7 +5,7 @@
     "help_context_title": "Context",
     "help_context_content": "Some commands are only available in DMs, while others are only available in servers.",
 
-    "error_generic": "An internal error occured.",
+    "error_generic": "An internal error occurred.",
     "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet.",
     "error_not_linked": "You cannot use this command because your account is not linked yet. Please go to account settings on the website to link your Discord account.",
     "error_website_connection": "Could not connect to the website.",
