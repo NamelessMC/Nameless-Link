@@ -34,7 +34,7 @@
     "prefix_usage": "Uso correto: `{command} <id do servidor> <novo prefixo>`. Utilize `reset` para usar o prefixo padrão.",
     "guild_join_welcome_back": "Olá! Obrigado por usar o NamelessMC Bot. O bot já está configurado para o seu servidor do Discord. Se você desejar usar um URL de API diferente, você pode alterá-lo usando `{command} {guildId} <url da api>`.",
     "error_website_version": "O seu site está executando uma versão incompatível do NamelessMC. Você está usando a versão {version}, enquanto o bot é compatível com as seguintes versões: {compatibleVersions}.",
-    "unlink_not_linked": "A sua conta não está vinculada.",
+    "unlink_not_linked": "O servidor do Discord fornecido não está configurado com este bot.",
     "help_title": "Ajuda",
     "help_commands_title": "Comandos",
     "help_commands_content": "Comando inválido. Comandos válidos: {commands}.",
