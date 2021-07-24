@@ -10,8 +10,8 @@
     "description": "The official Pterodactyl egg for the NamelessMC Discord bot (\"Nameless-Link\").",
     "features": null,
     "images": [
-        "namelessmc\/discord-link:1.2",
-        "namelessmc\/discord-link:2.0"
+        "namelessmc\/discord-link:2.0",
+        "namelessmc\/discord-link:1.2"
     ],
     "file_denylist": [],
     "startup": "java -Xmx{{SERVER_MEMORY}}M -jar {{JARFILE}}",
