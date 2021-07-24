@@ -14,7 +14,7 @@
         "namelessmc\/discord-link:2.0"
     ],
     "file_denylist": [],
-    "startup": "java -Xmx{{MEMORY}}M -jar {{JARFILE}}",
+    "startup": "java -Xmx{{SERVER_MEMORY}}M -jar {{JARFILE}}",
     "config": {
         "files": "{}",
         "startup": "{\r\n    \"done\": \"[main] INFO Core - JDA connected!\"\r\n}",
@@ -82,15 +82,6 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:20"
-        },
-        {
-            "name": "Memory",
-            "description": "",
-            "env_variable": "MEMORY",
-            "default_value": "128",
-            "user_viewable": true,
-            "user_editable": false,
-            "rules": "required|integer"
         }
     ]
 }
