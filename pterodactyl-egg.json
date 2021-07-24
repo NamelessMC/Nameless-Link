@@ -30,6 +30,15 @@
     },
     "variables": [
         {
+            "name": "Jar file",
+            "description": "",
+            "env_variable": "JARFILE",
+            "default_value": "Nameless-Link-2.0.jar",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
             "name": "Discord token",
             "description": "",
             "env_variable": "DISCORD_TOKEN",
