@@ -33,7 +33,7 @@
     "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`.",
     "unlink_usage": "Uso: `{command} <id del servidor>`.",
     "error_guild_invalid": "El servidor proporcionado no existe o no está vinculado.",
-    "error_read_only_storage": "Esta instancia del bot está configurada sin una base de datos. Si desea modificar su configuración debe hacerlo manualmente (modificando variables de entorno) en vez de con comandos.",
+    "error_read_only_storage": "Esta instancia del bot está configurada sin base de datos. Si desea modificar su configuración debe hacerlo manualmente (utilizando variables de entorno) en vez de con comandos.",
     "apiurl_url_invalid": "La URL de la API proporcionada no se parece a la URL de la API de NamelessMC. Puedes encontrar la URL de la API en StaffCP > Configuración > API.",
     "error_guild_id_invalid": "La identificación del servidor de Discord proporcionada es inválida.",
     "unlink_guild_not_linked": "El servidor proporcionado no está vinculado.",
