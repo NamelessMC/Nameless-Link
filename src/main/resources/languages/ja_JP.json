@@ -35,5 +35,10 @@
     "error_guild_unknown": "サーバーが存在しないか、ボットがサーバーのメンバーではありません。",
     "prefix_success": "プレフィックスは`{newPrefix}`に変更されました。",
     "error_website_version": "あなたのウェブサイトでは、互換性のないNamelessMCのバージョンが実行されています。あなたはバージョン{version}を使用していますが、ボットは次のバージョンと互換性があります: {compatibleVersions}",
-    "unlink_not_linked": "あなたのアカウントはリンクされていません。"
+    "unlink_not_linked": "このボットでは、提供されているDiscordサーバーが設定されていません。",
+    "help_title": "ヘルプ",
+    "help_commands_title": "コマンド",
+    "help_commands_content": "無効なコマンドです。有効なコマンド: {commands}",
+    "help_context_title": "コンテキスト",
+    "help_context_content": "DMでしか使えないコマンドもあれば、サーバーでしか使えないコマンドもあります。"
 }
