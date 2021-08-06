@@ -92,12 +92,13 @@ public class VerifyCommand extends Command {
 				LOGGER.warn("Skipped sending roles for user {} in guild with id {}, guild is null", user.getId(), guildId);
 				return;
 			}
-			final Member member = guild.getMember(message.getAuthor());
-			if (member == null) {
-				LOGGER.warn("Skipped sending roles for user {} in guild {}, member is null", user.getId(), guildId);
-				return;
-			}
-			DiscordRoleListener.sendRolesToWebsite(member);
+			guild.retrieveMember(user).queue(member -> {
+				if (member == null) {
+					LOGGER.warn("Skipped sending roles for user {} in guild {}, member is null. Is this user not member of the guild?", user.getId(), guildId);
+					return;
+				}
+				DiscordRoleListener.sendRolesToWebsite(member);
+			});
 		});
 	}
 }
