@@ -190,8 +190,7 @@ public class Main {
 
 			if (System.getenv("DISABLE_MEMBERS_INTENT") == null) {
 				builder.enableIntents(GatewayIntent.GUILD_MEMBERS)
-						.setMemberCachePolicy(MemberCachePolicy.ALL)
-						.setMemberCachePolicy(MemberCachePolicy.DEFAULT);
+						.setMemberCachePolicy(MemberCachePolicy.ALL);
 			}
 
 			LOGGER.info("Using {} shards", shards);
