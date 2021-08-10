@@ -307,7 +307,14 @@ public class Main {
 	}
 
 	public static void canModifySettings(final User user, final Guild guild, final Consumer<Boolean> canModifySettings) {
-		guild.retrieveMember(user).queue((member) -> canModifySettings.accept(member.hasPermission(Permission.ADMINISTRATOR)));
+		guild.retrieveMember(user).queue(
+				// success
+				member -> canModifySettings.accept(member.hasPermission(Permission.ADMINISTRATOR)),
+				// failure
+				t -> {
+					LOGGER.warn("Error while retrieving member in canModifySettings, assuming user {} is not allowed to modify settings.", user.getId());
+					canModifySettings.accept(false);
+				});
 	}
 
 	private static void initializeConnectionManager() {
