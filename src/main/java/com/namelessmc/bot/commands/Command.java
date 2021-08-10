@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,7 +98,7 @@ public abstract class Command {
 			}
 		}
 
-		final String[] splitMessage = messageContent.replaceFirst(commandPrefix, "").split(" ");
+		final String[] splitMessage = StringUtils.replaceOnce(messageContent, commandPrefix, "").split(" ");
 		final String commandName = splitMessage[0];
 		final String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
 
