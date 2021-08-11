@@ -9,6 +9,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -42,6 +43,8 @@ import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
+import com.namelessmc.java_api.logger.ApiLogger;
+import com.namelessmc.java_api.logger.Slf4jLogger;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -90,7 +93,7 @@ public class Main {
 	private static int webserverPort;
 	public static int getWebserverPort() { return webserverPort; }
 
-	private static boolean apiDebug;
+	private static Optional<ApiLogger> apiDebugLogger;
 
 	private static String defaultCommandPrefix;
 	public static String getDefaultCommandPrefix() { return defaultCommandPrefix; }
@@ -132,10 +135,10 @@ public class Main {
 			defaultLang = DEFAULT_LANGUAGE_CODE;
 		}
 
-		if (System.getenv("API_DEBUG") != null) {
-			apiDebug = Boolean.parseBoolean(System.getenv("API_DEBUG"));
+		if (System.getenv("API_DEBUG") != null && Boolean.parseBoolean(System.getenv("API_DEBUG"))) {
+			apiDebugLogger = Optional.of(Slf4jLogger.DEFAULT_INSTANCE);
 		} else {
-			apiDebug = false;
+			apiDebugLogger = Optional.empty();
 		}
 
 		if (System.getenv("WEBSERVER_BIND") != null) {
@@ -338,7 +341,7 @@ public class Main {
 
 	public static NamelessAPI newApiConnection(final URL url) {
 		synchronized (API_CACHE) {
-			API_CACHE.computeIfAbsent(url, x -> NamelessAPI.builder().apiUrl(url).userAgent(USER_AGENT).debug(apiDebug).build());
+			API_CACHE.computeIfAbsent(url, x -> NamelessAPI.builder().apiUrl(url).userAgent(USER_AGENT).withCustomDebugLogger(apiDebugLogger).build());
 			return API_CACHE.get(url);
 		}
 	}
