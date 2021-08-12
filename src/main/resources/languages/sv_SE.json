@@ -3,9 +3,9 @@
     "help_commands_title": "Kommandon",
     "help_commands_content": "Ogiltigt kommando. Giltiga kommandon: {commands}.",
     "help_context_title": "Kontext",
-    "help_context_content": "Vissa kommandon är bara tillgängliga i  DMs,  medan andra bara är tillgängliga i servers.",
+    "help_context_content": "Vissa kommandon är bara tillgängliga i DMs, medan andra bara är tillgängliga i servers.",
 
-    "error_generic": "Ett internt  fel uppstod.",
+    "error_generic": "Ett internt fel uppstod.",
     "error_not_set_up": "Du kan för tillfället inte använda detta kommandot, botten är inte konfigurerad än.",
     "error_not_linked": "Du kan inte använda det här kommandot eftersom ditt konto inte är länkat ännu. Gå till kontoinställningarna på webbplatsen för att länka ditt Discord-konto.",
     "error_website_connection": "Kunde inte ansluta till webbplatsen.",
@@ -29,8 +29,8 @@
     "apiurl_url_malformed": "Den angivna API-URL: en är felaktig.",
     "apiurl_failed_connection": "Det gick inte att ansluta till din webbplats. Se meddelandet ovan för mer information.",
     "apiurl_already_used": "Denna API-URL används redan av en Discord-server, använd `{command}` för att ta bort länken.",
-    "apiurl_try_https": "Din API-URL använder http: //. Om du använder en proxy för HTTPS visar webbplatsen fortfarande HTTP API-URL: er. Försök att köra det här kommandot igen och ersätt http: // med https: // i API-URL: n.",
-    "apiurl_success_updated": "API-URL: n har ändrats.",
+    "apiurl_try_https": "Din API-URL använder http://. Om du använder en proxy för HTTPS visar webbplatsen fortfarande HTTP API-URL: er. Försök att köra det här kommandot igen och ersätt http: // med https: // i API-URL: n.",
+    "apiurl_success_updated": "API-URL:n har ändrats.",
     "apiurl_success_new": "API-URL Konfigurerad",
 
     "guild_join_success": "Hej! Tack för att du använder NamelessMC Bot. För att komma igång, svara med `{command} {guildId} <api url>`. API-URL: en finns i `StaffKP > Konfiguration > API`.",
