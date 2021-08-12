@@ -25,7 +25,7 @@
 
     "apiurl_usage": "Användning: `{command} <server id> <api url>`.",
     "apiurl_success": "Din Discord-server har länkats till din NamelessMC-webbplats.",
-    "apiurl_url_invalid": "Den angivna API-URL: en ser inte ut som en NamelessMC API URL. Du hittar API-URL: en i StaffKP> Konfiguration> API.",
+    "apiurl_url_invalid": "Den angivna API-URL: en ser inte ut som en NamelessMC API URL. Du hittar API-URL: en i StaffKP > Konfiguration > API.",
     "apiurl_url_malformed": "Den angivna API-URL: en är felaktig.",
     "apiurl_failed_connection": "Det gick inte att ansluta till din webbplats. Se meddelandet ovan för mer information.",
     "apiurl_already_used": "Denna API-URL används redan av en Discord-server, använd `{command}` för att ta bort länken.",
