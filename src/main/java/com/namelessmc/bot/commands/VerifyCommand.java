@@ -96,7 +96,7 @@ public class VerifyCommand extends Command {
 					LOGGER.warn("Skipped sending roles for user {} in guild {}, member is null. Is this user not member of the guild?", user.getId(), guildId);
 					return;
 				}
-				DiscordRoleListener.sendRolesToWebsite(member);
+				DiscordRoleListener.queueRoleUpdate(user.getIdLong(), guildId);
 			});
 		});
 	}

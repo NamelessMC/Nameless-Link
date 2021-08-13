@@ -240,6 +240,8 @@ public class Main {
 				});
 			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
+		
+		scheduler.scheduleAtFixedRate(DiscordRoleListener::processQueue, 5, 2, TimeUnit.SECONDS);
 	}
 
 	private static void sendBotSettings(final ScheduledExecutorService scheduler) throws NamelessException, BackendStorageException {
