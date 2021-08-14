@@ -23,9 +23,21 @@
     "unlink_usage": "Kullanım: `{command} <server id>`.",
     "unlink_guild_not_linked": "Yazdığınız sunucu bağlı değil.",
     "error_guild_unknown": "Sağlanan sunucu mevcut değil veya bot, sunucunun bir üyesi değil.",
-    "apiurl_failed_connection": "Web sitenize bağlanılamadı. Bu, sağlanan API URL'sinin geçersiz olduğu veya bir proxy tarafından engellendiğimiz anlamına gelir (ör. Cloudflare).",
+    "apiurl_failed_connection": "Web sitenize bağlanılamadı. Ayrıntılar için lütfen yukarıdaki mesaja bakın.",
     "guild_join_success": "Merhaba! NamelessMC Botunu kullandığınız için teşekkür ederiz. Başlamak için, `{command} {guildId} <api url>` Yazın. API URL'si `StaffCP > Configuration > API` bölümünde bulunur.",
     "guild_join_needs_renew": "Merhaba! NamelessMC Botunu kullandığınız için teşekkür ederiz. Görünüşe göre API URL'nizi zaten ayarlamışsınız, ancak artık işlevsel değil. Lütfen `{command} {guildId} <api url>` kullanarak yeni bir tane ayarlayın. API URL'si `StaffCP > Configuration > API` bölümünde bulunur.",
     "guild_join_welcome_back": "Merhaba! NamelessMC Botunu kullandığınız için teşekkür ederiz. Bot, Discord sunucunuz için zaten ayarlanmış. Farklı bir API URL'si kullanmak isterseniz, bunu `{command} {guildId} <api url>` kullanarak değiştirebilirsiniz.",
-    "unused_connection": "Merhaba, Discord sunucunuzu '{discordServerName}' bu botu kullanarak NamelessMC'ye bağladınız. Görünüşe göre web sitesi bağlantısı bir süredir kullanılmamış, Discord sunucunuzu bu bottan kaldırmak istiyorsanız `{command}` çalıştırın."
+    "unused_connection": "Merhaba, Discord sunucunuzu '{discordServerName}' bu botu kullanarak NamelessMC'ye bağladınız. Görünüşe göre web sitesi bağlantısı bir süredir kullanılmamış, Discord sunucunuzu bu bottan kaldırmak istiyorsanız `{command}` çalıştırın.",
+    "ping_working": "API web sitesi bağlantısı çalışıyor gibi görünüyor. {time} ms sürdü.",
+    "ping_usage": "Kullanım: `{command} <discord sunucu ID>`",
+    "error_website_version": "Web siteniz uyumsuz bir NamelessMC sürümü çalıştırıyor. Bot şu sürüm(ler)le uyumluyken {version} sürümünü kullanıyorsunuz: { CompatibleVersions}.",
+    "unlink_not_linked": "Sağlanan Discord sunucusunda bot kurulmamış.",
+    "help_title": "Yardım",
+    "help_commands_title": "Komutlar",
+    "help_commands_content": "Geçersiz Komut. Bottaki Komutlar: {commands}.",
+    "help_context_title": "İçerik",
+    "help_context_content": "Bazı Komutlar sadece Özel mesajlarda kullanıma açıktır, kalan komutlar sadece sunucuda kullanıma açıktır.",
+    "apiurl_try_https": "API URL'niz http:// kullanır. HTTPS için bir proxy kullanıyorsanız, web sitesi yine de HTTP API URL'lerini görüntüler. Lütfen API URL'sinde http:// ile https:// değiştirerek bu komutu tekrar çalıştırmayı deneyin.",
+    "prefix_usage": "Kullanım: `{command} <sunucu ID> <yeni önek>`. Varsayılan öneki kullanmak için \"reset\"i kullanın.",
+    "prefix_success": "Önek {newPrefix} olarak Değiştirildi."
 }
