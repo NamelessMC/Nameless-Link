@@ -104,8 +104,6 @@ public class Main {
 	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
 		LOGGER.info("Starting Nameless Link version {}", Main.class.getPackage().getImplementationVersion());
 
-		initializeConnectionManager();
-
 		final String botUrlStr = Objects.requireNonNull(System.getenv("BOT_URL"),
 				"Environment variable BOT_URL not specified");
 
@@ -167,6 +165,8 @@ public class Main {
 		} else {
 			shards = 1;
 		}
+
+		initializeConnectionManager();
 
 		HttpMain.init();
 
