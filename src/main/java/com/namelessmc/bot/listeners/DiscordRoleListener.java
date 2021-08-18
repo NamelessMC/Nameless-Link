@@ -40,29 +40,29 @@ public class DiscordRoleListener extends ListenerAdapter {
 	private static final HashMap<Long, Long> temporarilyDisabledEvents = new HashMap<>();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Group sync discord->website");
-	
+
 	private static final Set<RoleUpdate> ROLE_UPDATE_QUEUE_SET = new HashSet<>();
 	private static final Queue<RoleUpdate> ROLE_UPDATE_QUEUE = new LinkedList<>();
-	
+
 	private static class RoleUpdate {
-		
+
 		final long userId;
 		final long guildId;
-		
-		RoleUpdate(long userId, long guildId){
+
+		RoleUpdate(final long userId, final long guildId){
 			this.userId = userId;
 			this.guildId = guildId;
 		}
-		
+
 		@Override
 		public int hashCode() {
-			return Objects.hash(userId, guildId);
+			return Objects.hash(this.userId, this.guildId);
 		}
-		
+
 	}
-	
-	public static void queueRoleUpdate(long userId, long guildId) {
-		RoleUpdate roleUpdate = new RoleUpdate(userId, guildId);
+
+	public static void queueRoleUpdate(final long userId, final long guildId) {
+		final RoleUpdate roleUpdate = new RoleUpdate(userId, guildId);
 		synchronized(ROLE_UPDATE_QUEUE) {
 			if (!ROLE_UPDATE_QUEUE_SET.contains(roleUpdate)) {
 				ROLE_UPDATE_QUEUE_SET.add(roleUpdate);
@@ -115,16 +115,16 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
-		long userId = event.getUser().getIdLong();
-		long guildId = event.getGuild().getIdLong();
+		final long userId = event.getUser().getIdLong();
+		final long guildId = event.getGuild().getIdLong();
 		LOGGER.info("Received guild member role add event for {} in {}, adding to queue", userId, guildId);
 		queueRoleUpdate(userId, guildId);
 	}
 
 	@Override
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
-		long userId = event.getUser().getIdLong();
-		long guildId = event.getGuild().getIdLong();
+		final long userId = event.getUser().getIdLong();
+		final long guildId = event.getGuild().getIdLong();
 		LOGGER.info("Received guild member role remove event for {} in {}, adding to queue", userId, guildId);
 		queueRoleUpdate(userId, guildId);
 	}
@@ -134,35 +134,33 @@ public class DiscordRoleListener extends ListenerAdapter {
 			if (ROLE_UPDATE_QUEUE.isEmpty()) {
 				return;
 			}
-			
-			RoleUpdate roleUpdate = ROLE_UPDATE_QUEUE.remove();
+
+			final RoleUpdate roleUpdate = ROLE_UPDATE_QUEUE.remove();
 			ROLE_UPDATE_QUEUE_SET.remove(roleUpdate);
-			
-			long guildId = roleUpdate.guildId;
-			long userId = roleUpdate.userId;
-			
+
+			final long guildId = roleUpdate.guildId;
+			final long userId = roleUpdate.userId;
+
 			LOGGER.info("Checking user {} guild {} with {} items left in queue", userId, guildId, ROLE_UPDATE_QUEUE.size());
-			
-			Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
+
+			final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 			if (guild == null) {
 				LOGGER.warn("Guild {} no longer exists?", guildId);
 				return;
 			}
-			
-			Member member = guild.retrieveMemberById(userId).complete();
+
+			final Member member = guild.retrieveMemberById(userId).complete();
 			if (member == null) {
 				LOGGER.warn("User {} no longer exists (left guild)?", userId);
 				return;
 			}
-			
+
 			if (member.getUser().isBot()) {
 				LOGGER.info("Skipping role change in guild {}, user {} is a bot.", guildId, userId);
 				return;
 			}
-			
+
 			final List<Role> roles = member.getRoles();
-			
-			LOGGER.info("Processing role change guildid={} userid={}", guildId, userId);
 
 			if (temporarilyDisabledEvents.containsKey(userId)) {
 				final long diff = System.currentTimeMillis() - temporarilyDisabledEvents.get(userId);
@@ -209,6 +207,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			try {
 				final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
 				user.get().setDiscordRoles(roleIds);
+				LOGGER.info("Sucessfully sent roles to website: guildid={} userid={} roles=[{}]", guildId, userId, roles.stream().map(Role::getId).collect(Collectors.joining(", ")));
 			} catch (final ApiError e) {
 				LOGGER.warn("API error " + e.getError() + " while sending role update for user {} guild (setDiscordRoles)", userId, guildId);
 			} catch (final NamelessException e) {
