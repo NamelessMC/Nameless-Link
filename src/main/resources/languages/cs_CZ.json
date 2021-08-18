@@ -34,7 +34,7 @@
     "unlink_guild_invalid": "Daný server neexistuje nebo není propojen.",
     "unused_connection": "Zdravím, propojili jste váš Discord server ‚{discordServerName}‘ s NamelessMC pomocí tohoto bota. Zdá se, že propojení s webem nebylo nějakou dobu využito. Pokud chcete odebrat toto propojení, zadejte `{command}`.",
     "error_read_only_storage": "Tato instance bota je nakongifurována bez databáze. Pokud chcete modifikovat jeho konfiguraci, musíte tak učinit ručně (úpravou proměnných prostředí) místo příkazů.",
-    "error_guild_id_invalid": "Zadané ID serveru je neplatné.",
+    "error_guild_id_invalid": "Zadané ID serveru je neplatné nebo není bot členem zadaného serveru.",
     "apiurl_url_invalid": "Zadaná URL API nevypadá jako NamelessMC URL API. URL API lze nalézt v StaffCP > Konfigurace > API.",
     "unlink_guild_not_linked": "Zadaný server není propojen.",
     "error_guild_unknown": "Zadaný server neexistuje nebo není bot členem daného serveru.",
