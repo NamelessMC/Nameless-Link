@@ -19,7 +19,7 @@
     "verify_usage": "Uso correto: `{command} <token>`.",
     "error_not_linked": "Você não pode usar este comando porque sua conta ainda não está vinculada. Acesse as configurações de conta no site para vincular sua conta do Discord.",
     "unlink_guild_not_linked": "O servidor fornecido não está vinculado.",
-    "error_guild_id_invalid": "O ID do servidor do Discord fornecido é inválido.",
+    "error_guild_id_invalid": "O ID do servidor Discord fornecido é inválido ou o bot não é membro do servidor especificado.",
     "invalid_command": "Comandos inválidos. Comandos válidos: {commands}.",
     "apiurl_success_updated": "URL da API alterada com sucesso.",
     "apiurl_success_new": "A URL da API foi configurada com sucesso.",
