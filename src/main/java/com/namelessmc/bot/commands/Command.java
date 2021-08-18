@@ -97,7 +97,7 @@ public abstract class Command {
 			}
 		}
 
-		final String[] splitMessage = commandPrefix.substring(commandPrefix.length()).split(" ");
+		final String[] splitMessage = messageContent.substring(commandPrefix.length()).split(" ");
 		final String commandName = splitMessage[0];
 		final String[] args = Arrays.copyOfRange(splitMessage, 1, splitMessage.length);
 
