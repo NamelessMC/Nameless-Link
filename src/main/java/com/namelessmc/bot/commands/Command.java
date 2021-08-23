@@ -24,7 +24,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 public abstract class Command {
 
@@ -108,11 +107,7 @@ public abstract class Command {
 			LOGGER.info("User {}#{} ran command '{}'", user.getName(), user.getDiscriminator(), command.getLabel());
 			command.execute(user, args, message);
 		}, () -> {
-			try {
-				sendHelp(commandPrefix, message);
-			} catch (final InsufficientPermissionException e) {
-				LOGGER.warn("Couldn't send help message to {}#{}, insufficient permissions", user.getName(), user.getDiscriminator());
-			}
+			sendHelp(commandPrefix, message);
 		});
 	}
 
@@ -128,7 +123,17 @@ public abstract class Command {
 				.addField(language.get(Term.HELP_COMMANDS_TITLE), commandsContent, false)
 				.addField(language.get(Term.HELP_CONTEXT_TITLE), language.get(Term.HELP_CONTEXT_CONTENT), false)
 				.build();
-		originalMessage.replyEmbeds(embed).queue();
+		final User user = originalMessage.getAuthor();
+		originalMessage.replyEmbeds(embed).queue(message -> {
+			LOGGER.info("Sent help message to {}#{}", user.getId(), user.getDiscriminator());
+		}, error -> {
+			if (error.getMessage().contains("Missing Permissions")) {
+				LOGGER.warn("Cannot send help message to {}#{}, missing permissions");
+			} else {
+				LOGGER.warn("Cannot send help message to {}#{}", user.getId(), user.getDiscriminator());
+				LOGGER.error("Message send error", error);
+			}
+		});
 	}
 
 	private static CommandContext getContext(final Message message) {
