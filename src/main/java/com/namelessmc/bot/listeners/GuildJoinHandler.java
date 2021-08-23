@@ -27,27 +27,27 @@ public class GuildJoinHandler extends ListenerAdapter {
 	public void onGuildJoin(final GuildJoinEvent event) {
 		LOGGER.info("Joined guild '{}'", event.getGuild().getName());
 
-		final Language language = Language.getDefaultLanguage();
-
-		Optional<NamelessAPI> optApi;
-		try {
-			optApi = Main.getConnectionManager().getApi(event.getGuild().getIdLong());
-		} catch (final BackendStorageException e) {
-			LOGGER.error("Storage error during guild join", e);
-			return;
-		}
-
-		final String apiUrlCommand = Main.getDefaultCommandPrefix() + "apiurl";
-		final long guildId = event.getGuild().getIdLong();
-
 		event.getJDA().retrieveUserById(event.getGuild().getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
+			Optional<NamelessAPI> optApi;
+			try {
+				optApi = Main.getConnectionManager().getApi(event.getGuild().getIdLong());
+			} catch (final BackendStorageException e) {
+				LOGGER.error("Storage error during guild join", e);
+				return;
+			}
+
+			final Language language = Language.getDefaultLanguage();
+
+			final String apiUrlCommand = Main.getDefaultCommandPrefix() + "apiurl";
+			final long guildId = event.getGuild().getIdLong();
+
 			if (optApi.isEmpty()) {
 				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", apiUrlCommand, "guildId", guildId))
 						.queue(message -> LOGGER.info("Sent new join message to {} for guild {}",
 								channel.getUser().getName(), event.getGuild().getName()));
 			} else {
 				try {
-					NamelessAPI api = optApi.get();
+					final NamelessAPI api = optApi.get();
 					final Website info = api.getWebsite();
 					if (Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
 						// Good to go

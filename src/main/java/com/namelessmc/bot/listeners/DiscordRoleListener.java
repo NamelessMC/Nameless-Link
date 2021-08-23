@@ -62,13 +62,15 @@ public class DiscordRoleListener extends ListenerAdapter {
 	}
 
 	public static void queueRoleUpdate(final long userId, final long guildId) {
-		final RoleUpdate roleUpdate = new RoleUpdate(userId, guildId);
-		synchronized(ROLE_UPDATE_QUEUE) {
-			if (!ROLE_UPDATE_QUEUE_SET.contains(roleUpdate)) {
-				ROLE_UPDATE_QUEUE_SET.add(roleUpdate);
-				ROLE_UPDATE_QUEUE.add(roleUpdate);
+		Main.getExecutorService().execute(() -> {
+			final RoleUpdate roleUpdate = new RoleUpdate(userId, guildId);
+			synchronized(ROLE_UPDATE_QUEUE) {
+				if (!ROLE_UPDATE_QUEUE_SET.contains(roleUpdate)) {
+					ROLE_UPDATE_QUEUE_SET.add(roleUpdate);
+					ROLE_UPDATE_QUEUE.add(roleUpdate);
+				}
 			}
-		}
+		});
 	}
 
 	public static void temporarilyDisableEvents(final long userId) {
