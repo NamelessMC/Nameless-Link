@@ -29,7 +29,7 @@
     "apiurl_url_malformed": "Den angivna API-URL: en är felaktig.",
     "apiurl_failed_connection": "Det gick inte att ansluta till din webbplats. Se meddelandet ovan för mer information.",
     "apiurl_already_used": "Denna API-URL används redan av en Discord-server, använd `{command}` för att ta bort länken.",
-    "apiurl_try_https": "Din API-URL använder http://. Om du använder en proxy för HTTPS visar webbplatsen fortfarande HTTP API-URL: er. Försök att köra det här kommandot igen och ersätt http: // med https: // i API-URL: n.",
+    "apiurl_try_https": "Din API-URL använder http://. Om du använder en proxy för HTTPS visar webbplatsen fortfarande HTTP API-URL: er. Försök att köra det här kommandot igen och ersätt http:// med https:// i API-URL: n.",
     "apiurl_success_updated": "API-URL:n har ändrats.",
     "apiurl_success_new": "API-URL Konfigurerad",
 
