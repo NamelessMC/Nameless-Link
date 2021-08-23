@@ -40,6 +40,7 @@ import com.namelessmc.bot.http.HttpMain;
 import com.namelessmc.bot.listeners.CommandListener;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
+import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
@@ -240,7 +241,7 @@ public class Main {
 				});
 			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
-		
+
 		scheduler.scheduleAtFixedRate(DiscordRoleListener::processQueue, 5, 2, TimeUnit.SECONDS);
 	}
 
@@ -355,8 +356,13 @@ public class Main {
 	);
 
 	public static void logConnectionError(final Logger logger, final String message, final NamelessException e) {
-		if (IGNORED_EXCEPTIONS.contains(e.getCause().getClass())) {
-			logger.warn(message + " (" + e.getCause().getClass().getSimpleName() + ")");
+		Objects.requireNonNull(logger, "Logger is null");
+		Objects.requireNonNull(message, "Message is null");
+		Objects.requireNonNull(e, "Exception is null");
+		if (e instanceof ApiError) {
+			logger.warn(message + " (API error {})", ((ApiError) e).getError());
+		} else if (e.getCause() != null && IGNORED_EXCEPTIONS.contains(e.getCause().getClass())) {
+			logger.warn(message + " ({})", e.getCause().getClass().getSimpleName());
 		} else {
 			logger.warn(message, e);
 		}
