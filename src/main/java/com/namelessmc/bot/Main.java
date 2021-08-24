@@ -63,7 +63,7 @@ public class Main {
 	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
 	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = EnumSet.of(
 			NamelessVersion.V2_0_0_PR_10,
-			NamelessVersion.V2_0_0_PR_11,
+			NamelessVersion.V2_0_0_PR_11
 	);
 
 	private static JDA[] jda;
