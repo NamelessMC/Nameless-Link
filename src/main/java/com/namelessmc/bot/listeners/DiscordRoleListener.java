@@ -96,7 +96,9 @@ public class DiscordRoleListener extends ListenerAdapter {
 		try {
 			final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApi(guild.getIdLong());
 			if (optApi.isPresent()) {
-				final Map<Long, String> roles = guild.getRoles().stream().collect(Collectors.toMap(Role::getIdLong, Role::getName));
+				final Map<Long, String> roles = guild.getRoles().stream()
+						.filter(r -> !r.getName().equals("@everyone"))
+						.collect(Collectors.toMap(Role::getIdLong, Role::getName));
 				optApi.get().submitDiscordRoleList(roles);
 			}
 		} catch (final BackendStorageException e) {
