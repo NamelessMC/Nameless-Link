@@ -1,13 +1,14 @@
 package com.namelessmc.bot.connections;
 
-import com.namelessmc.bot.Main;
-import com.namelessmc.java_api.NamelessAPI;
-import org.apache.commons.lang3.Validate;
-
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.commons.lang3.Validate;
+
+import com.namelessmc.bot.Main;
+import com.namelessmc.java_api.NamelessAPI;
 
 public class StatelessConnectionManager extends ConnectionManager {
 
@@ -53,6 +54,11 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
+	public int countConnections() throws BackendStorageException {
+		return 1;
+	}
+
+	@Override
 	public List<URL> listConnections() {
 		// Optional should always be present, this method should never throw an exception here
 		return Collections.singletonList(this.api.orElseThrow().getApiUrl());
@@ -84,13 +90,13 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public Optional<String> getCommandPrefixByGuildId(long guildId) {
+	public Optional<String> getCommandPrefixByGuildId(final long guildId) {
 		// In stateless instances, always use the default command prefix
 		return Optional.empty();
 	}
 
 	@Override
-	public boolean setCommandPrefix(long guildId, Optional<String> newPrefix) throws BackendStorageException {
+	public boolean setCommandPrefix(final long guildId, final Optional<String> newPrefix) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 }

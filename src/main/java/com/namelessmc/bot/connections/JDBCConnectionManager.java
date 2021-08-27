@@ -101,6 +101,18 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
+	@Override
+	public int countConnections() throws BackendStorageException {
+		try (Connection connection = this.getNewDatabaseConnection();
+				PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM connections")) {
+			final ResultSet result = statement.executeQuery();
+			result.next();
+			return result.getInt(1);
+		} catch (final SQLException e) {
+			throw new BackendStorageException(e);
+		}
+	}
+
 	private List<URL> listConnectionsQuery(final String query, final Long optLong) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
