@@ -243,7 +243,7 @@ public class Main {
 			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
 
-		scheduler.scheduleAtFixedRate(DiscordRoleListener::processQueue, 5, 2, TimeUnit.SECONDS);
+//		scheduler.scheduleAtFixedRate(DiscordRoleListener::processQueue, 5, 2, TimeUnit.SECONDS);
 	}
 
 	private static void sendBotSettings(final ScheduledExecutorService scheduler) throws NamelessException, BackendStorageException {
@@ -265,7 +265,7 @@ public class Main {
 				LOGGER.error("Guild with id '{}' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
 				System.exit(1);
 			}
-			DiscordRoleListener.sendRoleListToWebsite(guild);
+			DiscordRoleListener.sendRolesAsync(guildId);
 		} else {
 			if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
 

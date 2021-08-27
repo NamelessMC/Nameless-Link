@@ -135,7 +135,7 @@ public class URLCommand extends Command {
 						message.reply(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
 					}
 
-					DiscordRoleListener.sendRoleListToWebsite(guild);
+					DiscordRoleListener.sendRolesAsync(guildId);
 
 					LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
 				} catch (final BackendStorageException e) {

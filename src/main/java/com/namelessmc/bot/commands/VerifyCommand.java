@@ -67,8 +67,10 @@ public class VerifyCommand extends Command {
 				return;
 			}
 
+			final long userId = user.getIdLong();
+
 			try {
-				api.get().verifyDiscord(verify, user.getIdLong(), user.getName() + "#" + user.getDiscriminator());
+				api.get().verifyDiscord(verify, userId, user.getName() + "#" + user.getDiscriminator());
 				message.reply(language.get(Term.VERIFY_SUCCESS)).queue();
 				LOGGER.info("Verified user {}%{} in guild {}", user.getName(), user.getDiscriminator(), guildId);
 			} catch (final ApiError e) {
@@ -88,15 +90,15 @@ public class VerifyCommand extends Command {
 			// User is now linked, trigger group sync
 			final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 			if (guild == null) {
-				LOGGER.warn("Skipped sending roles for user {} in guild with id {}, guild is null", user.getId(), guildId);
+				LOGGER.warn("Skipped sending roles for user {} in guild with id {}, guild is null", userId, guildId);
 				return;
 			}
 			guild.retrieveMember(user).queue(member -> {
 				if (member == null) {
-					LOGGER.warn("Skipped sending roles for user {} in guild {}, member is null. Is this user not member of the guild?", user.getId(), guildId);
+					LOGGER.warn("Skipped sending roles for user {} in guild {}, member is null. Is this user not member of the guild?", userId, guildId);
 					return;
 				}
-				DiscordRoleListener.queueRoleUpdate(user.getIdLong(), guildId);
+				DiscordRoleListener.sendUserRolesAsync(guildId, userId);
 			});
 		});
 	}
