@@ -14,6 +14,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
+import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -49,12 +50,18 @@ public class GuildJoinHandler extends ListenerAdapter {
 				try {
 					final NamelessAPI api = optApi.get();
 					final Website info = api.getWebsite();
-					if (Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
-						// Good to go
-						final Language ownerLanguage = Language.getDiscordUserLanguage(optApi.get(), channel.getUser());
-						channel.sendMessage(ownerLanguage.get(Term.GUILD_JOIN_WELCOME_BACK, "command", apiUrlCommand, "guildId", guildId)).queue();
-					} else {
-						// Incompatible version
+					try {
+						if (Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+							// Good to go
+							final Language ownerLanguage = Language.getDiscordUserLanguage(optApi.get(), channel.getUser());
+							channel.sendMessage(ownerLanguage.get(Term.GUILD_JOIN_WELCOME_BACK, "command", apiUrlCommand, "guildId", guildId)).queue();
+						} else {
+							// Incompatible version
+							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+							channel.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+						}
+					} catch (final UnknownNamelessVersionException e) {
+						// API doesn't recognize this version, but we can still display the unparsed name
 						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
 						channel.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 					}

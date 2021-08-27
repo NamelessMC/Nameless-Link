@@ -19,6 +19,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
+import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -87,7 +88,14 @@ public class URLCommand extends Command {
 				try {
 					api = Main.newApiConnection(apiUrl);
 					final Website info = api.getWebsite();
-					if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+					try {
+						if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+							message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+							return;
+						}
+					} catch (final UnknownNamelessVersionException e) {
+						// API doesn't recognize this version, but we can still display the unparsed name
 						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
 						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 						return;
