@@ -119,7 +119,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
 		final long userId = event.getUser().getIdLong();
 		final long guildId = event.getGuild().getIdLong();
-		LOGGER.info("Received guild member role add event for {} in {}, adding to queue", userId, guildId);
+		LOGGER.info("Received guild member role add event for {} in {}, adding to queue ({})", userId, guildId, ROLE_UPDATE_QUEUE.size());
 		queueRoleUpdate(userId, guildId);
 	}
 
@@ -127,7 +127,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
 		final long userId = event.getUser().getIdLong();
 		final long guildId = event.getGuild().getIdLong();
-		LOGGER.info("Received guild member role remove event for {} in {}, adding to queue", userId, guildId);
+		LOGGER.info("Received guild member role remove event for {} in {}, adding to queue ({})", userId, guildId, ROLE_UPDATE_QUEUE.size());
 		queueRoleUpdate(userId, guildId);
 	}
 
