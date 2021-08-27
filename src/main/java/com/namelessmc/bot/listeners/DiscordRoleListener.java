@@ -65,7 +65,9 @@ public class DiscordRoleListener extends ListenerAdapter {
 		Main.getExecutorService().execute(() -> {
 			final RoleUpdate roleUpdate = new RoleUpdate(userId, guildId);
 			synchronized(ROLE_UPDATE_QUEUE) {
-				if (!ROLE_UPDATE_QUEUE_SET.contains(roleUpdate)) {
+				if (ROLE_UPDATE_QUEUE_SET.contains(roleUpdate)) {
+					LOGGER.info("Skipped adding user={} guild={} to queue, it already is queued.", userId, guildId);
+				} else {
 					ROLE_UPDATE_QUEUE_SET.add(roleUpdate);
 					ROLE_UPDATE_QUEUE.add(roleUpdate);
 				}
@@ -99,7 +101,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 	}
 
 	public static void sendRoleListToWebsite(final Guild guild) {
-		LOGGER.info("Sending roles for {} to website", guild.getIdLong());
+		LOGGER.info("Sending roles for guild {} to website", guild.getIdLong());
 		try {
 			final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApi(guild.getIdLong());
 			if (optApi.isPresent()) {
