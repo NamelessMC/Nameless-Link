@@ -35,7 +35,7 @@
     "error_guild_invalid": "El servidor proporcionado no existe o no está vinculado.",
     "error_read_only_storage": "Esta instancia del bot está configurada sin una base de datos. Si deseas modificar su configuración debes hacerlo manualmente (modificando las variables de entorno) en lugar de hacerlo mediante comandos.",
     "apiurl_url_invalid": "La URL de la API proporcionada no se parece a la URL de la API de NamelessMC. Puedes encontrar la URL de la API en StaffCP > Configuración > API.",
-    "error_guild_id_invalid": "La identificación del servidor de Discord proporcionada es inválida.",
+    "error_guild_id_invalid": "El ID del servidor de Discord proporcionado no es válido o el bot no es miembro del servidor especificado.",
     "unlink_guild_not_linked": "El servidor proporcionado no está vinculado.",
     "error_guild_unknown": "El servidor proporcionado no existe o el bot no es miembro del servidor.",
     "verify_token_invalid": "Error al verificar su cuenta, no ha proporcionado un token válido.",
