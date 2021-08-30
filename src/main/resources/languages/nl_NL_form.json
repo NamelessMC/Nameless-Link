@@ -13,7 +13,7 @@
     "unlink_usage": "Gebruik: `{command} <server id>`.",
     "error_no_permission": "U moet 'Administrator' rechten hebben in de Discord server om dit commando te kunnen gebruiken.",
     "error_read_only_storage": "Deze bot is geconfigureerd zonder een database. Als u de configuratie wilt aanpassen zult u dit manueel moeten doen (door de omgevingsvariabelen aan te passen) in plaats van met de commando's.",
-    "error_guild_id_invalid": "De opgegeven Discord server ID is ongeldig.",
+    "error_guild_id_invalid": "De opgegeven Discord server ID is ongeldig of de bot is geen gebruiker van de opgegeven server.",
     "ping_usage": "Gebruik: `{command} <discord server id>`",
     "apiurl_failed_connection": "Kon niet verbinden met uw website. Bekijk alstublieft het bericht hierboven voor details.",
     "apiurl_url_invalid": "De opgegeven API URL ziet er niet uit als een NamelessMC API URL. U vindt de API-URL in StaffCP> Configuratie> API.",
