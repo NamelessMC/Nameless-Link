@@ -1,10 +1,9 @@
-{    
+{
     "help_title": "Hjälp",
     "help_commands_title": "Kommandon",
     "help_commands_content": "Ogiltigt kommando. Giltiga kommandon: {commands}.",
     "help_context_title": "Kontext",
     "help_context_content": "Vissa kommandon är bara tillgängliga i DMs, medan andra bara är tillgängliga i servers.",
-
     "error_generic": "Ett internt fel uppstod.",
     "error_not_set_up": "Du kan för tillfället inte använda detta kommandot, botten är inte konfigurerad än.",
     "error_not_linked": "Du kan inte använda det här kommandot eftersom ditt konto inte är länkat ännu. Gå till kontoinställningarna på webbplatsen för att länka ditt Discord-konto.",
@@ -14,15 +13,12 @@
     "error_read_only_storage": "Den här botinstansen är konfigurerad utan en databas. Om du vill ändra konfigurationen måste du göra det manuellt (genom att ändra miljövariabler) istället för genom kommandon.",
     "error_guild_id_invalid": "Det angivna Discord Server ID:t är ogiltigt.",
     "error_guild_unknown": "Den tillhandahållna servern finns inte eller botten är inte medlem av servern.",
-
     "verify_usage": "Användning: `{command} <token>`.",
     "verify_token_invalid": "Det gick inte att verifiera ditt konto, du har angett en ogiltig token.",
     "verify_not_used": "Det går inte att verifiera ditt konto, du tillhandahöll en verifieringstoken för en webbplats som inte använder den här botten.",
     "verify_success": "Tack för att du verifierar, ditt konto är nu länkat.",
-
     "ping_usage": "Användning: `{command} <discord server id>`",
     "ping_working": "API-webbanslutningen verkar fungera. Tog {time} ms.",
-
     "apiurl_usage": "Användning: `{command} <server id> <api url>`.",
     "apiurl_success": "Din Discord-server har länkats till din NamelessMC-webbplats.",
     "apiurl_url_invalid": "Den angivna API-URL: en ser inte ut som en NamelessMC API URL. Du hittar API-URL: en i StaffKP > Konfiguration > API.",
@@ -31,15 +27,12 @@
     "apiurl_already_used": "Denna API-URL används redan av en Discord-server, använd `{command}` för att ta bort länken.",
     "apiurl_try_https": "Din API-URL använder http://. Om du använder en proxy för HTTPS visar webbplatsen fortfarande HTTP API-URL: er. Försök att köra det här kommandot igen och ersätt http:// med https:// i API-URL: n.",
     "apiurl_success_updated": "API-URL:n har ändrats.",
-    "apiurl_success_new": "API-URL Konfigurerad",
-
+    "apiurl_success_new": "API-URL Konfigurerad.",
     "guild_join_success": "Hej! Tack för att du använder NamelessMC Bot. För att komma igång, svara med `{command} {guildId} <api url>`. API-URL: en finns i `StaffKP > Konfiguration > API`.",
     "guild_join_needs_renew": "Hej! Tack för att du använder NamelessMC Bot. Det verkar som om du redan har ställt in din API-URL, men den fungerar inte längre. Ställ in en ny med `{command} {guildId} <api url>`. API-URL: en finns i `StaffKP > Konfiguration > API`.",
     "guild_join_welcome_back": "Hej! Tack för att du använder NamelessMC Bot. Bot är redan konfigurerad för din Discord-server. Om du vill använda en annan API-URL kan du ändra den med `{command} {guildId} <api url>`.",
-
     "unlink_usage": "Användning: `{command} <server id>`.",
     "unlink_not_linked": "Ditt konto är inte länkat.",
-
     "prefix_usage": "Användning: `{command} <server id> <new prefix>`. Använd `reset` för att använda standardprefix.",
     "prefix_success": "Prefixet har ändrats till `{newPrefix}`."
 }
