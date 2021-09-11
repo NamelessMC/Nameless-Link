@@ -125,7 +125,7 @@ public abstract class Command {
 				.build();
 		final User user = originalMessage.getAuthor();
 		originalMessage.replyEmbeds(embed).queue(message -> {
-			LOGGER.info("Sent help message to {}#{}", user.getId(), user.getDiscriminator());
+			LOGGER.info("Sent help message to {}#{}", user.getName(), user.getDiscriminator());
 		}, error -> {
 			if (error.getMessage().contains("Missing Permissions")) {
 				LOGGER.warn("Cannot send help message to {}#{}, missing permissions");
