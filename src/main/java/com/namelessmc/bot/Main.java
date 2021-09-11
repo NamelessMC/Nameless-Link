@@ -2,6 +2,7 @@ package com.namelessmc.bot;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
@@ -353,7 +354,8 @@ public class Main {
 	private static final Set<Class<?>> IGNORED_EXCEPTIONS = Set.of(
 			UnknownHostException.class,
 			SSLHandshakeException.class,
-			CertificateException.class
+			CertificateException.class,
+			SocketTimeoutException.class
 	);
 
 	public static void logConnectionError(final Logger logger, final String message, final NamelessException e) {
