@@ -29,17 +29,6 @@ public class Language {
 
 	public enum Term {
 
-		@Deprecated
-		HELP_TITLE,
-		@Deprecated
-		HELP_COMMANDS_TITLE,
-		@Deprecated
-		HELP_COMMANDS_CONTENT("commands"),
-		@Deprecated
-		HELP_CONTEXT_TITLE,
-		@Deprecated
-		HELP_CONTEXT_CONTENT,
-
 		ERROR_GENERIC,
 		ERROR_NOT_SET_UP,
 		ERROR_NOT_LINKED,
@@ -50,21 +39,15 @@ public class Language {
 		ERROR_GUILD_ID_INVALID,
 		ERROR_GUILD_UNKNOWN,
 
-		@Deprecated
-		VERIFY_USAGE("command"),
 		VERIFY_DESCRIPTION,
 		VERIFY_OPTION_TOKEN,
 		VERIFY_TOKEN_INVALID,
 		VERIFY_NOT_USED,
 		VERIFY_SUCCESS,
 
-		@Deprecated
-		PING_USAGE("command"),
 		PING_DESCRIPTION,
 		PING_WORKING("time"),
 
-		@Deprecated
-		APIURL_USAGE("command"),
 		APIURL_DESCRIPTION,
 		APIURL_OPTION_URL,
 		APIURL_URL_INVALID,
@@ -81,15 +64,9 @@ public class Language {
 		GUILD_JOIN_NEEDS_RENEW("command", "guildId"),
 		GUILD_JOIN_WELCOME_BACK("command", "guildId"),
 
-		@Deprecated
-		UNLINK_USAGE("command"),
-		@Deprecated
-		UNLINK_NOT_LINKED,
-
 		UPDATEUSERNAME_DESCRIPTION,
 		UPDATEUSERNAME_SUCCESS,
 
-		PREFIX_USAGE("command"),
 		PREFIX_SUCCESS("newPrefix"),
 
 		;

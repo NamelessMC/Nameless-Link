@@ -1,10 +1,4 @@
-{    
-    "help_title": "Help",
-    "help_commands_title": "Commands",
-    "help_commands_content": "Invalid command. Valid commands: {commands}.",
-    "help_context_title": "Context",
-    "help_context_content": "Some commands are only available in DMs, while others are only available in servers.",
-
+{
     "error_generic": "An internal error occurred.",
     "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet.",
     "error_not_linked": "You cannot use this command because your account is not linked yet. Please go to account settings on the website to link your Discord account.",
@@ -15,18 +9,15 @@
     "error_guild_id_invalid": "The provided Discord server ID is invalid or the bot is not a member of the specified server.",
     "error_guild_unknown": "The provided server does not exist or the bot is not a member of the server.",
 
-    "verify_usage": "Usage: `{command} <token>`.",
     "verify_description": "Verify your Discord account connected to the website",
     "verify_option_token": "Verification token",
     "verify_token_invalid": "Failed to verify your account, you have provided an invalid token.",
     "verify_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
     "verify_success": "Thank you for verifying, your account is now linked.",
 
-    "ping_usage": "Usage: `{command} <discord server id>`",
     "ping_description": "Test website API connection",
     "ping_working": "The API website connection appears to be working. Took {time}ms.",
 
-    "apiurl_usage": "Usage: `{command} <server id> <api url>`.",
     "apiurl_description": "Configure the NamelessMC website API URL",
     "apiurl_option_url": "Your website API URL (StaffCP > Configuration > API). Specify 'none' to unlink.",
     "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
@@ -42,13 +33,9 @@
     "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, reply with `{command} {guildId} <api url>`. The API URL can be found in `StaffCP > Configuration > API`.",
     "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please set a new one using `{command} {guildId} <api url>`. The API URL can be found in `StaffCP > Configuration > API`.",
     "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command} {guildId} <api url>`.",
-
-    "unlink_usage": "Usage: `{command} <server id>`.",
-    "unlink_not_linked": "The provided Discord server is not set up with this bot.",
     
     "updateusername_description": "Update your Discord username on the website",
     "updateusername_success", "Username updated successfully",
 
-    "prefix_usage": "Usage: `{command} <server id> <new prefix>`. Use `reset` to use the default prefix.",
     "prefix_success": "The prefix has been modified to `{newPrefix}`."
 }

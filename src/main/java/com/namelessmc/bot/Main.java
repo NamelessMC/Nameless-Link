@@ -194,14 +194,6 @@ public class Main {
 			return;
 		}
 
-//		// Register commands
-//		new PingCommand();
-//		new PrefixCommand();
-//		new UnlinkCommand();
-//		new UpdateUsernameCommand();
-//		new URLCommand();
-//		new VerifyCommand();
-
 		LOGGER.info("Waiting for JDA to connect, this can take a long time (30+ seconds is not unusual)...");
 		LOGGER.info("Note: the JDA message \"Connected to WebSocket\" does not mean it is finished connecting!");
 
