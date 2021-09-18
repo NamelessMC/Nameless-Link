@@ -2,7 +2,6 @@ package com.namelessmc.bot.commands;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,66 +22,86 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 public class URLCommand extends Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("URL command");
 
-	public URLCommand() {
-		super("apiurl", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
+	URLCommand() {
+		super("apiurl");
 	}
 
 	@Override
-	public void execute(final User user, final String[] args, final Message message) {
-		final Language language = Language.getDefaultLanguage();
+	public CommandData getCommandData(final Language language) {
+		return new CommandData(this.name, language.get(Term.APIURL_DESCRIPTION))
+				.addOption(OptionType.STRING, "url", language.get(Term.APIURL_OPTION_URL), true);
+	}
+
+	@Override
+	public void execute(final SlashCommandEvent event) {
+		final Guild guild = event.getGuild();
+		final Language language = Language.getGuildLanguage(guild);
 
 		if (Main.getConnectionManager().isReadOnly()) {
-			message.reply(language.get(Term.ERROR_READ_ONLY_STORAGE)).queue();
+			event.reply(language.get(Term.ERROR_READ_ONLY_STORAGE)).setEphemeral(true).queue();
 			return;
 		}
 
-		if (args.length != 2) {
-			message.reply(language.get(Term.APIURL_USAGE, "command", getPrefix(message) + "apiurl")).queue();
+		final String apiUrlString = event.getOption("url").getAsString();
+
+		if (apiUrlString.equals("none")) {
+			Main.canModifySettings(event.getUser(), guild, (canModifySettings) -> {
+				if (!canModifySettings) {
+					event.reply(language.get(Term.ERROR_NO_PERMISSION)).setEphemeral(true).queue();
+					return;
+				}
+
+				final long guildId = guild.getIdLong();
+				Main.getExecutorService().execute(() -> {
+					try {
+						Main.getConnectionManager().removeConnection(guildId);
+						event.reply(language.get(Term.APIURL_UNLINKED)).setEphemeral(true).queue();
+						LOGGER.info("Unlinked from guild {}", guildId);
+					} catch (final BackendStorageException e) {
+						event.reply(language.get(Term.ERROR_GENERIC)).setEphemeral(true).queue();
+						LOGGER.error("storage backend", e);
+					}
+				});
+			});
 			return;
 		}
 
-		if (!args[1].contains("/index.php?route=/api/v2/")) {
-			message.reply(language.get(Term.APIURL_URL_INVALID)).queue();
-			return;
-		}
-
-		final long guildId;
-		try {
-			guildId = Long.parseLong(args[0]);
-		} catch (final NumberFormatException e) {
-			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
+		if (!apiUrlString.contains("/index.php?route=/api/v2/")) {
+			event.reply(language.get(Term.APIURL_URL_INVALID)).setEphemeral(true).queue();
 			return;
 		}
 
 		URL apiUrl;
 		try {
-			apiUrl = new URL(args[1]);
+			apiUrl = new URL(apiUrlString);
 		} catch (final MalformedURLException e) {
-			message.reply(language.get(Term.APIURL_URL_MALFORMED)).queue();
+			event.reply(language.get(Term.APIURL_URL_MALFORMED)).setEphemeral(true).queue();
 			return;
 		}
 
-		final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
+		final long guildId = guild.getIdLong();
 
-		if (guild == null) {
-			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
-			return;
-		}
-
-		Main.canModifySettings(user, guild, (canModifySettings) -> {
+		Main.canModifySettings(event.getUser(), guild, (canModifySettings) -> {
 			if (!canModifySettings) {
-				message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
+				event.reply(language.get(Term.ERROR_NO_PERMISSION)).setEphemeral(true).queue();
 				return;
 			}
 
+			event.deferReply().setEphemeral(true).queue();
+
 			Main.getExecutorService().execute(() -> {
+				final InteractionHook hook = event.getHook();
+
 				// Check if API URL works
 				NamelessAPI api;
 				try {
@@ -91,21 +110,21 @@ public class URLCommand extends Command {
 					try {
 						if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
 							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-							message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+							hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 							return;
 						}
 					} catch (final UnknownNamelessVersionException e) {
 						// API doesn't recognize this version, but we can still display the unparsed name
 						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+						hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 						return;
 					}
 				} catch (final NamelessException e) {
-					message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
-					message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-					if (apiUrl.toString().startsWith("http://")) {
-						message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
-					}
+					hook.sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+					hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+//					if (apiUrl.toString().startsWith("http://")) {
+//						message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
+//					}
 					Main.logConnectionError(LOGGER, "Website connection error while checking if new API url works", e);
 					return;
 				}
@@ -114,7 +133,7 @@ public class URLCommand extends Command {
 					final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
 
 					if (optExistingGuildId.isPresent()) {
-						message.reply(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
+						hook.sendMessage(language.get(Term.APIURL_ALREADY_USED, "command", "!unlink " + optExistingGuildId.get())).queue();
 						return;
 					}
 					api.setDiscordBotUrl(Main.getBotUrl());
@@ -128,21 +147,21 @@ public class URLCommand extends Command {
 					if (oldApi.isEmpty()) {
 						// User is setting up new connection
 						Main.getConnectionManager().newConnection(guildId, apiUrl);
-						message.reply(language.get(Term.APIURL_SUCCESS_NEW)).queue();
+						hook.sendMessage(language.get(Term.APIURL_SUCCESS_NEW)).queue();
 					} else {
 						// User is modifying API URL for existing connection
 						Main.getConnectionManager().updateConnection(guildId, apiUrl);
-						message.reply(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
+						hook.sendMessage(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
 					}
 
 					DiscordRoleListener.sendRolesAsync(guildId);
 
 					LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
 				} catch (final BackendStorageException e) {
-					message.reply(language.get(Term.ERROR_GENERIC)).queue();
+					hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
 				} catch (final NamelessException e) {
-					message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
-					message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+					hook.sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+					hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
 					Main.logConnectionError(LOGGER, "Website connection error while sending bot settings", e);
 				}
 			});

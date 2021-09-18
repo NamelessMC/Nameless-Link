@@ -1,6 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -16,90 +15,91 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 public class VerifyCommand extends Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Verify command");
 
-	public VerifyCommand() {
-		super("verify", Arrays.asList("validate", "link"), CommandContext.BOTH);
+	VerifyCommand() {
+		super("verify");
 	}
 
 	@Override
-	public void execute(final User user, final String[] args, final Message message) {
-		final Language language = Language.getDefaultLanguage();
+	public CommandData getCommandData(final Language language) {
+		return new CommandData(this.name, language.get(Term.VERIFY_DESCRIPTION))
+				.addOption(OptionType.STRING, "token", language.get(Term.VERIFY_OPTION_TOKEN), true);
+	}
 
-		if (args.length != 1) {
-			message.reply(language.get(Term.VERIFY_USAGE, "command", getPrefix(message) + "verify")).queue();
-			return;
-		}
+	@Override
+	public void execute(final SlashCommandEvent event) {
+		final Guild guild = event.getGuild();
+		final Language language = Language.getGuildLanguage(guild);
 
-		final String token = args[0];
+		final String token = event.getOption("token").getAsString();
 
 		if (token.length() < 40 || !token.contains(":")) {
-			message.reply(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
+			event.reply(language.get(Term.VERIFY_TOKEN_INVALID)).setEphemeral(true).queue();
 			return;
 		}
 
-		final long guildId;
 		try {
-			guildId = Long.parseLong(token.substring(0, token.indexOf(':')));
+			final long providedGuildId = Long.parseLong(token.substring(0, token.indexOf(':')));
+
+			if (guild.getIdLong() != providedGuildId) {
+				event.reply("token for different guild").queue(); // TODO translate
+				return;
+			}
 		} catch (final NumberFormatException e) {
-			message.reply(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
+			event.reply(language.get(Term.VERIFY_TOKEN_INVALID)).setEphemeral(true).queue();
 			return;
 		}
 		final String verify = token.substring(token.indexOf(':') + 1);
 
+		event.deferReply().setEphemeral(true).queue();
+
+		final long guildId = guild.getIdLong();
+		final long userId = event.getUser().getIdLong();
+		final String userName = event.getUser().getName() + "#" + event.getUser().getDiscriminator();
+
 		Main.getExecutorService().execute(() -> {
+			final InteractionHook hook = event.getHook();
 			Optional<NamelessAPI> api;
 			try {
 				api = Main.getConnectionManager().getApi(guildId);
 			} catch (final BackendStorageException e) {
 				LOGGER.error("Storage error", e);
-				message.reply(language.get(Term.ERROR_GENERIC)).queue();
+				hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
 				return;
 			}
 
 			if (api.isEmpty()) {
-				message.reply(language.get(Term.VERIFY_NOT_USED)).queue();
+				hook.sendMessage(language.get(Term.VERIFY_NOT_USED)).queue();
 				return;
 			}
 
-			final long userId = user.getIdLong();
-
 			try {
-				api.get().verifyDiscord(verify, userId, user.getName() + "#" + user.getDiscriminator());
-				message.reply(language.get(Term.VERIFY_SUCCESS)).queue();
-				LOGGER.info("Verified user {}%{} in guild {}", user.getName(), user.getDiscriminator(), guildId);
+				api.get().verifyDiscord(verify, userId, userName);
+				hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
+				LOGGER.info("Verified user {} in guild {}", userName, guildId);
 			} catch (final ApiError e) {
 				if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
-					message.reply(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
+					hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
 				} else {
 					LOGGER.warn("Unexpected error code {}", e.getError());
-					message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+					hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 				}
 				return;
 			} catch (final NamelessException e) {
-				message.reply(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+				hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
 				Main.logConnectionError(LOGGER, "Website connection error", e);
 				return;
 			}
 
-			// User is now linked, trigger group sync
-			final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
-			if (guild == null) {
-				LOGGER.warn("Skipped sending roles for user {} in guild with id {}, guild is null", userId, guildId);
-				return;
-			}
-			guild.retrieveMember(user).queue(member -> {
-				if (member == null) {
-					LOGGER.warn("Skipped sending roles for user {} in guild {}, member is null. Is this user not member of the guild?", userId, guildId);
-					return;
-				}
-				DiscordRoleListener.sendUserRolesAsync(guildId, userId);
-			});
+			DiscordRoleListener.sendUserRolesAsync(guildId, userId);
 		});
 	}
 }
