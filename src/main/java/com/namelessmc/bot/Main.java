@@ -220,8 +220,6 @@ public class Main {
 				});
 			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
-
-//		scheduler.scheduleAtFixedRate(DiscordRoleListener::processQueue, 5, 2, TimeUnit.SECONDS);
 	}
 
 	private static void sendBotSettings(final ScheduledExecutorService scheduler) throws NamelessException, BackendStorageException {
@@ -246,66 +244,58 @@ public class Main {
 			Command.sendCommands(guild);
 			DiscordRoleListener.sendRolesAsync(guildId);
 		} else {
-//			if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
+			try {
+				LOGGER.info("Updating bot settings..");
+				int threads;
+				if (System.getenv("UPDATE_SETTINGS_THREADS") != null) {
+					threads = Integer.parseInt(System.getenv("UPDATE_SETTINGS_THREADS"));
+				} else {
+					threads = 2;
+				}
 
-//				scheduler.schedule(() -> {
-					try {
-						LOGGER.info("Updating bot settings..");
-						int threads;
-						if (System.getenv("UPDATE_SETTINGS_THREADS") != null) {
-							threads = Integer.parseInt(System.getenv("UPDATE_SETTINGS_THREADS"));
-						} else {
-							threads = 2;
-						}
-
-						final ExecutorService service = Executors.newFixedThreadPool(threads);
-						final AtomicInteger countSuccess = new AtomicInteger();
-						final AtomicInteger countError = new AtomicInteger();
-						for (final URL url : connectionManager.listConnections()) {
-							service.execute(() -> {
-								Guild guild = null;
-								try {
-									final long guildId = connectionManager.getGuildIdByURL(url).orElseThrow(() -> new IllegalStateException("database has URL but not guild id"));
-									guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
-									if (guild == null) {
-										LOGGER.warn("Skipping guild {}, it is null (bot was kicked from this guild?)", guildId);
-										return;
-									}
-								} catch (final BackendStorageException e) {
-									LOGGER.error("command update error", e);
-								}
-
-								Command.sendCommands(guild);
-
-								try {
-									final NamelessAPI api = Main.newApiConnection(url);
-									// final URL url, final long guildId, final String username, final long userId
-									api.setDiscordBotSettings(botUrl, guild.getIdLong(), username, user.getIdLong());
-//									api.setDiscordBotUrl(botUrl);
-//									api.setDiscordBotUser(username, user.getIdLong());
-									LOGGER.info(url.toString() + " success");
-									countSuccess.incrementAndGet();
-								} catch (final NamelessException e) {
-									LOGGER.info(url.toString() + " error");
-									countError.incrementAndGet();
-								}
-							});
-
-						}
-						service.shutdown();
+				final ExecutorService service = Executors.newFixedThreadPool(threads);
+				final AtomicInteger countSuccess = new AtomicInteger();
+				final AtomicInteger countError = new AtomicInteger();
+				for (final URL url : connectionManager.listConnections()) {
+					service.execute(() -> {
+						Guild guild = null;
 						try {
-							service.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-						} catch (final InterruptedException e) {
-							e.printStackTrace();
+							final long guildId = connectionManager.getGuildIdByURL(url).orElseThrow(() -> new IllegalStateException("database has URL but not guild id"));
+							guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
+							if (guild == null) {
+								LOGGER.warn("Skipping guild {}, it is null (bot was kicked from this guild?)", guildId);
+								return;
+							}
+						} catch (final BackendStorageException e) {
+							LOGGER.error("command update error", e);
 						}
-						LOGGER.info("Done updating bot settings");
-						LOGGER.info("{} websites successful, {} websites unsuccessful", countSuccess, countError);
-					} catch (final BackendStorageException e) {
-						e.printStackTrace();
-					}
-//				}, 5, TimeUnit.SECONDS);
+
+						Command.sendCommands(guild);
+
+						try {
+							final NamelessAPI api = Main.newApiConnection(url);
+							api.setDiscordBotSettings(botUrl, guild.getIdLong(), username, user.getIdLong());
+							LOGGER.info(url.toString() + " success");
+							countSuccess.incrementAndGet();
+						} catch (final NamelessException e) {
+							LOGGER.info(url.toString() + " error");
+							countError.incrementAndGet();
+						}
+					});
+
+				}
+				service.shutdown();
+				try {
+					service.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+				} catch (final InterruptedException e) {
+					e.printStackTrace();
+				}
+				LOGGER.info("Done updating bot settings");
+				LOGGER.info("{} websites successful, {} websites unsuccessful", countSuccess, countError);
+			} catch (final BackendStorageException e) {
+				e.printStackTrace();
 			}
-//		}
+		}
 	}
 
 	public static void canModifySettings(final User user, final Guild guild, final Consumer<Boolean> canModifySettings) {
