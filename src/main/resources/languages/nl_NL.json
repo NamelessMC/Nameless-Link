@@ -50,5 +50,10 @@
     "help_commands_title": "Commando's",
     "help_commands_content": "Ongeldig commando. Geldige commando's: {commands}.",
     "help_context_title": "Context",
-    "help_context_content": "Sommige commando's zijn alleen beschikbaar in DMs, terwijl andere commando's alleen beschikbaar zijn in servers."
+    "help_context_content": "Sommige commando's zijn alleen beschikbaar in DMs, terwijl andere commando's alleen beschikbaar zijn in servers.",
+    "verify_description": "Verifieer jou Discord account gelinkt aan de website",
+    "verify_option_token": "Verificatie token",
+    "ping_description": "Test website API connectie",
+    "apiurl_description": "Configureer de NamelessMC website API URL",
+    "apiurl_option_url": "Jouw website API URL (StaffCP > Configuratie > API). Specifieer 'none' om te unlinken."
 }
