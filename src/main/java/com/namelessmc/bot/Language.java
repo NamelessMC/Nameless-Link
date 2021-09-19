@@ -15,10 +15,12 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 
 public class Language {
@@ -26,12 +28,6 @@ public class Language {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Translation");
 
 	public enum Term {
-
-		HELP_TITLE,
-		HELP_COMMANDS_TITLE,
-		HELP_COMMANDS_CONTENT("commands"),
-		HELP_CONTEXT_TITLE,
-		HELP_CONTEXT_CONTENT,
 
 		ERROR_GENERIC,
 		ERROR_NOT_SET_UP,
@@ -43,31 +39,34 @@ public class Language {
 		ERROR_GUILD_ID_INVALID,
 		ERROR_GUILD_UNKNOWN,
 
-		VERIFY_USAGE("command"),
+		VERIFY_DESCRIPTION,
+		VERIFY_OPTION_TOKEN,
 		VERIFY_TOKEN_INVALID,
 		VERIFY_NOT_USED,
 		VERIFY_SUCCESS,
 
-		PING_USAGE("command"),
+		PING_DESCRIPTION,
 		PING_WORKING("time"),
 
-		APIURL_USAGE("command"),
+		APIURL_DESCRIPTION,
+		APIURL_OPTION_URL,
 		APIURL_URL_INVALID,
 		APIURL_URL_MALFORMED,
 		APIURL_FAILED_CONNECTION,
 		APIURL_ALREADY_USED("command"),
+		@Deprecated
 		APIURL_TRY_HTTPS,
 		APIURL_SUCCESS_UPDATED,
 		APIURL_SUCCESS_NEW,
+		APIURL_UNLINKED,
 
 		GUILD_JOIN_SUCCESS("command", "guildId"),
 		GUILD_JOIN_NEEDS_RENEW("command", "guildId"),
 		GUILD_JOIN_WELCOME_BACK("command", "guildId"),
 
-		UNLINK_USAGE("command"),
-		UNLINK_NOT_LINKED,
+		UPDATEUSERNAME_DESCRIPTION,
+		UPDATEUSERNAME_SUCCESS,
 
-		PREFIX_USAGE("command"),
 		PREFIX_SUCCESS("newPrefix"),
 
 		;
@@ -201,6 +200,35 @@ public class Language {
 		}
 	}
 
+	public static Language getGuildLanguage(final Guild guild) {
+		final Optional<NamelessAPI> api;
+		try {
+			api = Main.getConnectionManager().getApi(guild.getIdLong());
+		} catch (final BackendStorageException e) {
+			e.printStackTrace();
+			return getDefaultLanguage();
+		}
+
+		if (api.isPresent()) {
+			try {
+				final String language = api.get().getWebsite().getLanguage();
+				final String posix = NAMELESS_TO_POSIX.get(language);
+				if (posix == null) {
+					LOGGER.warn("Website linked to guild {} uses unknown language '{}'", guild.getIdLong(), language);
+					return getDefaultLanguage();
+				} else {
+					return getLanguage(posix);
+				}
+			} catch (final NamelessException e) {
+				LOGGER.warn("Cannot retrieve language for guild {}, falling back to default language.", guild.getIdLong());
+				return getDefaultLanguage();
+			}
+		} else {
+			return getDefaultLanguage();
+		}
+	}
+
+	@Deprecated
 	public static Language getDiscordUserLanguage(final NamelessAPI api, final User user) {
 		Objects.requireNonNull(api, "API is null");
 		Objects.requireNonNull(user, "User is null");

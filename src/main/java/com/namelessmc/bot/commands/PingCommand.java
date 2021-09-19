@@ -1,6 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,44 +19,35 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 public class PingCommand extends Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Ping command");
 
-	public PingCommand() {
-		super("ping", Collections.emptyList(), CommandContext.PRIVATE_MESSAGE);
+	PingCommand() {
+		super("ping");
 	}
 
 	@Override
-	public void execute(final User user, final String[] args, final Message message) {
-		final Language language = Language.getDefaultLanguage();
+	public CommandData getCommandData(final Language language) {
+		return new CommandData(this.name, language.get(Term.PING_DESCRIPTION));
+	}
 
-		if (args.length != 1) {
-			message.reply(language.get(Term.PING_USAGE, "command", getPrefix(message) + "ping")).queue();
-			return;
-		}
-
-		final long guildId;
-		try {
-			guildId = Long.parseLong(args[0]);
-		} catch (final NumberFormatException e) {
-			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
-			return;
-		}
-
-		final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
+	@Override
+	public void execute(final SlashCommandEvent event) {
+		final Guild guild = event.getGuild();
+		final Language language = Language.getGuildLanguage(guild);
 
 		if (guild == null) {
-			message.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).queue();
+			event.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).setEphemeral(true).queue();
 			return;
 		}
 
-		Main.canModifySettings(user, guild, (canModifySettings) -> {
+		Main.canModifySettings(event.getUser(), guild, (canModifySettings) -> {
 			if (!canModifySettings) {
-				message.reply(language.get(Term.ERROR_NO_PERMISSION)).queue();
+				event.reply(language.get(Term.ERROR_NO_PERMISSION)).setEphemeral(true).queue();
 				return;
 			}
 
@@ -65,17 +55,20 @@ public class PingCommand extends Command {
 				// Check if API URL works
 				Optional<NamelessAPI> optApi;
 				try {
-					optApi = Main.getConnectionManager().getApi(guildId);
+					optApi = Main.getConnectionManager().getApi(guild.getIdLong());
 				} catch (final BackendStorageException e) {
-					message.reply(language.get(Term.ERROR_GENERIC)).queue();
+					event.reply(language.get(Term.ERROR_GENERIC)).setEphemeral(true).queue();
 					LOGGER.error("storage backend", e);
 					return;
 				}
 
 				if (optApi.isEmpty()) {
-					message.reply(language.get(Term.ERROR_NOT_SET_UP)).queue();
+					event.reply(language.get(Term.ERROR_NOT_SET_UP)).setEphemeral(true).queue();
 					return;
 				}
+
+				// Now that we actually need to connect to the API, it may take a while
+				event.deferReply().setEphemeral(true).queue();
 
 				final NamelessAPI api = optApi.get();
 
@@ -85,24 +78,20 @@ public class PingCommand extends Command {
 					try {
 						if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
 							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-							message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+							event.getHook().sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 							return;
 						}
 					} catch (final UnknownNamelessVersionException e) {
 						// API doesn't recognize this version, but we can still display the unparsed name
 						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-						message.reply(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+						event.getHook().sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 						return;
 					}
 					final long time = System.currentTimeMillis() - start;
-					final Language language2 = Language.getDiscordUserLanguage(api, user);
-					message.getChannel().sendMessage(language2.get(Term.PING_WORKING, "time", time)).queue();
+					event.getHook().sendMessage(language.get(Term.PING_WORKING, "time", time)).queue();
 				} catch (final NamelessException e) {
-					message.getChannel().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
-					message.reply(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-					if (api.getApiUrl().toString().startsWith("http://")) {
-						message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
-					}
+					event.getHook().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+					event.getHook().sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
 					Main.logConnectionError(LOGGER, "NamelessException during ping", e);
 				}
 			});

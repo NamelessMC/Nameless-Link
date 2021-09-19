@@ -28,12 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.namelessmc.bot.Language.LanguageLoadException;
-import com.namelessmc.bot.commands.PingCommand;
-import com.namelessmc.bot.commands.PrefixCommand;
-import com.namelessmc.bot.commands.URLCommand;
-import com.namelessmc.bot.commands.UnlinkCommand;
-import com.namelessmc.bot.commands.UpdateUsernameCommand;
-import com.namelessmc.bot.commands.VerifyCommand;
+import com.namelessmc.bot.commands.Command;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.connections.ConnectionManager;
 import com.namelessmc.bot.connections.StorageInitializer;
@@ -98,9 +93,6 @@ public class Main {
 
 	private static Optional<ApiLogger> apiDebugLogger;
 
-	private static String defaultCommandPrefix;
-	public static String getDefaultCommandPrefix() { return defaultCommandPrefix; }
-
 	private static int shards;
 	public static int getShardCount() { return shards; }
 
@@ -147,13 +139,6 @@ public class Main {
 		} else {
 			System.out.println("Environment variable 'WEBSERVER_BIND' not set, assuming '127.0.0.1'. Note that this means the bot only listens on your localhost interface, but this is likely what you want.");
 			webserverInterface = "127.0.0.1";
-		}
-
-		if (System.getenv("DEFAULT_COMMAND_PREFIX") != null) {
-			defaultCommandPrefix = System.getenv("DEFAULT_COMMAND_PREFIX");
-		} else {
-			System.out.println("Environment variable 'DEFAULT_COMMAND_PREFIX' not set, setting to default (!).");
-			defaultCommandPrefix = "!";
 		}
 
 		try {
@@ -209,14 +194,6 @@ public class Main {
 			return;
 		}
 
-		// Register commands
-		new PingCommand();
-		new PrefixCommand();
-		new UnlinkCommand();
-		new UpdateUsernameCommand();
-		new URLCommand();
-		new VerifyCommand();
-
 		LOGGER.info("Waiting for JDA to connect, this can take a long time (30+ seconds is not unusual)...");
 		LOGGER.info("Note: the JDA message \"Connected to WebSocket\" does not mean it is finished connecting!");
 
@@ -243,8 +220,6 @@ public class Main {
 				});
 			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
-
-//		scheduler.scheduleAtFixedRate(DiscordRoleListener::processQueue, 5, 2, TimeUnit.SECONDS);
 	}
 
 	private static void sendBotSettings(final ScheduledExecutorService scheduler) throws NamelessException, BackendStorageException {
@@ -266,50 +241,59 @@ public class Main {
 				LOGGER.error("Guild with id '{}' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
 				System.exit(1);
 			}
+			Command.sendCommands(guild);
 			DiscordRoleListener.sendRolesAsync(guildId);
 		} else {
-			if (System.getenv("SKIP_SETTINGS_UPDATE") == null) {
+			try {
+				LOGGER.info("Updating bot settings..");
+				int threads;
+				if (System.getenv("UPDATE_SETTINGS_THREADS") != null) {
+					threads = Integer.parseInt(System.getenv("UPDATE_SETTINGS_THREADS"));
+				} else {
+					threads = 2;
+				}
 
-				scheduler.schedule(() -> {
-					try {
-						LOGGER.info("Updating bot settings..");
-						int threads;
-						if (System.getenv("UPDATE_SETTINGS_THREADS") != null) {
-							threads = Integer.parseInt(System.getenv("UPDATE_SETTINGS_THREADS"));
-						} else {
-							threads = 2;
-						}
-
-						final ExecutorService service = Executors.newFixedThreadPool(threads);
-						final AtomicInteger countSuccess = new AtomicInteger();
-						final AtomicInteger countError = new AtomicInteger();
-						for (final URL url : connectionManager.listConnections()) {
-							service.execute(() -> {
-								try {
-									final NamelessAPI api = Main.newApiConnection(url);
-									api.setDiscordBotUrl(botUrl);
-									api.setDiscordBotUser(username, user.getIdLong());
-									LOGGER.info(url.toString() + " success");
-									countSuccess.incrementAndGet();
-								} catch (final NamelessException e) {
-									LOGGER.info(url.toString() + " error");
-									countError.incrementAndGet();
-								}
-							});
-
-						}
-						service.shutdown();
+				final ExecutorService service = Executors.newFixedThreadPool(threads);
+				final AtomicInteger countSuccess = new AtomicInteger();
+				final AtomicInteger countError = new AtomicInteger();
+				for (final URL url : connectionManager.listConnections()) {
+					service.execute(() -> {
+						Guild guild = null;
 						try {
-							service.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-						} catch (final InterruptedException e) {
-							e.printStackTrace();
+							final long guildId = connectionManager.getGuildIdByURL(url).orElseThrow(() -> new IllegalStateException("database has URL but not guild id"));
+							guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
+							if (guild == null) {
+								LOGGER.warn("Skipping guild {}, it is null (bot was kicked from this guild?)", guildId);
+								return;
+							}
+						} catch (final BackendStorageException e) {
+							LOGGER.error("command update error", e);
 						}
-						LOGGER.info("Done updating bot settings");
-						LOGGER.info("{} websites successful, {} websites unsuccessful", countSuccess, countError);
-					} catch (final BackendStorageException e) {
-						e.printStackTrace();
-					}
-				}, 5, TimeUnit.SECONDS);
+
+						Command.sendCommands(guild);
+
+						try {
+							final NamelessAPI api = Main.newApiConnection(url);
+							api.setDiscordBotSettings(botUrl, guild.getIdLong(), username, user.getIdLong());
+							LOGGER.info(url.toString() + " success");
+							countSuccess.incrementAndGet();
+						} catch (final NamelessException e) {
+							LOGGER.info(url.toString() + " error");
+							countError.incrementAndGet();
+						}
+					});
+
+				}
+				service.shutdown();
+				try {
+					service.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+				} catch (final InterruptedException e) {
+					e.printStackTrace();
+				}
+				LOGGER.info("Done updating bot settings");
+				LOGGER.info("{} websites successful, {} websites unsuccessful", countSuccess, countError);
+			} catch (final BackendStorageException e) {
+				e.printStackTrace();
 			}
 		}
 	}

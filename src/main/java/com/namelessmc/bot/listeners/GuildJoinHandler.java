@@ -23,10 +23,13 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class GuildJoinHandler extends ListenerAdapter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Guild join listener");
+	private static final String API_URL_COMMAND = "/apiurl";
 
 	@Override
 	public void onGuildJoin(final GuildJoinEvent event) {
 		LOGGER.info("Joined guild '{}'", event.getGuild().getName());
+
+		final Language language = Language.getGuildLanguage(event.getGuild());
 
 		event.getJDA().retrieveUserById(event.getGuild().getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 			Optional<NamelessAPI> optApi;
@@ -37,13 +40,11 @@ public class GuildJoinHandler extends ListenerAdapter {
 				return;
 			}
 
-			final Language language = Language.getDefaultLanguage();
 
-			final String apiUrlCommand = Main.getDefaultCommandPrefix() + "apiurl";
 			final long guildId = event.getGuild().getIdLong();
 
 			if (optApi.isEmpty()) {
-				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", apiUrlCommand, "guildId", guildId))
+				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", API_URL_COMMAND, "guildId", guildId))
 						.queue(message -> LOGGER.info("Sent new join message to {} for guild {}",
 								channel.getUser().getName(), event.getGuild().getName()));
 			} else {
@@ -53,8 +54,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 					try {
 						if (Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
 							// Good to go
-							final Language ownerLanguage = Language.getDiscordUserLanguage(optApi.get(), channel.getUser());
-							channel.sendMessage(ownerLanguage.get(Term.GUILD_JOIN_WELCOME_BACK, "command", apiUrlCommand, "guildId", guildId)).queue();
+							channel.sendMessage(language.get(Term.GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND, "guildId", guildId)).queue();
 						} else {
 							// Incompatible version
 							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
@@ -67,7 +67,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 					}
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url
-					channel.sendMessage(language.get(Term.GUILD_JOIN_NEEDS_RENEW, "command", apiUrlCommand, "guildId", guildId)).queue();
+					channel.sendMessage(language.get(Term.GUILD_JOIN_NEEDS_RENEW, "command", API_URL_COMMAND, "guildId", guildId)).queue();
 					LOGGER.info("Guild join, previously stored URL doesn't work");
 				}
 			}

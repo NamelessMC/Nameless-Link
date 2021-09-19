@@ -89,14 +89,4 @@ public class StatelessConnectionManager extends ConnectionManager {
 		}
 	}
 
-	@Override
-	public Optional<String> getCommandPrefixByGuildId(final long guildId) {
-		// In stateless instances, always use the default command prefix
-		return Optional.empty();
-	}
-
-	@Override
-	public boolean setCommandPrefix(final long guildId, final Optional<String> newPrefix) throws BackendStorageException {
-		throw new BackendStorageException(new UnsupportedOperationException());
-	}
 }

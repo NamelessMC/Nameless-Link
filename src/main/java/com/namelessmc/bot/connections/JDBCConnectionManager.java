@@ -196,46 +196,4 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
-	@Override
-	public Optional<String> getCommandPrefixByGuildId(final long guildId) throws BackendStorageException {
-		try (Connection connection = this.getNewDatabaseConnection()) {
-			String prefix;
-			try (PreparedStatement statement = connection
-					.prepareStatement("SELECT command_prefix FROM connections WHERE guild_id=?")) {
-				statement.setLong(1, guildId);
-				final ResultSet result = statement.executeQuery();
-				if (!result.next()) {
-					return Optional.empty();
-				}
-				prefix = result.getString(1);
-			}
-
-			try (PreparedStatement statement = connection
-					.prepareStatement("UPDATE connections SET last_use=? WHERE guild_id=?")) {
-				statement.setLong(1, System.currentTimeMillis());
-				statement.setLong(2, guildId);
-				statement.executeUpdate();
-			}
-
-			return Optional.ofNullable(prefix);
-		} catch (final SQLException e) {
-			throw new BackendStorageException(e);
-		}
-	}
-
-	@Override
-	public boolean setCommandPrefix(final long guildId, final Optional<String> newPrefix) throws BackendStorageException {
-		newPrefix.ifPresent(Validate::notBlank);
-		try (Connection connection = this.getNewDatabaseConnection()) {
-			try (PreparedStatement statement = connection
-					.prepareStatement("UPDATE connections SET command_prefix=?, last_use=? WHERE guild_id=?")) {
-				statement.setString(1, newPrefix.orElse(null));
-				statement.setLong(2, System.currentTimeMillis());
-				statement.setLong(3, guildId);
-				return statement.executeUpdate() > 0;
-			}
-		} catch (final SQLException e) {
-			throw new BackendStorageException(e);
-		}
-	}
 }

@@ -1,38 +1,27 @@
 package com.namelessmc.bot.listeners;
 
-import com.namelessmc.bot.Main;
 import com.namelessmc.bot.commands.Command;
 
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class CommandListener extends ListenerAdapter {
 
 	@Override
-	public void onGuildMessageReceived(final GuildMessageReceivedEvent event) {
-		Main.getExecutorService().execute(() -> {
-			final User user = event.getAuthor();
+	public void onSlashCommand(final SlashCommandEvent event) {
+		final User user = event.getUser();
 
-			if (user.isBot()) {
-				return;
-			}
+		if (user.isBot()) {
+			return;
+		}
 
-			Command.execute(event.getMessage());
-		});
-	}
+		final Command command = Command.getCommand(event.getCommandPath());
 
-	@Override
-	public void onPrivateMessageReceived(final PrivateMessageReceivedEvent event) {
-		Main.getExecutorService().execute(() -> {
-			final User user = event.getAuthor();
-
-			if (user.isBot()) {
-				return;
-			}
-
-			Command.execute(event.getMessage());
-		});
+		if (command == null) {
+			event.reply("unknown command?").queue();
+		} else {
+			command.execute(event);
+		}
 	}
 }
