@@ -47,5 +47,13 @@
     "help_commands_title": "Commands",
     "help_commands_content": "Invalid command. Valid commands: {commands}.",
     "help_context_title": "Context",
-    "help_context_content": "Some commands are only available in DMs, while others are only available in servers."
+    "help_context_content": "Some commands are only available in DMs, while others are only available in servers.",
+    "verify_description": "Verify your Discord account connected to the website",
+    "verify_option_token": "Verification token",
+    "ping_description": "Test website API connection",
+    "apiurl_option_url": "Your website API URL (StaffCP > Configuration > API). Specify 'none' to unlink.",
+    "apiurl_unlinked": "Successfully unlinked the website from this Discord server",
+    "updateusername_description": "Update your Discord username on the website",
+    "updateusername_success": "Username updated successfully",
+    "apiurl_description": "Configure the NamelessMC website API URL"
 }

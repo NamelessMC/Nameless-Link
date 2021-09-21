@@ -39,5 +39,13 @@
     "help_commands_title": "Comandos",
     "help_commands_content": "Comando inválido. Comandos válidos: {commands}.",
     "help_context_title": "Contexto",
-    "help_context_content": "Alguns comandos estão disponíveis apenas nas DMs, enquanto outros estão disponíveis apenas em servidores."
+    "help_context_content": "Alguns comandos estão disponíveis apenas nas DMs, enquanto outros estão disponíveis apenas em servidores.",
+    "apiurl_unlinked": "O site foi desvinculado com sucesso deste servidor Discord",
+    "updateusername_success": "Nome de usuário atualizado com sucesso",
+    "verify_option_token": "Token de verificação",
+    "apiurl_description": "Configure o URL da API do site NamelessMC",
+    "updateusername_description": "Atualize seu nome de usuário do Discord no site",
+    "verify_description": "Verifique sua conta do Discord conectada ao site",
+    "ping_description": "Teste a conexão da API do site",
+    "apiurl_option_url": "URL da API do seu site (StaffCP > Configuração > API ). Especifique 'nenhum' para desvincular."
 }

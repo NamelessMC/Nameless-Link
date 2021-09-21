@@ -17,9 +17,9 @@
     "unused_connection": "Здравствуйте, вы связали свой сервер Discord '{discordServerName}' с NamelessMC с помощью этого бота. Похоже, что соединение с сайтом какое-то время не использовалось, если вы хотите удалить свой сервер Discord с этого бота, запустите `{command}`.",
     "apiurl_success_updated": "Успешно изменен URL-адрес API.",
     "apiurl_success_new": "URL-адрес API настроен успешно.",
-    "guild_join_success": "Здравствуйте! Благодарим вас за использование бота NamelessMC. Для начала ответьте `{command} {guildId} <api url>`. URL-адрес API можно найти в `StaffCP > Configuration > API`.",
-    "guild_join_needs_renew": "Здравствуйте! Благодарим вас за использование бота NamelessMC. Похоже, вы уже установили свой URL-адрес API, но он больше не работает. Установите новый, используя `{command} {guildId} <api url>`. URL-адрес API можно найти в `StaffCP > Configuration > API`.",
-    "guild_join_welcome_back": "Здравствуйте! Благодарим вас за использование бота NamelessMC. Бот уже настроен для вашего сервера Discord. Если вы хотите использовать другой URL-адрес API, вы можете изменить его, используя `{command} {guildId} <api url>`.",
+    "guild_join_success": "Здравствуйте! Благодарим вас за использование NamelessMC Бота. Для начала напишите `{комманда} {Idсервера} <api url>`. URL-адрес API можно найти в `StaffCP > Настройки > API`.",
+    "guild_join_needs_renew": "Здравствуйте! Благодарим вас за использование бота NamelessMC. Похоже, вы уже установили свой URL-адрес API, но он больше не работает. Установите новый, используя `{комманда} {Idсервера} <api url>`. URL-адрес API можно найти в `StaffCP > Настройки > API`.",
+    "guild_join_welcome_back": "Здравствуйте! Благодарим вас за использование бота NamelessMC. Бот уже настроен для вашего сервера Discord. Если вы хотите использовать другой URL-адрес API, вы можете изменить его, используя `{комманда} {Idсервера} <api url>`.",
     "unlink_usage": "Применение: `{command} <server id>`.",
     "error_guild_id_invalid": "Указанный идентификатор сервера Discord недействителен, или вашего бота нету в участниках сервер Discord.",
     "apiurl_url_invalid": "Предоставленный URL-адрес API не похож на URL-адрес API NamelessMC. Вы можете найти URL-адрес API в StaffCP> Настройки> API.",
@@ -40,5 +40,13 @@
     "help_context_content": "Некоторые команды пишутся только в ЛС, а некоторые только на сервере.",
     "help_title": "Помощь",
     "help_commands_content": "Неверная команда. Доступные команды: {commands}.",
-    "help_context_title": "Контекст"
+    "help_context_title": "Контекст",
+    "verify_description": "Подтвердите свой Discord аккаунт который привязан к сайту",
+    "verify_option_token": "Токен верификации",
+    "ping_description": "Проверить соеденение API сайта",
+    "apiurl_description": "Настройте сайт NamelessMC API URL",
+    "apiurl_option_url": "Ваш API URL сайта (StaffCP > Настройки > API). Напишите 'none' чтобы отвязать.",
+    "apiurl_unlinked": "Успешно был отвязан сайт от этого Discord сервера",
+    "updateusername_description": "Обновите ваш Discord ник на сайте",
+    "updateusername_success": "Ник был успешно обновлён"
 }
