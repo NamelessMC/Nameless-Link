@@ -224,12 +224,12 @@ public class Main {
 
 	private static void sendBotSettings(final ScheduledExecutorService scheduler) throws NamelessException, BackendStorageException {
 		final User user = Main.getJda(0).getSelfUser();
-		final String username = user.getName() + "#" + user.getDiscriminator();
+		final String userTag = user.getAsTag();
 		if (Main.getConnectionManager().isReadOnly()) {
 			final NamelessAPI api = newApiConnection(connectionManager.listConnections().get(0));
 			LOGGER.info("Sending bot settings to " + api.getApiUrl());
 			api.setDiscordBotUrl(botUrl);
-			api.setDiscordBotUser(username, user.getIdLong());
+			api.setDiscordBotUser(userTag, user.getIdLong());
 			final long guildId = connectionManager.getGuildIdByURL(api.getApiUrl()).orElse(0L);
 			if (guildId == 0L) {
 				LOGGER.error("Guild id was not present in the Optional");
@@ -274,7 +274,7 @@ public class Main {
 
 						try {
 							final NamelessAPI api = Main.newApiConnection(url);
-							api.setDiscordBotSettings(botUrl, guild.getIdLong(), username, user.getIdLong());
+							api.setDiscordBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
 							LOGGER.info(url.toString() + " success");
 							countSuccess.incrementAndGet();
 						} catch (final NamelessException e) {

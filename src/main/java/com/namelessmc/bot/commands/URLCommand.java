@@ -140,7 +140,7 @@ public class URLCommand extends Command {
 					api.setDiscordGuildId(guildId);
 
 					final User botUser = Main.getJdaForGuild(guildId).getSelfUser();
-					api.setDiscordBotUser(botUser.getName() + "#" + botUser.getDiscriminator(), botUser.getIdLong());
+					api.setDiscordBotUser(botUser.getAsTag(), botUser.getIdLong());
 
 					final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
 

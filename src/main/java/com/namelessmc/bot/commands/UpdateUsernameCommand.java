@@ -54,7 +54,7 @@ public class UpdateUsernameCommand extends Command {
 		event.deferReply().setEphemeral(true).queue();
 
 		final long userId = event.getUser().getIdLong();
-		final String userName = event.getUser().getName() + "#" + event.getUser().getDiscriminator();
+		final String userTag = event.getUser().getAsTag();
 
 		Main.getExecutorService().execute(() -> {
 			final NamelessAPI api = optApi.get();
@@ -74,8 +74,8 @@ public class UpdateUsernameCommand extends Command {
 			}
 
 			try {
-				api.updateDiscordUsername(userId, userName);
-				LOGGER.info("Updated username for user {} to '{}'", userId, userName);
+				api.updateDiscordUsername(userId, userTag);
+				LOGGER.info("Updated username for user {} to '{}'", userId, userTag);
 			} catch (final ApiError e) {
 				if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 					event.getHook().sendMessage(language.get(Term.ERROR_NOT_LINKED)).queue();

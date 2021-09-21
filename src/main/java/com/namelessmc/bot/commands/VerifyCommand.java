@@ -63,7 +63,7 @@ public class VerifyCommand extends Command {
 
 		final long guildId = guild.getIdLong();
 		final long userId = event.getUser().getIdLong();
-		final String userName = event.getUser().getName() + "#" + event.getUser().getDiscriminator();
+		final String userTag = event.getUser().getAsTag();
 
 		Main.getExecutorService().execute(() -> {
 			final InteractionHook hook = event.getHook();
@@ -82,9 +82,9 @@ public class VerifyCommand extends Command {
 			}
 
 			try {
-				api.get().verifyDiscord(verify, userId, userName);
+				api.get().verifyDiscord(verify, userId, userTag);
 				hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
-				LOGGER.info("Verified user {} in guild {}", userName, guildId);
+				LOGGER.info("Verified user {} in guild {}", userTag, guildId);
 			} catch (final ApiError e) {
 				if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
 					hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
