@@ -54,5 +54,13 @@
     "help_commands_title": "Příkazy",
     "help_commands_content": "Neplatný příkaz. Platné příkazy: {commands}.",
     "help_context_title": "Kontext",
-    "help_context_content": "Některé příkazy jsou dostupné pouze v PZ, zatímco jiné jsou dostupné pouze na serverech."
+    "help_context_content": "Některé příkazy jsou dostupné pouze v PZ, zatímco jiné jsou dostupné pouze na serverech.",
+    "verify_description": "Ověřte si svůj Discord účet připojený k webu",
+    "verify_option_token": "Ověřovací token",
+    "ping_description": "Ověřit spojení s webovou API",
+    "apiurl_description": "Nakonfigurovat URL webové API NamelessMC",
+    "apiurl_option_url": "URL API vašeho webu (Panel > Konfigurace > API). Zadejte 'none' pro zrušení propojení.",
+    "apiurl_unlinked": "Web byl úspěšně odpojen od tohoto Discord serveru",
+    "updateusername_description": "Aktualizujte své Discord jméno na webu",
+    "updateusername_success": "Uživatelské jméno úspěšně aktualizováno"
 }
