@@ -349,7 +349,9 @@ public class Main {
 		Objects.requireNonNull(e, "Exception is null");
 		if (e instanceof ApiError) {
 			logger.warn(message + " (API error {})", ((ApiError) e).getError());
-		} else if (e.getCause() != null && IGNORED_EXCEPTIONS.contains(e.getCause().getClass())) {
+		} else if (e.getCause() != null &&
+				apiDebugLogger.isEmpty() &&
+				IGNORED_EXCEPTIONS.contains(e.getCause().getClass())) {
 			logger.warn(message + " ({})", e.getCause().getClass().getSimpleName());
 		} else {
 			logger.warn(message, e);
