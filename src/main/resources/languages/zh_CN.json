@@ -46,5 +46,13 @@
     "help_commands_title": "指令",
     "help_commands_content": "无效指令。有效指令: {commands}。",
     "help_context_title": "可用区域",
-    "help_context_content": "一些指令只能在私信中使用，一些只能在服务器中使用。"
+    "help_context_content": "一些指令只能在私信中使用，一些只能在服务器中使用。",
+    "verify_description": "验证你链接到网站的 Discord 账号",
+    "verify_option_token": "验证 token",
+    "ping_description": "测试网站 API 连接",
+    "apiurl_description": "配置 NamelessMC 网站 API 链接 (URL)",
+    "apiurl_option_url": "你的网站 API 链接 (URL) (管理员控制面板 > 配置 > API)。输入 'none' 来解除链接。",
+    "apiurl_unlinked": "成功解除了此 Discord 服务器与网站的链接",
+    "updateusername_description": "更新您网站上的 Discord 用户名",
+    "updateusername_success": "用户名更新成功"
 }
