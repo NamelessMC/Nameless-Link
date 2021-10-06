@@ -22,6 +22,7 @@ import java.util.function.Consumer;
 import javax.net.ssl.SSLHandshakeException;
 import javax.security.auth.login.LoginException;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +93,7 @@ public class Main {
 	private static int webserverPort;
 	public static int getWebserverPort() { return webserverPort; }
 
-	private static Optional<ApiLogger> apiDebugLogger;
+	private static @Nullable ApiLogger apiDebugLogger;
 
 	private static int shards;
 	public static int getShardCount() { return shards; }
@@ -130,9 +131,9 @@ public class Main {
 		}
 
 		if (System.getenv("API_DEBUG") != null && Boolean.parseBoolean(System.getenv("API_DEBUG"))) {
-			apiDebugLogger = Optional.of(Slf4jLogger.DEFAULT_INSTANCE);
+			apiDebugLogger = Slf4jLogger.DEFAULT_INSTANCE;
 		} else {
-			apiDebugLogger = Optional.empty();
+			apiDebugLogger = null;
 		}
 
 		if (System.getenv("WEBSERVER_BIND") != null) {
@@ -350,7 +351,7 @@ public class Main {
 		if (e instanceof ApiError) {
 			logger.warn(message + " (API error {})", ((ApiError) e).getError());
 		} else if (e.getCause() != null &&
-				apiDebugLogger.isEmpty() &&
+				apiDebugLogger == null &&
 				IGNORED_EXCEPTIONS.contains(e.getCause().getClass())) {
 			logger.warn(message + " ({})", e.getCause().getClass().getSimpleName());
 		} else {
