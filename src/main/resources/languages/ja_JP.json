@@ -40,5 +40,13 @@
     "help_commands_title": "コマンド",
     "help_commands_content": "無効なコマンドです。有効なコマンド: {commands}",
     "help_context_title": "コンテキスト",
-    "help_context_content": "DMでしか使えないコマンドもあれば、サーバーでしか使えないコマンドもあります。"
+    "help_context_content": "DMでしか使えないコマンドもあれば、サーバーでしか使えないコマンドもあります。",
+    "verify_description": "Discordアカウントがウェブサイトに接続されていることを確認する",
+    "verify_option_token": "検証トークン",
+    "ping_description": "ウェブサイトのAPI接続テスト",
+    "apiurl_description": "NamelessMCウェブサイトのAPI URL設定",
+    "apiurl_option_url": "ウェブサイトのAPI URL（StaffCP > Configuration > API）リンクを解除する場合は「none」を指定してください。",
+    "updateusername_description": "ウェブサイトのDiscordユーザー名を更新する",
+    "apiurl_unlinked": "Discordサーバーからウェブサイトのリンクを解除することに成功しました",
+    "updateusername_success": "ユーザー名の更新に成功しました"
 }
