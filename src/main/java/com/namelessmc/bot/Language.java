@@ -127,7 +127,7 @@ public class Language {
 	private transient JsonObject json;
 
 	private Language(final String language) throws LanguageLoadException {
-		this.language = Objects.requireNonNull(language, "Language string is null");;
+		this.language = Objects.requireNonNull(language, "Language string is null");
 		readFromFile();
 	}
 
@@ -256,7 +256,8 @@ public class Language {
 		try {
 			language = new Language(languageName);
 		} catch (final LanguageLoadException e) {
-			LOGGER.error("Failed to load language '{}', falling back to '{}'.", e, languageName, getDefaultLanguage().language);
+			LOGGER.error("Failed to load language '{}', falling back to '{}'.", languageName, getDefaultLanguage().language);
+			LOGGER.error("Error loading language", e);
 			language = getDefaultLanguage();
 		}
 

@@ -132,8 +132,8 @@ public class RoleChange extends HttpServlet {
 					} else {
 						LOGGER.warn("Website sent unknown role change action '{}', it was ignored.", action);
 					}
-				} catch (final HierarchyException | InsufficientPermissionException ignored) {
-					LOGGER.warn("Cannot process role change: {}", ignored.getClass().getSimpleName());
+				} catch (final HierarchyException | InsufficientPermissionException e2) {
+					LOGGER.warn("Cannot process role change: {}", e2.getClass().getSimpleName());
 					error = true;
 				}
 			}

@@ -10,7 +10,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -98,7 +97,7 @@ public class Main {
 	private static int shards;
 	public static int getShardCount() { return shards; }
 
-	public static void main(final String[] args) throws IOException, BackendStorageException, NamelessException {
+	public static void main(final String[] args) throws BackendStorageException, NamelessException {
 		LOGGER.info("Starting Nameless Link version {}", Main.class.getPackage().getImplementationVersion());
 
 		final String botUrlStr = Objects.requireNonNull(System.getenv("BOT_URL"),
@@ -217,9 +216,7 @@ public class Main {
 
 		if (!Main.getConnectionManager().isReadOnly()) {
 			scheduler.scheduleAtFixedRate(() -> {
-				Main.getExecutorService().execute(() -> {
-					ConnectionCleanup.run();
-				});
+				Main.getExecutorService().execute(ConnectionCleanup::run);
 			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
 	}

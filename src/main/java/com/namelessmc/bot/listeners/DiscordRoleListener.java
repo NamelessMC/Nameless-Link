@@ -44,9 +44,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 	 *
 	 * This method calls the provided runnable, blocking until previous runnables with the same
 	 * guildId have finished processing.
-	 *
-	 * @param guildId
-	 * @param runnable
 	 */
 	private static void executeAsyncSynchronized(final long guildId, final Runnable runnable) {
 		synchronized(ROLE_SEND_LOCK) {
@@ -200,7 +197,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			user.get().setDiscordRoles(roleIds);
 			LOGGER.info("Sucessfully sent roles to website: guildid={} userid={}", guildId, userId);
 		} catch (final ApiError e) {
-			LOGGER.warn("API error " + e.getError() + " while sending role update for user {} guild (setDiscordRoles)", userId, guildId);
+			LOGGER.warn("API error {} while sending role update for user {} guild {} (setDiscordRoles)", e.getError(), userId, guildId);
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update: user=" + userId + " guild=" + guildId + " (setDiscordRoles)", e);
 		}

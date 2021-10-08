@@ -49,20 +49,6 @@ public class ConnectionCleanup {
 				}
 
 				LOGGER.info("Guild exists, not removing connection.");
-
-//				Main.getJda().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
-//					log.info("Guild owner has user id " + channel.getUser().getIdLong() + ", opened channel id " + channel.getIdLong());
-//
-//					Main.getExecutorService().execute(() -> {
-//						log.info("Making request to website for getting language");
-//						final NamelessAPI api = Main.newApiConnection(url);
-//						final Language language = Language.getDiscordUserLanguage(api, channel.getUser());
-//						final String command = "!unlink " + guildId;
-//						final String s = language.get(Term.UNUSED_CONNECTION, "discordServerName", guild.getName(), "command", command);
-//						log.info("Got language, sending message");
-//						channel.sendMessage(s).queue(RestAction.getDefaultSuccess(), ignored -> log.warning("Couldn't send message"));
-//					});
-//				});
 			}
 
 			LOGGER.info("Done cleaning up connections.");

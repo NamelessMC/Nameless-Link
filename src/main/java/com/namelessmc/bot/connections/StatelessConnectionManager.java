@@ -54,7 +54,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public int countConnections() throws BackendStorageException {
+	public int countConnections() {
 		return 1;
 	}
 

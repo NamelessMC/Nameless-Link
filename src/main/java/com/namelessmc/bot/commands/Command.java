@@ -22,14 +22,14 @@ public abstract class Command {
 
 	public abstract void execute(SlashCommandEvent event);
 
-	private static Command[] COMMANDS = {
+	private static final Command[] COMMANDS = {
 			new PingCommand(),
 			new UpdateUsernameCommand(),
 			new URLCommand(),
 			new VerifyCommand(),
 	};
 
-	private static Map<String, Command> BY_NAME = new HashMap<>();
+	private static final Map<String, Command> BY_NAME = new HashMap<>();
 
 	static {
 		for (final Command command : COMMANDS) {

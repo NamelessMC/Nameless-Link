@@ -122,9 +122,6 @@ public class URLCommand extends Command {
 				} catch (final NamelessException e) {
 					hook.sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
 					hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-//					if (apiUrl.toString().startsWith("http://")) {
-//						message.getChannel().sendMessage(language.get(Term.APIURL_TRY_HTTPS)).queue();
-//					}
 					Main.logConnectionError(LOGGER, "Website connection error while checking if new API url works", e);
 					return;
 				}
