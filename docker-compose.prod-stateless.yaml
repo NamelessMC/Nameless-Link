@@ -10,7 +10,7 @@ services:
   #   set up a reverse proxy to port 80 of this container and set BOT_URL to 'https://something'
 
   link:
-    image: namelessmc/discord-link:2.0
+    image: namelessmc/discord-link:3
     environment:
       BOT_URL:
       DISCORD_TOKEN: # discord bot token

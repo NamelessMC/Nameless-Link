@@ -3,7 +3,7 @@ version: '3'
 services:
 
   postgres:
-    image: namelessmc/discord-link-postgres:2.0
+    image: namelessmc/discord-link-postgres:3
     volumes: ['/opt/nameless-link:/var/lib/postgresql/data']
     environment:
       POSTGRES_DB: link
@@ -19,7 +19,7 @@ services:
   #   set up a reverse proxy to port 80 of this container and set BOT_URL to 'https://something'
 
   link:
-    image: namelessmc/discord-link:2.0
+    image: namelessmc/discord-link:3
     environment:
       BOT_URL:
       DISCORD_TOKEN: # discord bot token
