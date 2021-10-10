@@ -29,9 +29,9 @@
     "apiurl_success_new": "Successfully set up the API URL.",
     "apiurl_unlinked": "Successfully unlinked the website from this Discord server",
 
-    "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, reply with `{command} {guildId} <api url>`. The API URL can be found in `StaffCP > Configuration > API`.",
-    "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please set a new one using `{command} {guildId} <api url>`. The API URL can be found in `StaffCP > Configuration > API`.",
-    "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command} {guildId} <api url>`.",
+    "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, reply with `{command} <api url>`. The API URL can be found in `StaffCP > Configuration > API`.",
+    "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please set a new one using `{command} <api url>`. The API URL can be found in `StaffCP > Configuration > API`.",
+    "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command} <api url>`.",
     
     "updateusername_description": "Update your Discord username on the website",
     "updateusername_success": "Username updated successfully",

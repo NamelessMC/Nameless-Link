@@ -58,9 +58,9 @@ public class Language {
 		APIURL_SUCCESS_NEW,
 		APIURL_UNLINKED,
 
-		GUILD_JOIN_SUCCESS("command", "guildId"),
-		GUILD_JOIN_NEEDS_RENEW("command", "guildId"),
-		GUILD_JOIN_WELCOME_BACK("command", "guildId"),
+		GUILD_JOIN_SUCCESS("command"),
+		GUILD_JOIN_NEEDS_RENEW("command"),
+		GUILD_JOIN_WELCOME_BACK("command"),
 
 		UPDATEUSERNAME_DESCRIPTION,
 		UPDATEUSERNAME_SUCCESS,

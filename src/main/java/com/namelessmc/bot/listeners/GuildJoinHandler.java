@@ -3,6 +3,8 @@ package com.namelessmc.bot.listeners;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.namelessmc.bot.commands.Command;
+import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,11 +42,8 @@ public class GuildJoinHandler extends ListenerAdapter {
 				return;
 			}
 
-
-			final long guildId = event.getGuild().getIdLong();
-
 			if (optApi.isEmpty()) {
-				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", API_URL_COMMAND, "guildId", guildId))
+				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", API_URL_COMMAND))
 						.queue(message -> LOGGER.info("Sent new join message to {} for guild {}",
 								channel.getUser().getName(), event.getGuild().getName()));
 			} else {
@@ -54,7 +53,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 					try {
 						if (Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
 							// Good to go
-							channel.sendMessage(language.get(Term.GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND, "guildId", guildId)).queue();
+							channel.sendMessage(language.get(Term.GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
 						} else {
 							// Incompatible version
 							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
@@ -67,12 +66,11 @@ public class GuildJoinHandler extends ListenerAdapter {
 					}
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url
-					channel.sendMessage(language.get(Term.GUILD_JOIN_NEEDS_RENEW, "command", API_URL_COMMAND, "guildId", guildId)).queue();
+					channel.sendMessage(language.get(Term.GUILD_JOIN_NEEDS_RENEW, "command", API_URL_COMMAND)).queue();
 					LOGGER.info("Guild join, previously stored URL doesn't work");
 				}
 			}
 		});
-
 	}
 
 }
