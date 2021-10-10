@@ -21,6 +21,7 @@ import java.util.function.Consumer;
 import javax.net.ssl.SSLHandshakeException;
 import javax.security.auth.login.LoginException;
 
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -183,9 +184,10 @@ public class Main {
 						.setMemberCachePolicy(MemberCachePolicy.ALL);
 			}
 
-			LOGGER.info("Using {} shards", shards);
+//			LOGGER.info("Using {} shards", shards);
 			jda = new JDA[shards];
 			for (int i = 0; i < shards; i++) {
+				LOGGER.info("Initializing shard {}", i);
 				jda[i] = builder.useSharding(i, shards).build();
 			}
 		} catch (final LoginException e) {
@@ -255,7 +257,7 @@ public class Main {
 				final AtomicInteger countError = new AtomicInteger();
 				for (final URL url : connectionManager.listConnections()) {
 					service.execute(() -> {
-						Guild guild = null;
+						Guild guild;
 						try {
 							final long guildId = connectionManager.getGuildIdByURL(url).orElseThrow(() -> new IllegalStateException("database has URL but not guild id"));
 							guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
@@ -265,17 +267,22 @@ public class Main {
 							}
 						} catch (final BackendStorageException e) {
 							LOGGER.error("command update error", e);
+							return;
 						}
 
-						Command.sendCommands(guild);
+						try {
+							Command.sendCommands(guild);
+						} catch (ErrorResponseException e) {
+							LOGGER.warn("Failed to send commands to guild {}: {}", guild.getIdLong(), e.getMessage());
+						}
 
 						try {
 							final NamelessAPI api = Main.newApiConnection(url);
 							api.setDiscordBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
-							LOGGER.info(url.toString() + " success");
+							LOGGER.info("{} {} success", guild.getIdLong(), url.toString());
 							countSuccess.incrementAndGet();
 						} catch (final NamelessException e) {
-							LOGGER.info(url.toString() + " error");
+							LOGGER.info("{} {} error", guild.getIdLong(), url.toString());
 							countError.incrementAndGet();
 						}
 					});
