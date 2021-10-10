@@ -29,11 +29,10 @@ public class GuildJoinHandler extends ListenerAdapter {
 
 	@Override
 	public void onGuildJoin(final GuildJoinEvent event) {
-		LOGGER.info("Joined guild '{}'", event.getGuild().getName());
+		Guild guild = event.getGuild();
+		LOGGER.info("Joined guild '{}'", guild.getName());
 
-		final Language language = Language.getGuildLanguage(event.getGuild());
-
-		event.getJDA().retrieveUserById(event.getGuild().getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
+		event.getJDA().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 			Optional<NamelessAPI> optApi;
 			try {
 				optApi = Main.getConnectionManager().getApi(event.getGuild().getIdLong());
@@ -41,6 +40,8 @@ public class GuildJoinHandler extends ListenerAdapter {
 				LOGGER.error("Storage error during guild join", e);
 				return;
 			}
+
+			final Language language = Language.getGuildLanguage(guild);
 
 			if (optApi.isEmpty()) {
 				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", API_URL_COMMAND))
@@ -71,6 +72,8 @@ public class GuildJoinHandler extends ListenerAdapter {
 				}
 			}
 		});
+
+		Main.getExecutorService().execute(() -> Command.sendCommands(guild));
 	}
 
 }
