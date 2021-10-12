@@ -35,7 +35,6 @@ public class UpdateUsernameCommand extends Command {
 	@Override
 	public void execute(final SlashCommandEvent event) {
 		final Guild guild = event.getGuild();
-
 		final Language language = Language.getGuildLanguage(guild);
 
 		final Optional<NamelessAPI> optApi;

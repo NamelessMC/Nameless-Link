@@ -1,6 +1,35 @@
 package com.namelessmc.bot;
 
-import java.io.IOException;
+import com.namelessmc.bot.Language.LanguageLoadException;
+import com.namelessmc.bot.commands.Command;
+import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.connections.ConnectionManager;
+import com.namelessmc.bot.connections.StorageInitializer;
+import com.namelessmc.bot.http.HttpMain;
+import com.namelessmc.bot.listeners.CommandListener;
+import com.namelessmc.bot.listeners.DiscordRoleListener;
+import com.namelessmc.bot.listeners.GuildJoinHandler;
+import com.namelessmc.java_api.ApiError;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessVersion;
+import com.namelessmc.java_api.logger.ApiLogger;
+import com.namelessmc.java_api.logger.Slf4jLogger;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDA.Status;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.SSLHandshakeException;
+import javax.security.auth.login.LoginException;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -18,42 +47,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-import javax.net.ssl.SSLHandshakeException;
-import javax.security.auth.login.LoginException;
-
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.namelessmc.bot.Language.LanguageLoadException;
-import com.namelessmc.bot.commands.Command;
-import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.bot.connections.ConnectionManager;
-import com.namelessmc.bot.connections.StorageInitializer;
-import com.namelessmc.bot.http.HttpMain;
-import com.namelessmc.bot.listeners.CommandListener;
-import com.namelessmc.bot.listeners.DiscordRoleListener;
-import com.namelessmc.bot.listeners.GuildJoinHandler;
-import com.namelessmc.java_api.ApiError;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessVersion;
-import com.namelessmc.java_api.logger.ApiLogger;
-import com.namelessmc.java_api.logger.Slf4jLogger;
-
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDA.Status;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
-
 public class Main {
 
 	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
@@ -69,12 +62,6 @@ public class Main {
 	}
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Core");
-
-	private static final EmbedBuilder embedBuilder = new EmbedBuilder();
-	public static EmbedBuilder getEmbedBuilder() { return embedBuilder; }
-
-	private static final Gson gson = new GsonBuilder().create();
-	public static Gson getGson() { return gson; }
 
 	private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
 	public static ExecutorService getExecutorService() { return executorService; }
@@ -212,16 +199,16 @@ public class Main {
 
 		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-		sendBotSettings(scheduler);
+		sendBotSettings();
 
 		if (!Main.getConnectionManager().isReadOnly()) {
-			scheduler.scheduleAtFixedRate(() -> {
-				Main.getExecutorService().execute(ConnectionCleanup::run);
-			}, 15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
+			scheduler.scheduleAtFixedRate(
+					() -> Main.getExecutorService().execute(ConnectionCleanup::run),
+					15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
 	}
 
-	private static void sendBotSettings(final ScheduledExecutorService scheduler) throws NamelessException, BackendStorageException {
+	private static void sendBotSettings() throws NamelessException, BackendStorageException {
 		final User user = Main.getJda(0).getSelfUser();
 		final String userTag = user.getAsTag();
 		if (Main.getConnectionManager().isReadOnly()) {

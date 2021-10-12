@@ -40,11 +40,6 @@ public class PingCommand extends Command {
 		final Guild guild = event.getGuild();
 		final Language language = Language.getGuildLanguage(guild);
 
-		if (guild == null) {
-			event.reply(language.get(Term.ERROR_GUILD_ID_INVALID)).setEphemeral(true).queue();
-			return;
-		}
-
 		Main.canModifySettings(event.getUser(), guild, (canModifySettings) -> {
 			if (!canModifySettings) {
 				event.reply(language.get(Term.ERROR_NO_PERMISSION)).setEphemeral(true).queue();

@@ -86,6 +86,11 @@ public class StorageInitializer<CM extends ConnectionManager> {
 
 	private static URL getEnvUrl(final String name) {
 		final String str = getEnvString(name, null);
+		if (str == null) {
+			System.err.println("Environment variable " + name + " not defined");
+			System.exit(1);
+			return null;
+		}
 		try {
 			return new URL(str);
 		} catch (final MalformedURLException e) {
