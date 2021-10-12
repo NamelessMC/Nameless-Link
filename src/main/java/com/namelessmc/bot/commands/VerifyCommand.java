@@ -41,23 +41,23 @@ public class VerifyCommand extends Command {
 
 		final String token = event.getOption("token").getAsString();
 
-		if (token.length() < 40 || !token.contains(":")) {
-			event.reply(language.get(Term.VERIFY_TOKEN_INVALID)).setEphemeral(true).queue();
-			return;
-		}
+//		if (token.length() < 40 || !token.contains(":")) {
+//			event.reply(language.get(Term.VERIFY_TOKEN_INVALID)).setEphemeral(true).queue();
+//			return;
+//		}
 
-		try {
-			final long providedGuildId = Long.parseLong(token.substring(0, token.indexOf(':')));
-
-			if (guild.getIdLong() != providedGuildId) {
-				event.reply("token for different guild").queue(); // TODO translate
-				return;
-			}
-		} catch (final NumberFormatException e) {
-			event.reply(language.get(Term.VERIFY_TOKEN_INVALID)).setEphemeral(true).queue();
-			return;
-		}
-		final String verify = token.substring(token.indexOf(':') + 1);
+//		try {
+//			final long providedGuildId = Long.parseLong(token.substring(0, token.indexOf(':')));
+//
+//			if (guild.getIdLong() != providedGuildId) {
+//				event.reply("token for different guild").queue(); // TODO translate
+//				return;
+//			}
+//		} catch (final NumberFormatException e) {
+//			event.reply(language.get(Term.VERIFY_TOKEN_INVALID)).setEphemeral(true).queue();
+//			return;
+//		}
+//		final String verify = token.substring(token.indexOf(':') + 1);
 
 		event.deferReply().setEphemeral(true).queue();
 
@@ -82,7 +82,7 @@ public class VerifyCommand extends Command {
 			}
 
 			try {
-				api.get().verifyDiscord(verify, userId, userTag);
+				api.get().verifyDiscord(token, userId, userTag);
 				hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
 				LOGGER.info("Verified user {} in guild {}", userTag, guildId);
 			} catch (final ApiError e) {
