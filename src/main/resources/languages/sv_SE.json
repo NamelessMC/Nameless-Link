@@ -30,7 +30,7 @@
     "apiurl_success_new": "API-URL Konfigurerad.",
     "guild_join_success": "Hej! Tack för att du använder NamelessMC Bot. För att komma igång, svara med `{command} {guildId} <api url>`. API-URL: en finns i `StaffKP > Konfiguration > API`.",
     "guild_join_needs_renew": "Hej! Tack för att du använder NamelessMC Bot. Det verkar som om du redan har ställt in din API-URL, men den fungerar inte längre. Ställ in en ny med `{command} {guildId} <api url>`. API-URL: en finns i `StaffKP > Konfiguration > API`.",
-    "guild_join_welcome_back": "Hej! Tack för att du använder NamelessMC Bot. Bot är redan konfigurerad för din Discord-server. Om du vill använda en annan API-URL kan du ändra den med `{command} {guildId} <api url>`.",
+    "guild_join_welcome_back": "Hej! Tack för att du använder NamelessMC Bot. Bot är redan konfigurerad för din Discord-server. Om du vill använda en annan API-URL kan du ändra den med `{command} <api url>`.",
     "unlink_usage": "Användning: `{command} <server id>`.",
     "unlink_not_linked": "Ditt konto är inte länkat.",
     "prefix_usage": "Användning: `{command} <server id> <new prefix>`. Använd `reset` för att använda standardprefix.",
