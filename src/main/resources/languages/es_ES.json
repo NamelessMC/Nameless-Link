@@ -29,7 +29,7 @@
     "guild_join_welcome_back": "¡Hola! Gracias por usar el Bot de NamelessMC. El bot ya está configurado para su servidor de Discord. Si desea utilizar una URL de API diferente puede cambiarla usando `{command} <api url>`.",
     "error_not_owner": "Debes ser el dueño del servidor de Discord para usar este comando.",
     "verify_usage": "Uso: `{command} <token>`.",
-    "apiurl_already_used": "Esta API URL ya es usada por un servidor de Discord, usa `{command}` para desvincularse.",
+    "apiurl_already_used": "Esta URL de la API ya es utilizada por un servidor de Discord, ejecute `{command}` en el servidor de Discord vinculado para desvincularlo.",
     "unused_connection": "Hola, has enlazado tu servidor de Discord '{discordServerName}' a NamelessMC usando este bot. Parece que la conexión al sitio web no se ha utilizado durante un tiempo, si desea eliminar su servidor Discord de este bot use `{command}`.",
     "unlink_usage": "Uso: `{command} <id del servidor>`.",
     "error_guild_invalid": "El servidor proporcionado no existe o no está vinculado.",
