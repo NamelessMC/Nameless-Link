@@ -3,7 +3,7 @@
     "apiurl_success": "Seu servidor do Discord foi vinculado com sucesso ao seu site NamelessMC.",
     "apiurl_url_invalid": "O URL da API fornecido não se parece com um URL da API NamelessMC. Você pode encontrar o URL da API em StaffCP > Configuração > API.",
     "apiurl_failed_connection": "Não foi possível conectar ao seu site. Por favor, veja a mensagem acima para ver os detalhes.",
-    "apiurl_already_used": "Essa URL da API já esta sendo usada em um servidor do Discord, use `{command}` para desvincular.",
+    "apiurl_already_used": "Essa URL da API já esta sendo usada em um servidor do Discord, execute `{command}` para desvincular.",
     "commands": "Comandos",
     "help": "Ajuda",
     "error_generic": "Ocorreu um erro interno.",
