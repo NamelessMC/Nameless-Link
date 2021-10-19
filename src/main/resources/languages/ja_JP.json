@@ -23,7 +23,7 @@
     "unlink_usage": "使い方: `{command} <サーバid>`",
     "unlink_guild_unknown": "サーバーが存在しないか、ボットがサーバーのメンバーではありません。",
     "apiurl_failed_connection": "ウェブサイトに接続できませんでした。詳細は上記のメッセージをご確認ください。",
-    "apiurl_already_used": "このAPI URLは既にDiscordサーバで使用されています。リンクを解除するには`{command}`を使用してください。",
+    "apiurl_already_used": "このAPI URLは既にDiscordサーバーで使用されている為、リンク先のDiscordサーバーで`{command}`を実行してリンクを解除してください。",
     "apiurl_success_updated": "API URLの変更に成功しました。",
     "apiurl_success_new": "API URLの設定に成功しました。",
     "unlink_guild_not_linked": "サーバーはリンクされていません。",
