@@ -92,7 +92,7 @@ public class Main {
 		try {
 			botUrl = new URL(botUrlStr);
 		} catch (final MalformedURLException e) {
-			System.err.println("Environment variable BOT_URL is not a valid URL");
+			LOGGER.error("Environment variable BOT_URL is not a valid URL");
 			System.exit(1);
 		}
 
@@ -104,14 +104,14 @@ public class Main {
 			try {
 				webserverPort = Integer.parseInt(webserverPortStr);
 			} catch (final NumberFormatException e) {
-				System.err.println("Environment variable WEBSERVER_PORT is not a valid number");
+				LOGGER.error("Environment variable WEBSERVER_PORT is not a valid number");
 				System.exit(1);
 			}
 		}
 
 		String defaultLang = System.getenv("DEFAULT_LANGUAGE");
 		if (defaultLang == null) {
-			System.out.println("Default language not specified, assuming " + DEFAULT_LANGUAGE_CODE);
+			LOGGER.info("Default language not specified, assuming {}", DEFAULT_LANGUAGE_CODE);
 			defaultLang = DEFAULT_LANGUAGE_CODE;
 		}
 
@@ -124,14 +124,14 @@ public class Main {
 		if (System.getenv("WEBSERVER_BIND") != null) {
 			webserverInterface = System.getenv("WEBSERVER_BIND");
 		} else {
-			System.out.println("Environment variable 'WEBSERVER_BIND' not set, assuming '127.0.0.1'. Note that this means the bot only listens on your localhost interface, but this is likely what you want.");
+			LOGGER.info("Environment variable 'WEBSERVER_BIND' not set, assuming '127.0.0.1'. Note that this means the bot only listens on your localhost interface, but this is likely what you want.");
 			webserverInterface = "127.0.0.1";
 		}
 
 		try {
 			Language.setDefaultLanguage(defaultLang);
 		} catch (final LanguageLoadException e) {
-			System.err.println("Could not load language '" + defaultLang + "'");
+			LOGGER.error("Could not load language '" + defaultLang + "'");
 			System.exit(1);
 		}
 
@@ -311,14 +311,14 @@ public class Main {
 	private static void initializeConnectionManager() {
 		String storageType = System.getenv("STORAGE_TYPE");
 		if (storageType == null) {
-			System.out.println("STORAGE_TYPE not specified, assuming STORAGE_TYPE=stateless");
+			LOGGER.info("STORAGE_TYPE not specified, assuming STORAGE_TYPE=stateless");
 			storageType = "stateless";
 		}
 
 		final StorageInitializer<? extends ConnectionManager> init = StorageInitializer.getByName(storageType);
 		if (init == null) {
-			System.err.println("The chosen STORAGE_TYPE is not available, please choose from "
-					+ String.join(", ", StorageInitializer.getAvailableNames()));
+			LOGGER.error("The chosen STORAGE_TYPE is not available, please choose from: {}",
+					String.join(", ", StorageInitializer.getAvailableNames()));
 			System.exit(1);
 		}
 

@@ -1,11 +1,16 @@
 package com.namelessmc.bot.connections;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.function.Supplier;
 
 public class StorageInitializer<CM extends ConnectionManager> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Storage initializer");
 
 	public static final StorageInitializer<StatelessConnectionManager> STATELESS = new StorageInitializer<>(() -> {
 		final URL apiUrl = getEnvUrl("API_URL");
@@ -70,7 +75,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 			try {
 				return Long.parseLong(env);
 			} catch (final NumberFormatException e) {
-				System.err.println(System.getenv(name) + " is not a valid whole number.");
+				LOGGER.error("{} is not a valid whole number.", System.getenv(name));
 				System.exit(1);
 				return 0;
 			}
@@ -87,17 +92,17 @@ public class StorageInitializer<CM extends ConnectionManager> {
 	private static URL getEnvUrl(final String name) {
 		final String str = getEnvString(name, null);
 		if (str == null) {
-			System.err.println("Environment variable " + name + " not defined");
+			LOGGER.error("Environment variable {} not defined", name);
 			System.exit(1);
 			return null;
 		}
 		try {
 			return new URL(str);
 		} catch (final MalformedURLException e) {
-			System.err.println("Provided URL in " + name + " is malformed. The full URL is printed below:");
-			System.err.println(str);
-			System.err.println("The string above should not contain any quotation marks (\" or ').");
-			System.err.println("It should look like this: https://yourdomain.com/index.php?route=/api/v2/apikeyhere");
+			LOGGER.error("Provided URL in {} is malformed. The full URL is printed below:", name);
+			LOGGER.error(str);
+			LOGGER.error("The string above should not contain any quotation marks (\" or ').");
+			LOGGER.error("It should look like this: https://yourdomain.com/index.php?route=/api/v2/apikeyhere");
 			System.exit(1);
 			return null;
 		}
@@ -108,7 +113,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 	}
 
 	private static void envMissing(final String name) {
-		System.err.println("Environment variable '" + name + "' required but not specified");
+		LOGGER.error("Environment variable '{}' required but not specified", name);
 		System.exit(1);
 	}
 

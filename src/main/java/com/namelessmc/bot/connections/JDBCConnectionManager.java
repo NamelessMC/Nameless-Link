@@ -14,8 +14,12 @@ import org.apache.commons.lang3.Validate;
 
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class JDBCConnectionManager extends ConnectionManager {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("JDBC Connection Manager");
 
 	public abstract Connection getNewDatabaseConnection() throws SQLException;
 
@@ -125,7 +129,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 					try {
 						urls.add(new URL(result.getString("api_url")));
 					} catch (final MalformedURLException e) {
-						System.err.println("Skipped invalid URL in listConnections(): " + result.getString("api_url"));
+						LOGGER.warn("Skipped invalid URL in listConnections(): " + result.getString("api_url"));
 						e.printStackTrace();
 					}
 				}
