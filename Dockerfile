@@ -1,4 +1,4 @@
-FROM eclipse-temurin:16-focal
+FROM eclipse-temurin:17-focal
 
 ARG LINK_VERSION=""
 COPY target/Nameless-Link-${LINK_VERSION}.jar /app.jar

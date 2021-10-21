@@ -141,6 +141,14 @@ public class Main {
 			shards = 1;
 		}
 
+		// Temporary workaround for OpenJDK 17 bug
+		// https://github.com/DV8FromTheWorld/JDA/issues/1858#issuecomment-942066283
+		final int cores = Runtime.getRuntime().availableProcessors();
+		if (cores <= 1) {
+			LOGGER.info("Available cores {}, setting parallelism flag", cores);
+			System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "1");
+		}
+
 		initializeConnectionManager();
 
 		HttpMain.init();
