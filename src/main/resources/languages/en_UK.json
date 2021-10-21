@@ -32,7 +32,5 @@
     "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command} <api url>`.",
     
     "updateusername_description": "Update your Discord username on the website",
-    "updateusername_success": "Username updated successfully",
-
-    "prefix_success": "The prefix has been modified to `{newPrefix}`."
+    "updateusername_success": "Username updated successfully"
 }

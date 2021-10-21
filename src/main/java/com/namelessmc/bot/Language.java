@@ -63,8 +63,6 @@ public class Language {
 		UPDATEUSERNAME_DESCRIPTION,
 		UPDATEUSERNAME_SUCCESS,
 
-		PREFIX_SUCCESS("newPrefix"),
-
 		;
 
 		private final String[] placeholders;
