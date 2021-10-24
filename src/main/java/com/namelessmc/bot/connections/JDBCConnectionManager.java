@@ -65,11 +65,10 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		Validate.notNull(apiUrl, "Api url is null");
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
-					.prepareStatement("INSERT INTO connections (guild_id, api_url, command_prefix, last_use) VALUES (?, ?, ?, ?)")) {
+					.prepareStatement("INSERT INTO connections (guild_id, api_url, last_use) VALUES (?, ?, ?)")) {
 				statement.setLong(1, guildId);
 				statement.setString(2, apiUrl.toString());
-				statement.setString(3, null);
-				statement.setLong(4, System.currentTimeMillis());
+				statement.setLong(3, System.currentTimeMillis());
 				statement.execute();
 			}
 		} catch (final SQLException e) {
