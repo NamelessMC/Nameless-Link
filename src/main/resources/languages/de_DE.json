@@ -20,7 +20,7 @@
     "apiurl_url_invalid": "Die angegebene API-URL sieht nicht wie eine NamelessMC-API-URL aus. Die API-URL finden Sie unter StaffCP> Konfiguration > API.",
     "apiurl_url_malformed": "Die angegebene API-URL ist fehlerhaft.",
     "apiurl_failed_connection": "Es konnte keine Verbindung zu Ihrer Website hergestellt werden. Siehe die Nachricht oben für mehr Details.",
-    "apiurl_already_used": "Diese API-URL wird bereits von einem Discord-Server verwendet. Verwenden Sie `{command}`, um die Verknüpfung aufzuheben.",
+    "apiurl_already_used": "Diese API-URL wird bereits von einem Discord-Server verwendet. Führe `{command}` auf dem Verknüpften Server aus, um die Verknüpfung aufzuheben.",
     "apiurl_success_updated": "Die API-URL wurde erfolgreich geändert.",
     "apiurl_success_new": "Die API-URL wurde erfolgreich gesetzt.",
     "error_no_permission": "Du must über die Administratorberechtigung auf dem Discord-Zielserver verfügen, um diesen Befehl verwenden zu können.",
@@ -47,6 +47,6 @@
     "verify_option_token": "Verifizierungs-Token",
     "ping_description": "Webseiten-API-Verbindung testen",
     "apiurl_description": "Konfigurieren Sie die API-URL der NamelessMC-Website",
-    "apiurl_option_url": "Ihre Website-API-URL (StaffCP > Konfiguration > API). Geben Sie 'none' an, um die Verknüpfung aufzuheben.",
+    "apiurl_option_url": "Ihre Website-API-URL (StaffCP > Konfiguration > API). Gebe 'none' an um die API zu entfernen.",
     "apiurl_unlinked": "Die Website wurde erfolgreich von diesem Discord-Server getrennt"
 }
