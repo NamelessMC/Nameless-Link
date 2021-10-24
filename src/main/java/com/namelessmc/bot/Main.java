@@ -21,7 +21,9 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.exceptions.ContextException;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.jetbrains.annotations.Nullable;
@@ -202,7 +204,12 @@ public class Main {
 				LOGGER.error("Guild with id '{}' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
 				System.exit(1);
 			}
-			Command.sendCommands(guild);
+			try {
+				Command.sendCommands(guild);
+			} catch (ErrorResponseException e) {
+				LOGGER.error("Failed to register slash commands: " + e.getMessage());
+				LOGGER.error("Make sure you invite the bot with the 'applications.commands' scope enabled.");
+			}
 			DiscordRoleListener.sendRolesAsync(guildId);
 		} else {
 			try {
