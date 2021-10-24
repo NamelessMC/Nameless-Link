@@ -135,14 +135,7 @@ public class Main {
 					.addEventListeners(new CommandListener())
 					.addEventListeners(new DiscordRoleListener());
 
-			builder.enableIntents(
-					GatewayIntent.DIRECT_MESSAGES,
-					GatewayIntent.DIRECT_MESSAGE_TYPING,
-					GatewayIntent.DIRECT_MESSAGE_REACTIONS,
-					GatewayIntent.GUILD_MESSAGE_REACTIONS,
-					GatewayIntent.GUILD_MESSAGE_TYPING,
-					GatewayIntent.GUILD_MESSAGES
-					);
+			builder.enableIntents(GatewayIntent.DIRECT_MESSAGES);
 
 			if (System.getenv("DISABLE_MEMBERS_INTENT") == null) {
 				builder.enableIntents(GatewayIntent.GUILD_MEMBERS)
