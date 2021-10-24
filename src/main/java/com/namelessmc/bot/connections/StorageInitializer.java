@@ -51,12 +51,13 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		return BY_STRING.keySet().toArray(String[]::new);
 	}
 
-	private static String getEnvString(final String name, final String def) {
+	public static String getEnvString(final String name, final String def) {
 		final String env = System.getenv(name);
 		if (env != null) {
 			return env;
 		} else {
 			if (def != null) {
+				LOGGER.info("Environment variable {} not set, using default value '{}'", name, def);
 				return def;
 			} else {
 				envMissing(name);
@@ -69,18 +70,19 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		return getEnvString(name, null);
 	}
 
-	private static long getEnvLong(final String name, final Long def) {
+	public static long getEnvLong(final String name, final Long def) {
 		final String env = System.getenv(name);
 		if (env != null) {
 			try {
 				return Long.parseLong(env);
 			} catch (final NumberFormatException e) {
-				LOGGER.error("{} is not a valid whole number.", System.getenv(name));
+				LOGGER.error("The value of {} ('{}') is not a valid whole number.", name, System.getenv(name));
 				System.exit(1);
 				return 0;
 			}
 		} else {
 			if (def != null) {
+				LOGGER.info("Environment variable {} not set, using default value {}", name, def);
 				return def;
 			} else {
 				envMissing(name);
@@ -89,7 +91,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		}
 	}
 
-	private static URL getEnvUrl(final String name) {
+	public static URL getEnvUrl(final String name) {
 		final String str = getEnvString(name, null);
 		if (str == null) {
 			LOGGER.error("Environment variable {} not defined", name);

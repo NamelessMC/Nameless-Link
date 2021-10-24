@@ -86,33 +86,20 @@ public class Main {
 	public static void main(final String[] args) throws BackendStorageException, NamelessException {
 		LOGGER.info("Starting Nameless Link version {}", Main.class.getPackage().getImplementationVersion());
 
-		final String botUrlStr = Objects.requireNonNull(System.getenv("BOT_URL"),
-				"Environment variable BOT_URL not specified");
-
-		try {
-			botUrl = new URL(botUrlStr);
-		} catch (final MalformedURLException e) {
-			LOGGER.error("Environment variable BOT_URL is not a valid URL");
-			System.exit(1);
-		}
+		botUrl = StorageInitializer.getEnvUrl("BOT_URL");
 
 		if (System.getenv("SERVER_PORT") != null) {
 			LOGGER.info("Environment variable SERVER_PORT is set (by Pterodactyl Panel). Using that instead of WEBSERVER_PORT.");
-			webserverPort = Integer.parseInt(System.getenv("SERVER_PORT"));
+			webserverPort = (int) StorageInitializer.getEnvLong("SERVER_PORT", null);
 		} else {
-			final String webserverPortStr = Objects.requireNonNull(System.getenv("WEBSERVER_PORT"), "Environment variable WEBSERVER_PORT or SERVER_PORT not specified");
-			try {
-				webserverPort = Integer.parseInt(webserverPortStr);
-			} catch (final NumberFormatException e) {
-				LOGGER.error("Environment variable WEBSERVER_PORT is not a valid number");
-				System.exit(1);
-			}
+			webserverPort = (int) StorageInitializer.getEnvLong("WEBSERVER_PORT", null);
 		}
 
-		String defaultLang = System.getenv("DEFAULT_LANGUAGE");
-		if (defaultLang == null) {
-			LOGGER.info("Default language not specified, assuming {}", DEFAULT_LANGUAGE_CODE);
-			defaultLang = DEFAULT_LANGUAGE_CODE;
+		String defaultLang = StorageInitializer.getEnvString("DEFAULT_LANGUAGE", "en_UK");
+		try {
+			Language.setDefaultLanguage(defaultLang);
+		} catch (LanguageLoadException e) {
+			LOGGER.warn("Unable to set default language, '{}' is not a valid language.", defaultLang);
 		}
 
 		if (System.getenv("API_DEBUG") != null && Boolean.parseBoolean(System.getenv("API_DEBUG"))) {
@@ -121,25 +108,9 @@ public class Main {
 			apiDebugLogger = null;
 		}
 
-		if (System.getenv("WEBSERVER_BIND") != null) {
-			webserverInterface = System.getenv("WEBSERVER_BIND");
-		} else {
-			LOGGER.info("Environment variable 'WEBSERVER_BIND' not set, assuming '127.0.0.1'. Note that this means the bot only listens on your localhost interface, but this is likely what you want.");
-			webserverInterface = "127.0.0.1";
-		}
+		webserverInterface = StorageInitializer.getEnvString("WEBSERVER_BIND", "127.0.0.1");
 
-		try {
-			Language.setDefaultLanguage(defaultLang);
-		} catch (final LanguageLoadException e) {
-			LOGGER.error("Could not load language '" + defaultLang + "'");
-			System.exit(1);
-		}
-
-		if (System.getenv("SHARDS") != null) {
-			shards = Integer.parseInt(System.getenv("SHARDS"));
-		} else {
-			shards = 1;
-		}
+		shards = (int) StorageInitializer.getEnvLong("SHARDS", 1L);
 
 		// Temporary workaround for OpenJDK 17 bug
 		// https://github.com/DV8FromTheWorld/JDA/issues/1858#issuecomment-942066283
@@ -154,12 +125,9 @@ public class Main {
 		HttpMain.init();
 
 		try {
-			final String token = Objects.requireNonNull(System.getenv("DISCORD_TOKEN"),
-					"Environment variable DISCORD_TOKEN not specified");
+			String token = StorageInitializer.getEnvString("DISCORD_TOKEN", null);
 
 			final JDABuilder builder = JDABuilder.createDefault(token);
-
-
 
 			builder.addEventListeners(new GuildJoinHandler())
 					.addEventListeners(new CommandListener())
@@ -179,7 +147,6 @@ public class Main {
 						.setMemberCachePolicy(MemberCachePolicy.ALL);
 			}
 
-//			LOGGER.info("Using {} shards", shards);
 			jda = new JDA[shards];
 			for (int i = 0; i < shards; i++) {
 				LOGGER.info("Initializing shard {}", i);
