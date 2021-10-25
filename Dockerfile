@@ -1,7 +1,6 @@
-FROM eclipse-temurin:17-focal
+FROM eclipse-temurin:17
 
-ARG LINK_VERSION=""
-COPY target/Nameless-Link-${LINK_VERSION}.jar /app.jar
+COPY target/Nameless-Link.jar /app.jar
 
 ENV WEBSERVER_PORT 80
 ENV WEBSERVER_BIND 0.0.0.0
