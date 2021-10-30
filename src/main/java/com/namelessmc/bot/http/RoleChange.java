@@ -13,6 +13,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
+import org.apache.commons.lang3.Validate;
+import org.glassfish.grizzly.http.Method;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
@@ -40,6 +42,8 @@ public class RoleChange extends HttpHandler {
 
 	@Override
 	public void service(Request request, Response response) throws IOException {
+		Validate.isTrue(request.getMethod() == Method.POST, "Only POST requests allowed");
+
 		response.setContentType("text/plain");
 
 		final JsonObject json;
