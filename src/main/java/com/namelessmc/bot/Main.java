@@ -95,7 +95,7 @@ public class Main {
 			webserverPort = (int) StorageInitializer.getEnvLong("WEBSERVER_PORT", null);
 		}
 
-		String defaultLang = StorageInitializer.getEnvString("DEFAULT_LANGUAGE", "en_UK");
+		String defaultLang = StorageInitializer.getEnvString("DEFAULT_LANGUAGE", DEFAULT_LANGUAGE_CODE);
 		try {
 			Language.setDefaultLanguage(defaultLang);
 		} catch (LanguageLoadException e) {
