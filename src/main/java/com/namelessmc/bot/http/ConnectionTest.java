@@ -1,19 +1,17 @@
 package com.namelessmc.bot.http;
 
+import org.glassfish.grizzly.http.server.HttpHandler;
+import org.glassfish.grizzly.http.server.Request;
+import org.glassfish.grizzly.http.server.Response;
+
 import java.io.IOException;
 
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-public class ConnectionTest extends HttpServlet {
-
-	private static final long serialVersionUID = 1L;
+public class ConnectionTest extends HttpHandler {
 
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	public void service(Request request, Response response) throws IOException {
 		response.setContentType("text/plain");
-		response.getWriter().print("success");
+		response.getWriter().write("success");
 	}
 
 }

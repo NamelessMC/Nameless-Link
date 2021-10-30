@@ -1,11 +1,5 @@
 package com.namelessmc.bot.http;
 
-import java.io.IOException;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,21 +8,23 @@ import com.google.gson.JsonSyntaxException;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
-
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
+import org.glassfish.grizzly.http.server.HttpHandler;
+import org.glassfish.grizzly.http.server.Request;
+import org.glassfish.grizzly.http.server.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class RoleChange extends HttpServlet {
+import java.io.IOException;
+import java.util.Optional;
+
+public class RoleChange extends HttpHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("RoleChange endpoint");
-
-	private static final long serialVersionUID = 1L;
 
 	private static boolean timingSafeEquals(final byte[] a, final byte[] b) {
 		if (a.length != b.length) {
@@ -43,7 +39,7 @@ public class RoleChange extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	public void service(Request request, Response response) throws IOException {
 		response.setContentType("text/plain");
 
 		final JsonObject json;

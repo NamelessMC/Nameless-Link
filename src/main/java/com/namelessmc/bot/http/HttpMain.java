@@ -1,35 +1,22 @@
 package com.namelessmc.bot.http;
 
 import com.namelessmc.bot.Main;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.NetworkListener;
+import org.glassfish.grizzly.http.server.ServerConfiguration;
+
+import java.io.IOException;
 
 public class HttpMain {
 
-	public static void init() {
-		final Server server = new Server();
-		final ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		handler.addServlet(ConnectionTest.class, "/status");
-		handler.addServlet(RoleChange.class, "/roleChange");
-		handler.addServlet(Root.class, "/");
-		server.setHandler(handler);
-
-		final ServerConnector connector = new ServerConnector(server);
-		connector.setPort(Main.getWebserverPort());
-		connector.setHost(Main.getWebserverInterface());
-
-		server.addConnector(connector);
-
-		new Thread(() -> {
-			try {
-				server.start();
-				server.join();
-			} catch (final Exception e) {
-				e.printStackTrace();
-				System.exit(1);
-			}
-
-		}).start();
+	public static void init() throws IOException {
+		HttpServer server = new HttpServer();
+		NetworkListener listener = new NetworkListener("Listener", Main.getWebserverInterface(), Main.getWebserverPort());
+		server.addListener(listener);
+		ServerConfiguration config = server.getServerConfiguration();
+		config.addHttpHandler(new ConnectionTest(), "/status");
+		config.addHttpHandler(new RoleChange(), "/roleChange");
+		config.addHttpHandler(new Root());
+		server.start();
 	}
 }

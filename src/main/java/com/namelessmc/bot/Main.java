@@ -21,9 +21,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.exceptions.ContextException;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
-import net.dv8tion.jda.api.requests.ErrorResponse;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.security.auth.login.LoginException;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -124,7 +122,11 @@ public class Main {
 
 		initializeConnectionManager();
 
-		HttpMain.init();
+		try {
+			HttpMain.init();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		try {
 			String token = StorageInitializer.getEnvString("DISCORD_TOKEN", null);
