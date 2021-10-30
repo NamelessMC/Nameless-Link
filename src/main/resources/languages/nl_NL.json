@@ -55,5 +55,8 @@
     "verify_option_token": "Verificatie token",
     "ping_description": "Test website API connectie",
     "apiurl_description": "Configureer de NamelessMC website API URL",
-    "apiurl_option_url": "Jouw website API URL (StaffCP > Configuratie > API). Specifieer 'none' om te unlinken."
+    "apiurl_option_url": "Jouw website API URL (StaffCP > Configuratie > API). Specifieer 'none' om te unlinken.",
+    "updateusername_success": "Gebruikersnaam succesvol veranderd",
+    "apiurl_unlinked": "De verbinding met de site en de Discord server is succesvol verbroken",
+    "updateusername_description": "Verander je Discord gebruikersnaam op de website"
 }
