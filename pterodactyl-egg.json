@@ -10,7 +10,6 @@
     "description": "The official Pterodactyl egg for the NamelessMC Discord bot (\"Nameless-Link\").",
     "features": null,
     "images": [
-        "namelessmc\/discord-link:2.0",
         "namelessmc\/discord-link:3"
     ],
     "file_denylist": [],
@@ -61,15 +60,6 @@
             "description": "",
             "env_variable": "GUILD_ID",
             "default_value": "",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|max:20"
-        },
-        {
-            "name": "Default Command Prefix",
-            "description": "",
-            "env_variable": "DEFAULT_COMMAND_PREFIX",
-            "default_value": "!",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:20"
