@@ -10,7 +10,6 @@
     "verify_description": "Verify your Discord account connected to the website",
     "verify_option_token": "Verification token",
     "verify_token_invalid": "Failed to verify your account, you have provided an invalid token.",
-    "verify_not_used": "Cannot verify your account, you provided a verification token for a website that does not use this bot.",
     "verify_success": "Thank you for verifying, your account is now linked.",
 
     "ping_description": "Test website API connection",

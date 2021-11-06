@@ -1,10 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -13,12 +8,15 @@ import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class VerifyCommand extends Command {
 
@@ -77,7 +75,7 @@ public class VerifyCommand extends Command {
 			}
 
 			if (api.isEmpty()) {
-				hook.sendMessage(language.get(Term.VERIFY_NOT_USED)).queue();
+				hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
 				return;
 			}
 
