@@ -130,11 +130,8 @@ public class URLCommand extends Command {
 					LOGGER.info("API URL seems to work. Sending bot settings...");
 
 					try {
-						api.setDiscordBotUrl(Main.getBotUrl());
-						api.setDiscordGuildId(guildId);
-
 						final User botUser = Main.getJdaForGuild(guildId).getSelfUser();
-						api.setDiscordBotUser(botUser.getAsTag(), botUser.getIdLong());
+						api.setDiscordBotSettings(Main.getBotUrl(), guildId, botUser.getAsTag(), botUser.getIdLong());
 
 						final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
 
