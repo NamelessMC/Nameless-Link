@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLHandshakeException;
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -309,7 +310,8 @@ public class Main {
 			UnknownHostException.class,
 			SSLHandshakeException.class,
 			CertificateException.class,
-			SocketTimeoutException.class
+			SocketTimeoutException.class,
+			ConnectException.class
 	);
 
 	public static void logConnectionError(final Logger logger, final String message, final NamelessException e) {
