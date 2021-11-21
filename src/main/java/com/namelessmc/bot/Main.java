@@ -209,6 +209,7 @@ public class Main {
 				LOGGER.error("Make sure you invite the bot with the 'applications.commands' scope enabled.");
 			}
 			DiscordRoleListener.sendRolesAsync(guildId);
+			LOGGER.info("Sent bot settings to website and registered commands successfully.");
 		} else {
 			try {
 				LOGGER.info("Updating bot settings..");
