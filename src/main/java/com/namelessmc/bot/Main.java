@@ -6,6 +6,7 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.connections.ConnectionManager;
 import com.namelessmc.bot.connections.StorageInitializer;
 import com.namelessmc.bot.http.HttpMain;
+import com.namelessmc.bot.http.Root;
 import com.namelessmc.bot.listeners.CommandListener;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
@@ -264,6 +265,8 @@ public class Main {
 				}
 				LOGGER.info("Done updating bot settings");
 				LOGGER.info("{} websites successful, {} websites unsuccessful", countSuccess, countError);
+				Root.pingSuccessCount = countSuccess.get();
+				Root.pingFailCount = countError.get();
 			} catch (final BackendStorageException e) {
 				e.printStackTrace();
 			}
