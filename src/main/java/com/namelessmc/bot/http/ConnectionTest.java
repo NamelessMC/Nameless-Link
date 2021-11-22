@@ -1,6 +1,6 @@
 package com.namelessmc.bot.http;
 
-import org.apache.commons.lang3.Validate;
+import com.google.common.base.Preconditions;
 import org.glassfish.grizzly.http.Method;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
@@ -12,8 +12,7 @@ public class ConnectionTest extends HttpHandler {
 
 	@Override
 	public void service(Request request, Response response) throws IOException {
-		Validate.isTrue(request.getMethod() == Method.GET, "Only GET requests allowed");
-
+		Preconditions.checkArgument(request.getMethod() == Method.GET, "Only GET requests allowed");
 		response.setContentType("text/plain");
 		response.getWriter().write("success");
 	}

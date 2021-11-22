@@ -1,5 +1,17 @@
 package com.namelessmc.bot;
 
+import com.google.common.base.Preconditions;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessUser;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,20 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-
-import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
 
 public class Language {
 
@@ -171,13 +169,13 @@ public class Language {
 			return;
 		}
 
-		Validate.isTrue(replacements.length % 2 == 0, "Replacements array must have even length");
+		Preconditions.checkArgument(replacements.length % 2 == 0, "Replacements array must have even length");
 
 		final String[] required = term.getPlaceholders();
 		final boolean[] valid = new boolean[required.length];
 
 		for (int i = 0; i < replacements.length; i += 2) {
-			Validate.isTrue(replacements[i] instanceof String, "Replacement keys must be strings");
+			Preconditions.checkArgument(replacements[i] instanceof String, "Replacement keys must be strings");
 			final String key = (String) replacements[i];
 			if (Objects.equals(key, required[i / 2])) {
 				valid[i / 2] = true;

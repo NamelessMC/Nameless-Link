@@ -1,5 +1,6 @@
 package com.namelessmc.bot.commands;
 
+import com.google.common.base.Ascii;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -17,7 +18,6 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,7 +121,7 @@ public class URLCommand extends Command {
 							return;
 						}
 					} catch (final NamelessException e) {
-						hook.sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+						hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
 						hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
 						Main.logConnectionError(LOGGER, "Website connection error while checking if new API url works", e);
 						return;
@@ -149,7 +149,7 @@ public class URLCommand extends Command {
 
 						DiscordRoleListener.sendRolesAsync(guildId);
 					} catch (final NamelessException e) {
-						hook.sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+						hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
 						hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
 						Main.logConnectionError(LOGGER, "Website connection error while sending bot settings", e);
 					}

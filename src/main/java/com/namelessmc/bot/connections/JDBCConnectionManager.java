@@ -1,5 +1,10 @@
 package com.namelessmc.bot.connections;
 
+import com.namelessmc.bot.Main;
+import com.namelessmc.java_api.NamelessAPI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
@@ -8,14 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-
-import org.apache.commons.lang3.Validate;
-
-import com.namelessmc.bot.Main;
-import com.namelessmc.java_api.NamelessAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class JDBCConnectionManager extends ConnectionManager {
 
@@ -62,7 +61,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 
 	@Override
 	public void newConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
-		Validate.notNull(apiUrl, "Api url is null");
+		Objects.requireNonNull(apiUrl, "Api url is null");
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
 					.prepareStatement("INSERT INTO connections (guild_id, api_url, last_use) VALUES (?, ?, ?)")) {
@@ -78,6 +77,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 
 	@Override
 	public boolean updateConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
+		Objects.requireNonNull(apiUrl, "Api url is null");
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
 					.prepareStatement("UPDATE connections SET api_url=?, last_use=? WHERE guild_id=?")) {

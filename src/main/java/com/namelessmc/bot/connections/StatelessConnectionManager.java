@@ -1,14 +1,13 @@
 package com.namelessmc.bot.connections;
 
+import com.namelessmc.bot.Main;
+import com.namelessmc.java_api.NamelessAPI;
+
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-
-import org.apache.commons.lang3.Validate;
-
-import com.namelessmc.bot.Main;
-import com.namelessmc.java_api.NamelessAPI;
 
 public class StatelessConnectionManager extends ConnectionManager {
 
@@ -18,7 +17,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	private final Optional<NamelessAPI> api;
 
 	public StatelessConnectionManager(final long guildId, final URL apiUrl) {
-		Validate.notNull(apiUrl, "API URL not specified");
+		Objects.requireNonNull(apiUrl, "Api url is null");
 		this.guildId = guildId;
 		this.optGuildId = Optional.of(guildId);
 		this.api = Optional.of(Main.newApiConnection(apiUrl));

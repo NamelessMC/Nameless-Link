@@ -1,12 +1,6 @@
 package com.namelessmc.bot.commands;
 
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.google.common.base.Ascii;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
@@ -16,11 +10,15 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
-
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PingCommand extends Command {
 
@@ -85,7 +83,7 @@ public class PingCommand extends Command {
 					final long time = System.currentTimeMillis() - start;
 					event.getHook().sendMessage(language.get(Term.PING_WORKING, "time", time)).queue();
 				} catch (final NamelessException e) {
-					event.getHook().sendMessage(new MessageBuilder().appendCodeBlock(StringUtils.truncate(e.getMessage(), 1500), "txt").build()).queue();
+					event.getHook().sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
 					event.getHook().sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
 					Main.logConnectionError(LOGGER, "NamelessException during ping", e);
 				}
