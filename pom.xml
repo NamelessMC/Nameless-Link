@@ -118,7 +118,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.3.0_346</version>
+			<version>4.3.0_348</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
