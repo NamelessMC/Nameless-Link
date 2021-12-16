@@ -15,7 +15,7 @@
     "apiurl_not_owner": "You must be the owner of the Discord server to change the API URL.",
     "apiurl_success_new": "Successfully set up the API URL.",
     "apiurl_success_updated": "Successfully changed the API URL.",
-    "apiurl_already_used": "This API URL is already used by a Discord server, run `{command}` to unlink.",
+    "apiurl_already_used": "This API URL is already used by a Discord server, use `{command}` in the linked Discord server to unlink.",
     "apiurl_failed_connection": "Could not connect to your website. Please see the message above for details.",
     "unused_connection": "Hello, you've linked your Discord server '{discordServerName}' to NamelessMC using this bot. It looks like the website connection hasn't been used for a while, if you would like to remove your Discord server from this bot run `{command}`.",
     "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command} <api url>`.",
