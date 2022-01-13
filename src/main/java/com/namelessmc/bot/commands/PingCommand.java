@@ -13,11 +13,14 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PingCommand extends Command {
@@ -64,31 +67,59 @@ public class PingCommand extends Command {
 				event.deferReply().setEphemeral(true).queue();
 
 				final NamelessAPI api = optApi.get();
-
-				try {
-					final long start = System.currentTimeMillis();
-					final Website info = api.getWebsite();
-					try {
-						if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
-							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-							event.getHook().sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
-							return;
-						}
-					} catch (final UnknownNamelessVersionException e) {
-						// API doesn't recognize this version, but we can still display the unparsed name
-						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-						event.getHook().sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
-						return;
-					}
-					final long time = System.currentTimeMillis() - start;
-					event.getHook().sendMessage(language.get(Term.PING_WORKING, "time", time)).queue();
-				} catch (final NamelessException e) {
-					event.getHook().sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
-					event.getHook().sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-					Main.logConnectionError(LOGGER, "NamelessException during ping", e);
+				long ping = checkConnection(api, LOGGER, language, event.getHook());
+				if (ping > 0) {
+					event.getHook().sendMessage(language.get(Term.PING_WORKING, "time", ping)).queue();
 				}
 			});
 		});
+	}
+
+	static long checkConnection(final NamelessAPI api, Logger logger, final Language language, final InteractionHook hook) {
+		{
+			URL url = api.getApiUrl();
+			if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
+					!url.getPath().contains("/index.php?route=/api/v2/")) {
+				hook.sendMessage(language.get(Term.APIURL_URL_INVALID)).setEphemeral(true).queue();
+				return -1;
+			}
+
+			String host = url.getHost();
+			if (host.equals("localhost") ||
+					host.startsWith("127.") ||
+					host.startsWith("192.168.") ||
+					host.startsWith("10.")
+					// checking 172.16.0.0/12 is too much work...
+				) {
+				hook.sendMessage(language.get(Term.APIURL_URL_LOCAL)).setEphemeral(true).queue();
+				return -1;
+			}
+		}
+
+		try {
+			final long start = System.currentTimeMillis();
+			final Website info = api.getWebsite();
+			try {
+				if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+					final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+					hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+					LOGGER.info("Incompatible NamelessMC version");
+					return -1;
+				}
+			} catch (final UnknownNamelessVersionException e) {
+				// API doesn't recognize this version, but we can still display the unparsed name
+				final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+				hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+				LOGGER.info("Unknown NamelessMC version");
+				return -1;
+			}
+			return System.currentTimeMillis() - start;
+		} catch (final NamelessException e) {
+			hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
+			hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+			Main.logConnectionError(logger, "NamelessException during ping", e);
+			return -1;
+		}
 	}
 
 }

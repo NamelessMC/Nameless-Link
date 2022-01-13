@@ -75,11 +75,6 @@ public class URLCommand extends Command {
 					return;
 				}
 
-				if (!apiUrlString.contains("/index.php?route=/api/v2/")) {
-					event.reply(language.get(Term.APIURL_URL_INVALID)).setEphemeral(true).queue();
-					return;
-				}
-
 				URL apiUrl;
 				try {
 					apiUrl = new URL(apiUrlString);
@@ -102,28 +97,12 @@ public class URLCommand extends Command {
 					}
 
 					LOGGER.info("Checking if API URL works...");
-					NamelessAPI api;
-					try {
-						api = Main.newApiConnection(apiUrl);
-						final Website info = api.getWebsite();
-						try {
-							if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
-								final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-								hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
-								LOGGER.info("Incompatible NamelessMC version");
-								return;
-							}
-						} catch (final UnknownNamelessVersionException e) {
-							// API doesn't recognize this version, but we can still display the unparsed name
-							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-							hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
-							LOGGER.info("Unknown NamelessMC version");
-							return;
-						}
-					} catch (final NamelessException e) {
-						hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
-						hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-						Main.logConnectionError(LOGGER, "Website connection error while checking if new API url works", e);
+
+					NamelessAPI api = Main.newApiConnection(apiUrl);
+					long ping = PingCommand.checkConnection(api, LOGGER, language, hook);
+
+					if (ping == -1) {
+						// it didn't work, the checkConnection method already send an error message
 						return;
 					}
 

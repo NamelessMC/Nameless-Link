@@ -82,6 +82,13 @@ public class Main {
 	private static int webserverPort;
 	public static int getWebserverPort() { return webserverPort; }
 
+	/**
+	 * When true, try to detect local addresses and display a user friendly warning. This setting will not block
+	 * private addresses perfectly, do not rely on it for security!
+	 */
+	private static boolean localAllowed;
+	public static boolean isLocalAllowed() { return localAllowed; }
+
 	private static @Nullable ApiLogger apiDebugLogger;
 
 	private static int shards;
@@ -98,6 +105,8 @@ public class Main {
 		} else {
 			webserverPort = (int) StorageInitializer.getEnvLong("WEBSERVER_PORT", null);
 		}
+
+		localAllowed = System.getenv("ALLOW_LOCAL_ADDRESSES") != null;
 
 		String defaultLang = StorageInitializer.getEnvString("DEFAULT_LANGUAGE", DEFAULT_LANGUAGE_CODE);
 		try {

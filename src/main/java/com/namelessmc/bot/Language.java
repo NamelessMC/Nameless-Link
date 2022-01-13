@@ -27,6 +27,12 @@ public class Language {
 
 	public enum Term {
 
+		/*
+		 * After editing this enum please make the corresponding change in resources/languages/en_UK.json (not US!)
+		 * Do not modify any other files, missing entries are handled by the language system until they are
+		 * translated by contributors.
+		 */
+
 		ERROR_GENERIC,
 		ERROR_NOT_SET_UP,
 		ERROR_NOT_LINKED,
@@ -47,6 +53,7 @@ public class Language {
 		APIURL_OPTION_URL,
 		APIURL_URL_INVALID,
 		APIURL_URL_MALFORMED,
+		APIURL_URL_LOCAL,
 		APIURL_FAILED_CONNECTION,
 		APIURL_ALREADY_USED("command"),
 		APIURL_SUCCESS_UPDATED,

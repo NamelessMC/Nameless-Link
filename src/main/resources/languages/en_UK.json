@@ -20,6 +20,7 @@
     "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
     "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API.",
     "apiurl_url_malformed": "The provided API URL is malformed.",
+    "apiurl_url_local": "Your API URL contains an address from the private address space. These addresses are only reachable from within your network. Please enter an externally reachable domain.",
     "apiurl_failed_connection": "Could not connect to your website. Please see the message above for details.",
     "apiurl_already_used": "This API URL is already used by a Discord server, run `{command}` in the linked Discord server to unlink.",
     "apiurl_success_updated": "Successfully changed the API URL.",
