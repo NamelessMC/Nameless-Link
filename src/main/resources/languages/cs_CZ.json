@@ -62,5 +62,6 @@
     "apiurl_option_url": "URL API vašeho webu (Panel > Konfigurace > API). Zadejte 'none' pro zrušení propojení.",
     "apiurl_unlinked": "Web byl úspěšně odpojen od tohoto Discord serveru",
     "updateusername_description": "Aktualizujte své Discord jméno na webu",
-    "updateusername_success": "Uživatelské jméno úspěšně aktualizováno"
+    "updateusername_success": "Uživatelské jméno úspěšně aktualizováno",
+    "apiurl_url_local": "URL vašeho API obsahuje adresu ze soukromé oblasti adres. Tyto adresy jsou dostupné pouze ve vaší síti. Zadejte prosím externě dosažitelnou doménu."
 }
