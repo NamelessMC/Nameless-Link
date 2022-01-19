@@ -48,5 +48,6 @@
     "ping_description": "Webseiten-API-Verbindung testen",
     "apiurl_description": "Konfigurieren Sie die API-URL der NamelessMC-Website",
     "apiurl_option_url": "Ihre Website-API-URL (StaffCP > Konfiguration > API). Gebe 'none' an um die API zu entfernen.",
-    "apiurl_unlinked": "Die Website wurde erfolgreich von diesem Discord-Server getrennt"
+    "apiurl_unlinked": "Die Website wurde erfolgreich von diesem Discord-Server getrennt",
+    "apiurl_url_local": "Deine API-URL enthält eine Adresse aus dem privaten Adressraum. Diese Adressen sind nur von deinem Netzwerk aus erreichbar. Bitte gebe eine extern erreichbare Domain an."
 }
