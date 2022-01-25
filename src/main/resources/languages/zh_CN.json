@@ -6,9 +6,9 @@
     "apiurl_already_used": "此 API 链接 (URL) 已经被一个 Discord 服务器使用了，您可在链接到的 Discord 服务器中运行 `{command}` 来断开链接。",
     "apiurl_success_updated": "API 链接 (URL) 更改成功。",
     "apiurl_success_new": "API 链接 (URL) 配置成功。",
-    "guild_join_success": "您好! 感谢您使用 NamelessMC 机器人。您可回复 `{command} <API 链接 (URL)>` 来开始。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
-    "guild_join_needs_renew": "您好! 感谢您使用 NamelessMC 机器人。虽然您已经配置好了您的 API 链接 (URL)，但它现在无效了。请您回复 `{command} <API 链接 (URL)>` 来配置一个新的 API 链接 (URL)。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
-    "guild_join_welcome_back": "您好！感谢您使用 NamelessMC 机器人。此机器人已经为您的 Discord 服务器配置好了。如果您希望使用一个不同的 API 链接 (URL), 您可回复 `{command} <新的 API 链接 (URL)>`。",
+    "guild_join_success": "您好! 感谢您使用 NamelessMC 机器人。您可在您的 Discord 服务器中运行 `{command} <API 链接 (URL)>` 来开始配置。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
+    "guild_join_needs_renew": "您好! 感谢您使用 NamelessMC 机器人。虽然您已经配置好了您的 API 链接 (URL)，但它现在无效了。请您在您的 Discord 服务器中运行 `{command} <API 链接 (URL)>` 来配置一个新的 API 链接 (URL)。您可在 `管理人员面板 > 配置 > API` 找到 API 链接 (URL)。",
+    "guild_join_welcome_back": "您好！感谢您使用 NamelessMC 机器人。此机器人已经为您的 Discord 服务器配置好了。如果您希望使用一个不同的 API 链接 (URL), 您可在您的 Discord 服务器中运行 `{command} <新的 API 链接 (URL)>`。",
     "unused_connection": "您好，您曾将您的 Discord 服务器 \"{discordServerName}\" 通过此机器人链接到了 NamelessMC 网站。此链接似乎有一段时间没有被使用了，如果您希望断开链接，您可回复 `{command}`。",
     "unlink_usage": "用法: `{command} <服务器 ID>`。",
     "error_not_set_up": "由于机器人尚未被配置，您暂不能使用此指令。",
@@ -54,5 +54,6 @@
     "apiurl_option_url": "你的网站 API 链接 (URL) (管理员控制面板 > 配置 > API)。输入 'none' 来解除链接。",
     "apiurl_unlinked": "成功解除了此 Discord 服务器与网站的链接",
     "updateusername_description": "更新您网站上的 Discord 用户名",
-    "updateusername_success": "用户名更新成功"
+    "updateusername_success": "用户名更新成功",
+    "apiurl_url_local": "您的 API 链接包含一个无法从外部访问的内网地址。请输入一个在外部可访问的域名。"
 }
