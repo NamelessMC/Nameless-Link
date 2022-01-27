@@ -91,7 +91,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 		LOGGER.info("Sending roles for guild {} to website", guild.getIdLong());
 		try {
-			final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApi(guild.getIdLong());
+			final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApiConnection(guild.getIdLong());
 			if (optApi.isPresent()) {
 				final Map<Long, String> roles = guild.getRoles().stream()
 						.filter(r -> !r.getName().equals("@everyone"))
@@ -165,7 +165,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 		Optional<NamelessAPI> api;
 		try {
-			api = Main.getConnectionManager().getApi(guildId);
+			api = Main.getConnectionManager().getApiConnection(guildId);
 		} catch (final BackendStorageException e) {
 			LOGGER.error("Storage error", e);
 			return;

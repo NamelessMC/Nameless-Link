@@ -51,6 +51,7 @@ public class Language {
 
 		APIURL_DESCRIPTION,
 		APIURL_OPTION_URL,
+		APIURL_OPTION_APIKEY,
 		APIURL_URL_INVALID,
 		APIURL_URL_MALFORMED,
 		APIURL_URL_LOCAL,
@@ -201,7 +202,7 @@ public class Language {
 	public static Language getGuildLanguage(final Guild guild) {
 		final Optional<NamelessAPI> api;
 		try {
-			api = Main.getConnectionManager().getApi(guild.getIdLong());
+			api = Main.getConnectionManager().getApiConnection(guild.getIdLong());
 		} catch (final BackendStorageException e) {
 			e.printStackTrace();
 			return getDefaultLanguage();

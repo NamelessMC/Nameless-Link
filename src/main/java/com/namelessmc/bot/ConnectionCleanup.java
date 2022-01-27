@@ -1,16 +1,14 @@
 package com.namelessmc.bot;
 
-import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
+import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.java_api.NamelessAPI;
+import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.namelessmc.bot.connections.BackendStorageException;
-
-import net.dv8tion.jda.api.entities.Guild;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class ConnectionCleanup {
 
@@ -20,25 +18,25 @@ public class ConnectionCleanup {
 		LOGGER.info("Cleaning up connections...");
 		try {
 			final long someTimeAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(14);
-			final List<URL> urls = Main.getConnectionManager().listConnectionsUsedBefore(someTimeAgo);
+			final List<NamelessAPI> connections = Main.getConnectionManager().listConnectionsUsedBefore(someTimeAgo);
 
-			if (urls.isEmpty()) {
+			if (connections.isEmpty()) {
 				LOGGER.info("No connections to clean up.");
 				return;
 			} else {
-				LOGGER.info("Found {} unused connections", urls.size());
+				LOGGER.info("Found {} unused connections", connections.size());
 			}
 
-			for (final URL url : urls) {
-				final Optional<Long> optGuildId = Main.getConnectionManager().getGuildIdByURL(url);
+			for (final NamelessAPI connection : connections) {
+				final Optional<Long> optGuildId = Main.getConnectionManager().getGuildIdByApiConnection(connection);
 				if (optGuildId.isEmpty()) {
-					LOGGER.warn("URL does not have guild id in database? '{}'", url.toString());
+					LOGGER.warn("Connection does not have guild id in database? {}", connection);
 					continue;
 				}
 
 				final long guildId = optGuildId.get();
 
-				LOGGER.info("Checking {} (guild id {})", url.getHost(), guildId);
+				LOGGER.info("Checking {} (guild id {})", connection.getApiUrl().getHost(), guildId);
 
 				final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 

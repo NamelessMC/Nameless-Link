@@ -1,7 +1,8 @@
 package com.namelessmc.bot.connections;
 
-import com.namelessmc.bot.Main;
+import com.namelessmc.bot.util.ThrowingConsumer;
 import com.namelessmc.java_api.NamelessAPI;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,17 +29,18 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public Optional<NamelessAPI> getApi(final long guildId) throws BackendStorageException {
+	public Optional<NamelessAPI> getApiConnection(final long guildId) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
-			String apiUrl;
+			String apiUrl, apiKey;
 			try (PreparedStatement statement = connection
-					.prepareStatement("SELECT api_url FROM connections WHERE guild_id=?")) {
+					.prepareStatement("SELECT api_url, api_key FROM connections WHERE guild_id=?")) {
 				statement.setLong(1, guildId);
 				final ResultSet result = statement.executeQuery();
 				if (!result.next()) {
 					return Optional.empty();
 				}
 				apiUrl = result.getString(1);
+				apiKey = result.getString(2);
 			}
 
 			try (PreparedStatement statement = connection
@@ -48,7 +50,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				statement.executeUpdate();
 			}
 
-			return Optional.of(Main.newApiConnection(new URL(apiUrl)));
+			return Optional.of(ConnectionCache.getApiConnection(new URL(apiUrl), apiKey));
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
 		} catch (final MalformedURLException e) {
@@ -60,14 +62,15 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public void newConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
+	public void createConnection(final long guildId, final URL apiUrl, String apiKey) throws BackendStorageException {
 		Objects.requireNonNull(apiUrl, "Api url is null");
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
-					.prepareStatement("INSERT INTO connections (guild_id, api_url, last_use) VALUES (?, ?, ?)")) {
+					.prepareStatement("INSERT INTO connections (guild_id, api_url, api_key, last_use) VALUES (?, ?, ?, ?)")) {
 				statement.setLong(1, guildId);
 				statement.setString(2, apiUrl.toString());
-				statement.setLong(3, System.currentTimeMillis());
+				statement.setString(3, apiKey);
+				statement.setLong(4, System.currentTimeMillis());
 				statement.execute();
 			}
 		} catch (final SQLException e) {
@@ -76,14 +79,15 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public boolean updateConnection(final long guildId, final URL apiUrl) throws BackendStorageException {
+	public boolean updateConnection(final long guildId, final URL apiUrl, String apiKey) throws BackendStorageException {
 		Objects.requireNonNull(apiUrl, "Api url is null");
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection
-					.prepareStatement("UPDATE connections SET api_url=?, last_use=? WHERE guild_id=?")) {
+					.prepareStatement("UPDATE connections SET api_url=?, api_key=?, last_use=? WHERE guild_id=?")) {
 				statement.setString(1, apiUrl.toString());
-				statement.setLong(2, System.currentTimeMillis());
-				statement.setLong(3, guildId);
+				statement.setString(2, apiKey);
+				statement.setLong(3, System.currentTimeMillis());
+				statement.setLong(4, guildId);
 				return statement.executeUpdate() > 0;
 			}
 		} catch (final SQLException e) {
@@ -116,23 +120,26 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
-	private List<URL> listConnectionsQuery(final String query, final Long optLong) throws BackendStorageException {
+	private List<NamelessAPI> listConnectionsQuery(final String query, final Long optLong) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				if (optLong != null) {
 					statement.setLong(1, optLong);
 				}
 				final ResultSet result = statement.executeQuery();
-				final List<URL> urls = new ArrayList<>();
+				final List<NamelessAPI> connections = new ArrayList<>();
 				while (result.next()) {
 					try {
-						urls.add(new URL(result.getString("api_url")));
+						NamelessAPI apiConnection = ConnectionCache.getApiConnection(
+								new URL(result.getString("api_url")),
+								result.getString("api_key"));
+						connections.add(apiConnection);
 					} catch (final MalformedURLException e) {
 						LOGGER.warn("Skipped invalid URL in listConnections(): " + result.getString("api_url"));
 						e.printStackTrace();
 					}
 				}
-				return urls;
+				return connections;
 			}
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
@@ -140,18 +147,18 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public List<URL> listConnections() throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url FROM connections", null);
+	public @NotNull List<@NotNull NamelessAPI> listConnections() throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url, api_key FROM connections", null);
 	}
 
 	@Override
-	public List<URL> listConnectionsUsedSince(final long time) throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url FROM connections WHERE last_use > ?", time);
+	public @NotNull List<@NotNull NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use > ?", time);
 	}
 
 	@Override
-	public List<URL> listConnectionsUsedBefore(final long time) throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url FROM connections WHERE last_use < ?", time);
+	public @NotNull List<@NotNull NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use < ?", time);
 	}
 
 	@Override
@@ -171,14 +178,14 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
-
-	@Override
-	public Optional<Long> getGuildIdByURL(final URL url) throws BackendStorageException {
+	private Optional<Long> getGuildIdBy(final @NotNull String queryWhere,
+										final @NotNull ThrowingConsumer<PreparedStatement, SQLException> parameterSetter)
+			throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			long guildId;
 			try (PreparedStatement statement = connection
-					.prepareStatement("SELECT guild_id FROM connections WHERE api_url=?")) {
-				statement.setString(1, url.toString());
+					.prepareStatement("SELECT guild_id FROM connections WHERE " + queryWhere)) {
+				parameterSetter.accept(statement);
 				final ResultSet result = statement.executeQuery();
 				if (!result.next()) {
 					return Optional.empty();
@@ -197,6 +204,19 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
 		}
+	}
+
+	@Override
+	public Optional<Long> getGuildIdByApiUrl(final @NotNull URL apiUrl) throws BackendStorageException {
+		return getGuildIdBy("api_url=?", statement -> statement.setString(1, apiUrl.toString()));
+	}
+
+	@Override
+	public Optional<Long> getGuildIdByApiConnection(final @NotNull NamelessAPI api) throws BackendStorageException {
+		return getGuildIdBy("api_url=? AND api_key=?", statement -> {
+			statement.setString(1, api.getApiUrl().toString());
+			statement.setString(2, api.getApiKey());
+		});
 	}
 
 }

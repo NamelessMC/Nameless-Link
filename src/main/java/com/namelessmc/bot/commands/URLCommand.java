@@ -5,12 +5,10 @@ import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.connections.ConnectionCache;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessVersion;
-import com.namelessmc.java_api.Website;
-import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -23,8 +21,8 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class URLCommand extends Command {
 
@@ -37,7 +35,8 @@ public class URLCommand extends Command {
 	@Override
 	public CommandData getCommandData(final Language language) {
 		return new CommandData(this.name, language.get(Term.APIURL_DESCRIPTION))
-				.addOption(OptionType.STRING, "url", language.get(Term.APIURL_OPTION_URL), true);
+				.addOption(OptionType.STRING, "url", language.get(Term.APIURL_OPTION_URL), true)
+				.addOption(OptionType.STRING, "apikey", language.get(Term.APIURL_OPTION_APIKEY), true);
 	}
 
 	@Override
@@ -61,7 +60,8 @@ public class URLCommand extends Command {
 			}
 
 			Main.getExecutorService().execute(() -> {
-				final String apiUrlString = event.getOption("url").getAsString();
+				final String apiUrlString = Objects.requireNonNull(event.getOption("url"), "url is a required option, it should never be null").getAsString();
+				final String apiKey = Objects.requireNonNull(event.getOption("apikey"), "api key is a required option, it should never be null").getAsString();
 
 				if (apiUrlString.equals("none")) {
 					try {
@@ -88,7 +88,7 @@ public class URLCommand extends Command {
 				final InteractionHook hook = event.getHook();
 
 				try {
-					final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
+					final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByApiUrl(apiUrl);
 
 					if (optExistingGuildId.isPresent()) {
 						hook.sendMessage(language.get(Term.APIURL_ALREADY_USED, "command", "/apiurl none")).queue();
@@ -98,7 +98,7 @@ public class URLCommand extends Command {
 
 					LOGGER.info("Checking if API URL works...");
 
-					NamelessAPI api = Main.newApiConnection(apiUrl);
+					NamelessAPI api = ConnectionCache.getApiConnection(apiUrl, apiKey);
 					long ping = PingCommand.checkConnection(api, LOGGER, language, hook);
 
 					if (ping == -1) {
@@ -112,16 +112,16 @@ public class URLCommand extends Command {
 						final User botUser = Main.getJdaForGuild(guildId).getSelfUser();
 						api.setDiscordBotSettings(Main.getBotUrl(), guildId, botUser.getAsTag(), botUser.getIdLong());
 
-						final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
+						final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApiConnection(guildId);
 
 						if (oldApi.isEmpty()) {
 							// User is setting up new connection
-							Main.getConnectionManager().newConnection(guildId, apiUrl);
+							Main.getConnectionManager().createConnection(guildId, apiUrl, apiKey);
 							hook.sendMessage(language.get(Term.APIURL_SUCCESS_NEW)).queue();
 							LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
 						} else {
 							// User is modifying API URL for existing connection
-							Main.getConnectionManager().updateConnection(guildId, apiUrl);
+							Main.getConnectionManager().updateConnection(guildId, apiUrl, apiKey);
 							hook.sendMessage(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
 							LOGGER.info("Updated API URL for guild {} from {} to {}", guildId, oldApi.get(), apiUrl);
 						}

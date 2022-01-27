@@ -71,7 +71,7 @@ public class RoleChange extends HttpHandler {
 
 		Optional<NamelessAPI> optApi;
 		try {
-			optApi = Main.getConnectionManager().getApi(guildId);
+			optApi = Main.getConnectionManager().getApiConnection(guildId);
 		} catch (final BackendStorageException e) {
 			response.getWriter().write("error");
 			e.printStackTrace();

@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PingCommand extends Command {
@@ -51,7 +50,7 @@ public class PingCommand extends Command {
 				// Check if API URL works
 				Optional<NamelessAPI> optApi;
 				try {
-					optApi = Main.getConnectionManager().getApi(guild.getIdLong());
+					optApi = Main.getConnectionManager().getApiConnection(guild.getIdLong());
 				} catch (final BackendStorageException e) {
 					event.reply(language.get(Term.ERROR_GENERIC)).setEphemeral(true).queue();
 					LOGGER.error("storage backend", e);

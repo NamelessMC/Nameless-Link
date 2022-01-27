@@ -35,7 +35,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 		event.getJDA().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 			Optional<NamelessAPI> optApi;
 			try {
-				optApi = Main.getConnectionManager().getApi(event.getGuild().getIdLong());
+				optApi = Main.getConnectionManager().getApiConnection(event.getGuild().getIdLong());
 			} catch (final BackendStorageException e) {
 				LOGGER.error("Storage error during guild join", e);
 				return;

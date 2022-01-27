@@ -1,5 +1,6 @@
 package com.namelessmc.bot;
 
+import com.google.common.base.Preconditions;
 import com.namelessmc.bot.Language.LanguageLoadException;
 import com.namelessmc.bot.commands.Command;
 import com.namelessmc.bot.connections.BackendStorageException;
@@ -39,8 +40,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -198,11 +198,13 @@ public class Main {
 		final User user = Main.getJda(0).getSelfUser();
 		final String userTag = user.getAsTag();
 		if (Main.getConnectionManager().isReadOnly()) {
-			final NamelessAPI api = newApiConnection(connectionManager.listConnections().get(0));
+			List<NamelessAPI> apiConnections = connectionManager.listConnections();
+			Preconditions.checkArgument(apiConnections.size() == 1, "Stateless connection manager should always have 1 connection");
+			final NamelessAPI api = apiConnections.get(0);
 			LOGGER.info("Sending bot settings to " + api.getApiUrl());
 			api.setDiscordBotUrl(botUrl);
 			api.setDiscordBotUser(userTag, user.getIdLong());
-			final long guildId = connectionManager.getGuildIdByURL(api.getApiUrl()).orElse(0L);
+			final long guildId = connectionManager.getGuildIdByApiConnection(api).orElse(0L);
 			if (guildId == 0L) {
 				LOGGER.error("Guild id was not present in the Optional");
 				System.exit(1);
@@ -234,11 +236,11 @@ public class Main {
 				final ExecutorService service = Executors.newFixedThreadPool(threads);
 				final AtomicInteger countSuccess = new AtomicInteger();
 				final AtomicInteger countError = new AtomicInteger();
-				for (final URL url : connectionManager.listConnections()) {
+				for (final NamelessAPI api : connectionManager.listConnections()) {
 					service.execute(() -> {
 						Guild guild;
 						try {
-							final long guildId = connectionManager.getGuildIdByURL(url).orElseThrow(() -> new IllegalStateException("database has URL but not guild id"));
+							final long guildId = connectionManager.getGuildIdByApiConnection(api).orElseThrow(() -> new IllegalStateException("database has URL but not guild id"));
 							guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 							if (guild == null) {
 								LOGGER.warn("Skipping guild {}, it is null (bot was kicked from this guild?)", guildId);
@@ -256,12 +258,11 @@ public class Main {
 						}
 
 						try {
-							final NamelessAPI api = Main.newApiConnection(url);
 							api.setDiscordBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
-							LOGGER.info("{} {} success", guild.getIdLong(), url.toString());
+							LOGGER.info("{} {} success", guild.getIdLong(), api.getApiUrl().toString());
 							countSuccess.incrementAndGet();
 						} catch (final NamelessException e) {
-							LOGGER.info("{} {} error", guild.getIdLong(), url.toString());
+							LOGGER.info("{} {} error", guild.getIdLong(), api.getApiUrl().toString());
 							countError.incrementAndGet();
 						}
 					});

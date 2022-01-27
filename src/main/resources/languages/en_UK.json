@@ -16,7 +16,8 @@
     "ping_working": "The API website connection appears to be working. Took {time}ms.",
 
     "apiurl_description": "Configure the NamelessMC website API URL",
-    "apiurl_option_url": "Your website API URL (StaffCP > Configuration > API). Specify 'none' to unlink.",
+    "apiurl_option_url": "Your website's API URL (StaffCP > Configuration > API). Specify 'none' to unlink.",
+    "apiurl_option_api": "Your website's API key (StaffCP > Configuration > API).",
     "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
     "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API.",
     "apiurl_url_malformed": "The provided API URL is malformed.",

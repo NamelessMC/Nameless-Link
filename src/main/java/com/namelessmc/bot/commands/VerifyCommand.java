@@ -67,7 +67,7 @@ public class VerifyCommand extends Command {
 			final InteractionHook hook = event.getHook();
 			Optional<NamelessAPI> api;
 			try {
-				api = Main.getConnectionManager().getApi(guildId);
+				api = Main.getConnectionManager().getApiConnection(guildId);
 			} catch (final BackendStorageException e) {
 				LOGGER.error("Storage error", e);
 				hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();

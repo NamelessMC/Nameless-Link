@@ -39,7 +39,7 @@ public class UpdateUsernameCommand extends Command {
 
 		final Optional<NamelessAPI> optApi;
 		try {
-			optApi = Main.getConnectionManager().getApi(guild.getIdLong());
+			optApi = Main.getConnectionManager().getApiConnection(guild.getIdLong());
 		} catch (final BackendStorageException e) {
 			event.reply(language.get(Term.ERROR_GENERIC)).setEphemeral(true).queue();
 			return;

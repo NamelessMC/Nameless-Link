@@ -3,7 +3,6 @@ package com.namelessmc.bot.connections;
 import com.google.common.base.Objects;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
-import okhttp3.Cache;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
