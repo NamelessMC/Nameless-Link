@@ -52,7 +52,7 @@ import java.util.function.Consumer;
 
 public class Main {
 
-	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
+	public static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
 	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
 	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = EnumSet.of(
 			NamelessVersion.V2_0_0_PR_12,
@@ -90,6 +90,7 @@ public class Main {
 	public static boolean isLocalAllowed() { return localAllowed; }
 
 	private static @Nullable ApiLogger apiDebugLogger;
+	public static @Nullable ApiLogger getApiDebugLogger() { return apiDebugLogger; }
 
 	private static int shards;
 	public static int getShardCount() { return shards; }
@@ -308,15 +309,6 @@ public class Main {
 		}
 
 		connectionManager = init.get();
-	}
-
-	private static final Map<URL, NamelessAPI> API_CACHE = new HashMap<>();
-
-	public static NamelessAPI newApiConnection(final URL url) {
-		synchronized (API_CACHE) {
-			API_CACHE.computeIfAbsent(url, x -> NamelessAPI.builder().apiUrl(url).userAgent(USER_AGENT).withCustomDebugLogger(apiDebugLogger).build());
-			return API_CACHE.get(url);
-		}
 	}
 
 	private static final Set<Class<?>> IGNORED_EXCEPTIONS = Set.of(
