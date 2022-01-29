@@ -63,13 +63,15 @@ public class PingCommand extends Command {
 				}
 
 				// Now that we actually need to connect to the API, it may take a while
-				event.deferReply().setEphemeral(true).queue();
-
-				final NamelessAPI api = optApi.get();
-				long ping = checkConnection(api, LOGGER, language, event.getHook());
-				if (ping > 0) {
-					event.getHook().sendMessage(language.get(Term.PING_WORKING, "time", ping)).queue();
-				}
+				event.deferReply().setEphemeral(true).queue(hook -> {
+					Main.getExecutorService().execute(() -> {
+						final NamelessAPI api = optApi.get();
+						long ping = checkConnection(api, LOGGER, language, event.getHook());
+						if (ping > 0) {
+							event.getHook().sendMessage(language.get(Term.PING_WORKING, "time", ping)).queue();
+						}
+					});
+				});
 			});
 		});
 	}
