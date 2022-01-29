@@ -63,5 +63,6 @@
     "apiurl_unlinked": "Se ha desvinculado con éxito el sitio web de este servidor de Discord",
     "updateusername_description": "Actualiza tu nombre de usuario de Discord en el sitio web",
     "updateusername_success": "Nombre de usuario actualizado con éxito",
-    "apiurl_url_local": "Su URL de la API contiene una dirección del espacio de direcciones privado. Estas direcciones sólo son accesibles desde su red. Introduzca un dominio accesible desde el exterior."
+    "apiurl_url_local": "Su URL de la API contiene una dirección del espacio de direcciones privado. Estas direcciones sólo son accesibles desde su red. Introduzca un dominio accesible desde el exterior.",
+    "apiurl_option_api": "La clave API de su sitio web (StaffCP > Configuración > API)."
 }
