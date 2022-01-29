@@ -67,7 +67,7 @@ public class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Core");
 
-	private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
+	private static final ExecutorService executorService = Executors.newCachedThreadPool();
 	public static ExecutorService getExecutorService() { return executorService; }
 
 	private static ConnectionManager connectionManager;
