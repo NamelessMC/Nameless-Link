@@ -51,9 +51,10 @@
     "verify_option_token": "验证 token",
     "ping_description": "测试网站 API 连接",
     "apiurl_description": "配置 NamelessMC 网站 API 链接 (URL)",
-    "apiurl_option_url": "你的网站 API 链接 (URL) (管理员控制面板 > 配置 > API)。输入 'none' 来解除链接。",
+    "apiurl_option_url": "您的网站的 API 链接 (URL) (管理员控制面板 > 配置 > API)。输入 'none' 来解除链接。",
     "apiurl_unlinked": "成功解除了此 Discord 服务器与网站的链接",
     "updateusername_description": "更新您网站上的 Discord 用户名",
     "updateusername_success": "用户名更新成功",
-    "apiurl_url_local": "您的 API 链接包含一个无法从外部访问的内网地址。请输入一个在外部可访问的域名。"
+    "apiurl_url_local": "您的 API 链接包含一个无法从外部访问的内网地址。请输入一个在外部可访问的域名。",
+    "apiurl_option_api": "您的网站的 API 密钥 (key) (管理人员面板 > 配置 > API)。"
 }
