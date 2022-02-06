@@ -96,6 +96,7 @@ public class Language {
 		NAMELESS_TO_POSIX.put("Norwegian", "nb_NO");
 		NAMELESS_TO_POSIX.put("Dutch", "nl_NL");
 		NAMELESS_TO_POSIX.put("Polish", "pl_PL");
+		NAMELESS_TO_POSIX.put("Portuguese", "pt_BR");
 		NAMELESS_TO_POSIX.put("Romanian", "ro_RO");
 		NAMELESS_TO_POSIX.put("Russian", "ru_RU");
 		NAMELESS_TO_POSIX.put("Slovak", "sk_SK");
