@@ -10,7 +10,6 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.slf4j.Logger;
@@ -57,47 +56,46 @@ public class VerifyCommand extends Command {
 //		}
 //		final String verify = token.substring(token.indexOf(':') + 1);
 
-		event.deferReply().setEphemeral(true).queue();
-
 		final long guildId = guild.getIdLong();
 		final long userId = event.getUser().getIdLong();
 		final String userTag = event.getUser().getAsTag();
 
-		Main.getExecutorService().execute(() -> {
-			final InteractionHook hook = event.getHook();
-			Optional<NamelessAPI> api;
-			try {
-				api = Main.getConnectionManager().getApi(guildId);
-			} catch (final BackendStorageException e) {
-				LOGGER.error("Storage error", e);
-				hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
-				return;
-			}
-
-			if (api.isEmpty()) {
-				hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
-				return;
-			}
-
-			try {
-				api.get().verifyDiscord(token, userId, userTag);
-				hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
-				LOGGER.info("Verified user {} in guild {}", userTag, guildId);
-			} catch (final ApiError e) {
-				if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
-					hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
-				} else {
-					LOGGER.warn("Unexpected error code {}", e.getError());
-					hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+		event.deferReply().setEphemeral(true).queue(hook -> {
+			Main.getExecutorService().execute(() -> {
+				Optional<NamelessAPI> api;
+				try {
+					api = Main.getConnectionManager().getApi(guildId);
+				} catch (final BackendStorageException e) {
+					LOGGER.error("Storage error", e);
+					hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
+					return;
 				}
-				return;
-			} catch (final NamelessException e) {
-				hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
-				Main.logConnectionError(LOGGER, "Website connection error", e);
-				return;
-			}
 
-			DiscordRoleListener.sendUserRolesAsync(guildId, userId);
+				if (api.isEmpty()) {
+					hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
+					return;
+				}
+
+				try {
+					api.get().verifyDiscord(token, userId, userTag);
+					hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
+					LOGGER.info("Verified user {} in guild {}", userTag, guildId);
+				} catch (final ApiError e) {
+					if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
+						hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
+					} else {
+						LOGGER.warn("Unexpected error code {}", e.getError());
+						hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+					}
+					return;
+				} catch (final NamelessException e) {
+					hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+					Main.logConnectionError(LOGGER, "Website connection error", e);
+					return;
+				}
+
+				DiscordRoleListener.sendUserRolesAsync(guildId, userId);
+			});
 		});
 	}
 }

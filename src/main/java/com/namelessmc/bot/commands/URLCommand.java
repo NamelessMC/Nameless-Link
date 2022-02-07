@@ -15,7 +15,6 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.slf4j.Logger;
@@ -89,74 +88,73 @@ public class URLCommand extends Command {
 				}
 
 				// This may take a while
-				event.deferReply().setEphemeral(true).queue();
-				final InteractionHook hook = event.getHook();
-
-				try {
-					final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
-
-					if (optExistingGuildId.isPresent()) {
-						hook.sendMessage(language.get(Term.APIURL_ALREADY_USED, "command", "/apiurl none")).queue();
-						LOGGER.info("API URL already used");
-						return;
-					}
-
-					LOGGER.info("Checking if API URL works...");
-					NamelessAPI api;
+				event.deferReply().setEphemeral(true).queue(hook -> {
 					try {
-						api = Main.newApiConnection(apiUrl);
-						final Website info = api.getWebsite();
-						try {
-							if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
-								final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-								hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
-								LOGGER.info("Incompatible NamelessMC version");
-								return;
-							}
-						} catch (final UnknownNamelessVersionException e) {
-							// API doesn't recognize this version, but we can still display the unparsed name
-							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-							hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
-							LOGGER.info("Unknown NamelessMC version");
+						final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByURL(apiUrl);
+
+						if (optExistingGuildId.isPresent()) {
+							hook.sendMessage(language.get(Term.APIURL_ALREADY_USED, "command", "/apiurl none")).queue();
+							LOGGER.info("API URL already used");
 							return;
 						}
-					} catch (final NamelessException e) {
-						hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
-						hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-						Main.logConnectionError(LOGGER, "Website connection error while checking if new API url works", e);
-						return;
-					}
 
-					LOGGER.info("API URL seems to work. Sending bot settings...");
-
-					try {
-						final User botUser = Main.getJdaForGuild(guildId).getSelfUser();
-						api.setDiscordBotSettings(Main.getBotUrl(), guildId, botUser.getAsTag(), botUser.getIdLong());
-
-						final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
-
-						if (oldApi.isEmpty()) {
-							// User is setting up new connection
-							Main.getConnectionManager().newConnection(guildId, apiUrl);
-							hook.sendMessage(language.get(Term.APIURL_SUCCESS_NEW)).queue();
-							LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
-						} else {
-							// User is modifying API URL for existing connection
-							Main.getConnectionManager().updateConnection(guildId, apiUrl);
-							hook.sendMessage(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
-							LOGGER.info("Updated API URL for guild {} from {} to {}", guildId, oldApi.get(), apiUrl);
+						LOGGER.info("Checking if API URL works...");
+						NamelessAPI api;
+						try {
+							api = Main.newApiConnection(apiUrl);
+							final Website info = api.getWebsite();
+							try {
+								if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+									final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+									hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+									LOGGER.info("Incompatible NamelessMC version");
+									return;
+								}
+							} catch (final UnknownNamelessVersionException e) {
+								// API doesn't recognize this version, but we can still display the unparsed name
+								final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+								hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+								LOGGER.info("Unknown NamelessMC version");
+								return;
+							}
+						} catch (final NamelessException e) {
+							hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
+							hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+							Main.logConnectionError(LOGGER, "Website connection error while checking if new API url works", e);
+							return;
 						}
 
-						DiscordRoleListener.sendRolesAsync(guildId);
-					} catch (final NamelessException e) {
-						hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
-						hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-						Main.logConnectionError(LOGGER, "Website connection error while sending bot settings", e);
+						LOGGER.info("API URL seems to work. Sending bot settings...");
+
+						try {
+							final User botUser = Main.getJdaForGuild(guildId).getSelfUser();
+							api.setDiscordBotSettings(Main.getBotUrl(), guildId, botUser.getAsTag(), botUser.getIdLong());
+
+							final Optional<NamelessAPI> oldApi = Main.getConnectionManager().getApi(guildId);
+
+							if (oldApi.isEmpty()) {
+								// User is setting up new connection
+								Main.getConnectionManager().newConnection(guildId, apiUrl);
+								hook.sendMessage(language.get(Term.APIURL_SUCCESS_NEW)).queue();
+								LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
+							} else {
+								// User is modifying API URL for existing connection
+								Main.getConnectionManager().updateConnection(guildId, apiUrl);
+								hook.sendMessage(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
+								LOGGER.info("Updated API URL for guild {} from {} to {}", guildId, oldApi.get(), apiUrl);
+							}
+
+							DiscordRoleListener.sendRolesAsync(guildId);
+						} catch (final NamelessException e) {
+							hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
+							hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+							Main.logConnectionError(LOGGER, "Website connection error while sending bot settings", e);
+						}
+					} catch (final BackendStorageException e) {
+						hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
+						LOGGER.error("storage backend", e);
 					}
-				} catch (final BackendStorageException e){
-					hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
-					LOGGER.error("storage backend", e);
-				}
+				});
 			});
 		});
 	}

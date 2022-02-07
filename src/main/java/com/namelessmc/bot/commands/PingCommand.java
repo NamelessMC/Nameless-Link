@@ -44,49 +44,49 @@ public class PingCommand extends Command {
 				return;
 			}
 
-			Main.getExecutorService().execute(() -> {
-				// Check if API URL works
-				Optional<NamelessAPI> optApi;
-				try {
-					optApi = Main.getConnectionManager().getApi(guild.getIdLong());
-				} catch (final BackendStorageException e) {
-					event.reply(language.get(Term.ERROR_GENERIC)).setEphemeral(true).queue();
-					LOGGER.error("storage backend", e);
-					return;
-				}
+			// Check if API URL works
+			Optional<NamelessAPI> optApi;
+			try {
+				optApi = Main.getConnectionManager().getApi(guild.getIdLong());
+			} catch (final BackendStorageException e) {
+				event.reply(language.get(Term.ERROR_GENERIC)).setEphemeral(true).queue();
+				LOGGER.error("storage backend", e);
+				return;
+			}
 
-				if (optApi.isEmpty()) {
-					event.reply(language.get(Term.ERROR_NOT_SET_UP)).setEphemeral(true).queue();
-					return;
-				}
+			if (optApi.isEmpty()) {
+				event.reply(language.get(Term.ERROR_NOT_SET_UP)).setEphemeral(true).queue();
+				return;
+			}
 
-				// Now that we actually need to connect to the API, it may take a while
-				event.deferReply().setEphemeral(true).queue();
+			// Now that we actually need to connect to the API, it may take a while
+			event.deferReply().setEphemeral(true).queue(hook -> {
+				Main.getExecutorService().execute(() -> {
+					final NamelessAPI api = optApi.get();
 
-				final NamelessAPI api = optApi.get();
-
-				try {
-					final long start = System.currentTimeMillis();
-					final Website info = api.getWebsite();
 					try {
-						if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+						final long start = System.currentTimeMillis();
+						final Website info = api.getWebsite();
+						try {
+							if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+								final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+								hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+								return;
+							}
+						} catch (final UnknownNamelessVersionException e) {
+							// API doesn't recognize this version, but we can still display the unparsed name
 							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-							event.getHook().sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+							hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
 							return;
 						}
-					} catch (final UnknownNamelessVersionException e) {
-						// API doesn't recognize this version, but we can still display the unparsed name
-						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-						event.getHook().sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
-						return;
+						final long time = System.currentTimeMillis() - start;
+						hook.sendMessage(language.get(Term.PING_WORKING, "time", time)).queue();
+					} catch (final NamelessException e) {
+						hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
+						hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+						Main.logConnectionError(LOGGER, "NamelessException during ping", e);
 					}
-					final long time = System.currentTimeMillis() - start;
-					event.getHook().sendMessage(language.get(Term.PING_WORKING, "time", time)).queue();
-				} catch (final NamelessException e) {
-					event.getHook().sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
-					event.getHook().sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
-					Main.logConnectionError(LOGGER, "NamelessException during ping", e);
-				}
+				});
 			});
 		});
 	}
