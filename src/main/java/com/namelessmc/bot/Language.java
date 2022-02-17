@@ -162,6 +162,10 @@ public class Language {
 			translation = translation.replace("{" + key + "}", value);
 		}
 
+		if (!checkLength(term, translation.length())) {
+			translation = "message too long (bug)";
+		}
+
 		return translation;
 	}
 
@@ -189,6 +193,18 @@ public class Language {
 			if (!valid[i]) {
 				throw new IllegalArgumentException("Missing replacement key '" + required[i] + "'");
 			}
+		}
+	}
+
+	private boolean checkLength(Term term, int length) {
+		switch(term) {
+			case VERIFY_DESCRIPTION:
+			case APIURL_DESCRIPTION:
+			case PING_DESCRIPTION:
+			case UPDATEUSERNAME_DESCRIPTION:
+				return length < 100;
+			default:
+				return true;
 		}
 	}
 
