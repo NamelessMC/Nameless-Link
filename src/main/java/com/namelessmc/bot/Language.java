@@ -123,18 +123,18 @@ public class Language {
 	// Avoid having to instantiate new language objects all the time
 	private static final Map<String, Language> LANGUAGE_CACHE = new HashMap<>();
 
-	private final String language;
+	private final String languageCode;
 //	public static Language getLanguage() { return language; }
 
 	private transient JsonObject json;
 
 	private Language(final String language) throws LanguageLoadException {
-		this.language = Objects.requireNonNull(language, "Language string is null");
+		this.languageCode = Objects.requireNonNull(language, "Language string is null");
 		readFromFile();
 	}
 
 	private void readFromFile() throws LanguageLoadException {
-		try (InputStream stream = Language.class.getResourceAsStream("/languages/" + this.language + ".json")) {
+		try (InputStream stream = Language.class.getResourceAsStream("/languages/" + this.languageCode + ".json")) {
 			if (stream == null) {
 				throw new LanguageLoadException();
 			}
@@ -157,10 +157,10 @@ public class Language {
 		} else if (this == getDefaultLanguage()) {
 			// oh no, cannot fall back to default translation if we are the default translation
 			throw new RuntimeException(
-					String.format("Term '%s' is missing from default (%s) translation", term, getDefaultLanguage().language));
+					String.format("Term '%s' is missing from default (%s) translation", term, getDefaultLanguage().languageCode));
 		} else {
 			LOGGER.warn("Language '{}' is missing term '{}', using default ({}) term instead.",
-					this.language, term, getDefaultLanguage().language);
+					this.languageCode, term, getDefaultLanguage().languageCode);
 			translation = getDefaultLanguage().get(term, replacements);
 		}
 
@@ -172,6 +172,7 @@ public class Language {
 
 		if (!checkLength(term, translation.length())) {
 			translation = "message too long (bug)";
+			LOGGER.warn("Message '{}' too long for language {}", term, this.languageCode);
 		}
 
 		return translation;
@@ -274,7 +275,7 @@ public class Language {
 		try {
 			language = new Language(languageName);
 		} catch (final LanguageLoadException e) {
-			LOGGER.error("Failed to load language '{}', falling back to '{}'.", languageName, getDefaultLanguage().language);
+			LOGGER.error("Failed to load language '{}', falling back to '{}'.", languageName, getDefaultLanguage().languageCode);
 			LOGGER.error("Error loading language", e);
 			language = getDefaultLanguage();
 		}
