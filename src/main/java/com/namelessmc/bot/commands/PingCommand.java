@@ -86,12 +86,13 @@ public class PingCommand extends Command {
 			}
 
 			String host = url.getHost();
-			if (host.equals("localhost") ||
+			if (!Main.isLocalAllowed() && (
+					host.equals("localhost") ||
 					host.startsWith("127.") ||
 					host.startsWith("192.168.") ||
 					host.startsWith("10.")
 					// checking 172.16.0.0/12 is too much work...
-				) {
+				)) {
 				hook.sendMessage(language.get(Term.APIURL_URL_LOCAL)).setEphemeral(true).queue();
 				return -1;
 			}
