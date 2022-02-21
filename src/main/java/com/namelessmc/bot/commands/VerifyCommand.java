@@ -5,9 +5,9 @@ import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
-import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.InvalidValidateCodeException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -62,13 +62,8 @@ public class VerifyCommand extends Command {
 					api.get().verifyDiscord(token, userId, userTag);
 					hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
 					LOGGER.info("Verified user {} in guild {}", userTag, guildId);
-				} catch (final ApiError e) {
-					if (e.getError() == ApiError.INVALID_VALIDATE_CODE || e.getError() == ApiError.UNABLE_TO_FIND_USER) {
-						hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
-					} else {
-						LOGGER.warn("Unexpected error code {}", e.getError());
-						hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
-					}
+				} catch (InvalidValidateCodeException e) {
+					hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
 					return;
 				} catch (final NamelessException e) {
 					hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
