@@ -252,7 +252,7 @@ public class Language {
 		try {
 			final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
 			if (nameless.isPresent()) {
-				return getLanguage(NAMELESS_TO_POSIX.get(nameless.get().getLangage()));
+				return getLanguage(NAMELESS_TO_POSIX.get(nameless.get().getLanguage()));
 			} else {
 				return getLanguage(NAMELESS_TO_POSIX.get(api.getWebsite().getLanguage()));
 			}
