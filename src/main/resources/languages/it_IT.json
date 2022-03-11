@@ -1,1 +1,35 @@
-{}
+{
+    "error_generic": "Si è verificato un errore interno.",
+    "error_not_set_up": "Non è possibile utilizzare questo comando al momento, il bot non è stato ancora configurato.",
+    "error_not_linked": "Non puoi usare questo comando perché il tuo account non è ancora collegato. Vai alle impostazioni dell'account sul sito per collegare il tuo account Discord.",
+    "error_website_connection": "Impossibile connettersi al sito web.",
+    "error_website_version": "Il tuo sito web esegue una versione NamelessMC incompatibile. Stai usando la versione {version}, mentre il bot è compatibile con le seguenti versioni: {compatibleVersions}.",
+    "error_no_permission": "È necessario disporre dell'autorizzazione 'Amministratore' nel server Discord di destinazione per utilizzare questo comando.",
+    "error_read_only_storage": "Questa istanza bot è configurata senza un database. Se si desidera modificare la sua configurazione è necessario farlo manualmente (modificando le variabili di ambiente) invece che tramite comandi.",
+
+    "verify_description": "Verifica il tuo account Discord collegato al sito web",
+    "verify_option_token": "Token di verifica",
+    "verify_token_invalid": "Impossibile verificare il tuo account, hai fornito un token non valido.",
+    "verify_success": "Grazie per esserti verificato, il tuo account è ora collegato.",
+
+    "ping_description": "Connessione API del sito Web di prova",
+    "ping_working": "La connessione al sito web API sembra funzionare. Tempo {time}ms.",
+
+    "apiurl_description": "Configurare l'URL API del sito Web NamelessMC",
+    "apiurl_option_url": "URL dell'API del tuo sito web (StaffCP > Configurazione > API). Specificare 'none' da scollegare.",
+    "apiurl_success": "Il tuo server Discord è stato collegato con successo al tuo sito NamelessMC.",
+    "apiurl_url_invalid": "L'URL dell'API fornito non sembra un URL dell'API NamelessMC. Puoi trovare l'URL dell'API in StaffCP > Configurazione > API.",
+    "apiurl_url_malformed": "L'URL API fornito è malformato.",
+    "apiurl_failed_connection": "Impossibile connettersi al tuo sito web. Vedi il messaggio sopra per i dettagli.",
+    "apiurl_already_used": "Questo URL API è già utilizzato da un server Discord, esegui `{command}` nel server Discord collegato da scollegare.",
+    "apiurl_success_updated": "Modificato con successo l'URL API.",
+    "apiurl_success_new": "Configurato correttamente l'URL dell'API.,
+    "apiurl_unlinked": "Scollegato con successo il sito web da questo server Discord",
+
+    "guild_join_success": "Ciao! Grazie per aver utilizzato il Bot NamelessMC. Per iniziare, eseguire `{command} <api url>` nel tuo server Discord. L'URL dell'API può essere trovato in `StaffCP > Configurazione > API`.",
+    "guild_join_needs_renew": "Ciao! Grazie per aver usato il Bot NamelessMC. Sembra che tu abbia già impostato l'URL dell'API, ma non è più funzionale. Si prega di impostare uno nuovo utilizzando `{command} <api url>` (esegui questo nel tuo server Discord). L'URL dell'API può essere trovato in `StaffCP > Configurazione > API`.",
+    "guild_join_welcome_back": "Ciao! Grazie per aver usato il Bot NamelessMC. Il bot è già impostato per il tuo server Discord. Se si desidera utilizzare un URL API diverso è possibile modificarlo utilizzando `{command} <api url>` (esegui questo nel tuo server Discord).",
+    
+    "updateusername_description": "Aggiorna il tuo nome utente Discord sul sito web",
+    "updateusername_success": "Nome utente aggiornato con successo"
+}
