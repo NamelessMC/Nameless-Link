@@ -23,7 +23,7 @@
     "apiurl_failed_connection": "Impossibile connettersi al tuo sito web. Vedi il messaggio sopra per i dettagli.",
     "apiurl_already_used": "Questo URL API è già utilizzato da un server Discord, esegui `{command}` nel server Discord collegato da scollegare.",
     "apiurl_success_updated": "Modificato con successo l'URL API.",
-    "apiurl_success_new": "Configurato correttamente l'URL dell'API.,
+    "apiurl_success_new": "Configurato correttamente l'URL dell'API.",
     "apiurl_unlinked": "Scollegato con successo il sito web da questo server Discord",
 
     "guild_join_success": "Ciao! Grazie per aver utilizzato il Bot NamelessMC. Per iniziare, eseguire `{command} <api url>` nel tuo server Discord. L'URL dell'API può essere trovato in `StaffCP > Configurazione > API`.",
