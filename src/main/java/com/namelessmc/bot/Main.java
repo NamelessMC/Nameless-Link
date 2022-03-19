@@ -55,8 +55,7 @@ public class Main {
 	private static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
 	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
 	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = EnumSet.of(
-			NamelessVersion.V2_0_0_PR_12,
-			NamelessVersion.V2_0_0_PR_13
+			NamelessVersion.V2_0_0_PR_12
 	);
 
 	private static JDA[] jda;
