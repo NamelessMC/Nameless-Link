@@ -14,7 +14,6 @@ import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.Slf4jLogger;
 import net.dv8tion.jda.api.JDA;
@@ -39,7 +38,6 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -54,10 +52,6 @@ public class Main {
 
 	public static final String USER_AGENT = "Nameless-Link/" + Main.class.getPackage().getImplementationVersion();
 	private static final String DEFAULT_LANGUAGE_CODE = "en_UK";
-	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = EnumSet.of(
-			NamelessVersion.V2_0_0_PR_12,
-			NamelessVersion.V2_0_0_PR_13
-	);
 
 	private static JDA[] jda;
 	public static JDA getJda(final int shardId) { return jda[shardId]; }

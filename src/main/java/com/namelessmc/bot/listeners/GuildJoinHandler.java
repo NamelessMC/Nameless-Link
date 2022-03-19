@@ -1,26 +1,24 @@
 package com.namelessmc.bot.listeners;
 
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import com.namelessmc.bot.commands.Command;
-import net.dv8tion.jda.api.entities.Guild;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.commands.Command;
+import com.namelessmc.bot.commands.PingCommand;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
-
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class GuildJoinHandler extends ListenerAdapter {
 
@@ -52,18 +50,16 @@ public class GuildJoinHandler extends ListenerAdapter {
 					final NamelessAPI api = optApi.get();
 					final Website info = api.getWebsite();
 					try {
-						if (Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+						if (NamelessVersion.isSupportedByJavaApi(info.getParsedVersion())) {
 							// Good to go
 							channel.sendMessage(language.get(Term.GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
 						} else {
 							// Incompatible version
-							final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-							channel.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+							channel.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
 						}
 					} catch (final UnknownNamelessVersionException e) {
 						// API doesn't recognize this version, but we can still display the unparsed name
-						final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-						channel.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+						channel.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
 					}
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url

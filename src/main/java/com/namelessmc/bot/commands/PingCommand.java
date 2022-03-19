@@ -102,16 +102,14 @@ public class PingCommand extends Command {
 			final long start = System.currentTimeMillis();
 			final Website info = api.getWebsite();
 			try {
-				if (!Main.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
-					final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-					hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+				if (!NamelessVersion.isSupportedByJavaApi(info.getParsedVersion())) {
+					hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersionsList())).queue();
 					LOGGER.info("Incompatible NamelessMC version");
 					return -1;
 				}
 			} catch (final UnknownNamelessVersionException e) {
 				// API doesn't recognize this version, but we can still display the unparsed name
-				final String supportedVersions = Main.SUPPORTED_WEBSITE_VERSIONS.stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
-				hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersions)).queue();
+				hook.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersionsList())).queue();
 				LOGGER.info("Unknown NamelessMC version");
 				return -1;
 			}
@@ -122,6 +120,10 @@ public class PingCommand extends Command {
 			Main.logConnectionError(logger, "NamelessException during ping", e);
 			return -1;
 		}
+	}
+
+	public static String supportedVersionsList() {
+		return NamelessVersion.getSupportedVersions().stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
 	}
 
 }
