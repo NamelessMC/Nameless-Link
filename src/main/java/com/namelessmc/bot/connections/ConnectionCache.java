@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class ConnectionCache {
 
+	// TODO convert to record when maven shape plugin supports it
 	private static class CacheKey {
 
 		private final @NotNull URL apiUrl;

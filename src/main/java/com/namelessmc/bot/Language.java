@@ -206,15 +206,11 @@ public class Language {
 	}
 
 	private boolean checkLength(Term term, int length) {
-		switch(term) {
-			case VERIFY_DESCRIPTION:
-			case APIURL_DESCRIPTION:
-			case PING_DESCRIPTION:
-			case UPDATEUSERNAME_DESCRIPTION:
-				return length < 100;
-			default:
-				return true;
-		}
+		int maxLength = switch (term) {
+			case VERIFY_DESCRIPTION, APIURL_DESCRIPTION, PING_DESCRIPTION, UPDATEUSERNAME_DESCRIPTION -> 100;
+			default -> Integer.MAX_VALUE;
+		};
+		return length < maxLength;
 	}
 
 	public static Language getGuildLanguage(final Guild guild) {
