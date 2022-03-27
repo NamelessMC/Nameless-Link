@@ -4,18 +4,13 @@ import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.*;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -85,32 +80,6 @@ public class Language {
 			return this.name().toLowerCase();
 		}
 
-	}
-
-	private static final Map<String, String> NAMELESS_TO_POSIX = new HashMap<>();
-
-	static {
-		NAMELESS_TO_POSIX.put("Czech", "cs_CZ");
-		NAMELESS_TO_POSIX.put("German", "de_DE");
-		NAMELESS_TO_POSIX.put("Greek", "el_GR");
-		NAMELESS_TO_POSIX.put("EnglishUK", "en_UK");
-		NAMELESS_TO_POSIX.put("EnglishUS", "en_US");
-		NAMELESS_TO_POSIX.put("Spanish", "es_419");
-		NAMELESS_TO_POSIX.put("SpanishES", "es_ES");
-		NAMELESS_TO_POSIX.put("French", "fr_FR");
-		NAMELESS_TO_POSIX.put("Hungarian", "hu_HU");
-		NAMELESS_TO_POSIX.put("Italian", "it_IT");
-		NAMELESS_TO_POSIX.put("Lithuanian", "lt_LT");
-		NAMELESS_TO_POSIX.put("Norwegian", "nb_NO");
-		NAMELESS_TO_POSIX.put("Dutch", "nl_NL");
-		NAMELESS_TO_POSIX.put("Polish", "pl_PL");
-		NAMELESS_TO_POSIX.put("Portuguese", "pt_BR");
-		NAMELESS_TO_POSIX.put("Romanian", "ro_RO");
-		NAMELESS_TO_POSIX.put("Russian", "ru_RU");
-		NAMELESS_TO_POSIX.put("Slovak", "sk_SK");
-		NAMELESS_TO_POSIX.put("SwedishSE", "sv_SE");
-		NAMELESS_TO_POSIX.put("Turkish", "tr_TR");
-		NAMELESS_TO_POSIX.put("Chinese(Simplified)", "zh_CN");
 	}
 
 	private static Language defaultLanguage;
@@ -224,14 +193,7 @@ public class Language {
 
 		if (api.isPresent()) {
 			try {
-				final String language = api.get().getWebsite().getLanguage();
-				final String posix = NAMELESS_TO_POSIX.get(language);
-				if (posix == null) {
-					LOGGER.warn("Website linked to guild {} uses unknown language '{}'", guild.getIdLong(), language);
-					return getDefaultLanguage();
-				} else {
-					return getLanguage(posix);
-				}
+				return getLanguage(api.get().getWebsite());
 			} catch (final NamelessException e) {
 				LOGGER.warn("Cannot retrieve language for guild {}, falling back to default language.", guild.getIdLong());
 				return getDefaultLanguage();
@@ -246,43 +208,50 @@ public class Language {
 		Objects.requireNonNull(api, "API is null");
 		Objects.requireNonNull(user, "User is null");
 		try {
-			final Optional<NamelessUser> nameless = api.getUserByDiscordId(user.getIdLong());
-			if (nameless.isPresent()) {
-				return getLanguage(NAMELESS_TO_POSIX.get(nameless.get().getLanguage()));
+			final Optional<NamelessUser> websiteUser = api.getUserByDiscordId(user.getIdLong());
+			if (websiteUser.isPresent()) {
+				return getLanguage(websiteUser.get());
 			} else {
-				return getLanguage(NAMELESS_TO_POSIX.get(api.getWebsite().getLanguage()));
+				Website website = api.getWebsite();
+				return getLanguage(website);
 			}
-		} catch (final NamelessException e) {
-			// If we can't communicate with the website, fall back to english
+		} catch (NamelessException e) {
+			Main.logConnectionError(LOGGER, "API request for language failed, using default language", e);
 			return getDefaultLanguage();
 		}
 	}
 
-	public static Language getLanguage(final String languageName) {
-		if (languageName == null) {
+	public static Language getLanguage(final LanguageEntity languageEntity) throws NamelessException {
+		String languageCode;
+
+		languageCode = languageEntity.getLanguagePosix();
+		if (languageCode == null) {
+			LOGGER.warn("Language code unknown for language '{}', using default language.", languageEntity.getLanguage());
 			return getDefaultLanguage();
 		}
 
-		Language language = LANGUAGE_CACHE.get(languageName);
+
+		Language language = LANGUAGE_CACHE.get(languageCode);
 		if (language != null) {
 			return language;
 		}
 
 		try {
-			language = new Language(languageName);
+			language = new Language(languageCode);
 		} catch (final LanguageLoadException e) {
-			LOGGER.error("Failed to load language '{}', falling back to '{}'.", languageName, getDefaultLanguage().languageCode);
+			LOGGER.error("Failed to load language '{}', falling back to '{}'.", languageCode, getDefaultLanguage().languageCode);
 			LOGGER.error("Error loading language", e);
 			language = getDefaultLanguage();
 		}
 
-		LANGUAGE_CACHE.put(languageName, language);
+		LANGUAGE_CACHE.put(languageCode, language);
 
 		return language;
 	}
 
 	public static class LanguageLoadException extends Exception {
 
+		@Serial
 		private static final long serialVersionUID = 1335651150585947607L;
 
 		public LanguageLoadException(final Throwable cause) {
