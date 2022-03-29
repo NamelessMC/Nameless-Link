@@ -193,13 +193,6 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				guildId = result.getLong(1);
 			}
 
-			try (PreparedStatement statement = connection
-					.prepareStatement("UPDATE connections SET last_use=? WHERE guild_id=?")) {
-				statement.setLong(1, System.currentTimeMillis());
-				statement.setLong(2, guildId);
-				statement.executeUpdate();
-			}
-
 			return Optional.of(guildId);
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
