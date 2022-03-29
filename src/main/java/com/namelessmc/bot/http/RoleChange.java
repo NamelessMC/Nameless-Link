@@ -1,5 +1,6 @@
 package com.namelessmc.bot.http;
 
+import com.google.common.base.Ascii;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -88,7 +89,9 @@ public class RoleChange extends HttpHandler {
 
 		if (!timingSafeEquals(apiKey.getBytes(), api.getApiKey().getBytes())) {
 			response.getWriter().write("unauthorized");
-			LOGGER.warn("Received bad role change request from website: invalid API key");
+			LOGGER.warn("Received bad role change request from website: invalid API key. provided='{}' expected='{}'",
+					Ascii.truncate(apiKey, 100, "..."),
+					Ascii.truncate(api.getApiKey(), 100, "...");
 			return;
 		}
 
