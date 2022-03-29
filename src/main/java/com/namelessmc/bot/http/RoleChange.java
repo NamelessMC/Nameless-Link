@@ -91,7 +91,7 @@ public class RoleChange extends HttpHandler {
 			response.getWriter().write("unauthorized");
 			LOGGER.warn("Received bad role change request from website: invalid API key. provided='{}' expected='{}'",
 					Ascii.truncate(apiKey, 100, "..."),
-					Ascii.truncate(api.getApiKey(), 100, "...");
+					Ascii.truncate(api.getApiKey(), 100, "..."));
 			return;
 		}
 
