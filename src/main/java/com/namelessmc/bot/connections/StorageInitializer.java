@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class StorageInitializer<CM extends ConnectionManager> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Storage initializer");
+	private static final Logger LOGGER = LoggerFactory.getLogger("Configuration");
 
 	public static final StorageInitializer<StatelessConnectionManager> STATELESS = new StorageInitializer<>(() -> {
 		final URL apiUrl = getEnvUrl("API_URL");
