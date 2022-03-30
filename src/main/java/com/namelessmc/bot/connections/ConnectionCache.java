@@ -24,8 +24,7 @@ public class ConnectionCache {
 
 		@Override
 		public boolean equals(Object other) {
-			if (other instanceof CacheKey) {
-				CacheKey otherKey = (CacheKey) other;
+			if (other instanceof CacheKey otherKey) {
 				return this.apiUrl.equals(otherKey.apiUrl) &&
 						this.apiKey.equals(otherKey.apiKey);
 			}
