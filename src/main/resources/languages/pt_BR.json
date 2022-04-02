@@ -47,5 +47,6 @@
     "updateusername_description": "Atualize seu nome de usuário do Discord no site",
     "verify_description": "Verifique sua conta do Discord conectada ao site",
     "ping_description": "Teste a conexão da API do site",
-    "apiurl_option_url": "URL da API do seu site (StaffCP > Configuração > API ). Especifique 'nenhum' para desvincular."
+    "apiurl_option_url": "URL da API do seu site (StaffCP > Configuração > API). Especifique 'nenhum' para desvincular.",
+    "apiurl_option_api": "A chave de API do seu site (StaffCP > Configuração > API)."
 }
