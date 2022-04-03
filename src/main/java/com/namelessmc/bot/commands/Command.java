@@ -1,14 +1,13 @@
 package com.namelessmc.bot.commands;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import com.namelessmc.bot.Language;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public abstract class Command {
 
@@ -24,6 +23,7 @@ public abstract class Command {
 
 	private static final Command[] COMMANDS = {
 			new PingCommand(),
+			new RegisterCommand(),
 			new UpdateUsernameCommand(),
 			new URLCommand(),
 			new VerifyCommand(),

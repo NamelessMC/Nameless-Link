@@ -35,6 +35,12 @@ public class Language {
 		ERROR_WEBSITE_VERSION("version", "compatibleVersions"),
 		ERROR_NO_PERMISSION,
 		ERROR_READ_ONLY_STORAGE,
+		ERROR_INVALID_USERNAME,
+		ERROR_DUPLICATE_USERNAME,
+		ERROR_INVALID_EMAIL_ADDRESS,
+		ERROR_DUPLICATE_EMAIL_ADDRESS,
+		ERROR_SEND_VERIFICATION_EMAIL,
+		ERROR_DUPLICATE_DISCORD_INTEGRATION,
 
 		VERIFY_DESCRIPTION,
 		VERIFY_OPTION_TOKEN,
@@ -43,6 +49,10 @@ public class Language {
 
 		PING_DESCRIPTION,
 		PING_WORKING("time"),
+
+		REGISTER_DESCRIPTION,
+		REGISTER_EMAIL,
+		REGISTER_URL("url"),
 
 		APIURL_DESCRIPTION,
 		APIURL_OPTION_URL,
@@ -229,7 +239,6 @@ public class Language {
 			LOGGER.warn("Language code unknown for language '{}', using default language.", languageEntity.getLanguage());
 			return getDefaultLanguage();
 		}
-
 
 		Language language = LANGUAGE_CACHE.get(languageCode);
 		if (language != null) {

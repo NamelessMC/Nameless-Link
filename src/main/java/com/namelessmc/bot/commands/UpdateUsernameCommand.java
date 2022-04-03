@@ -24,7 +24,6 @@ public class UpdateUsernameCommand extends Command {
 		super("updateusername");
 	}
 
-
 	@Override
 	public CommandData getCommandData(final Language language) {
 		return new CommandData(this.name, language.get(Term.UPDATEUSERNAME_DESCRIPTION));

@@ -6,6 +6,12 @@
     "error_website_version": "Your website runs an incompatible NamelessMC version. You are using version {version}, while the bot is compatible with the following version(s): {compatibleVersions}.",
     "error_no_permission": "You must have 'Administrator' permission in the target Discord server to use this command.",
     "error_read_only_storage": "This bot instance is configured without a database. If you wish to modify its configuration you must do it manually (by modifying environment variables) instead of through commands.",
+    "error_invalid_username": "The provided username is invalid.",
+    "error_duplicate_username": "The provided username is already used by a different website account.",
+    "error_invalid_email_address": "The provided email address is invalid.",
+    "error_duplicate_email_address": "The provided email address is already used by a different website account.",
+    "error_send_verification_email": "Unable to send verification email.",
+    "error_duplicate_discord_integration": "Cannot create a new account, this Discord user is already linked to a different website account.",
 
     "verify_description": "Verify your Discord account connected to the website",
     "verify_option_token": "Verification token",
@@ -14,6 +20,10 @@
 
     "ping_description": "Test website API connection",
     "ping_working": "The API website connection appears to be working. Took {time}ms.",
+
+    "register_description": "Create a website account",
+    "register_email": "Please check your email to complete registration.",
+    "register_url": "To complete registration, please visit this page in a web browser: {url}",
 
     "apiurl_description": "Configure the NamelessMC website API URL",
     "apiurl_option_url": "Your website's API URL (StaffCP > Configuration > API). Specify 'none' to unlink.",
