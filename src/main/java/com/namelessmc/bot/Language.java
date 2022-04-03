@@ -4,9 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.java_api.*;
+import com.namelessmc.java_api.LanguageEntity;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -209,24 +210,6 @@ public class Language {
 				return getDefaultLanguage();
 			}
 		} else {
-			return getDefaultLanguage();
-		}
-	}
-
-	@Deprecated
-	public static Language getDiscordUserLanguage(final NamelessAPI api, final User user) {
-		Objects.requireNonNull(api, "API is null");
-		Objects.requireNonNull(user, "User is null");
-		try {
-			final Optional<NamelessUser> websiteUser = api.getUserByDiscordId(user.getIdLong());
-			if (websiteUser.isPresent()) {
-				return getLanguage(websiteUser.get());
-			} else {
-				Website website = api.getWebsite();
-				return getLanguage(website);
-			}
-		} catch (NamelessException e) {
-			Main.logConnectionError(LOGGER, "API request for language failed, using default language", e);
 			return getDefaultLanguage();
 		}
 	}

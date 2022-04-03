@@ -1,12 +1,19 @@
 package com.namelessmc.bot.listeners;
 
+import com.namelessmc.bot.Language;
+import com.namelessmc.bot.Main;
 import com.namelessmc.bot.commands.Command;
+import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.java_api.NamelessAPI;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class CommandListener extends ListenerAdapter {
 
@@ -34,7 +41,22 @@ public class CommandListener extends ListenerAdapter {
 			LOGGER.error("Unknown command '/{}'", path);
 		} else {
 			LOGGER.info("User {} ran command /{} in guild {}", event.getUser().getAsTag(), path, guild.getIdLong());
-			command.execute(event);
+
+			event.deferReply(true).queue(hook -> {
+				Main.getExecutorService().execute(() -> {
+					final Language language = Language.getGuildLanguage(guild);
+					final Optional<NamelessAPI> optApi;
+					try {
+						optApi = Main.getConnectionManager().getApiConnection(guild.getIdLong());
+					} catch (final BackendStorageException e) {
+						event.reply(language.get(Language.Term.ERROR_GENERIC)).setEphemeral(true).queue();
+						LOGGER.error("storage backend", e);
+						return;
+					}
+					final @Nullable NamelessAPI api = optApi.orElse(null);
+					command.execute(event, hook, language, guild, api);
+				});
+			});
 		}
 	}
 }

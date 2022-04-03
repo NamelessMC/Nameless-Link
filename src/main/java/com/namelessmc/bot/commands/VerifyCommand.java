@@ -3,19 +3,19 @@ package com.namelessmc.bot.commands;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
-import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 public class VerifyCommand extends Command {
 
@@ -32,47 +32,35 @@ public class VerifyCommand extends Command {
 	}
 
 	@Override
-	public void execute(final SlashCommandEvent event) {
-		final Guild guild = event.getGuild();
-		final Language language = Language.getGuildLanguage(guild);
-
+	public void execute(final @NotNull SlashCommandEvent event,
+						final @NotNull InteractionHook hook,
+						final @NotNull Language language,
+						final @NotNull Guild guild,
+						final @Nullable NamelessAPI api) {
 		final String token = event.getOption("token").getAsString();
 
 		final long guildId = guild.getIdLong();
 		final long userId = event.getUser().getIdLong();
 		final String userTag = event.getUser().getAsTag();
 
-		event.deferReply().setEphemeral(true).queue(hook -> {
-			Main.getExecutorService().execute(() -> {
-				Optional<NamelessAPI> api;
-				try {
-					api = Main.getConnectionManager().getApiConnection(guildId);
-				} catch (final BackendStorageException e) {
-					LOGGER.error("Storage error", e);
-					hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
-					return;
-				}
+		if (api == null) {
+			hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
+			return;
+		}
 
-				if (api.isEmpty()) {
-					hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
-					return;
-				}
+		try {
+			api.verifyDiscord(token, userId, userTag);
+			hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
+			LOGGER.info("Verified user {} in guild {}", userTag, guildId);
+		} catch (InvalidValidateCodeException e) {
+			hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
+			return;
+		} catch (final NamelessException e) {
+			hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+			Main.logConnectionError(LOGGER, "Website connection error", e);
+			return;
+		}
 
-				try {
-					api.get().verifyDiscord(token, userId, userTag);
-					hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
-					LOGGER.info("Verified user {} in guild {}", userTag, guildId);
-				} catch (InvalidValidateCodeException e) {
-					hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
-					return;
-				} catch (final NamelessException e) {
-					hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
-					Main.logConnectionError(LOGGER, "Website connection error", e);
-					return;
-				}
-
-				DiscordRoleListener.sendUserRolesAsync(guildId, userId);
-			});
-		});
+		DiscordRoleListener.sendUserRolesAsync(guildId, userId);
 	}
 }

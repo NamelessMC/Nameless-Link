@@ -4,7 +4,6 @@ import com.google.common.base.Ascii;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
-import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
@@ -15,11 +14,12 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PingCommand extends Command {
@@ -36,66 +36,47 @@ public class PingCommand extends Command {
 	}
 
 	@Override
-	public void execute(final SlashCommandEvent event) {
-		final Guild guild = event.getGuild();
-		final Language language = Language.getGuildLanguage(guild);
-
+	public void execute(final @NotNull SlashCommandEvent event,
+						final @NotNull InteractionHook hook,
+						final @NotNull Language language,
+						final @NotNull Guild guild,
+						final @Nullable NamelessAPI api) {
 		Main.canModifySettings(event.getUser(), guild, (canModifySettings) -> {
 			if (!canModifySettings) {
-				event.reply(language.get(Term.ERROR_NO_PERMISSION)).setEphemeral(true).queue();
+				hook.sendMessage(language.get(Term.ERROR_NO_PERMISSION)).queue();
 				return;
 			}
 
-			Main.getExecutorService().execute(() -> {
-				// Check if API URL works
-				Optional<NamelessAPI> optApi;
-				try {
-					optApi = Main.getConnectionManager().getApiConnection(guild.getIdLong());
-				} catch (final BackendStorageException e) {
-					event.reply(language.get(Term.ERROR_GENERIC)).setEphemeral(true).queue();
-					LOGGER.error("storage backend", e);
-					return;
-				}
+			if (api == null) {
+				hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
+				return;
+			}
 
-				if (optApi.isEmpty()) {
-					event.reply(language.get(Term.ERROR_NOT_SET_UP)).setEphemeral(true).queue();
-					return;
-				}
-
-				// Now that we actually need to connect to the API, it may take a while
-				event.deferReply().setEphemeral(true).queue(hook -> {
-					Main.getExecutorService().execute(() -> {
-						final NamelessAPI api = optApi.get();
-						long ping = checkConnection(api, LOGGER, language, event.getHook());
-						if (ping > 0) {
-							event.getHook().sendMessage(language.get(Term.PING_WORKING, "time", ping)).queue();
-						}
-					});
-				});
-			});
+			long ping = checkConnection(api, LOGGER, language, event.getHook());
+			if (ping > 0) {
+				hook.sendMessage(language.get(Term.PING_WORKING, "time", ping)).queue();
+			}
 		});
 	}
 
 	static long checkConnection(final NamelessAPI api, Logger logger, final Language language, final InteractionHook hook) {
-		{
-			URL url = api.getApiUrl();
-			if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
-					!url.getPath().contains("/index.php?route=/api/v2/")) {
-				hook.sendMessage(language.get(Term.APIURL_URL_INVALID)).setEphemeral(true).queue();
-				return -1;
-			}
+		URL url = api.getApiUrl();
+		if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
+				!url.getPath().contains("/index.php?route=/api/v2/")) {
+			hook.sendMessage(language.get(Term.APIURL_URL_INVALID)).queue();
+			return -1;
+		}
 
-			String host = url.getHost();
-			if (!Main.isLocalAllowed() && (
-					host.equals("localhost") ||
-					host.startsWith("127.") ||
-					host.startsWith("192.168.") ||
-					host.startsWith("10.")
-					// checking 172.16.0.0/12 is too much work...
-				)) {
-				hook.sendMessage(language.get(Term.APIURL_URL_LOCAL)).setEphemeral(true).queue();
-				return -1;
-			}
+		String host = url.getHost();
+		if (!Main.isLocalAllowed() && (
+				host.equals("localhost") ||
+				host.startsWith("127.") ||
+				host.startsWith("192.168.") ||
+				host.startsWith("10.")
+				// checking 172.16.0.0/12 is too much work...
+			)) {
+			hook.sendMessage(language.get(Term.APIURL_URL_LOCAL)).queue();
+			return -1;
 		}
 
 		try {
