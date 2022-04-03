@@ -64,5 +64,14 @@
     "updateusername_description": "Aktualizujte své Discord jméno na webu",
     "updateusername_success": "Uživatelské jméno úspěšně aktualizováno",
     "apiurl_url_local": "URL vašeho API obsahuje adresu ze soukromé oblasti adres. Tyto adresy jsou dostupné pouze ve vaší síti. Zadejte prosím externě dosažitelnou doménu.",
-    "apiurl_option_api": "Klíč API vašeho webu (Panel > Konfigurace > API)."
+    "apiurl_option_api": "Klíč API vašeho webu (Panel > Konfigurace > API).",
+    "error_duplicate_username": "Zadané uživatelské jméno je již používáno jiným účtem na webu.",
+    "error_invalid_email_address": "Zadaná e-mailová adresa je neplatná.",
+    "error_duplicate_email_address": "Zadaná e-mailová adresa je již používána jiným účtem na webu.",
+    "error_send_verification_email": "Nepodařilo se odeslat ověřovací e-mail.",
+    "error_duplicate_discord_integration": "Nepodařilo se vytvořit nový účet, tento Discord uživatel je již propojen s jiným účtem na webu.",
+    "register_description": "Vytvořit účet na webu",
+    "register_email": "Zkontrolujte prosím svůj e-mail pro dokončení registrace.",
+    "register_url": "Pro dokončení registrace navštivte tuto stránku ve webovém prohlížeči: {url}",
+    "error_invalid_username": "Zadané uživatelské jméno je neplatné."
 }
