@@ -50,5 +50,14 @@
     "apiurl_unlinked": "Discordサーバーからウェブサイトのリンクを解除することに成功しました",
     "updateusername_success": "ユーザー名の更新に成功しました",
     "apiurl_url_local": "あなたのAPI URL には、プライベートアドレス空間からのアドレスが含まれています。これらのアドレスは、あなたのネットワーク内からのみアクセス可能です。外部からのアクセス可能なドメインを入力してください。",
-    "apiurl_option_api": "あなたのウェブサイトのAPIキー（StaffCP > 設定 > API）。"
+    "apiurl_option_api": "あなたのウェブサイトのAPIキー（StaffCP > 設定 > API）。",
+    "error_invalid_username": "入力されたユーザー名が無効です。",
+    "error_duplicate_username": "入力されたユーザー名はすでに別のウェブサイトのアカウントで使用されています。",
+    "error_duplicate_discord_integration": "新しいアカウントを作成できません。このDiscordユーザーは、すでに別のウェブサイトのアカウントにリンクされています。",
+    "error_invalid_email_address": "入力されたメールアドレスが無効です。",
+    "error_duplicate_email_address": "入力されたメールアドレスはすでに別のウェブサイトのアカウントで使用されています。",
+    "error_send_verification_email": "認証メールを送信できません。",
+    "register_description": "ウェブサイトアカウントの作成",
+    "register_email": "登録完了のメールをご確認ください。",
+    "register_url": "ウェブブラウザから次のページへアクセスし、登録を完了させてください: {URL}"
 }
