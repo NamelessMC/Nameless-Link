@@ -64,5 +64,14 @@
     "updateusername_description": "Actualiza tu nombre de usuario de Discord en el sitio web",
     "updateusername_success": "Nombre de usuario actualizado con éxito",
     "apiurl_url_local": "Su URL de la API contiene una dirección del espacio de direcciones privado. Estas direcciones sólo son accesibles desde su red. Introduzca un dominio accesible desde el exterior.",
-    "apiurl_option_api": "La clave API de su sitio web (StaffCP > Configuración > API)."
+    "apiurl_option_api": "La clave API de su sitio web (StaffCP > Configuración > API).",
+    "error_duplicate_username": "El nombre de usuario proporcionado ya está siendo utilizado por otra cuenta del sitio web.",
+    "error_duplicate_email_address": "La dirección de correo electrónico proporcionada ya está siendo utilizada por otra cuenta del sitio web.",
+    "register_url": "Para completar la inscripción, visite esta página en un navegador web: {url}",
+    "error_invalid_email_address": "La dirección de correo electrónico proporcionada no es válida.",
+    "error_send_verification_email": "No se puede enviar el correo electrónico de verificación.",
+    "error_duplicate_discord_integration": "No se puede crear una nueva cuenta, este usuario de Discord ya está vinculado a otra cuenta del sitio web.",
+    "register_description": "Crear una cuenta en el sitio web",
+    "register_email": "Por favor, compruebe su correo electrónico para completar el registro.",
+    "error_invalid_username": "El nombre de usuario proporcionado no es válido."
 }
