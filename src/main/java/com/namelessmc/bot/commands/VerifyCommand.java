@@ -7,6 +7,8 @@ import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
+import com.namelessmc.java_api.integrations.DiscordIntegrationData;
+import com.namelessmc.java_api.integrations.IntegrationData;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -48,10 +50,10 @@ public class VerifyCommand extends Command {
 			return;
 		}
 
+		final IntegrationData integrationData = new DiscordIntegrationData(userId, userTag);
+
 		try {
-			api.verifyDiscord(token, userId, userTag);
-			hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
-			LOGGER.info("Verified user {} in guild {}", userTag, guildId);
+			api.verifyIntegration(integrationData, token);
 		} catch (InvalidValidateCodeException e) {
 			hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
 			return;
@@ -60,6 +62,9 @@ public class VerifyCommand extends Command {
 			Main.logConnectionError(LOGGER, "Website connection error", e);
 			return;
 		}
+
+		hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
+		LOGGER.info("Verified user {} in guild {}", userTag, guildId);
 
 		DiscordRoleListener.sendUserRolesAsync(guildId, userId);
 	}
