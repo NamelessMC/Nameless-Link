@@ -1,1 +1,8 @@
-{}
+{
+    "error_website_connection": "Nuk lidhemi dot te website-i.",
+    "error_website_version": "Faqja juaj e internetit ekzekuton një version të papajtueshëm NamelessMC. Po përdorni versionin {version}, ndërsa roboti është compatible me versionin e mëposhtëm: {compatibleVersions}.",
+    "error_no_permission": "Ti duhet të kesh të drejtën 'Administrator' ne serverin \"Discord\" të përdorësh këtë komandë.",
+    "error_generic": "Një error i brendshëm ndodhi.",
+    "error_not_set_up": "Ti nuk mund ta përdorësh këtë komandë, roboti nuk është konfiguruar.",
+    "error_not_linked": "Ju nuk mund ta përdorni këtë komandë sepse llogaria juaj nuk është ende e lidhur. Ju lutemi, shkoni te cilësimet e llogarisë në faqen e internetit për të lidhur llogarinë tuaj Discord."
+}
