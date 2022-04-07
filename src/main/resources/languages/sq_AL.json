@@ -4,5 +4,10 @@
     "error_no_permission": "Ti duhet të kesh të drejtën 'Administrator' ne serverin \"Discord\" të përdorësh këtë komandë.",
     "error_generic": "Një error i brendshëm ndodhi.",
     "error_not_set_up": "Ti nuk mund ta përdorësh këtë komandë, roboti nuk është konfiguruar.",
-    "error_not_linked": "Ju nuk mund ta përdorni këtë komandë sepse llogaria juaj nuk është ende e lidhur. Ju lutemi, shkoni te cilësimet e llogarisë në faqen e internetit për të lidhur llogarinë tuaj Discord."
+    "error_not_linked": "Ju nuk mund ta përdorni këtë komandë sepse llogaria juaj nuk është ende e lidhur. Ju lutemi, shkoni te cilësimet e llogarisë në faqen e internetit për të lidhur llogarinë tuaj Discord.",
+    "error_read_only_storage": "Ky instance roboti është configuruar pa database. Nëse ti do të modifikosh configurimin duhet ta bsh manualisht me variablava mjedisi.",
+    "error_duplicate_username": "Emri i dhënë është përdorur për një llogari tjetër te faqja e internetit.",
+    "error_invalid_username": "Emri i dhënë është invalide.",
+    "error_invalid_email_address": "Adresa e email-it e dhënë është invalide.",
+    "error_duplicate_email_address": "Adresa e email-it e dhënë është përdorur nga një llogari tjetër te faqja e internetit."
 }
