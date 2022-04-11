@@ -56,5 +56,14 @@
     "updateusername_description": "更新您网站上的 Discord 用户名",
     "updateusername_success": "用户名更新成功",
     "apiurl_url_local": "您的 API 链接包含一个无法从外部访问的内网地址。请输入一个在外部可访问的域名。",
-    "apiurl_option_api": "您的网站的 API 密钥 (key) (管理人员面板 > 配置 > API)。"
+    "apiurl_option_api": "您的网站的 API 密钥 (key) (管理人员面板 > 配置 > API)。",
+    "error_invalid_username": "提供的用户名无效.",
+    "error_duplicate_username": "提供的用户名已经被另一个网站用户使用.",
+    "error_invalid_email_address": "提供的邮箱无效.",
+    "error_duplicate_email_address": "提供的邮箱已被使用.",
+    "error_send_verification_email": "无法发送验证邮件.",
+    "error_duplicate_discord_integration": "无法创建新的账户, 此 Discord 账户已经链接到其他的网站用户.",
+    "register_description": "创建网站账户",
+    "register_email": "请检查您的邮箱以完成注册.",
+    "register_url": "要完成注册, 请在浏览器中访问此网页: {url}"
 }
