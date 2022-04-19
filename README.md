@@ -12,19 +12,21 @@ For documentation please consult the [wiki](https://github.com/NamelessMC/Namele
 
 ## Compiling
 
-Requirements: Maven, JDK 11, git
+Requirements: Maven, JDK 11, JDK 17, git
 
-`apt install maven openjdk-11-jdk git`
+`apt install maven openjdk-11-jdk openjdk-17-jdk git`
 
 ```sh
 git clone https://github.com/NamelessMC/Nameless-Java-API
 cd Nameless-Java-API
+# You may need to manually set JAVA_HOME to your JDK 11 installation
 mvn install
 cd ..
 
 git clone https://github.com/NamelessMC/Nameless-Link
 cd Nameless-Link
-mvn package shade:shade
+# You may need to manually set JAVA_HOME to your JDK 17 installation
+mvn package
 cd target
 # find jar file here
 ```
