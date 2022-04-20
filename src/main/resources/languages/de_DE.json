@@ -50,5 +50,14 @@
     "apiurl_option_url": "Die API-URL Ihrer Website (StaffCP > Konfiguration > API). Gebe 'none' an um die API zu entfernen.",
     "apiurl_unlinked": "Die Website wurde erfolgreich von diesem Discord-Server getrennt",
     "apiurl_url_local": "Deine API-URL enthält eine Adresse aus dem privaten Adressraum. Diese Adressen sind nur von deinem Netzwerk aus erreichbar. Bitte gebe eine extern erreichbare Domain an.",
-    "apiurl_option_api": "Der API-key Ihrer Website (StaffCP > Configuration > API)."
+    "apiurl_option_api": "Der API-key Ihrer Website (StaffCP > Configuration > API).",
+    "error_invalid_username": "Der angegebene Benutzername ist ungültig.",
+    "error_duplicate_username": "Der angegebene Benutzername wird bereits von einem anderen Website-Konto verwendet.",
+    "error_invalid_email_address": "Die angegebene E-Mail-Adresse ist ungültig.",
+    "error_duplicate_email_address": "Die angegebene E-Mail-Adresse wird bereits von einem anderen Website-Konto verwendet.",
+    "error_send_verification_email": "Verifizierungs-E-Mail kann nicht gesendet werden.",
+    "error_duplicate_discord_integration": "Es kann kein neues Konto erstellt werden, dieser Discord-Benutzer ist bereits mit einem anderen Website-Konto verknüpft.",
+    "register_description": "Ein Website-Konto erstellen",
+    "register_email": "Bitte prüfe deine E-Mails, um die Registrierung abzuschließen.",
+    "register_url": "Um die Registrierung abzuschließen, besuche bitte diese Seite in einem Webbrowser: {url}"
 }
