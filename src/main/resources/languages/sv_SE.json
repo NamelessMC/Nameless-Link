@@ -42,5 +42,14 @@
     "ping_description": "Testa webbplatsens API-anslutning",
     "apiurl_description": "Konfigurera NamelessMC-webbplats API URL",
     "apiurl_option_url": "Din webbplats API URL (StaffCP > Konfiguration > API). Ange \"none\" för att ta bort länken.",
-    "apiurl_unlinked": "Länkningen till webbplatsen från denna Discord-server lyckades ta bort"
+    "apiurl_unlinked": "Länkningen till webbplatsen från denna Discord-server lyckades ta bort",
+    "error_invalid_email_address": "Den angivna e-postadressen är ogiltig.",
+    "error_duplicate_email_address": "Den angivna e-postadressen används redan av ett annat konto.",
+    "error_send_verification_email": "Det gick inte att skicka verifieringsmail.",
+    "register_description": "Skapa ett konto",
+    "register_email": "Kontrollera din e-post för att slutföra registreringen.",
+    "register_url": "För att slutföra registreringen, besök den här sidan i en webbläsare: {url}",
+    "error_invalid_username": "Det angivna användarnamnet är ogiltigt.",
+    "error_duplicate_username": "Det angivna användarnamnet används redan av ett annat konto.",
+    "error_duplicate_discord_integration": "Det går inte att skapa ett nytt konto, denna Discord-användare är redan länkad till ett annat konto."
 }
