@@ -227,7 +227,7 @@ public class Main {
 					service.execute(() -> {
 						Guild guild;
 						try {
-							final long guildId = connectionManager.getGuildIdByURL(url).orElseThrow(() -> new IllegalStateException("database has URL but not guild id"));
+							final long guildId = connectionManager.getGuildIdByURL(url).orElseThrow(() -> new IllegalStateException("database has URL but not guild id " + url));
 							guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 							if (guild == null) {
 								LOGGER.warn("Skipping guild {}, it is null (bot was kicked from this guild?)", guildId);
