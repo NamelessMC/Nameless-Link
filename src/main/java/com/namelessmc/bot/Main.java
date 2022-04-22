@@ -14,6 +14,7 @@ import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.ApiDisabledException;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.Slf4jLogger;
 import net.dv8tion.jda.api.JDA;
@@ -318,7 +319,9 @@ public class Main {
 		Objects.requireNonNull(logger, "Logger is null");
 		Objects.requireNonNull(message, "Message is null");
 		Objects.requireNonNull(e, "Exception is null");
-		if (e instanceof ApiError) {
+		if (e instanceof ApiDisabledException) {
+			logger.warn(message + " (API is disabled)");
+		} else if (e instanceof ApiError) {
 			logger.warn(message + " (API error {})", ((ApiError) e).getError());
 		} else if (e.getCause() != null &&
 				apiDebugLogger == null &&
