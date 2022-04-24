@@ -63,7 +63,7 @@ public class PingCommand extends Command {
 		URL url = api.getApiUrl();
 		if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
 				!url.getPath().endsWith("/index.php") ||
-				!url.getQuery().equals("route=/api/v2")
+				!url.getQuery().equals("route=/api/v2") && !url.getQuery().equals("route=/api/v2/")
 		) {
 			LOGGER.info("Invalid URL with protocol '{}' host '{}' path '{}' query '{}'", url.getProtocol(), url.getHost(), url.getPath(), url.getQuery());
 			hook.sendMessage(language.get(Term.APIURL_URL_INVALID)).queue();
