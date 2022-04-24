@@ -73,5 +73,6 @@
     "error_duplicate_discord_integration": "No se puede crear una nueva cuenta, este usuario de Discord ya está vinculado a otra cuenta del sitio web.",
     "register_description": "Crear una cuenta en el sitio web",
     "register_email": "Por favor, compruebe su correo electrónico para completar el registro.",
-    "error_invalid_username": "El nombre de usuario proporcionado no es válido."
+    "error_invalid_username": "El nombre de usuario proporcionado no es válido.",
+    "apiurl_option_apikey": "La clave API de su sitio web (StaffCP > Configuración > API)."
 }
