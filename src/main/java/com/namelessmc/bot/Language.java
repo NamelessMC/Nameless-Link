@@ -215,14 +215,7 @@ public class Language {
 	}
 
 	public static Language getLanguage(final LanguageEntity languageEntity) throws NamelessException {
-		String languageCode;
-
-		languageCode = languageEntity.getLanguagePosix();
-		if (languageCode == null) {
-			LOGGER.warn("Language code unknown for language '{}', using default language.", languageEntity.getLanguage());
-			return getDefaultLanguage();
-		}
-
+		final String languageCode = languageEntity.getRawLocale();
 		Language language = LANGUAGE_CACHE.get(languageCode);
 		if (language != null) {
 			return language;
