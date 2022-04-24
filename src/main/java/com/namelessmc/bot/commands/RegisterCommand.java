@@ -9,6 +9,7 @@ import com.namelessmc.java_api.integrations.IntegrationData;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +24,9 @@ public class RegisterCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(Language language) {
-		return new CommandData(this.name, language.get(Language.Term.REGISTER_DESCRIPTION));
+		return new CommandData(this.name, language.get(Language.Term.REGISTER_DESCRIPTION))
+				.addOption(OptionType.STRING, "username", language.get(Language.Term.REGISTER_OPTION_USERNAME), true)
+				.addOption(OptionType.STRING, "email", language.get(Language.Term.REGISTER_OPTION_EMAIL), true);
 	}
 
 	@Override

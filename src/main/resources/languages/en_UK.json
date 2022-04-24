@@ -22,6 +22,8 @@
     "ping_working": "The API website connection appears to be working. Took {time}ms.",
 
     "register_description": "Create a website account",
+    "register_option_username": "Username",
+    "register_option_email": "Email address",
     "register_email": "Please check your email to complete registration.",
     "register_url": "To complete registration, please visit this page in a web browser: {url}",
 
