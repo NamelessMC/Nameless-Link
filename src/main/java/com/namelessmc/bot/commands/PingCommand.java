@@ -62,7 +62,7 @@ public class PingCommand extends Command {
 	static long checkConnection(final NamelessAPI api, Logger logger, final Language language, final InteractionHook hook) {
 		URL url = api.getApiUrl();
 		if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
-				!url.getPath().contains("/index.php?route=/api/v2/")) {
+				!url.getPath().endsWith("/index.php?route=/api/v2")) {
 			hook.sendMessage(language.get(Term.APIURL_URL_INVALID)).queue();
 			return -1;
 		}
