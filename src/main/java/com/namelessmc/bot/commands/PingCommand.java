@@ -62,7 +62,8 @@ public class PingCommand extends Command {
 	static long checkConnection(final NamelessAPI api, Logger logger, final Language language, final InteractionHook hook) {
 		URL url = api.getApiUrl();
 		if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
-				!url.getPath().endsWith("/index.php?route=/api/v2")) {
+				!url.getPath().endsWith("index.php?route=/api/v2")) {
+			LOGGER.info("Invalid URL with protocol '{}' host '{}' path '{}'" + url.getProtocol(), url.getHost(), url.getPath());
 			hook.sendMessage(language.get(Term.APIURL_URL_INVALID)).queue();
 			return -1;
 		}
@@ -75,6 +76,7 @@ public class PingCommand extends Command {
 				host.startsWith("10.")
 				// checking 172.16.0.0/12 is too much work...
 			)) {
+			LOGGER.info("Local host: '{}'", host);
 			hook.sendMessage(language.get(Term.APIURL_URL_LOCAL)).queue();
 			return -1;
 		}
