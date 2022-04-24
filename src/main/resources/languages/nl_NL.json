@@ -60,5 +60,14 @@
     "apiurl_unlinked": "De verbinding met de site en de Discord server is succesvol verbroken",
     "updateusername_description": "Verander je Discord gebruikersnaam op de website",
     "apiurl_option_api": "Je website API sleutel (te vinden in StaffCP > Configuratie > API).",
-    "apiurl_url_local": "Je API URL bevat een adres uit een privénetwerk. Deze adressen zijn alleen toegankelijk vanuit jouw netwerk. Gelieven een adres in te voeren die van buiten bereikbaar is."
+    "apiurl_url_local": "Je API URL bevat een adres uit een privénetwerk. Deze adressen zijn alleen toegankelijk vanuit jouw netwerk. Gelieven een adres in te voeren die van buiten bereikbaar is.",
+    "error_invalid_email_address": "Het ingegeven emailadres is ongeldig.",
+    "error_duplicate_email_address": "Het ingegeven emailadres is al gebruikt door een ander website account.",
+    "error_send_verification_email": "Niet in staat om verificatie email te verzenden.",
+    "register_description": "Creëer een website account",
+    "register_email": "Check alstublieft uw email om de registratie te voltooien.",
+    "register_url": "Om uw registratie te voltooien, bezoek alstublieft deze pagina in een web browser: {url}",
+    "error_invalid_username": "De ingegeven gebruikersnaam is ongeldig.",
+    "error_duplicate_username": "De ingegeven gebruikersnaam is al gebruikt door een ander website account.",
+    "error_duplicate_discord_integration": "Kan geen nieuw account maken, deze Discord gebruiker is al gekoppeld aan een ander website account."
 }
