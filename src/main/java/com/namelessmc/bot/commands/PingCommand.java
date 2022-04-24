@@ -62,8 +62,10 @@ public class PingCommand extends Command {
 	static long checkConnection(final NamelessAPI api, Logger logger, final Language language, final InteractionHook hook) {
 		URL url = api.getApiUrl();
 		if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
-				!url.getPath().endsWith("index.php?route=/api/v2")) {
-			LOGGER.info("Invalid URL with protocol '{}' host '{}' path '{}'" + url.getProtocol(), url.getHost(), url.getPath());
+				!url.getPath().endsWith("/index.php") ||
+				!url.getQuery().equals("route=/api/v2")
+		) {
+			LOGGER.info("Invalid URL with protocol '{}' host '{}' path '{}' query '{}'", url.getProtocol(), url.getHost(), url.getPath(), url.getQuery());
 			hook.sendMessage(language.get(Term.APIURL_URL_INVALID)).queue();
 			return -1;
 		}
