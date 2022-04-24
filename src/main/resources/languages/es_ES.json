@@ -24,9 +24,9 @@
     "apiurl_failed_connection": "No se pudo conectar con su sitio web. Para más detalles, consulte el mensaje anterior.",
     "apiurl_success_updated": "Se cambió con éxito la URL de la API.",
     "apiurl_success_new": "Se ha configurado con éxito la URL de la API.",
-    "guild_join_success": "¡Hola! Gracias por usar el bot de NamelessMC. Para empezar, ejecuta `{command} <api url>` en tu servidor de Discord. La URL de la API se puede encontrar en `StaffCP > Configuración > API`.",
-    "guild_join_needs_renew": "¡Hola! Gracias por utilizar el bot de NamelessMC. Parece que ya has establecido tu URL de la API, pero ya no es funcional. Por favor, establece una nueva usando `{command} <api url>` (ejecuta esto en tu servidor de Discord). La URL de la API se puede encontrar en `StaffCP > Configuración > API`.",
-    "guild_join_welcome_back": "¡Hola! Gracias por utilizar el bot de NamelessMC. El bot ya está configurado para tu servidor de Discord. Si deseas utilizar una URL de API diferente puedes cambiarla utilizando `{command} <api url>` (ejecuta esto en tu servidor de Discord).",
+    "guild_join_success": "¡Hola! Gracias por usar el bot de NamelessMC. Para empezar, ejecuta `{command}` en tu servidor de Discord. La URL de la API se puede encontrar en `StaffCP > Configuración > API`.",
+    "guild_join_needs_renew": "¡Hola! Gracias por utilizar el bot de NamelessMC. Parece que ya has establecido tu URL de la API, pero ya no es funcional. Por favor, establece una nueva usando `{command}` (ejecuta esto en tu servidor de Discord). La URL de la API se puede encontrar en `StaffCP > Configuración > API`.",
+    "guild_join_welcome_back": "¡Hola! Gracias por utilizar el bot de NamelessMC. El bot ya está configurado para tu servidor de Discord. Si deseas utilizar una URL de API diferente puedes cambiarla utilizando `{command}` (ejecuta esto en tu servidor de Discord).",
     "error_not_owner": "Debes ser el dueño del servidor de Discord para usar este comando.",
     "verify_usage": "Uso: `{command} <token>`.",
     "apiurl_already_used": "Esta URL de la API ya es utilizada por un servidor de Discord, ejecute `{command}` en el servidor de Discord vinculado para desvincularlo.",
@@ -74,5 +74,7 @@
     "register_description": "Crear una cuenta en el sitio web",
     "register_email": "Por favor, compruebe su correo electrónico para completar el registro.",
     "error_invalid_username": "El nombre de usuario proporcionado no es válido.",
-    "apiurl_option_apikey": "La clave API de su sitio web (StaffCP > Configuración > API)."
+    "apiurl_option_apikey": "La clave API de su sitio web (StaffCP > Configuración > API).",
+    "register_option_username": "Nombre de usuario",
+    "register_option_email": "Dirección de correo electrónico"
 }
