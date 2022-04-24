@@ -16,6 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
+import static com.namelessmc.bot.Language.Term.*;
+
 public class RegisterCommand extends Command {
 
 	RegisterCommand() {
@@ -24,9 +26,9 @@ public class RegisterCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(Language language) {
-		return new CommandData(this.name, language.get(Language.Term.REGISTER_DESCRIPTION))
-				.addOption(OptionType.STRING, "username", language.get(Language.Term.REGISTER_OPTION_USERNAME), true)
-				.addOption(OptionType.STRING, "email", language.get(Language.Term.REGISTER_OPTION_EMAIL), true);
+		return new CommandData(this.name, language.get(REGISTER_DESCRIPTION))
+				.addOption(OptionType.STRING, "username", language.get(REGISTER_OPTION_USERNAME), true)
+				.addOption(OptionType.STRING, "email", language.get(REGISTER_OPTION_EMAIL), true);
 	}
 
 	@Override
@@ -41,7 +43,7 @@ public class RegisterCommand extends Command {
 		final String discordTag = event.getUser().getAsTag();
 
 		if (api == null) {
-			hook.sendMessage(language.get(Language.Term.ERROR_NOT_SET_UP)).queue();
+			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
 			return;
 		}
 
@@ -49,24 +51,24 @@ public class RegisterCommand extends Command {
 		try {
 			Optional<String> verificationUrl = api.registerUser(username, email, integrationData);
 			if (verificationUrl.isPresent()) {
-				hook.sendMessage(language.get(Language.Term.REGISTER_URL, "url", verificationUrl.get())).queue();
+				hook.sendMessage(language.get(REGISTER_URL, "url", verificationUrl.get())).queue();
 			} else {
-				hook.sendMessage(language.get(Language.Term.REGISTER_EMAIL)).queue();
+				hook.sendMessage(language.get(REGISTER_EMAIL)).queue();
 			}
 		} catch (NamelessException e) {
-			hook.sendMessage(language.get(Language.Term.ERROR_WEBSITE_CONNECTION)).queue();
+			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
 		} catch (InvalidUsernameException e) {
-			hook.sendMessage(language.get(Language.Term.ERROR_INVALID_USERNAME)).queue();
+			hook.sendMessage(language.get(ERROR_INVALID_USERNAME)).queue();
 		} catch (UsernameAlreadyExistsException e) {
-			hook.sendMessage(language.get(Language.Term.ERROR_DUPLICATE_USERNAME)).queue();
+			hook.sendMessage(language.get(ERROR_DUPLICATE_USERNAME)).queue();
 		} catch (CannotSendEmailException e) {
-			hook.sendMessage(language.get(Language.Term.ERROR_SEND_VERIFICATION_EMAIL)).queue();
+			hook.sendMessage(language.get(ERROR_SEND_VERIFICATION_EMAIL)).queue();
 		} catch (IntegrationIdentifierInvalidException | IntegrationUsernameInvalidException e) {
-			hook.sendMessage(language.get(Language.Term.ERROR_DUPLICATE_DISCORD_INTEGRATION)).queue();
+			hook.sendMessage(language.get(ERROR_DUPLICATE_DISCORD_INTEGRATION)).queue();
 		} catch (InvalidEmailAddressException e) {
-			hook.sendMessage(language.get(Language.Term.ERROR_INVALID_EMAIL_ADDRESS)).queue();
+			hook.sendMessage(language.get(ERROR_INVALID_EMAIL_ADDRESS)).queue();
 		} catch (EmailAlreadyUsedException e) {
-			hook.sendMessage(language.get(Language.Term.ERROR_DUPLICATE_EMAIL_ADDRESS)).queue();
+			hook.sendMessage(language.get(ERROR_DUPLICATE_EMAIL_ADDRESS)).queue();
 		}
 	}
 

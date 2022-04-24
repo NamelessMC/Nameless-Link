@@ -1,7 +1,6 @@
 package com.namelessmc.bot.listeners;
 
 import com.namelessmc.bot.Language;
-import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.commands.Command;
 import com.namelessmc.bot.commands.PingCommand;
@@ -19,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
+
+import static com.namelessmc.bot.Language.Term.*;
 
 public class GuildJoinHandler extends ListenerAdapter {
 
@@ -42,7 +43,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 			final Language language = Language.getGuildLanguage(guild);
 
 			if (optApi.isEmpty()) {
-				channel.sendMessage(language.get(Term.GUILD_JOIN_SUCCESS, "command", API_URL_COMMAND))
+				channel.sendMessage(language.get(GUILD_JOIN_SUCCESS, "command", API_URL_COMMAND))
 						.queue(message -> LOGGER.info("Sent new join message to {} for guild {}",
 								channel.getUser().getName(), event.getGuild().getName()));
 			} else {
@@ -52,18 +53,18 @@ public class GuildJoinHandler extends ListenerAdapter {
 					try {
 						if (NamelessVersion.isSupportedByJavaApi(info.getParsedVersion())) {
 							// Good to go
-							channel.sendMessage(language.get(Term.GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
+							channel.sendMessage(language.get(GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
 						} else {
 							// Incompatible version
-							channel.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
+							channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
 						}
 					} catch (final UnknownNamelessVersionException e) {
 						// API doesn't recognize this version, but we can still display the unparsed name
-						channel.sendMessage(language.get(Term.ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
+						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
 					}
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url
-					channel.sendMessage(language.get(Term.GUILD_JOIN_NEEDS_RENEW, "command", API_URL_COMMAND)).queue();
+					channel.sendMessage(language.get(GUILD_JOIN_NEEDS_RENEW, "command", API_URL_COMMAND)).queue();
 					LOGGER.info("Guild join, previously stored URL doesn't work");
 				}
 			}

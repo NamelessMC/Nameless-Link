@@ -1,7 +1,6 @@
 package com.namelessmc.bot.commands;
 
 import com.namelessmc.bot.Language;
-import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
@@ -19,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.namelessmc.bot.Language.Term.*;
+
 public class VerifyCommand extends Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Verify command");
@@ -29,8 +30,8 @@ public class VerifyCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(final Language language) {
-		return new CommandData(this.name, language.get(Term.VERIFY_DESCRIPTION))
-				.addOption(OptionType.STRING, "token", language.get(Term.VERIFY_OPTION_TOKEN), true);
+		return new CommandData(this.name, language.get(VERIFY_DESCRIPTION))
+				.addOption(OptionType.STRING, "token", language.get(VERIFY_OPTION_TOKEN), true);
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class VerifyCommand extends Command {
 		final String userTag = event.getUser().getAsTag();
 
 		if (api == null) {
-			hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
+			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
 			return;
 		}
 
@@ -55,15 +56,15 @@ public class VerifyCommand extends Command {
 		try {
 			api.verifyIntegration(integrationData, token);
 		} catch (InvalidValidateCodeException e) {
-			hook.sendMessage(language.get(Term.VERIFY_TOKEN_INVALID)).queue();
+			hook.sendMessage(language.get(VERIFY_TOKEN_INVALID)).queue();
 			return;
 		} catch (final NamelessException e) {
-			hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
 			Main.logConnectionError(LOGGER, "Website connection error", e);
 			return;
 		}
 
-		hook.sendMessage(language.get(Term.VERIFY_SUCCESS)).queue();
+		hook.sendMessage(language.get(VERIFY_SUCCESS)).queue();
 		LOGGER.info("Verified user {} in guild {}", userTag, guildId);
 
 		DiscordRoleListener.sendUserRolesAsync(guildId, userId);

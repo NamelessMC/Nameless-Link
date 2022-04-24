@@ -1,7 +1,6 @@
 package com.namelessmc.bot.commands;
 
 import com.namelessmc.bot.Language;
-import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
@@ -18,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
+import static com.namelessmc.bot.Language.Term.*;
+
 public class UpdateUsernameCommand extends Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Update username command");
@@ -28,7 +29,7 @@ public class UpdateUsernameCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(final Language language) {
-		return new CommandData(this.name, language.get(Term.UPDATEUSERNAME_DESCRIPTION));
+		return new CommandData(this.name, language.get(UPDATEUSERNAME_DESCRIPTION));
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class UpdateUsernameCommand extends Command {
 		final String userTag = event.getUser().getAsTag();
 
 		if (api == null) {
-			hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
+			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
 			return;
 		}
 
@@ -50,12 +51,12 @@ public class UpdateUsernameCommand extends Command {
 			optNameless = api.getUserByDiscordId(userId);
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website connection error during get user by discord id", e);
-			hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
 
 		if (optNameless.isEmpty()) {
-			hook.sendMessage(language.get(Term.ERROR_NOT_LINKED)).queue();
+			hook.sendMessage(language.get(ERROR_NOT_LINKED)).queue();
 			return;
 		}
 
@@ -64,19 +65,19 @@ public class UpdateUsernameCommand extends Command {
 			LOGGER.info("Updated username for user {} to '{}'", userId, userTag);
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
-				hook.sendMessage(language.get(Term.ERROR_NOT_LINKED)).queue();
+				hook.sendMessage(language.get(ERROR_NOT_LINKED)).queue();
 			} else {
 				LOGGER.warn("Error code {} while updating username", e.getError());
-				hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
+				hook.sendMessage(language.get(ERROR_GENERIC)).queue();
 			}
 			return;
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website connection error during update discord username", e);
-			hook.sendMessage(language.get(Term.ERROR_WEBSITE_CONNECTION)).queue();
+			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
 			return;
 		}
 
-		hook.sendMessage(language.get(Term.UPDATEUSERNAME_SUCCESS)).queue();
+		hook.sendMessage(language.get(UPDATEUSERNAME_SUCCESS)).queue();
 	}
 
 }

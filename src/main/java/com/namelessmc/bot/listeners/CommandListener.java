@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
+import static com.namelessmc.bot.Language.Term.ERROR_GENERIC;
+
 public class CommandListener extends ListenerAdapter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Command handler");
@@ -49,7 +51,7 @@ public class CommandListener extends ListenerAdapter {
 					try {
 						optApi = Main.getConnectionManager().getApiConnection(guild.getIdLong());
 					} catch (final BackendStorageException e) {
-						event.reply(language.get(Language.Term.ERROR_GENERIC)).setEphemeral(true).queue();
+						event.reply(language.get(ERROR_GENERIC)).setEphemeral(true).queue();
 						LOGGER.error("storage backend", e);
 						return;
 					}

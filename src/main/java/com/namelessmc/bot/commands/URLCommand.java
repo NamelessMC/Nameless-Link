@@ -2,7 +2,6 @@ package com.namelessmc.bot.commands;
 
 import com.google.common.base.Ascii;
 import com.namelessmc.bot.Language;
-import com.namelessmc.bot.Language.Term;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.connections.ConnectionCache;
@@ -26,6 +25,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.namelessmc.bot.Language.Term.*;
+
 public class URLCommand extends Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("URL command");
@@ -36,9 +37,9 @@ public class URLCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(final Language language) {
-		return new CommandData(this.name, language.get(Term.APIURL_DESCRIPTION))
-				.addOption(OptionType.STRING, "url", language.get(Term.APIURL_OPTION_URL), true)
-				.addOption(OptionType.STRING, "apikey", language.get(Term.APIURL_OPTION_APIKEY), true);
+		return new CommandData(this.name, language.get(APIURL_DESCRIPTION))
+				.addOption(OptionType.STRING, "url", language.get(APIURL_OPTION_URL), true)
+				.addOption(OptionType.STRING, "apikey", language.get(APIURL_OPTION_APIKEY), true);
 	}
 
 	@Override
@@ -52,30 +53,30 @@ public class URLCommand extends Command {
 		final long guildId = guild.getIdLong();
 
 		if (Main.getConnectionManager().isReadOnly()) {
-			hook.sendMessage(language.get(Term.ERROR_READ_ONLY_STORAGE)).queue();
+			hook.sendMessage(language.get(ERROR_READ_ONLY_STORAGE)).queue();
 			LOGGER.warn("Read only storage");
 			return;
 		}
 
 		Main.canModifySettings(event.getUser(), guild, canModifySettings -> {
 			if (!canModifySettings) {
-				hook.sendMessage(language.get(Term.ERROR_NO_PERMISSION)).queue();
+				hook.sendMessage(language.get(ERROR_NO_PERMISSION)).queue();
 				LOGGER.warn("User not allowed to modify API URL");
 				return;
 			}
 
 			if (apiUrlString.equals("none")) {
 				if (oldApi == null) {
-					hook.sendMessage(language.get(Term.ERROR_NOT_SET_UP)).queue();
+					hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
 					return;
 				}
 
 				try {
 					Main.getConnectionManager().removeConnection(guildId);
-					hook.sendMessage(language.get(Term.APIURL_UNLINKED)).queue();
+					hook.sendMessage(language.get(APIURL_UNLINKED)).queue();
 					LOGGER.info("Unlinked from guild {}", guildId);
 				} catch (final BackendStorageException e) {
-					hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
+					hook.sendMessage(language.get(ERROR_GENERIC)).queue();
 					LOGGER.error("storage backend", e);
 				}
 				return;
@@ -85,7 +86,7 @@ public class URLCommand extends Command {
 			try {
 				apiUrl = new URL(apiUrlString);
 			} catch (final MalformedURLException e) {
-				hook.sendMessage(language.get(Term.APIURL_URL_MALFORMED)).queue();
+				hook.sendMessage(language.get(APIURL_URL_MALFORMED)).queue();
 				return;
 			}
 
@@ -93,7 +94,7 @@ public class URLCommand extends Command {
 				final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByApiUrl(apiUrl);
 
 				if (optExistingGuildId.isPresent()) {
-					hook.sendMessage(language.get(Term.APIURL_ALREADY_USED, "command", "/apiurl none")).queue();
+					hook.sendMessage(language.get(APIURL_ALREADY_USED, "command", "/apiurl none")).queue();
 					LOGGER.info("API URL already used");
 					return;
 				}
@@ -117,23 +118,23 @@ public class URLCommand extends Command {
 					if (oldApi == null) {
 						// User is setting up new connection
 						Main.getConnectionManager().createConnection(guildId, apiUrl, apiKey);
-						hook.sendMessage(language.get(Term.APIURL_SUCCESS_NEW)).queue();
+						hook.sendMessage(language.get(APIURL_SUCCESS_NEW)).queue();
 						LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
 					} else {
 						// User is modifying API URL for existing connection
 						Main.getConnectionManager().updateConnection(guildId, apiUrl, apiKey);
-						hook.sendMessage(language.get(Term.APIURL_SUCCESS_UPDATED)).queue();
+						hook.sendMessage(language.get(APIURL_SUCCESS_UPDATED)).queue();
 						LOGGER.info("Updated API URL for guild {} from {} to {}", guildId, oldApi, apiUrl);
 					}
 
 					DiscordRoleListener.sendRolesAsync(guildId);
 				} catch (final NamelessException e) {
 					hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
-					hook.sendMessage(language.get(Term.APIURL_FAILED_CONNECTION)).queue();
+					hook.sendMessage(language.get(APIURL_FAILED_CONNECTION)).queue();
 					Main.logConnectionError(LOGGER, "Website connection error while sending bot settings", e);
 				}
 			} catch (final BackendStorageException e){
-				hook.sendMessage(language.get(Term.ERROR_GENERIC)).queue();
+				hook.sendMessage(language.get(ERROR_GENERIC)).queue();
 				LOGGER.error("storage backend", e);
 			}
 		});
