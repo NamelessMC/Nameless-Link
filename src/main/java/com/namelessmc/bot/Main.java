@@ -41,6 +41,7 @@ import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -219,33 +220,24 @@ public class Main {
 			DiscordRoleListener.sendRolesAsync(guildId);
 			LOGGER.info("Sent bot settings to website and registered commands successfully.");
 		} else {
-			try {
-				LOGGER.info("Updating bot settings..");
-				int threads;
-				if (System.getenv("UPDATE_SETTINGS_THREADS") != null) {
-					threads = Integer.parseInt(System.getenv("UPDATE_SETTINGS_THREADS"));
-				} else {
-					threads = 2;
-				}
+			int threads;
+			if (System.getenv("UPDATE_SETTINGS_THREADS") != null) {
+				threads = Integer.parseInt(System.getenv("UPDATE_SETTINGS_THREADS"));
+			} else {
+				threads = 2;
+			}
 
-				final ExecutorService service = Executors.newFixedThreadPool(threads);
-				final AtomicInteger countSuccess = new AtomicInteger();
-				final AtomicInteger countError = new AtomicInteger();
-				for (final NamelessAPI api : connectionManager.listConnections()) {
+			final ExecutorService service = Executors.newFixedThreadPool(threads);
+
+			final AtomicInteger countTotal = new AtomicInteger();
+			final AtomicInteger countSuccess = new AtomicInteger();
+			final AtomicInteger countError = new AtomicInteger();
+
+			LOGGER.info("Updating bot settings and sending slash commands...");
+
+			for (int shard = 0; shard < getShardCount(); shard++) {
+				for (final Guild guild : getJda(shard).getGuilds()) {
 					service.execute(() -> {
-						Guild guild;
-						try {
-							final long guildId = connectionManager.getGuildIdByApiConnection(api).orElseThrow(() -> new IllegalStateException("database has URL but not guild id"));
-							guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
-							if (guild == null) {
-								LOGGER.warn("Skipping guild {}, it is null (bot was kicked from this guild?)", guildId);
-								return;
-							}
-						} catch (final BackendStorageException e) {
-							LOGGER.error("command update error", e);
-							return;
-						}
-
 						try {
 							Command.sendCommands(guild);
 						} catch (ErrorResponseException e) {
@@ -253,29 +245,39 @@ public class Main {
 						}
 
 						try {
-							api.setDiscordBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
-							LOGGER.info("{} {} success", guild.getIdLong(), api.getApiUrl().toString());
-							countSuccess.incrementAndGet();
-						} catch (final NamelessException e) {
-							LOGGER.info("{} {} error", guild.getIdLong(), api.getApiUrl().toString());
-							countError.incrementAndGet();
+							final Optional<NamelessAPI> apiOptional = connectionManager.getApiConnection(guild.getIdLong());
+							if (apiOptional.isPresent()) {
+								final NamelessAPI api = apiOptional.get();
+								try {
+									api.setDiscordBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
+									LOGGER.info("{} {} success", guild.getIdLong(), api.getApiUrl());
+									countSuccess.incrementAndGet();
+								} catch (final NamelessException e) {
+									LOGGER.info("{} {} error", guild.getIdLong(), api.getApiUrl().toString());
+									countError.incrementAndGet();
+								}
+							} else {
+								LOGGER.info("{} skipped", guild.getIdLong());
+							}
+						} catch (final BackendStorageException e) {
+							LOGGER.error(guild.getIdLong() + " backend storage exception", e);
 						}
-					});
 
+						countTotal.incrementAndGet();
+					});
 				}
-				service.shutdown();
-				try {
-					service.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-				} catch (final InterruptedException e) {
-					e.printStackTrace();
-				}
-				LOGGER.info("Done updating bot settings");
-				LOGGER.info("{} websites successful, {} websites unsuccessful", countSuccess, countError);
-				Root.pingSuccessCount = countSuccess.get();
-				Root.pingFailCount = countError.get();
-			} catch (final BackendStorageException e) {
+			}
+
+			service.shutdown();
+			try {
+				service.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+			} catch (final InterruptedException e) {
 				e.printStackTrace();
 			}
+			LOGGER.info("Done updating bot settings");
+			LOGGER.info("{} total guilds, {} websites successful, {} websites unsuccessful", countTotal, countSuccess, countError);
+			Root.pingSuccessCount = countSuccess.get();
+			Root.pingFailCount = countError.get();
 		}
 	}
 
