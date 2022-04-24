@@ -58,7 +58,7 @@ public class RegisterCommand extends Command {
 			hook.sendMessage(language.get(Language.Term.ERROR_DUPLICATE_USERNAME)).queue();
 		} catch (CannotSendEmailException e) {
 			hook.sendMessage(language.get(Language.Term.ERROR_SEND_VERIFICATION_EMAIL)).queue();
-		} catch (IntegrationIdAlreadyExistsException | IntegrationUsernameAlreadyExistsException e) {
+		} catch (IntegrationIdentifierInvalidException | IntegrationUsernameInvalidException e) {
 			hook.sendMessage(language.get(Language.Term.ERROR_DUPLICATE_DISCORD_INTEGRATION)).queue();
 		} catch (InvalidEmailAddressException e) {
 			hook.sendMessage(language.get(Language.Term.ERROR_INVALID_EMAIL_ADDRESS)).queue();
