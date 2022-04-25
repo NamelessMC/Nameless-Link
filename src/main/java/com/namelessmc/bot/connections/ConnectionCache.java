@@ -46,7 +46,7 @@ public class ConnectionCache {
 		synchronized (API_CACHE) {
 			return API_CACHE.computeIfAbsent(cacheKey, x ->
 					NamelessAPI.builder(apiUrl, apiKey)
-							.withCustomDebugLogger(Main.getApiDebugLogger())
+							.customDebugLogger(Main.getApiDebugLogger())
 							.userAgent(Main.USER_AGENT)
 							.build());
 		}
