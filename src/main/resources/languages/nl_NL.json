@@ -24,9 +24,9 @@
     "apiurl_already_used": "Deze API URL wordt al gebruikt door een andere Discord server, gebruik `{command}` in de andere Discord server om de verbinding te verbreken.",
     "apiurl_success_updated": "API URL succesvol gewijzigd.",
     "apiurl_success_new": "API URL succesvol ingesteld.",
-    "guild_join_success": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Om te beginnen, antwoord met `{command} <api url>`. De API URL kan je vinden in `StaffCP > Configuratie > API`.",
-    "guild_join_needs_renew": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Er is al een API URL ingesteld, maar deze werkt niet meer. Gelieve een nieuwe in te stellen door `{command} <api url>` uit te voeren in je Discord server. De API URL kan je vinden in `StaffCP > Configuratie > API`.",
-    "guild_join_welcome_back": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Er is al een API URL ingesteld, maar deze werkt niet meer. Als je de API URL alsnog wilt veranderen kan dat met `{command} <api url>` (in je Discord server).",
+    "guild_join_success": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Om te beginnen, antwoord met `{command}`. De API URL kan je vinden in `StaffCP > Configuratie > API`.",
+    "guild_join_needs_renew": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Er is al een API URL ingesteld, maar deze werkt niet meer. Gelieve een nieuwe in te stellen door `{command}` uit te voeren in je Discord server. De API URL kan je vinden in `StaffCP > Configuratie > API`.",
+    "guild_join_welcome_back": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Er is al een API URL ingesteld, maar deze werkt niet meer. Als je de API URL alsnog wilt veranderen kan dat met `{command}` (in je Discord server).",
     "unused_connection": "Hallo, je hebt je Discord server '{discordServerName}' verbonden met NamelessMC via deze bot. Het lijkt alleen op dat de verbinding niet meer gebruikt wordt, als je de server wilt loskoppelen antwoord met het volgende: `{command}`.",
     "unlink_usage": "Gebruik: `{command} <server id>`.",
     "apiurl_url_invalid": "De opgegeven API URL lijkt niet op een NamelssMC API URL. Je kan de API URL vinden in StaffCP > Configuratie > API.",
@@ -69,5 +69,8 @@
     "register_url": "Om uw registratie te voltooien, bezoek alstublieft deze pagina in een web browser: {url}",
     "error_invalid_username": "De ingegeven gebruikersnaam is ongeldig.",
     "error_duplicate_username": "De ingegeven gebruikersnaam is al gebruikt door een ander website account.",
-    "error_duplicate_discord_integration": "Kan geen nieuw account maken, deze Discord gebruiker is al gekoppeld aan een ander website account."
+    "error_duplicate_discord_integration": "Kan geen nieuw account maken, deze Discord gebruiker is al gekoppeld aan een ander website account.",
+    "register_option_username": "Gebruikersnaam",
+    "register_option_email": "Email-adres",
+    "apiurl_option_apikey": "Je website zijn API sleutel (StaffCP -> Configuratie -> API)."
 }
