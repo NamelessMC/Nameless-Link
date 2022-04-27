@@ -2,8 +2,9 @@ version: '3'
 
 services:
 
+  # Initialization: https://github.com/NamelessMC/Nameless-Link/wiki/Postgres-notes
   postgres:
-    image: namelessmc/discord-link-postgres:3
+    image: postgres:14-bullseye
     volumes: ['/opt/nameless-link:/var/lib/postgresql/data']
     environment:
       POSTGRES_DB: link
