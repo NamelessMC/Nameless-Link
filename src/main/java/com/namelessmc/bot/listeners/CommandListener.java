@@ -7,8 +7,9 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +18,12 @@ import java.util.Optional;
 
 import static com.namelessmc.bot.Language.Term.ERROR_GENERIC;
 
-public class CommandListener extends ListenerAdapter {
+public class 		CommandListener extends ListenerAdapter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Command handler");
 
 	@Override
-	public void onSlashCommand(final SlashCommandEvent event) {
+	public void onSlashCommandInteraction(final @NonNull SlashCommandInteractionEvent event) {
 		final User user = event.getUser();
 
 		if (user.isBot()) {

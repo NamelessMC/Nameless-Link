@@ -9,10 +9,11 @@ import com.namelessmc.java_api.exception.InvalidValidateCodeException;
 import com.namelessmc.java_api.integrations.DiscordIntegrationData;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -30,12 +31,12 @@ public class VerifyCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(final Language language) {
-		return new CommandData(this.name, language.get(VERIFY_DESCRIPTION))
+		return new CommandDataImpl(this.name, language.get(VERIFY_DESCRIPTION))
 				.addOption(OptionType.STRING, "token", language.get(VERIFY_OPTION_TOKEN), true);
 	}
 
 	@Override
-	public void execute(final @NotNull SlashCommandEvent event,
+	public void execute(final @NotNull SlashCommandInteractionEvent event,
 						final @NotNull InteractionHook hook,
 						final @NotNull Language language,
 						final @NotNull Guild guild,

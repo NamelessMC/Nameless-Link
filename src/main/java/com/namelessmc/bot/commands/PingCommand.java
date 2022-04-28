@@ -10,9 +10,10 @@ import com.namelessmc.java_api.Website;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -33,11 +34,11 @@ public class PingCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(final Language language) {
-		return new CommandData(this.name, language.get(PING_DESCRIPTION));
+		return new CommandDataImpl(this.name, language.get(PING_DESCRIPTION));
 	}
 
 	@Override
-	public void execute(final @NotNull SlashCommandEvent event,
+	public void execute(final @NotNull SlashCommandInteractionEvent event,
 						final @NotNull InteractionHook hook,
 						final @NotNull Language language,
 						final @NotNull Guild guild,

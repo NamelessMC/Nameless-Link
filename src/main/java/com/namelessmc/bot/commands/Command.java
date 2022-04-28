@@ -3,7 +3,7 @@ package com.namelessmc.bot.commands;
 import com.namelessmc.bot.Language;
 import com.namelessmc.java_api.NamelessAPI;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +23,7 @@ public abstract class Command {
 
 	public abstract CommandData getCommandData(final Language language);
 
-	public abstract void execute(final @NotNull SlashCommandEvent event,
+	public abstract void execute(final @NotNull SlashCommandInteractionEvent event,
 								 final @NotNull InteractionHook hook,
 								 final @NotNull Language language,
 								 final @NotNull Guild guild,
