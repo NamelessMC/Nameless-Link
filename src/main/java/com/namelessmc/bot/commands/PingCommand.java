@@ -1,6 +1,5 @@
 package com.namelessmc.bot.commands;
 
-import com.google.common.base.Ascii;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
@@ -101,7 +100,7 @@ public class PingCommand extends Command {
 			}
 			return System.currentTimeMillis() - start;
 		} catch (final NamelessException e) {
-			hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
+			hook.sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();
 			hook.sendMessage(language.get(APIURL_FAILED_CONNECTION)).queue();
 			Main.logConnectionError(logger, "NamelessException during ping", e);
 			return -1;
