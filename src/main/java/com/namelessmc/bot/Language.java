@@ -118,14 +118,14 @@ public class Language {
 	private void readFromFile() throws LanguageLoadException {
 		try (InputStream stream = Language.class.getResourceAsStream("/languages/" + this.languageCode + ".json")) {
 			if (stream == null) {
-				throw new LanguageLoadException();
+				throw new LanguageLoadException(this.languageCode);
 			}
 
 			try (Reader reader = new InputStreamReader(stream)) {
 				this.json = JsonParser.parseReader(reader).getAsJsonObject();
 			}
 		} catch (final IOException e) {
-			throw new LanguageLoadException(e);
+			throw new LanguageLoadException(this.languageCode, e);
 		}
 	}
 
@@ -138,8 +138,7 @@ public class Language {
 			translation = this.json.get(term.toString()).getAsString();
 		} else if (this == getDefaultLanguage()) {
 			// oh no, cannot fall back to default translation if we are the default translation
-			throw new RuntimeException(
-					String.format("Term '%s' is missing from default (%s) translation", term, getDefaultLanguage().languageCode));
+			throw new MissingTermException(this.languageCode, term);
 		} else {
 			LOGGER.warn("Language '{}' is missing term '{}', using default ({}) term instead.",
 					this.languageCode, term, getDefaultLanguage().languageCode);
@@ -150,11 +149,6 @@ public class Language {
 			final String key = (String) replacements[i];
 			final String value = replacements[i + 1].toString();
 			translation = translation.replace("{" + key + "}", value);
-		}
-
-		if (!checkLength(term, translation.length())) {
-			translation = "message too long (bug)";
-			LOGGER.warn("Message '{}' too long for language {}", term, this.languageCode);
 		}
 
 		return translation;
@@ -185,14 +179,6 @@ public class Language {
 				throw new IllegalArgumentException("Missing replacement key '" + required[i] + "'");
 			}
 		}
-	}
-
-	private boolean checkLength(Term term, int length) {
-		int maxLength = switch (term) {
-			case VERIFY_DESCRIPTION, APIURL_DESCRIPTION, PING_DESCRIPTION, UPDATEUSERNAME_DESCRIPTION -> 100;
-			default -> Integer.MAX_VALUE;
-		};
-		return length < maxLength;
 	}
 
 	public static Language getGuildLanguage(final Guild guild) {
@@ -241,12 +227,20 @@ public class Language {
 		@Serial
 		private static final long serialVersionUID = 1335651150585947607L;
 
-		public LanguageLoadException(final Throwable cause) {
-			super("Language failed to load", cause);
+		public LanguageLoadException(final String languageCode, final Throwable cause) {
+			super("Language " + languageCode + " failed to load", cause);
 		}
 
-		public LanguageLoadException() {
-			super("Language failed to load");
+		public LanguageLoadException(final String languageCode) {
+			super("Language " + languageCode + " failed to load");
+		}
+
+	}
+
+	public static class MissingTermException extends RuntimeException {
+
+		public MissingTermException(final String languageCode, final Term term) {
+			super("Language " + languageCode + " is missing term " + term.name());
 		}
 
 	}
