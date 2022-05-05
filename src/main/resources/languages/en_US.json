@@ -64,5 +64,9 @@
     "error_send_verification_email": "Unable to send verification email.",
     "error_duplicate_discord_integration": "Cannot create a new account, this Discord user is already linked to a different website account.",
     "register_description": "Create a website account",
-    "register_email": "Please check your email to complete registration."
+    "register_email": "Please check your email to complete registration.",
+    "register_option_email": "Email address",
+    "apiurl_option_apikey": "Your website's API key (StaffCP > Configuration > API).",
+    "register_option_username": "Username",
+    "apiurl_url_local": "Your API URL contains an address from the private address space. These addresses are only reachable from within your network. Please enter an externally reachable domain."
 }
