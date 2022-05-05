@@ -7,10 +7,11 @@ import com.namelessmc.java_api.exception.*;
 import com.namelessmc.java_api.integrations.DiscordIntegrationData;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,13 +27,13 @@ public class RegisterCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(Language language) {
-		return new CommandData(this.name, language.get(REGISTER_DESCRIPTION))
+		return new CommandDataImpl(this.name, language.get(REGISTER_DESCRIPTION))
 				.addOption(OptionType.STRING, "username", language.get(REGISTER_OPTION_USERNAME), true)
 				.addOption(OptionType.STRING, "email", language.get(REGISTER_OPTION_EMAIL), true);
 	}
 
 	@Override
-	public void execute(final @NotNull SlashCommandEvent event,
+	public void execute(final @NotNull SlashCommandInteractionEvent event,
 						final @NotNull InteractionHook hook,
 						final @NotNull Language language,
 						final @NotNull Guild guild,
