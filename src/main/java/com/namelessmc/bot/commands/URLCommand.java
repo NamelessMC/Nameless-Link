@@ -94,8 +94,8 @@ public class URLCommand extends Command {
 			try {
 				final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByApiUrl(apiUrl);
 
-				if (optExistingGuildId.isPresent()) {
-					hook.sendMessage(language.get(APIURL_ALREADY_USED, "command", "/apiurl none")).queue();
+				if (optExistingGuildId.isPresent() && optExistingGuildId.get() != guildId) {
+					hook.sendMessage(language.get(APIURL_ALREADY_USED, "command", "/apiurl none none")).queue();
 					LOGGER.info("API URL already used");
 					return;
 				}
