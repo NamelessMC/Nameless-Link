@@ -33,5 +33,12 @@
     "ping_usage": "Használat: `{command} <discord server id>`",
     "ping_working": "Úgy tűnik, hogy az API webhely-kapcsolata működik. {time} ms-ot vett igénybe.",
     "prefix_success": "Az előtag módosítva erre: `{newPrefix}`.",
-    "prefix_usage": "Használat: `{command} <szerver id> <új előtag>`. Az alapértelmezett előtag használatához használja a `reset` gombot."
+    "prefix_usage": "Használat: `{command} <szerver id> <új előtag>`. Az alapértelmezett előtag használatához használja a `reset` gombot.",
+    "verify_description": "Hitelesítsd a Discord fiókodat a befejezéshez.",
+    "error_invalid_username": "A megadott felhasználónév helytelen.",
+    "error_duplicate_username": "A megadott felhasználónév már foglalt.",
+    "error_invalid_email_address": "A megadott email-cím helytelen.",
+    "error_duplicate_email_address": "A megadott email-cím már foglalt.",
+    "error_send_verification_email": "Erre az email-címre nem lehet megerősítő emailt küldeni.",
+    "error_duplicate_discord_integration": "Ez a Discord felhasználónév már foglalt."
 }
