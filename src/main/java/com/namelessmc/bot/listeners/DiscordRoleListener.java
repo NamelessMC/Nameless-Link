@@ -1,21 +1,11 @@
 package com.namelessmc.bot.listeners;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -25,6 +15,14 @@ import net.dv8tion.jda.api.events.role.RoleCreateEvent;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DiscordRoleListener extends ListenerAdapter {
 
@@ -176,7 +174,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			return;
 		}
 
-		Optional<NamelessUser> user;
+		final NamelessUser user;
 		try {
 			user = api.get().getUserByDiscordId(userId);
 		} catch (final ApiError e) {
@@ -187,14 +185,14 @@ public class DiscordRoleListener extends ListenerAdapter {
 			return;
 		}
 
-		if (user.isEmpty()) {
+		if (user == null) {
 			LOGGER.warn("Skipping, user not found on website.");
 			return;
 		}
 
 		try {
 			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
-			user.get().setDiscordRoles(roleIds);
+			user.setDiscordRoles(roleIds);
 			LOGGER.info("Sucessfully sent roles to website: guildid={} userid={}", guildId, userId);
 		} catch (final ApiError e) {
 			LOGGER.warn("API error {} while sending role update for user {} guild {} (setDiscordRoles)", e.getError(), userId, guildId);

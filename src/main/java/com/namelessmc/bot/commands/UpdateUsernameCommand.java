@@ -5,7 +5,6 @@ import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -15,8 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 import static com.namelessmc.bot.Language.Term.*;
 
@@ -44,20 +41,6 @@ public class UpdateUsernameCommand extends Command {
 
 		if (api == null) {
 			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
-			return;
-		}
-
-		Optional<NamelessUser> optNameless;
-		try {
-			optNameless = api.getUserByDiscordId(userId);
-		} catch (final NamelessException e) {
-			Main.logConnectionError(LOGGER, "Website connection error during get user by discord id", e);
-			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
-			return;
-		}
-
-		if (optNameless.isEmpty()) {
-			hook.sendMessage(language.get(ERROR_NOT_LINKED)).queue();
 			return;
 		}
 
