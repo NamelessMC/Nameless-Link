@@ -6,7 +6,6 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
-import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -87,18 +86,19 @@ public class PingCommand extends Command {
 		try {
 			final long start = System.currentTimeMillis();
 			final Website info = api.getWebsite();
-			try {
-				if (!NamelessVersion.isSupportedByJavaApi(info.getParsedVersion())) {
-					hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersionsList())).queue();
-					LOGGER.info("Incompatible NamelessMC version");
-					return -1;
-				}
-			} catch (final UnknownNamelessVersionException e) {
-				// API doesn't recognize this version, but we can still display the unparsed name
+			final NamelessVersion version = info.getParsedVersion();
+			if (version == null) {
 				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersionsList())).queue();
 				LOGGER.info("Unknown NamelessMC version");
 				return -1;
 			}
+
+			if (!NamelessVersion.isSupportedByJavaApi(info.getParsedVersion())) {
+				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersionsList())).queue();
+				LOGGER.info("Incompatible NamelessMC version");
+				return -1;
+			}
+
 			return System.currentTimeMillis() - start;
 		} catch (final NamelessException e) {
 			hook.sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();

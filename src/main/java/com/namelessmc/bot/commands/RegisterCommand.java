@@ -57,19 +57,27 @@ public class RegisterCommand extends Command {
 				hook.sendMessage(language.get(REGISTER_EMAIL)).queue();
 			}
 		} catch (NamelessException e) {
+			if (e instanceof ApiException apiException) {
+				// TODO handle invalid integration identifier/username when website has added back the error
+				switch (apiException.apiError()) {
+					case CORE_INVALID_USERNAME:
+						hook.sendMessage(language.get(ERROR_INVALID_USERNAME)).queue();
+						return;
+					case CORE_USERNAME_ALREADY_EXISTS:
+						hook.sendMessage(language.get(ERROR_DUPLICATE_USERNAME)).queue();
+						return;
+					case CORE_UNABLE_TO_SEND_REGISTRATION_EMAIL:
+						hook.sendMessage(language.get(ERROR_SEND_VERIFICATION_EMAIL)).queue();
+						return;
+					case CORE_INVALID_EMAIL_ADDRESS:
+						hook.sendMessage(language.get(ERROR_INVALID_EMAIL_ADDRESS)).queue();
+						return;
+					case CORE_EMAIL_ALREADY_EXISTS:
+						hook.sendMessage(language.get(ERROR_DUPLICATE_EMAIL_ADDRESS)).queue();
+						return;
+				}
+			}
 			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
-		} catch (InvalidUsernameException e) {
-			hook.sendMessage(language.get(ERROR_INVALID_USERNAME)).queue();
-		} catch (UsernameAlreadyExistsException e) {
-			hook.sendMessage(language.get(ERROR_DUPLICATE_USERNAME)).queue();
-		} catch (CannotSendEmailException e) {
-			hook.sendMessage(language.get(ERROR_SEND_VERIFICATION_EMAIL)).queue();
-		} catch (IntegrationIdentifierInvalidException | IntegrationUsernameInvalidException e) {
-			hook.sendMessage(language.get(ERROR_DUPLICATE_DISCORD_INTEGRATION)).queue();
-		} catch (InvalidEmailAddressException e) {
-			hook.sendMessage(language.get(ERROR_INVALID_EMAIL_ADDRESS)).queue();
-		} catch (EmailAlreadyUsedException e) {
-			hook.sendMessage(language.get(ERROR_DUPLICATE_EMAIL_ADDRESS)).queue();
 		}
 	}
 

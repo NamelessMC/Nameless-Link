@@ -2,7 +2,6 @@ package com.namelessmc.bot.listeners;
 
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
@@ -98,10 +97,8 @@ public class DiscordRoleListener extends ListenerAdapter {
 			}
 		} catch (final BackendStorageException e) {
 			LOGGER.error("Storage error", e);
-		} catch (final ApiError e) {
-			LOGGER.warn("API error {} while sending role list for guild {}", e.getError(), guild.getIdLong());
 		} catch (final NamelessException e) {
-			LOGGER.warn("Website communication error while sending role list for guild {}", guild.getIdLong());
+			Main.logConnectionError(LOGGER, "Website communication error while sending role list for guild " + guild.getIdLong(), e);
 		}
 	}
 
@@ -177,9 +174,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 		final NamelessUser user;
 		try {
 			user = api.get().getUserByDiscordId(userId);
-		} catch (final ApiError e) {
-			LOGGER.warn("API error {} while sending user roles: user= {} guild={} (getUserByDiscordId)", e.getError(), userId, guildId);
-			return;
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)", e);
 			return;
@@ -194,8 +188,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
 			user.setDiscordRoles(roleIds);
 			LOGGER.info("Sucessfully sent roles to website: guildid={} userid={}", guildId, userId);
-		} catch (final ApiError e) {
-			LOGGER.warn("API error {} while sending role update for user {} guild {} (setDiscordRoles)", e.getError(), userId, guildId);
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update: user=" + userId + " guild=" + guildId + " (setDiscordRoles)", e);
 		}

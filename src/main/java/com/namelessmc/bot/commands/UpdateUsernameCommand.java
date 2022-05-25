@@ -2,7 +2,6 @@ package com.namelessmc.bot.commands;
 
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
-import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import net.dv8tion.jda.api.entities.Guild;
@@ -47,14 +46,6 @@ public class UpdateUsernameCommand extends Command {
 		try {
 			api.updateDiscordUsername(userId, userTag);
 			LOGGER.info("Updated username for user {} to '{}'", userId, userTag);
-		} catch (final ApiError e) {
-			if (e.getError() == ApiError.UNABLE_TO_FIND_USER) {
-				hook.sendMessage(language.get(ERROR_NOT_LINKED)).queue();
-			} else {
-				LOGGER.warn("Error code {} while updating username", e.getError());
-				hook.sendMessage(language.get(ERROR_GENERIC)).queue();
-			}
-			return;
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website connection error during update discord username", e);
 			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();

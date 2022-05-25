@@ -9,7 +9,6 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
-import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -31,6 +30,8 @@ public class GuildJoinHandler extends ListenerAdapter {
 		Guild guild = event.getGuild();
 		LOGGER.info("Joined guild '{}'", guild.getName());
 
+		Main.getExecutorService().execute(() -> Command.sendCommands(guild));
+
 		event.getJDA().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
 			Optional<NamelessAPI> optApi;
 			try {
@@ -50,16 +51,18 @@ public class GuildJoinHandler extends ListenerAdapter {
 				try {
 					final NamelessAPI api = optApi.get();
 					final Website info = api.getWebsite();
-					try {
-						if (NamelessVersion.isSupportedByJavaApi(info.getParsedVersion())) {
-							// Good to go
-							channel.sendMessage(language.get(GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
-						} else {
-							// Incompatible version
-							channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
-						}
-					} catch (final UnknownNamelessVersionException e) {
+					final NamelessVersion version = info.getParsedVersion();
+					if (version == null) {
 						// API doesn't recognize this version, but we can still display the unparsed name
+						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
+						return;
+					}
+
+					if (NamelessVersion.isSupportedByJavaApi(version)) {
+						// Good to go
+						channel.sendMessage(language.get(GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
+					} else {
+						// Incompatible version
 						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
 					}
 				} catch (final NamelessException e) {
@@ -69,8 +72,6 @@ public class GuildJoinHandler extends ListenerAdapter {
 				}
 			}
 		});
-
-		Main.getExecutorService().execute(() -> Command.sendCommands(guild));
 	}
 
 }

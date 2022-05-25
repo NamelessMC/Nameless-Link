@@ -5,7 +5,8 @@ import com.namelessmc.bot.Main;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.exception.InvalidValidateCodeException;
+import com.namelessmc.java_api.exception.ApiError;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.integrations.DiscordIntegrationData;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import net.dv8tion.jda.api.entities.Guild;
@@ -56,10 +57,13 @@ public class VerifyCommand extends Command {
 
 		try {
 			api.verifyIntegration(integrationData, token);
-		} catch (InvalidValidateCodeException e) {
-			hook.sendMessage(language.get(VERIFY_TOKEN_INVALID)).queue();
-			return;
 		} catch (final NamelessException e) {
+			if (e instanceof ApiException apiException) {
+				if (apiException.apiError() == ApiError.CORE_INVALID_CODE) {
+					hook.sendMessage(language.get(VERIFY_TOKEN_INVALID)).queue();
+					return;
+				}
+			}
 			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
 			Main.logConnectionError(LOGGER, "Website connection error", e);
 			return;
