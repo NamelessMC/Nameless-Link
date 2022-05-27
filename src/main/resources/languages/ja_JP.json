@@ -27,10 +27,10 @@
     "apiurl_success_updated": "API URLの変更に成功しました。",
     "apiurl_success_new": "API URLの設定に成功しました。",
     "unlink_guild_not_linked": "サーバーはリンクされていません。",
-    "guild_join_needs_renew": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。API URLは既に設定済みのようですが、機能しなくなっています。新しいURLは`{command} <api url>`（あなたのDiscordサーバーで実行）で設定してください。APIのURLは`StaffCP > 設定 > API`で確認できます。",
+    "guild_join_needs_renew": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。API URLは既に設定済みのようですが、機能しなくなっています。新しいURLは`{command}`（あなたのDiscordサーバーで実行）で設定してください。APIのURLは`StaffCP > 設定 > API`で確認できます。",
     "unused_connection": "こんにちは、あなたはこのボットを使って、Discordサーバ'{discordServerName}'をNamelessMCにリンクしています。サイトの接続がしばらく使われていないようです。このボットからDiscordサーバを削除したい場合は、`{command}`を実行してください。",
-    "guild_join_success": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。初めに、あなたのDiscordサーバーで`{command} <api url>`を実行してください。API URLは`StaffCP > 設定 > API`で確認できます。",
-    "guild_join_welcome_back": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。ボットは既にあなたのDiscordサーバー用に設定されています。別のAPI URLを使用したい場合は、`{command} <api url>`（あなたのDiscordサーバーで実行）を使用して変更することができます。",
+    "guild_join_success": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。初めに、あなたのDiscordサーバーで`{command}`を実行してください。API URLは`StaffCP > 設定 > API`で確認できます。",
+    "guild_join_welcome_back": "こんにちは！NamelessMC Botをご利用いただきありがとうございます。ボットは既にあなたのDiscordサーバー用に設定されています。別のAPI URLを使用したい場合は、`{command}`（あなたのDiscordサーバーで実行）を使用して変更することができます。",
     "prefix_usage": "使い方: `{command} <サーバid> <新しいプレフィックス>` デフォルトのプレフィックスにするには`reset`を使ってください。",
     "error_guild_unknown": "サーバーが存在しないか、ボットがサーバーのメンバーではありません。",
     "prefix_success": "プレフィックスは`{newPrefix}`に変更されました。",
@@ -59,5 +59,8 @@
     "error_send_verification_email": "認証メールを送信できません。",
     "register_description": "ウェブサイトアカウントの作成",
     "register_email": "登録完了のメールをご確認ください。",
-    "register_url": "ウェブブラウザから次のページへアクセスし、登録を完了させてください: {URL}"
+    "register_url": "ウェブブラウザから次のページへアクセスし、登録を完了させてください: {URL}",
+    "register_option_username": "ユーザー名",
+    "register_option_email": "メールアドレス",
+    "apiurl_option_apikey": "ウェブサイトのAPIキー（StaffCP > 設定 > API）。"
 }
