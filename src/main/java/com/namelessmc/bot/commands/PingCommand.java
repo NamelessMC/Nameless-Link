@@ -86,15 +86,15 @@ public class PingCommand extends Command {
 		try {
 			final long start = System.currentTimeMillis();
 			final Website info = api.getWebsite();
-			final NamelessVersion version = info.getParsedVersion();
+			final NamelessVersion version = info.parsedVersion();
 			if (version == null) {
-				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersionsList())).queue();
+				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
 				LOGGER.info("Unknown NamelessMC version");
 				return -1;
 			}
 
-			if (!NamelessVersion.isSupportedByJavaApi(info.getParsedVersion())) {
-				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", supportedVersionsList())).queue();
+			if (!NamelessVersion.isSupportedByJavaApi(info.parsedVersion())) {
+				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
 				LOGGER.info("Incompatible NamelessMC version");
 				return -1;
 			}
@@ -109,7 +109,7 @@ public class PingCommand extends Command {
 	}
 
 	public static String supportedVersionsList() {
-		return NamelessVersion.getSupportedVersions().stream().map(NamelessVersion::getName).collect(Collectors.joining(", "));
+		return NamelessVersion.supportedVersions().stream().map(NamelessVersion::internalName).collect(Collectors.joining(", "));
 	}
 
 }

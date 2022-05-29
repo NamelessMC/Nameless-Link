@@ -203,7 +203,7 @@ public class Language {
 	}
 
 	public static Language getLanguage(final LanguageEntity languageEntity) throws NamelessException {
-		final String languageCode = languageEntity.getRawLocale();
+		final String languageCode = languageEntity.rawLocale();
 		Language language = LANGUAGE_CACHE.get(languageCode);
 		if (language != null) {
 			return language;

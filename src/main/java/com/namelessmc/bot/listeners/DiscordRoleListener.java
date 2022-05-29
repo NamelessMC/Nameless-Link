@@ -186,7 +186,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 		try {
 			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
-			user.setDiscordRoles(roleIds);
+			user.discordRoles(roleIds);
 			LOGGER.info("Sucessfully sent roles to website: guildid={} userid={}", guildId, userId);
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update: user=" + userId + " guild=" + guildId + " (setDiscordRoles)", e);

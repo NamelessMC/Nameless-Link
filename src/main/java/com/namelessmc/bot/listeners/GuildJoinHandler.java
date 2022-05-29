@@ -51,10 +51,10 @@ public class GuildJoinHandler extends ListenerAdapter {
 				try {
 					final NamelessAPI api = optApi.get();
 					final Website info = api.getWebsite();
-					final NamelessVersion version = info.getParsedVersion();
+					final NamelessVersion version = info.parsedVersion();
 					if (version == null) {
 						// API doesn't recognize this version, but we can still display the unparsed name
-						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
+						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
 						return;
 					}
 
@@ -63,7 +63,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 						channel.sendMessage(language.get(GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
 					} else {
 						// Incompatible version
-						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.getVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
+						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
 					}
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url
