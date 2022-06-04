@@ -36,7 +36,7 @@ public class ConnectionCleanup {
 
 				final long guildId = optGuildId.get();
 
-				LOGGER.info("Checking {} (guild id {})", connection.getApiUrl().getHost(), guildId);
+				LOGGER.info("Checking {} (guild id {})", connection.apiUrl().getHost(), guildId);
 
 				final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 

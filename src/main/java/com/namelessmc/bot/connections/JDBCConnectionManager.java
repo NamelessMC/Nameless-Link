@@ -207,8 +207,8 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	@Override
 	public Optional<Long> getGuildIdByApiConnection(final @NotNull NamelessAPI api) throws BackendStorageException {
 		return getGuildIdBy("api_url=? AND api_key=?", statement -> {
-			statement.setString(1, api.getApiUrl().toString());
-			statement.setString(2, api.getApiKey());
+			statement.setString(1, api.apiUrl().toString());
+			statement.setString(2, api.apiKey());
 		});
 	}
 

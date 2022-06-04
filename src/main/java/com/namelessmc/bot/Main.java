@@ -196,7 +196,7 @@ public class Main {
 			List<NamelessAPI> apiConnections = connectionManager.listConnections();
 			Preconditions.checkArgument(apiConnections.size() == 1, "Stateless connection manager should always have 1 connection");
 			final NamelessAPI api = apiConnections.get(0);
-			LOGGER.info("Sending bot settings to " + api.getApiUrl());
+			LOGGER.info("Sending bot settings to " + api.apiUrl());
 			api.setDiscordBotUrl(botUrl);
 			api.setDiscordBotUser(userTag, user.getIdLong());
 			final long guildId = connectionManager.getGuildIdByApiConnection(api).orElse(0L);
@@ -249,10 +249,10 @@ public class Main {
 								final NamelessAPI api = apiOptional.get();
 								try {
 									api.setDiscordBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
-									LOGGER.info("{} {} success", guild.getIdLong(), api.getApiUrl());
+									LOGGER.info("{} {} success", guild.getIdLong(), api.apiUrl());
 									countSuccess.incrementAndGet();
 								} catch (final NamelessException e) {
-									LOGGER.info("{} {} error", guild.getIdLong(), api.getApiUrl().toString());
+									LOGGER.info("{} {} error", guild.getIdLong(), api.apiUrl().toString());
 									countError.incrementAndGet();
 								}
 							} else {

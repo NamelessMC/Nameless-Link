@@ -173,7 +173,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 		final NamelessUser user;
 		try {
-			user = api.get().getUserByDiscordId(userId);
+			user = api.get().userByDiscordId(userId);
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)", e);
 			return;

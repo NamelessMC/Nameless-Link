@@ -77,7 +77,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 
 	@Override
 	public @NotNull Optional<@NotNull Long> getGuildIdByApiUrl(final @NotNull URL apiUrl) throws BackendStorageException {
-		return this.api.getApiUrl().equals(apiUrl) ? Optional.of(this.guildId) : Optional.empty();
+		return this.api.apiUrl().equals(apiUrl) ? Optional.of(this.guildId) : Optional.empty();
 	}
 
 	@Override

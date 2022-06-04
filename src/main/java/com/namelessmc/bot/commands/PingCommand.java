@@ -60,7 +60,7 @@ public class PingCommand extends Command {
 	}
 
 	static long checkConnection(final NamelessAPI api, Logger logger, final Language language, final InteractionHook hook) {
-		URL url = api.getApiUrl();
+		URL url = api.apiUrl();
 		if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
 				!url.getPath().endsWith("/index.php") ||
 				!url.getQuery().equals("route=/api/v2") && !url.getQuery().equals("route=/api/v2/")
@@ -85,7 +85,7 @@ public class PingCommand extends Command {
 
 		try {
 			final long start = System.currentTimeMillis();
-			final Website info = api.getWebsite();
+			final Website info = api.website();
 			final NamelessVersion version = info.parsedVersion();
 			if (version == null) {
 				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();

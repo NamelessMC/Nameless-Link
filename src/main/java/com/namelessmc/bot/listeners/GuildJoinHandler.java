@@ -50,7 +50,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 			} else {
 				try {
 					final NamelessAPI api = optApi.get();
-					final Website info = api.getWebsite();
+					final Website info = api.website();
 					final NamelessVersion version = info.parsedVersion();
 					if (version == null) {
 						// API doesn't recognize this version, but we can still display the unparsed name

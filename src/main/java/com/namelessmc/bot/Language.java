@@ -192,7 +192,7 @@ public class Language {
 
 		if (api.isPresent()) {
 			try {
-				return getLanguage(api.get().getWebsite());
+				return getLanguage(api.get().website());
 			} catch (final NamelessException e) {
 				LOGGER.warn("Cannot retrieve language for guild {}, falling back to default language.", guild.getIdLong());
 				return getDefaultLanguage();
