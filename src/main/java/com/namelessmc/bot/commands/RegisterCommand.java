@@ -50,6 +50,7 @@ public class RegisterCommand extends Command {
 
 		if (api == null) {
 			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
+			LOGGER.info("Website connection not set up");
 			return;
 		}
 

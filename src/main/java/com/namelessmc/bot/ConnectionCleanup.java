@@ -51,7 +51,7 @@ public class ConnectionCleanup {
 
 			LOGGER.info("Done cleaning up connections.");
 		} catch (final BackendStorageException e) {
-			LOGGER.error("A database error occured while cleaning up connections", e);
+			LOGGER.error("A database error occurred while cleaning up connections", e);
 		}
 	}
 

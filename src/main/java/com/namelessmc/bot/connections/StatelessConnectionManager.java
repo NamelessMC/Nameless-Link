@@ -80,9 +80,4 @@ public class StatelessConnectionManager extends ConnectionManager {
 		return this.api.apiUrl().equals(apiUrl) ? Optional.of(this.guildId) : Optional.empty();
 	}
 
-	@Override
-	public @NotNull Optional<@NotNull Long> getGuildIdByApiConnection(final @NotNull NamelessAPI api) throws BackendStorageException {
-		return this.api.equals(api) ? Optional.of(this.guildId) : Optional.empty();
-	}
-
 }

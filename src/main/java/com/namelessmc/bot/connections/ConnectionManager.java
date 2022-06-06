@@ -13,9 +13,9 @@ public abstract class ConnectionManager {
 
 	public abstract Optional<NamelessAPI> getApiConnection(long guildId) throws BackendStorageException;
 
-	public abstract void createConnection(long guildId, @NotNull URL apiUrl, @NotNull String apiKey) throws BackendStorageException;
+	public abstract void createConnection(long guildId, URL apiUrl, String apiKey) throws BackendStorageException;
 
-	public abstract boolean updateConnection(long guildId, @NotNull URL apiUrl, @NotNull String apiKey) throws BackendStorageException;
+	public abstract boolean updateConnection(long guildId, URL apiUrl, String apiKey) throws BackendStorageException;
 
 	public abstract boolean removeConnection(long guildId) throws BackendStorageException;
 
@@ -29,8 +29,10 @@ public abstract class ConnectionManager {
 
 	public abstract Optional<Long> getLastUsed(long guildId) throws BackendStorageException;
 
-	public abstract Optional<Long> getGuildIdByApiUrl(@NotNull URL apiUrl) throws BackendStorageException;
+	public abstract Optional<Long> getGuildIdByApiUrl(URL apiUrl) throws BackendStorageException;
 
-	public abstract Optional<Long> getGuildIdByApiConnection(@NotNull NamelessAPI api) throws BackendStorageException;
+	public Optional<Long> getGuildIdByApiConnection(NamelessAPI api) throws BackendStorageException {
+		return this.getGuildIdByApiUrl(api.apiUrl());
+	}
 
 }

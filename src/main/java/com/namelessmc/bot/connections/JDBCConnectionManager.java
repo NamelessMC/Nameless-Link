@@ -1,6 +1,5 @@
 package com.namelessmc.bot.connections;
 
-import com.namelessmc.bot.util.ThrowingConsumer;
 import com.namelessmc.java_api.NamelessAPI;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -178,14 +177,13 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
-	private Optional<Long> getGuildIdBy(final @NotNull String queryWhere,
-										final @NotNull ThrowingConsumer<PreparedStatement, SQLException> parameterSetter)
-			throws BackendStorageException {
+	@Override
+	public Optional<Long> getGuildIdByApiUrl(final @NotNull URL apiUrl) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			long guildId;
 			try (PreparedStatement statement = connection
-					.prepareStatement("SELECT guild_id FROM connections WHERE " + queryWhere)) {
-				parameterSetter.accept(statement);
+					.prepareStatement("SELECT guild_id FROM connections WHERE api_url=?")) {
+				statement.setString(1, apiUrl.toString());
 				final ResultSet result = statement.executeQuery();
 				if (!result.next()) {
 					return Optional.empty();
@@ -197,19 +195,6 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
 		}
-	}
-
-	@Override
-	public Optional<Long> getGuildIdByApiUrl(final @NotNull URL apiUrl) throws BackendStorageException {
-		return getGuildIdBy("api_url=?", statement -> statement.setString(1, apiUrl.toString()));
-	}
-
-	@Override
-	public Optional<Long> getGuildIdByApiConnection(final @NotNull NamelessAPI api) throws BackendStorageException {
-		return getGuildIdBy("api_url=? AND api_key=?", statement -> {
-			statement.setString(1, api.apiUrl().toString());
-			statement.setString(2, api.apiKey());
-		});
 	}
 
 }
