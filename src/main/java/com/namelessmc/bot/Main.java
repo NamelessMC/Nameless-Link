@@ -334,16 +334,12 @@ public class Main {
 				logger.warn(e.getCause().getClass().getSimpleName());
 			}
 		} else {
-			if (message != null) {
-				logger.warn(message, e);
-			} else {
-				logger.warn("", e);
-			}
+			logger.warn(Objects.requireNonNullElse(message, ""), e);
 		}
 	}
 
 	public static void logConnectionError(final Logger logger, final NamelessException e) {
-		logConnectionError(logger, e);
+		logConnectionError(logger, null, e);
 	}
 
 }

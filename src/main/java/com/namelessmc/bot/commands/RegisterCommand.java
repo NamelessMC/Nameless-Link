@@ -83,8 +83,13 @@ public class RegisterCommand extends Command {
 					case CORE_EMAIL_ALREADY_EXISTS:
 						hook.sendMessage(language.get(ERROR_DUPLICATE_EMAIL_ADDRESS)).queue();
 						return;
+					case CORE_INTEGRATION_IDENTIFIER_ERROR:
+					case CORE_INTEGRATION_USERNAME_ERROR:
+						hook.sendMessage(language.get(ERROR_DUPLICATE_DISCORD_INTEGRATION)).queue();
+						return;
 				}
 			}
+
 			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
 			Main.logConnectionError(LOGGER, e);
 		}
