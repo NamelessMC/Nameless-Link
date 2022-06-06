@@ -65,7 +65,7 @@ public class PingCommand extends Command {
 				!url.getPath().endsWith("/index.php") ||
 				!url.getQuery().equals("route=/api/v2") && !url.getQuery().equals("route=/api/v2/")
 		) {
-			LOGGER.info("Invalid URL with protocol '{}' host '{}' path '{}' query '{}'", url.getProtocol(), url.getHost(), url.getPath(), url.getQuery());
+			logger.info("Invalid URL with protocol '{}' host '{}' path '{}' query '{}'", url.getProtocol(), url.getHost(), url.getPath(), url.getQuery());
 			hook.sendMessage(language.get(APIURL_URL_INVALID)).queue();
 			return -1;
 		}
@@ -78,25 +78,25 @@ public class PingCommand extends Command {
 				host.startsWith("10.")
 				// checking 172.16.0.0/12 is too much work...
 			)) {
-			LOGGER.info("Local host: '{}'", host);
+			logger.info("Local host: '{}'", host);
 			hook.sendMessage(language.get(APIURL_URL_LOCAL)).queue();
 			return -1;
 		}
 
 		try {
 			final long start = System.currentTimeMillis();
-			LOGGER.info("Making request to info endpoint");
+			logger.info("Making request to info endpoint");
 			final Website info = api.website();
 			final NamelessVersion version = info.parsedVersion();
 			if (version == null) {
 				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
-				LOGGER.info("Unknown NamelessMC version");
+				logger.info("Unknown NamelessMC version");
 				return -1;
 			}
 
 			if (!NamelessVersion.isSupportedByJavaApi(info.parsedVersion())) {
 				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
-				LOGGER.info("Incompatible NamelessMC version");
+				logger.info("Incompatible NamelessMC version");
 				return -1;
 			}
 
