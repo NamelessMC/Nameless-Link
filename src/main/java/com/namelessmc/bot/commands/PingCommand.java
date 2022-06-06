@@ -85,6 +85,7 @@ public class PingCommand extends Command {
 
 		try {
 			final long start = System.currentTimeMillis();
+			LOGGER.info("Making request to info endpoint");
 			final Website info = api.website();
 			final NamelessVersion version = info.parsedVersion();
 			if (version == null) {

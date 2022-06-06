@@ -66,7 +66,6 @@ public class RegisterCommand extends Command {
 			}
 		} catch (NamelessException e) {
 			if (e instanceof ApiException apiException) {
-				// TODO handle invalid integration identifier/username when website has added back the error
 				switch (apiException.apiError()) {
 					case CORE_INVALID_USERNAME:
 						hook.sendMessage(language.get(ERROR_INVALID_USERNAME)).queue();
