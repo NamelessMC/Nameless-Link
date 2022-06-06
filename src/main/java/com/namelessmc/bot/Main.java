@@ -62,8 +62,8 @@ public class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Core");
 
-	private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
-	public static ExecutorService getExecutorService() { return executorService; }
+	private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(10);
+	public static ScheduledExecutorService getExecutorService() { return executorService; }
 
 	private static ConnectionManager connectionManager;
 	public static ConnectionManager getConnectionManager() { return connectionManager; }
@@ -178,15 +178,15 @@ public class Main {
 
 		LOGGER.info("JDA connected!");
 
-		final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-
 		sendBotSettings();
 
 		if (!Main.getConnectionManager().isReadOnly()) {
-			scheduler.scheduleAtFixedRate(
+			Main.getExecutorService().scheduleAtFixedRate(
 					() -> Main.getExecutorService().execute(ConnectionCleanup::run),
 					15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
+
+		new Metrics();
 	}
 
 	private static void sendBotSettings() throws NamelessException, BackendStorageException {
