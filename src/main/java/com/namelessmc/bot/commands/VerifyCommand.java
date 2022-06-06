@@ -65,7 +65,7 @@ public class VerifyCommand extends Command {
 				}
 			}
 			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
-			Main.logConnectionError(LOGGER, "Website connection error", e);
+			Main.logConnectionError(LOGGER, e);
 			return;
 		}
 

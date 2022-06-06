@@ -316,19 +316,34 @@ public class Main {
 			ConnectException.class
 	);
 
-	public static void logConnectionError(final Logger logger, final String message, final NamelessException e) {
+	public static void logConnectionError(final Logger logger, final @Nullable String message, final NamelessException e) {
 		Objects.requireNonNull(logger, "Logger is null");
-		Objects.requireNonNull(message, "Message is null");
 		Objects.requireNonNull(e, "Exception is null");
 		if (e instanceof ApiException apiException) {
-			logger.warn(message + " (API error {})", apiException.apiError());
+			if (message != null) {
+				logger.warn(message + " (API error {})", apiException.apiError());
+			} else {
+				logger.warn("API error {}", apiException.apiError());
+			}
 		} else if (e.getCause() != null &&
 				apiDebugLogger == null &&
 				IGNORED_EXCEPTIONS.contains(e.getCause().getClass())) {
-			logger.warn(message + " ({})", e.getCause().getClass().getSimpleName());
+			if (message != null) {
+				logger.warn(message + " ({})", e.getCause().getClass().getSimpleName());
+			} else {
+				logger.warn(e.getCause().getClass().getSimpleName());
+			}
 		} else {
-			logger.warn(message, e);
+			if (message != null) {
+				logger.warn(message, e);
+			} else {
+				logger.warn("", e);
+			}
 		}
+	}
+
+	public static void logConnectionError(final Logger logger, final NamelessException e) {
+		logConnectionError(logger, e);
 	}
 
 }
