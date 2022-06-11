@@ -3,7 +3,7 @@ package com.namelessmc.bot.commands;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.exception.*;
 import com.namelessmc.java_api.integrations.DiscordIntegrationData;
 import com.namelessmc.java_api.integrations.IntegrationData;

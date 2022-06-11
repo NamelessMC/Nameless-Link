@@ -12,8 +12,8 @@ import com.namelessmc.bot.listeners.CommandListener;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.bot.listeners.GuildJoinHandler;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.ApiException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.Slf4jLogger;
 import net.dv8tion.jda.api.JDA;
@@ -196,15 +196,9 @@ public class Main {
 			List<NamelessAPI> apiConnections = connectionManager.listConnections();
 			Preconditions.checkArgument(apiConnections.size() == 1, "Stateless connection manager should always have 1 connection");
 			final NamelessAPI api = apiConnections.get(0);
+			final long guildId = connectionManager.getGuildIdByApiConnection(api).orElseThrow();
 			LOGGER.info("Sending bot settings to " + api.apiUrl());
-			api.setDiscordBotUrl(botUrl);
-			api.setDiscordBotUser(userTag, user.getIdLong());
-			final long guildId = connectionManager.getGuildIdByApiConnection(api).orElse(0L);
-			if (guildId == 0L) {
-				LOGGER.error("Guild id was not present in the Optional");
-				System.exit(1);
-			}
-			api.setDiscordGuildId(guildId);
+			api.discord().updateBotSettings(botUrl, guildId, userTag, user.getIdLong());
 			final Guild guild = Main.getJda(0).getGuildById(guildId);
 			if (guild == null) {
 				LOGGER.error("Guild with id '{}' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
@@ -248,7 +242,7 @@ public class Main {
 							if (apiOptional.isPresent()) {
 								final NamelessAPI api = apiOptional.get();
 								try {
-									api.setDiscordBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
+									api.discord().updateBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
 									LOGGER.info("{} sent commands, sent settings to {}", guild.getIdLong(), api.apiUrl());
 									countSuccess.incrementAndGet();
 								} catch (final NamelessException e) {
@@ -334,7 +328,7 @@ public class Main {
 				logger.warn(e.getCause().getClass().getSimpleName());
 			}
 		} else {
-			logger.warn(Objects.requireNonNullElse(message, ""), e);
+			logger.warn(Objects.requireNonNullElse(message, "Unexpected connection error"), e);
 		}
 	}
 

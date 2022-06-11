@@ -3,7 +3,7 @@ package com.namelessmc.bot.listeners;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -93,7 +93,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 				final Map<Long, String> roles = guild.getRoles().stream()
 						.filter(r -> !r.getName().equals("@everyone"))
 						.collect(Collectors.toMap(Role::getIdLong, Role::getName));
-				optApi.get().submitDiscordRoleList(roles);
+				optApi.get().discord().updateRoleList(roles);
 			}
 		} catch (final BackendStorageException e) {
 			LOGGER.error("Storage error", e);
@@ -186,7 +186,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 		try {
 			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
-			user.discordRoles(roleIds);
+			user.discord().updateDiscordRoles(roleIds);
 			LOGGER.info("Sucessfully sent roles to website: guildid={} userid={}", guildId, userId);
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update: user=" + userId + " guild=" + guildId + " (setDiscordRoles)", e);

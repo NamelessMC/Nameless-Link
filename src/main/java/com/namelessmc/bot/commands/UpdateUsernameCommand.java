@@ -3,7 +3,7 @@ package com.namelessmc.bot.commands;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.NamelessException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -44,7 +44,7 @@ public class UpdateUsernameCommand extends Command {
 		}
 
 		try {
-			api.updateDiscordUsername(userId, userTag);
+			api.discord().updateDiscordUsername(userId, userTag);
 			LOGGER.info("Updated username for user {} to '{}'", userId, userTag);
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website connection error during update discord username", e);

@@ -7,7 +7,7 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.bot.connections.ConnectionCache;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.NamelessException;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -114,7 +114,7 @@ public class URLCommand extends Command {
 
 				try {
 					final User botUser = Main.getJdaForGuild(guildId).getSelfUser();
-					api.setDiscordBotSettings(Main.getBotUrl(), guildId, botUser.getAsTag(), botUser.getIdLong());
+					api.discord().updateBotSettings(Main.getBotUrl(), guildId, botUser.getAsTag(), botUser.getIdLong());
 
 					if (oldApi == null) {
 						// User is setting up new connection
