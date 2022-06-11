@@ -240,7 +240,7 @@ public class Main {
 						try {
 							Command.sendCommands(guild);
 						} catch (ErrorResponseException e) {
-							LOGGER.warn("Failed to send commands to guild {}: {}", guild.getIdLong(), e.getMessage());
+							LOGGER.warn("{} failed to send commands: {}", guild.getIdLong(), e.getMessage());
 						}
 
 						try {
@@ -249,14 +249,14 @@ public class Main {
 								final NamelessAPI api = apiOptional.get();
 								try {
 									api.setDiscordBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
-									LOGGER.info("{} {} success", guild.getIdLong(), api.apiUrl());
+									LOGGER.info("{} sent commands, sent settings to {}", guild.getIdLong(), api.apiUrl());
 									countSuccess.incrementAndGet();
 								} catch (final NamelessException e) {
-									LOGGER.info("{} {} error", guild.getIdLong(), api.apiUrl().toString());
+									LOGGER.info("{} sent commands, failed to send settings to {}", guild.getIdLong(), api.apiUrl());
 									countError.incrementAndGet();
 								}
 							} else {
-								LOGGER.info("{} skipped", guild.getIdLong());
+								LOGGER.info("{} sent commands", guild.getIdLong());
 							}
 						} catch (final BackendStorageException e) {
 							LOGGER.error(guild.getIdLong() + " backend storage exception", e);

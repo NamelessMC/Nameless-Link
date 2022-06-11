@@ -100,6 +100,7 @@ public class PingCommand extends Command {
 				return -1;
 			}
 
+			logger.info("Website connection is working");
 			return System.currentTimeMillis() - start;
 		} catch (final NamelessException e) {
 			hook.sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();
