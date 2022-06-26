@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 
 public class DiscordRoleListener extends ListenerAdapter {
 
-	public static final Object EVENT_LOCK = new Object();
-
 	private static final long EVENT_DISABLE_DURATION = 2000;
 
 	private static final HashMap<Long, Long> temporarilyDisabledEvents = new HashMap<>();
@@ -149,14 +147,12 @@ public class DiscordRoleListener extends ListenerAdapter {
 			// No need to send rank change to website if we
 			// just received this role update from the website
 			if (diff < EVENT_DISABLE_DURATION) {
-				LOGGER.info("Ignoring role update event for {}", userId);
+				LOGGER.info("Ignoring role update event for guild={} user={}", guildId, userId);
 				return;
 			} else {
 				temporarilyDisabledEvents.remove(userId);
 			}
 		}
-
-		LOGGER.info("Sending user roles to website: guildid={} userid={} roles=[{}]", guildId, userId, roles.stream().map(Role::getId).collect(Collectors.joining(", ")));
 
 		Optional<NamelessAPI> api;
 		try {
@@ -167,7 +163,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 		}
 
 		if (api.isEmpty()) {
-			LOGGER.info("Skipping, guild is not linked.");
+			LOGGER.info("Ignoring role update event for guild={}, guild is not linked.", guildId);
 			return;
 		}
 
@@ -180,14 +176,14 @@ public class DiscordRoleListener extends ListenerAdapter {
 		}
 
 		if (user == null) {
-			LOGGER.warn("Skipping, user not found on website.");
+			LOGGER.warn("Ignoring role update event for guild={} user={}, user has no website account", guildId, userId);
 			return;
 		}
 
 		try {
 			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
 			user.discord().updateDiscordRoles(roleIds);
-			LOGGER.info("Sucessfully sent roles to website: guildid={} userid={}", guildId, userId);
+			LOGGER.info("Sent roles for guild={} user={} to website sent roles to website: {}", guildId, userId, roles.stream().map(Role::getId).collect(Collectors.joining(", ")));
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update: user=" + userId + " guild=" + guildId + " (setDiscordRoles)", e);
 		}
