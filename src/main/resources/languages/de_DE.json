@@ -17,7 +17,7 @@
     "verify_success": "Vielen Dank für die Überprüfung, Ihr Konto ist jetzt verknüpft.",
     "apiurl_usage": "Verwendung: `{command} <Server-ID> <API-Ull>`.",
     "apiurl_success": "Ihr Discord-Server wurde erfolgreich mit Ihrer NamelessMC-Website verknüpft.",
-    "apiurl_url_invalid": "Die angegebene API-URL sieht nicht wie eine NamelessMC-API-URL aus. Die API-URL finden Sie unter StaffCP> Konfiguration > API.",
+    "apiurl_url_invalid": "Die angegebene API-URL sieht nicht wie eine NamelessMC-API-URL aus. Du findest die API-URL unter StaffCP > Konfiguration > API. Hast du eine URL für eine ältere, nicht unterstützte NamelessMC-Version eingegeben?",
     "apiurl_url_malformed": "Die angegebene API-URL ist fehlerhaft.",
     "apiurl_failed_connection": "Es konnte keine Verbindung zu Ihrer Website hergestellt werden. Siehe die Nachricht oben für mehr Details.",
     "apiurl_already_used": "Diese API-URL wird bereits von einem Discord-Server verwendet. Führe `{command}` auf dem Verknüpften Server aus, um die Verknüpfung aufzuheben.",
