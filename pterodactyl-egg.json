@@ -4,13 +4,13 @@
         "version": "PTDL_v1",
         "update_url": null
     },
-    "exported_at": "2021-07-04T12:34:25+02:00",
+    "exported_at": "2022-07-01T10:18:25+02:00",
     "name": "Nameless Link Egg",
-    "author": "robin@derkad.es",
-    "description": "The official Pterodactyl egg for the NamelessMC Discord bot (\"Nameless-Link\").",
+    "author": "robin@rkslot.nl",
+    "description": "An example Pterodactyl egg for the NamelessMC Discord bot (\"Nameless-Link\"). Please note that this egg is not supported and we recommend instead hosting the bot using docker directly.",
     "features": null,
     "images": [
-        "namelessmc\/discord-link:3"
+        "namelessmc\/discord-link:4"
     ],
     "file_denylist": [],
     "startup": "java -Xmx{{MEMORY}}M -jar {{JARFILE}}",
@@ -23,7 +23,7 @@
     "scripts": {
         "installation": {
             "script": null,
-            "container": "debian:buster-slim",
+            "container": "debian:bullseye-slim",
             "entrypoint": "bash"
         }
     },
@@ -41,6 +41,15 @@
             "name": "Website API URL",
             "description": "",
             "env_variable": "API_URL",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:100"
+        },
+        {
+            "name": "Website API key",
+            "description": "",
+            "env_variable": "API_KEY",
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
