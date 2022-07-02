@@ -29,7 +29,7 @@
     "guild_join_welcome_back": "Hallo! Bedankt voor het gebruiken van de NamelessMC Bot. Er is al een API URL ingesteld, maar deze werkt niet meer. Als je de API URL alsnog wilt veranderen kan dat met `{command}` (in je Discord server).",
     "unused_connection": "Hallo, je hebt je Discord server '{discordServerName}' verbonden met NamelessMC via deze bot. Het lijkt alleen op dat de verbinding niet meer gebruikt wordt, als je de server wilt loskoppelen antwoord met het volgende: `{command}`.",
     "unlink_usage": "Gebruik: `{command} <server id>`.",
-    "apiurl_url_invalid": "De opgegeven API URL lijkt niet op een NamelssMC API URL. Je kan de API URL vinden in StaffCP > Configuratie > API.",
+    "apiurl_url_invalid": "De opgegeven API URL lijkt niet op een NamelssMC API URL. Je kan de API URL vinden in StaffCP > Configuratie > API. Heb je een URL ingevuld voor een oudere NamelessMC versie, die niet meer ondersteund wordt?",
     "error_read_only_storage": "Deze bot instantie is ingesteld zonder een database. Als je de bot wilt instellen moet je dit handmatig doen (door de omgevingsvariabelen aan te passen) in plaats van via commando's.",
     "error_guild_id_invalid": "De opgegeven Discord server ID is ongeldig of de bot is niet een deelnemer van de opgegeven server.",
     "verify_token_invalid": "Kon je account niet verifiëren, de opgegeven token is ongeldig.",
