@@ -8,11 +8,11 @@
     "verify_not_used": "인증 실패: 웹 사이트 토큰을 입력하셨습니다.",
     "apiurl_usage": "사용법: `{command} <서버 ID> <api url>`.",
     "apiurl_success": "당신의 디스코드 서버가 입력한 NamelessMC 사이트와 정상적으로 연결되었습니다.",
-    "apiurl_url_invalid": "제공된 API URL이 NamelessMC API URL이 아닌 것 같습니다. StaffCP > Configuration > API 메뉴에서 URL을 확인하시기 바랍니다.",
-    "guild_join_success": "안녕하세요! NamelessMC 봇을 이용해 주셔서 감사합니다. 디스코드 서버에서 `{command} <api url>`을 입력해서 시작해 보세요. API URL은 `StaffCP > Configuration > API` 메뉴에서 확인하실 수 있습니다.",
-    "guild_join_needs_renew": "안녕하세요! NamelessMC 봇을 이용해 주셔서 감사합니다. API URL이 이미 설정된 것 같은데, 더 이상 작동하지 않는 것 같습니다. 디스코드 서버에서 `{command} <api url>`를 통해 새 URL을 설정하세요. API URL은 `StaffCP > Configuration > API` 메뉴에서 확인할 수 있습니다.",
+    "apiurl_url_invalid": "제공된 API URL이 NamelessMC API URL이 아닌 것 같습니다. StaffCP > Configuration > API 메뉴에서 URL을 확인하시기 바랍니다. 오래된 URL이나 미지원되는 NamelessMC버전인가요?",
+    "guild_join_success": "안녕하세요! NamelessMC 봇을 이용해 주셔서 감사합니다. 디스코드 서버에서 `{command} `을 입력해서 시작해 보세요. API URL은 `StaffCP > Configuration > API` 메뉴에서 확인하실 수 있습니다.",
+    "guild_join_needs_renew": "안녕하세요! NamelessMC 봇을 이용해 주셔서 감사합니다. API URL이 이미 설정된 것 같은데, 더 이상 작동하지 않는 것 같습니다. 디스코드 서버에서 `{command} `를 통해 새 URL을 설정하세요. API URL은 `StaffCP > Configuration > API` 메뉴에서 확인할 수 있습니다.",
     "apiurl_try_https": "API URL이 HTTP를 사용하고 있습니다. HTTPS 프록시를 사용 중인 경우, 웹 사이트는 HTTP URL이 표시됩니다. http://를 https://로 바꿔서 재시도해 보십시오.",
-    "guild_join_welcome_back": "안녕하세요! NamelessMC 봇을 이용해 주셔서 감사합니다. 봇이 이 서버를 위해 이미 설정되었습니다. 만약 다른 API URL을 사용하고 싶다면 디스코드 서버에서 `{command} <api url>`를 통해 새 URL을 설정하세요.",
+    "guild_join_welcome_back": "안녕하세요! NamelessMC 봇을 이용해 주셔서 감사합니다. 봇이 이 서버를 위해 이미 설정되었습니다. 만약 다른 API URL을 사용하고 싶다면 디스코드 서버에서 `{command}`를 통해 새 URL을 설정하세요.",
     "prefix_usage": "사용법: `{command} <서버 ID> <새 접두사>`. `reset` 명령어로 기본 접두사를 사용합니다.",
     "error_website_connection": "사이트에 연결할 수 없습니다.",
     "error_no_permission": "해당 디스코드 서버에서 이 명령어를 실행하려면 관리자 권한이 필요합니다.",
@@ -52,5 +52,8 @@
     "apiurl_option_api": "웹 사이트의 API key (StaffCP > Configuration > API) 입니다.",
     "apiurl_url_local": "API URL에 내부 망 주소가 포함되어 있습니다. 이 주소들은 당신의 네트워크에서만 접근할 수 있습니다. 외부 망 주소를 입력해주세요.",
     "apiurl_unlinked": "이 디스코드 서버와 웹 사이트를 연결 해제했습니다",
-    "updateusername_success": "사용자명이 변경되었습니다"
+    "updateusername_success": "사용자명이 변경되었습니다",
+    "register_option_username": "닉네임",
+    "register_option_email": "이메일 주소",
+    "apiurl_option_apikey": "웹사이트 API 키 (StaffCP > Configuration > API)."
 }
