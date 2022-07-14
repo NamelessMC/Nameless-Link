@@ -47,7 +47,7 @@
     "register_description": "Vytvorte si účet na webe",
     "register_url": "Ak chcete dokončiť registráciu, navštívte túto stránku vo webovom prehliadači: {url}",
     "apiurl_description": "Nakonfigurujte webovú adresu rozhrania API NamelessMC",
-    "apiurl_option_url": "Webová adresa API vašej webstránky (StaffCP > Konfigurácia > API). Ak chcete zrušiť prepojenie, zadajte 'none'.",
+    "apiurl_option_url": "URL adresa API vášho webu (StaffCP > Konfigurácia > API). Zadajte 'none' pre zrušenie prepojenia.",
     "register_option_username": "Používateľské meno",
     "register_option_email": "Emailová adresa",
     "register_email": "Pre dokončenie registrácie skontrolujte svoj e-mail.",
