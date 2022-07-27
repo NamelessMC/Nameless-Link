@@ -72,5 +72,6 @@
     "error_duplicate_discord_integration": "Kan geen nieuw account maken, deze Discord gebruiker is al gekoppeld aan een ander website account.",
     "register_option_username": "Gebruikersnaam",
     "register_option_email": "Email-adres",
-    "apiurl_option_apikey": "Je website zijn API sleutel (StaffCP -> Configuratie -> API)."
+    "apiurl_option_apikey": "Je website zijn API sleutel (StaffCP -> Configuratie -> API).",
+    "verify_already_linked": "Je Discord account is al geconnecteerd aan een verschillend website account."
 }
