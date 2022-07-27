@@ -62,6 +62,9 @@ public class VerifyCommand extends Command {
 				if (apiException.apiError() == ApiError.CORE_INVALID_CODE) {
 					hook.sendMessage(language.get(VERIFY_TOKEN_INVALID)).queue();
 					return;
+				} else if (apiException.apiError() == ApiError.CORE_INTEGRATION_USERNAME_ERROR) {
+					hook.sendMessage(language.get(VERIFY_ALREADY_LINKED)).queue();
+					return;
 				}
 			}
 			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
