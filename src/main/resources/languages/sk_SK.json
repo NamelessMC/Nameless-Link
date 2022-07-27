@@ -53,5 +53,6 @@
     "register_email": "Pre dokončenie registrácie skontrolujte svoj e-mail.",
     "apiurl_unlinked": "Webstránka bola úspešne odpojená od tohto Discord servera",
     "updateusername_success": "Používateľské meno bolo úspešne aktualizované",
-    "apiurl_option_apikey": "API kľúč vášho webu (StaffCP > Konfigurácia > API)."
+    "apiurl_option_apikey": "API kľúč vášho webu (StaffCP > Konfigurácia > API).",
+    "verify_already_linked": "Váš Discord účet je už pripojený k inému účtu na webstránke."
 }
