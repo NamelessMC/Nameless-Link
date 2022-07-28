@@ -76,5 +76,6 @@
     "error_invalid_username": "Zadané uživatelské jméno je neplatné.",
     "register_option_username": "Uživatelské jméno",
     "register_option_email": "E-mailová adresa",
-    "apiurl_option_apikey": "Klíč API vašeho webu (Panel > Konfigurace > API)."
+    "apiurl_option_apikey": "Klíč API vašeho webu (Panel > Konfigurace > API).",
+    "verify_already_linked": "Váš Discord účet je již připojen k jinému účtu na webu."
 }
