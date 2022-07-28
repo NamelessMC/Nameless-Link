@@ -62,5 +62,6 @@
     "register_url": "Um die Registrierung abzuschließen, besuche bitte diese Seite in einem Webbrowser: {url}",
     "register_option_username": "Benutzername",
     "register_option_email": "E-Mail Adresse",
-    "apiurl_option_apikey": "Der API-Schlüssel deiner Website (StaffCP > Konfiguration > API)."
+    "apiurl_option_apikey": "Der API-Schlüssel deiner Website (StaffCP > Konfiguration > API).",
+    "verify_already_linked": "Dein Discord-Account ist bereits mit einem anderen Website-Account verbunden."
 }
