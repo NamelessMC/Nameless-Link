@@ -76,5 +76,6 @@
     "error_invalid_username": "El nombre de usuario proporcionado no es válido.",
     "apiurl_option_apikey": "La clave API de su sitio web (StaffCP > Configuración > API).",
     "register_option_username": "Nombre de usuario",
-    "register_option_email": "Dirección de correo electrónico"
+    "register_option_email": "Dirección de correo electrónico",
+    "verify_already_linked": "Tu cuenta de Discord ya está conectada a otra cuenta del sitio web."
 }
