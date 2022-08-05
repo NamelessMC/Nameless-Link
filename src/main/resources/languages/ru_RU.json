@@ -62,5 +62,6 @@
     "register_url": "Что бы закончить регистрацию, посетите эту страницу в браузере: {url}",
     "register_option_username": "Ник",
     "register_option_email": "Email",
-    "apiurl_option_apikey": "Ваш API ключ сайта (Панель Админа > Конфигурация > API)."
+    "apiurl_option_apikey": "Ваш API ключ сайта (Панель Админа > Конфигурация > API).",
+    "verify_already_linked": "Ваш Discord аккаунт уже привязан к другому аккаунту сайта."
 }
