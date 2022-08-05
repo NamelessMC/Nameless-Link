@@ -3,9 +3,10 @@ package com.namelessmc.bot.commands;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
+import com.namelessmc.java_api.exception.NamelessException;
+import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -87,21 +88,22 @@ public class PingCommand extends Command {
 			final long start = System.currentTimeMillis();
 			logger.info("Making request to info endpoint");
 			final Website info = api.website();
-			final NamelessVersion version = info.parsedVersion();
-			if (version == null) {
+			try {
+				if (!NamelessVersion.isSupportedByJavaApi(info.parsedVersion())) {
+					hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
+					logger.info("Incompatible NamelessMC version");
+					return -1;
+				}
+
+				logger.info("Website connection is working");
+				return System.currentTimeMillis() - start;
+			} catch (UnknownNamelessVersionException e) {
 				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
-				logger.info("Unknown NamelessMC version");
+				Main.logConnectionError(logger, "unknown nameless version", e);
 				return -1;
 			}
 
-			if (!NamelessVersion.isSupportedByJavaApi(info.parsedVersion())) {
-				hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
-				logger.info("Incompatible NamelessMC version");
-				return -1;
-			}
 
-			logger.info("Website connection is working");
-			return System.currentTimeMillis() - start;
 		} catch (final NamelessException e) {
 			hook.sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();
 			hook.sendMessage(language.get(APIURL_FAILED_CONNECTION)).queue();
@@ -111,7 +113,7 @@ public class PingCommand extends Command {
 	}
 
 	public static String supportedVersionsList() {
-		return NamelessVersion.supportedVersions().stream().map(NamelessVersion::internalName).collect(Collectors.joining(", "));
+		return NamelessVersion.supportedVersions().stream().map(NamelessVersion::friendlyName).collect(Collectors.joining(", "));
 	}
 
 }
