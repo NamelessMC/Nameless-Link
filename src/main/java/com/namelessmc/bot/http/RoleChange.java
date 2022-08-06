@@ -60,13 +60,13 @@ public class RoleChange extends HttpHandler {
 			roles = json.getAsJsonArray("roles");
 		} catch (JsonSyntaxException | IllegalArgumentException | ClassCastException e) {
 			response.getWriter().write("badparameter");
-			LOGGER.warn("Received bad role change request from website");
+			LOGGER.warn("Received bad role change request from website: invalid json syntax or missing/invalid guild_id, user_id or api_key");
 			return;
 		}
 
 		if (guildId == 0 || apiKey == null || roles == null) {
 			response.getWriter().write("badparameter");
-			LOGGER.warn("Received bad role change request from website");
+			LOGGER.warn("Received bad role change request from website: zero guild id, null api key, or null roles");
 			return;
 		}
 
@@ -119,7 +119,7 @@ public class RoleChange extends HttpHandler {
 				final String action = roleObject.get("action").getAsString();
 				if (roleId == 0 || action == null) {
 					response.getWriter().write("badparameter");
-					LOGGER.warn("Received bad role change request from website");
+					LOGGER.warn("Received bad role change request from website: missing role id or action");
 					return;
 				}
 				final Role role = guild.getRoleById(roleId);
