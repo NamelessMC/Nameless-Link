@@ -132,12 +132,6 @@ public class Main {
 		initializeConnectionManager();
 
 		try {
-			HttpMain.init();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		try {
 			String token = StorageInitializer.getEnvString("DISCORD_TOKEN", null);
 
 			final JDABuilder builder = JDABuilder.createDefault(token);
@@ -177,6 +171,13 @@ public class Main {
 		}
 
 		LOGGER.info("JDA connected!");
+
+		try {
+			LOGGER.info("Starting web server...");
+			HttpMain.init();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		sendBotSettings();
 
