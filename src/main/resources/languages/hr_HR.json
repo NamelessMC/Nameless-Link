@@ -1,1 +1,22 @@
-{}
+{
+    "error_website_connection": "Nije moguće spojiti se na web stranicu.",
+    "verify_description": "Potvrdite svoj Discord račun povezan s web mjestom",
+    "verify_option_token": "Verifikacijski token",
+    "ping_description": "Testirajte API vezu web-stranice",
+    "error_generic": "Došlo je do unutarnje pogreške .",
+    "error_not_set_up": "Trenutno ne možete koristiti ovu naredbu, bot još nije postavljen.",
+    "error_not_linked": "Ne možete koristiti ovu naredbu jer vaš račun još nije povezan. Idite na postavke računa na web stranici da povežete svoj Discord račun.",
+    "error_website_version": "Vaša web stranica pokreće nekompatibilnu verziju NamelessMC. Vi koristite verziju {version}, dok je bot kompatibilan sa sljedećom verzijom/verzijama: {compatibleVersions}.",
+    "error_invalid_email_address": "Navedena email adresa nije važeća.",
+    "error_duplicate_email_address": "Navedenu adresu e-pošte već koristi drugi račun web stranice.",
+    "error_send_verification_email": "Nije moguće poslati e-poruku za potvrdu.",
+    "error_no_permission": "Za korištenje ove naredbe morate imati 'Administrator' dozvolu na ciljnom Discord serveru.",
+    "error_read_only_storage": "Ova instanca bota je konfigurirana bez baze podataka. Ako želite izmijeniti njegovu konfiguraciju, morate to učiniti ručno (promjenom varijabli okruženja) umjesto putem naredbi.",
+    "error_invalid_username": "Navedeno korisničko ime nije važeće.",
+    "error_duplicate_username": "Navedeno korisničko ime već koristi drugi račun web stranice.",
+    "error_duplicate_discord_integration": "Nije moguće izraditi novi račun, ovaj korisnik Discorda već je povezan s drugim računom web stranice.",
+    "verify_token_invalid": "Potvrda vašeg računa nije uspjela, dali ste nevažeći token.",
+    "verify_success": "Hvala vam na potvrdi, vaš je račun sada povezan.",
+    "verify_already_linked": "Vaš Discord račun već je povezan s drugim računom web stranice.",
+    "ping_working": "Čini se da veza API web stranice radi. Trebalo je {time} ms."
+}
