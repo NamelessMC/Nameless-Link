@@ -59,7 +59,7 @@
     "verify_option_token": "Token de verificación",
     "ping_description": "Probar la conexión de la API del sitio web",
     "apiurl_description": "Configurar la URL de la API del sitio web de NamelessMC",
-    "apiurl_option_url": "La URL de la API de su sitio web (StaffCP > Configuración > API). Especifique 'none' para desvincular.",
+    "apiurl_option_url": "La URL de la API de su web (StaffCP > Configuración > API). Especifique 'none' para desvincular.",
     "apiurl_unlinked": "Se ha desvinculado con éxito el sitio web de este servidor de Discord",
     "updateusername_description": "Actualiza tu nombre de usuario de Discord en el sitio web",
     "updateusername_success": "Nombre de usuario actualizado con éxito",
@@ -74,7 +74,7 @@
     "register_description": "Crear una cuenta en el sitio web",
     "register_email": "Por favor, compruebe su correo electrónico para completar el registro.",
     "error_invalid_username": "El nombre de usuario proporcionado no es válido.",
-    "apiurl_option_apikey": "La clave API de su sitio web (StaffCP > Configuración > API).",
+    "apiurl_option_apikey": "La clave API de su web (StaffCP > Configuración > API).",
     "register_option_username": "Nombre de usuario",
     "register_option_email": "Dirección de correo electrónico",
     "verify_already_linked": "Tu cuenta de Discord ya está conectada a otra cuenta del sitio web."
