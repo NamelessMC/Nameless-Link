@@ -1,7 +1,7 @@
 {
     "apiurl_url_malformed": "O URL da API fornecido está malformado.",
     "apiurl_success": "Seu servidor do Discord foi vinculado com sucesso ao seu site NamelessMC.",
-    "apiurl_url_invalid": "O URL da API fornecido não se parece com um URL da API NamelessMC. Você pode encontrar o URL da API em StaffCP > Configuração > API.",
+    "apiurl_url_invalid": "O URL da API fornecido não se parece com um URL da API NamelessMC. Você pode encontrar o URL da API em StaffCP > Configuração > API. Você inseriu um URL para uma versão mais antiga e sem suporte do NamelessMC?",
     "apiurl_failed_connection": "Não foi possível conectar ao seu site. Por favor, veja a mensagem acima para ver os detalhes.",
     "apiurl_already_used": "Essa URL da API já esta sendo usada em um servidor do Discord, execute `{command}` para desvincular.",
     "commands": "Comandos",
@@ -61,5 +61,6 @@
     "register_option_email": "Endereço de email",
     "error_duplicate_discord_integration": "Não foi possível criar uma nova conta, este usuário do Discord já está vinculado a uma conta em um site diferente.",
     "apiurl_url_local": "A URL da sua API contém um endereço de espaço privado. Esses endereços só podem ser acessados de dentro de sua rede. Por favor, insira um domínio acessível externamente.",
-    "apiurl_option_apikey": "A chave de API do seu site (StaffCP > Configuração > API)."
+    "apiurl_option_apikey": "A chave de API do seu site (StaffCP > Configuração > API).",
+    "verify_already_linked": "Sua conta do Discord já está conectada a uma conta de site diferente."
 }
