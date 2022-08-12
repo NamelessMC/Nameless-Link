@@ -15,7 +15,7 @@
     "verify_success": "確認ありがとうございます、アカウントがリンクされました。",
     "ping_usage": "使い方: `{command} <DiscordサーバID>`",
     "ping_working": "APIウェブサイトの接続は正常に動作しているようです。{time}msかかりました。",
-    "apiurl_url_invalid": "提示されたAPI URLは、NamelessMCのAPI URLのようには見えません。API URLは、StaffCP > 設定 > APIで確認できます。",
+    "apiurl_url_invalid": "提示されたAPI URLは、NamelessMCのAPI URLのようには見えません。API URLは、StaffCP > 設定 > APIで確認できます。サポートされていない古いバージョンのNamelessMCのURLを入力していませんか？",
     "apiurl_usage": "使い方: `{command} <サーバid> <api url>`.",
     "apiurl_success": "Discordサーバーは、NamelessMCウェブサイトとのリンクに成功しました。",
     "apiurl_url_malformed": "提示されたAPI URLが不正な形式です。",
@@ -62,5 +62,6 @@
     "register_url": "ウェブブラウザから次のページへアクセスし、登録を完了させてください: {URL}",
     "register_option_username": "ユーザー名",
     "register_option_email": "メールアドレス",
-    "apiurl_option_apikey": "ウェブサイトのAPIキー（StaffCP > 設定 > API）。"
+    "apiurl_option_apikey": "ウェブサイトのAPIキー（StaffCP > 設定 > API）。",
+    "verify_already_linked": "あなたのDiscordアカウントは、すでに別のウェブサイトアカウントに接続されています。"
 }
