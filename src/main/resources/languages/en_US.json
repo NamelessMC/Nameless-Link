@@ -27,7 +27,7 @@
     "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
     "error_not_set_up": "You cannot use this command at the moment, the bot has not been set up yet.",
     "error_read_only_storage": "This bot instance is configured without a database. If you wish to modify its configuration you must do it manually (by modifying environment variables) instead of through commands.",
-    "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API.",
+    "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API. Did you enter a URL for an older, unsupported NamelessMC version?",
     "error_guild_id_invalid": "The provided Discord server ID is invalid or the bot is not a member of the specified server.",
     "unlink_guild_not_linked": "The provided server is not linked.",
     "error_guild_unknown": "The provided server does not exist or the bot is not a member of the server.",
