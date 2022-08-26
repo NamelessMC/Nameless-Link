@@ -8,7 +8,6 @@ import com.namelessmc.bot.connections.ConnectionCache;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.exception.NamelessException;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -130,7 +129,7 @@ public class URLCommand extends Command {
 
 					DiscordRoleListener.sendRolesAsync(guildId);
 				} catch (final NamelessException e) {
-					hook.sendMessage(new MessageBuilder().appendCodeBlock(Ascii.truncate(e.getMessage(), 1500, "[truncated]"), "txt").build()).queue();
+					hook.sendMessage("```\n" + Ascii.truncate(e.getMessage(), 1500, "[truncated]") + "\n```").queue();
 					hook.sendMessage(language.get(APIURL_FAILED_CONNECTION)).queue();
 					Main.logConnectionError(LOGGER, e);
 				}

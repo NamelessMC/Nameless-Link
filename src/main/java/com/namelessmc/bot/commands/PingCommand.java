@@ -1,5 +1,6 @@
 package com.namelessmc.bot.commands;
 
+import com.google.common.base.Ascii;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
@@ -7,7 +8,6 @@ import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -105,7 +105,7 @@ public class PingCommand extends Command {
 
 
 		} catch (final NamelessException e) {
-			hook.sendMessage(new MessageBuilder().appendCodeBlock(e.getMessage(), "txt").build()).queue();
+			hook.sendMessage("```\n" + Ascii.truncate(e.getMessage(), 1500, "[truncated]") + "\n```").queue();
 			hook.sendMessage(language.get(APIURL_FAILED_CONNECTION)).queue();
 			Main.logConnectionError(logger, "NamelessException during ping", e);
 			return -1;
