@@ -52,7 +52,7 @@
     "register_option_username": "Felhasználónév",
     "register_option_email": "Email cím",
     "apiurl_description": "A NamelessMC weboldal API URL-jének konfigurálása",
-    "apiurl_option_url": "A webhely API URL címe (StaffCP > Konfiguráció > API). A hivatkozás megszüntetéséhez adja meg a \"none\" értéket.",
+    "apiurl_option_url": "A webhely API URL címe. A hivatkozás megszüntetéséhez adja meg a \"none\" értéket.",
     "apiurl_unlinked": "Sikeresen leválasztotta a weboldal linkjét erről a Discord szerverről",
     "apiurl_url_local": "Az API URL-címe egy címet tartalmaz a privát címtartományból. Ezek a címek csak az Ön hálózatából érhetők el. Kérjük, adjon meg egy kívülről elérhető tartományt.",
     "apiurl_option_apikey": "A webhely API-kulcsa (StaffCP > Konfiguráció > API).",

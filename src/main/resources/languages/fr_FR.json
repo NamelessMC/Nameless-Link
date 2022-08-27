@@ -44,7 +44,7 @@
     "register_description": "Créer un compte sur le site web",
     "register_email": "Veuillez vérifier votre courriel pour compléter votre inscription.",
     "register_option_email": "Adresse électronique",
-    "apiurl_option_url": "L'URL de l'API de votre site Web (StaffCP > Configuration > API). Indiquez \"none\" pour annuler le lien.",
+    "apiurl_option_url": "L'URL de l'API de votre site Web. Indiquez \"none\" pour annuler le lien.",
     "error_website_version": "Votre site Web utilise une version de NamelessMC incompatible. Vous utilisez la version {version}, alors que le bot est compatible avec la ou les versions suivantes : {compatibleVersions}.",
     "error_duplicate_discord_integration": "Impossible de créer un nouveau compte, cet utilisateur Discord est déjà lié à un autre compte du site Web.",
     "register_option_username": "Nom d'utilisateur",

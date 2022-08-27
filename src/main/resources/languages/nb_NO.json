@@ -42,7 +42,7 @@
     "verify_success": "Takk for at du verifiserte, kontoen din er nå tilknyttet.",
     "ping_description": "Test API-forbindelse til nettside",
     "apiurl_description": "Konfigurer API-URL-en til NamelessMC-nettsiden",
-    "apiurl_option_url": "API-URL-en til nettsiden din (StaffCP > Konfigurasjon > API). Spesifiser med \"none\" for å fjerne tilknytning.",
+    "apiurl_option_url": "API-URL-en til nettsiden din. Spesifiser med \"none\" for å fjerne tilknytning.",
     "apiurl_unlinked": "Nettsiden er ikke lenger tilknyttet denne Discord-serveren",
     "updateusername_description": "Oppdater Discord-brukernavnet ditt på nettsiden",
     "updateusername_success": "Oppdatering av brukernavn var vellykket"

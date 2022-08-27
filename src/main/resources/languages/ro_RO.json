@@ -25,7 +25,7 @@
     "register_email": "Vă rugăm să vă verificați e-mailul pentru a finaliza înregistrarea.",
     "register_option_username": "Nume de utilizator",
     "register_option_email": "Adresă de e-mail",
-    "apiurl_option_url": "Adresa URL a API-ului site-ului dvs. (Panou de Control > Configurare > API). Tastați 'none' pentru a deconecta.",
+    "apiurl_option_url": "Adresa URL a API-ului site-ului dvs. Tastați 'none' pentru a deconecta.",
     "apiurl_success": "Server-ul dvs. de Discord a fost conectat cu succes la site-ul web NamelessMC.",
     "apiurl_unlinked": "Site-ul dvs. a fost deconectat cu succes de la acest server de Discord",
     "updateusername_description": "Actualizați-vă numele de utilizator de Discord pe site-ul web",

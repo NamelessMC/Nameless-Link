@@ -22,7 +22,7 @@
     "register_email": "Ju lutemi kontrolloni emailin tuaj për të përfunduar regjistrimin.",
     "apiurl_description": "Konfiguro URL-në e API-së së uebsajtit të NamelessMC",
     "register_url": "Për të përfunduar regjistrimin, ju lutemi vizitoni këtë faqe në një shfletues uebi: {url}",
-    "apiurl_option_url": "URL-ja e API-së së faqes suaj të internetit (StaffCP > Konfigurimi > API). Specifikoni 'asnjë' për ta shkëputur.",
+    "apiurl_option_url": "URL-ja e API-së së faqes suaj të internetit. Specifikoni 'asnjë' për ta shkëputur.",
     "apiurl_success": "Serveri juaj Discord është lidhur me sukses me faqen tuaj të internetit NamelessMC.",
     "apiurl_url_local": "URL-ja juaj e API-së përmban një adresë nga hapësira private e adresave. Këto adresa janë të arritshme vetëm nga brenda rrjetit tuaj. Fut një domen të arritshëm nga jashtë.",
     "register_option_username": "Emri i përdoruesit",
