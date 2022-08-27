@@ -35,7 +35,7 @@
     "guild_join_welcome_back": "Përshëndetje! Faleminderit që përdorni Bot NamelessMC. Bot është konfiguruar tashmë për serverin tuaj Discord. Nëse dëshironi të përdorni një URL të ndryshme API, mund ta ndryshoni atë duke përdorur `{command}` (ekzekutoni këtë në serverin tuaj Discord).",
     "updateusername_description": "Përditësoni emrin tuaj të përdoruesit Discord në faqen e internetit",
     "updateusername_success": "Emri i përdoruesit u përditësua me sukses",
-    "apiurl_url_invalid": "URL-ja e dhënë API nuk duket si një URL e API-së NamelessMC. URL-në e API-së mund ta gjeni te StaffCP > Konfigurimi > API.",
+    "apiurl_url_invalid": "URL-ja e dhënë API nuk duket si një URL e API-së NamelessMC. URL-në e API-së mund ta gjeni te StaffCP > Konfigurimi > API. A vure",
     "apiurl_unlinked": "U shkëput me sukses faqen e internetit nga ky server Discord",
     "guild_join_success": "Përshëndetje! Faleminderit që përdorni Bot NamelessMC. Për të filluar, ekzekutoni \"{command}\" në serverin tuaj Discord. URL-ja e API-së mund të gjendet në 'StaffCP > Konfigurimi > API'.",
     "guild_join_needs_renew": "Përshëndetje! Faleminderit që përdorni Bot NamelessMC. Duket sikur e keni vendosur tashmë URL-në tuaj të API-së, por ajo nuk është më funksionale. Ju lutemi vendosni një të re duke përdorur `{command}` (ekzekutoni këtë në serverin tuaj Discord). URL-ja e API-së mund të gjendet në 'StaffCP > Konfigurimi > API'.",
