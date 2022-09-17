@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLHandshakeException;
-import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -78,7 +77,7 @@ public class Main {
 	public static int getWebserverPort() { return webserverPort; }
 
 	/**
-	 * When true, try to detect local addresses and display a user friendly warning. This setting will not block
+	 * When true, try to detect local addresses and display a user-friendly warning. This setting will not block
 	 * private addresses perfectly, do not rely on it for security!
 	 */
 	private static boolean localAllowed;
@@ -131,30 +130,25 @@ public class Main {
 
 		initializeConnectionManager();
 
-		try {
-			String token = StorageInitializer.getEnvString("DISCORD_TOKEN", null);
+		String token = StorageInitializer.getEnvString("DISCORD_TOKEN", null);
 
-			final JDABuilder builder = JDABuilder.createDefault(token);
+		final JDABuilder builder = JDABuilder.createDefault(token);
 
-			builder.addEventListeners(new GuildJoinHandler())
-					.addEventListeners(new CommandListener())
-					.addEventListeners(new DiscordRoleListener());
+		builder.addEventListeners(new GuildJoinHandler())
+				.addEventListeners(new CommandListener())
+				.addEventListeners(new DiscordRoleListener());
 
-			builder.enableIntents(GatewayIntent.DIRECT_MESSAGES);
+		builder.enableIntents(GatewayIntent.DIRECT_MESSAGES);
 
-			if (System.getenv("DISABLE_MEMBERS_INTENT") == null) {
-				builder.enableIntents(GatewayIntent.GUILD_MEMBERS)
-						.setMemberCachePolicy(MemberCachePolicy.ALL);
-			}
+		if (System.getenv("DISABLE_MEMBERS_INTENT") == null) {
+			builder.enableIntents(GatewayIntent.GUILD_MEMBERS)
+					.setMemberCachePolicy(MemberCachePolicy.ALL);
+		}
 
-			jda = new JDA[shards];
-			for (int i = 0; i < shards; i++) {
-				LOGGER.info("Initializing shard {}", i);
-				jda[i] = builder.useSharding(i, shards).build();
-			}
-		} catch (final LoginException e) {
-			e.printStackTrace();
-			return;
+		jda = new JDA[shards];
+		for (int i = 0; i < shards; i++) {
+			LOGGER.info("Initializing shard {}", i);
+			jda[i] = builder.useSharding(i, shards).build();
 		}
 
 		LOGGER.info("Waiting for JDA to connect, this can take a long time (30+ seconds is not unusual)...");
