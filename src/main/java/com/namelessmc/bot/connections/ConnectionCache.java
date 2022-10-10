@@ -1,6 +1,5 @@
 package com.namelessmc.bot.connections;
 
-import com.google.common.base.Objects;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -11,33 +10,7 @@ import java.util.Map;
 
 public class ConnectionCache {
 
-	// TODO convert to record when maven shape plugin supports it
-	private static class CacheKey {
-
-		private final @NonNull URL apiUrl;
-		private final @NonNull String apiKey;
-
-		CacheKey(final @NonNull URL apiUrl, final @NonNull String apiKey) {
-			this.apiKey = apiKey;
-			this.apiUrl = apiUrl;
-		}
-
-		@Override
-		public boolean equals(Object other) {
-			if (other instanceof CacheKey otherKey) {
-				return this.apiUrl.equals(otherKey.apiUrl) &&
-						this.apiKey.equals(otherKey.apiKey);
-			}
-
-			return false;
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hashCode(this.apiKey, this.apiUrl);
-		}
-
-	}
+	private record CacheKey(@NonNull URL apiUrl, @NonNull String apiKey) {}
 
 	private static final Map<CacheKey, NamelessAPI> API_CACHE = new HashMap<>();
 
