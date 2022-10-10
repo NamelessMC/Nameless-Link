@@ -1,7 +1,7 @@
 package com.namelessmc.bot.connections;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +46,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 					"postgres", POSTGRES
 			);
 
-	public static StorageInitializer<? extends ConnectionManager> getByName(final @NotNull String name) {
+	public static StorageInitializer<? extends ConnectionManager> getByName(final @NonNull String name) {
 		return BY_STRING.get(name);
 	}
 
@@ -54,7 +54,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		return BY_STRING.keySet().toArray(String[]::new);
 	}
 
-	public static String getEnvString(final @NotNull String name, final @Nullable String def) {
+	public static String getEnvString(final @NonNull String name, final @Nullable String def) {
 		final String env = System.getenv(name);
 		if (env != null) {
 			return env;
@@ -69,11 +69,11 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		}
 	}
 
-	private static String getEnvString(final @NotNull String name) {
+	private static String getEnvString(final @NonNull String name) {
 		return getEnvString(name, null);
 	}
 
-	public static long getEnvLong(final @NotNull String name, final @Nullable Long def) {
+	public static long getEnvLong(final @NonNull String name, final @Nullable Long def) {
 		final String env = System.getenv(name);
 		if (env != null) {
 			try {
@@ -94,7 +94,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		}
 	}
 
-	public static URL getEnvUrl(final @NotNull String name) {
+	public static URL getEnvUrl(final @NonNull String name) {
 		final String str = getEnvString(name, null);
 		if (str == null) {
 			LOGGER.error("Environment variable {} not defined", name);
@@ -113,11 +113,11 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		}
 	}
 
-	private static long getEnvLong(final @NotNull String name) {
+	private static long getEnvLong(final @NonNull String name) {
 		return getEnvLong(name, null);
 	}
 
-	private static void envMissing(final @NotNull String name) {
+	private static void envMissing(final @NonNull String name) {
 		LOGGER.error("Environment variable '{}' required but not specified", name);
 		System.exit(1);
 	}

@@ -1,7 +1,7 @@
 package com.namelessmc.bot.connections;
 
 import com.namelessmc.java_api.NamelessAPI;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,17 +146,17 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public @NotNull List<@NotNull NamelessAPI> listConnections() throws BackendStorageException {
+	public @NonNull List<@NonNull NamelessAPI> listConnections() throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url, api_key FROM connections", null);
 	}
 
 	@Override
-	public @NotNull List<@NotNull NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
+	public @NonNull List<@NonNull NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use > ?", time);
 	}
 
 	@Override
-	public @NotNull List<@NotNull NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+	public @NonNull List<@NonNull NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use < ?", time);
 	}
 
@@ -178,7 +178,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public Optional<Long> getGuildIdByApiUrl(final @NotNull URL apiUrl) throws BackendStorageException {
+	public Optional<Long> getGuildIdByApiUrl(final @NonNull URL apiUrl) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			long guildId;
 			try (PreparedStatement statement = connection

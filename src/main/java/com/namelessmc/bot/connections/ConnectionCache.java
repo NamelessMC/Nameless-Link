@@ -3,7 +3,7 @@ package com.namelessmc.bot.connections;
 import com.google.common.base.Objects;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -14,10 +14,10 @@ public class ConnectionCache {
 	// TODO convert to record when maven shape plugin supports it
 	private static class CacheKey {
 
-		private final @NotNull URL apiUrl;
-		private final @NotNull String apiKey;
+		private final @NonNull URL apiUrl;
+		private final @NonNull String apiKey;
 
-		CacheKey(final @NotNull URL apiUrl, final @NotNull String apiKey) {
+		CacheKey(final @NonNull URL apiUrl, final @NonNull String apiKey) {
 			this.apiKey = apiKey;
 			this.apiUrl = apiUrl;
 		}
@@ -41,7 +41,7 @@ public class ConnectionCache {
 
 	private static final Map<CacheKey, NamelessAPI> API_CACHE = new HashMap<>();
 
-	public static NamelessAPI getApiConnection(final @NotNull URL apiUrl, final @NotNull String apiKey) {
+	public static NamelessAPI getApiConnection(final @NonNull URL apiUrl, final @NonNull String apiKey) {
 		final CacheKey cacheKey = new CacheKey(apiUrl, apiKey);
 		synchronized (API_CACHE) {
 			return API_CACHE.computeIfAbsent(cacheKey, x ->

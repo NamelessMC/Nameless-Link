@@ -1,7 +1,7 @@
 package com.namelessmc.bot.connections;
 
 import com.namelessmc.java_api.NamelessAPI;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.net.URL;
 import java.util.List;
@@ -21,11 +21,11 @@ public abstract class ConnectionManager {
 
 	public abstract int countConnections() throws BackendStorageException;
 
-	public abstract @NotNull List<@NotNull NamelessAPI> listConnections() throws BackendStorageException;
+	public abstract @NonNull List<@NonNull NamelessAPI> listConnections() throws BackendStorageException;
 
-	public abstract @NotNull List<@NotNull NamelessAPI> listConnectionsUsedBefore(long time) throws BackendStorageException;
+	public abstract @NonNull List<@NonNull NamelessAPI> listConnectionsUsedBefore(long time) throws BackendStorageException;
 
-	public abstract @NotNull List<@NotNull NamelessAPI> listConnectionsUsedSince(long time) throws BackendStorageException;
+	public abstract @NonNull List<@NonNull NamelessAPI> listConnectionsUsedSince(long time) throws BackendStorageException;
 
 	public abstract Optional<Long> getLastUsed(long guildId) throws BackendStorageException;
 

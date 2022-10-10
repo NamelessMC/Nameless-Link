@@ -25,8 +25,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,10 +68,10 @@ public class Main {
 	public static ConnectionManager getConnectionManager() { return connectionManager; }
 
 	private static URL botUrl;
-	public static @NotNull URL getBotUrl() { return Objects.requireNonNull(botUrl); }
+	public static @NonNull URL getBotUrl() { return Objects.requireNonNull(botUrl); }
 
 	private static String webserverInterface;
-	public static @NotNull String getWebserverInterface() { return Objects.requireNonNull(webserverInterface); }
+	public static @NonNull String getWebserverInterface() { return Objects.requireNonNull(webserverInterface); }
 
 	private static int webserverPort;
 	public static int getWebserverPort() { return webserverPort; }

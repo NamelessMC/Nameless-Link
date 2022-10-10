@@ -3,8 +3,8 @@ package com.namelessmc.bot.commands;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
-import com.namelessmc.java_api.exception.*;
 import com.namelessmc.java_api.integrations.DiscordIntegrationData;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import net.dv8tion.jda.api.entities.Guild;
@@ -13,8 +13,8 @@ import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.internal.interactions.CommandDataImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,10 +38,10 @@ public class RegisterCommand extends Command {
 	}
 
 	@Override
-	public void execute(final @NotNull SlashCommandInteractionEvent event,
-						final @NotNull InteractionHook hook,
-						final @NotNull Language language,
-						final @NotNull Guild guild,
+	public void execute(final @NonNull SlashCommandInteractionEvent event,
+						final @NonNull InteractionHook hook,
+						final @NonNull Language language,
+						final @NonNull Guild guild,
 						final @Nullable NamelessAPI api) {
 		final String username = event.getOption("username").getAsString();
 		final String email = event.getOption("email").getAsString();

@@ -1,7 +1,7 @@
 package com.namelessmc.bot.connections;
 
 import com.namelessmc.java_api.NamelessAPI;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.net.URL;
 import java.util.Collections;
@@ -35,7 +35,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public void createConnection(final long guildId, final @NotNull URL apiUrl, final @NotNull String apiKey) throws BackendStorageException {
+	public void createConnection(final long guildId, final @NonNull URL apiUrl, final @NonNull String apiKey) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 
@@ -55,28 +55,28 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public @NotNull List<@NotNull NamelessAPI> listConnections() {
+	public @NonNull List<@NonNull NamelessAPI> listConnections() {
 		// Optional should always be present, this method should never throw an exception here
 		return Collections.singletonList(this.api);
 	}
 
 	@Override
-	public boolean updateConnection(final long guildId, final @NotNull URL apiUrl, final @NotNull String apiKey) throws BackendStorageException {
+	public boolean updateConnection(final long guildId, final @NonNull URL apiUrl, final @NonNull String apiKey) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 
 	@Override
-	public @NotNull List<@NotNull NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+	public @NonNull List<@NonNull NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 
 	@Override
-	public @NotNull List<@NotNull NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
+	public @NonNull List<@NonNull NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 
 	@Override
-	public @NotNull Optional<@NotNull Long> getGuildIdByApiUrl(final @NotNull URL apiUrl) throws BackendStorageException {
+	public @NonNull Optional<@NonNull Long> getGuildIdByApiUrl(final @NonNull URL apiUrl) throws BackendStorageException {
 		return this.api.apiUrl().equals(apiUrl) ? Optional.of(this.guildId) : Optional.empty();
 	}
 

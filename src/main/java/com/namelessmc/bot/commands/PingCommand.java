@@ -13,8 +13,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.internal.interactions.CommandDataImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,10 +37,10 @@ public class PingCommand extends Command {
 	}
 
 	@Override
-	public void execute(final @NotNull SlashCommandInteractionEvent event,
-						final @NotNull InteractionHook hook,
-						final @NotNull Language language,
-						final @NotNull Guild guild,
+	public void execute(final @NonNull SlashCommandInteractionEvent event,
+						final @NonNull InteractionHook hook,
+						final @NonNull Language language,
+						final @NonNull Guild guild,
 						final @Nullable NamelessAPI api) {
 		Main.canModifySettings(event.getUser(), guild, (canModifySettings) -> {
 			if (!canModifySettings) {
