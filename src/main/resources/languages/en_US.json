@@ -68,5 +68,6 @@
     "register_option_email": "Email address",
     "apiurl_option_apikey": "Your website's API key (StaffCP > Configuration > API).",
     "register_option_username": "Username",
-    "apiurl_url_local": "Your API URL contains an address from the private address space. These addresses are only reachable from within your network. Please enter an externally reachable domain."
+    "apiurl_url_local": "Your API URL contains an address from the private address space. These addresses are only reachable from within your network. Please enter an externally reachable domain.",
+    "verify_already_linked": "Your Discord account is already connected to a different website account."
 }
