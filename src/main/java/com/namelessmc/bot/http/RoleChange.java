@@ -47,6 +47,13 @@ public class RoleChange extends HttpHandler {
 
 		response.setContentType("text/plain");
 
+		// Due to a NamelessMC bug, the bot is being flooded with role change requests
+		// Don't waste our resources trying to process them
+		if (System.getenv("OFFICIAL_BOT") != null) {
+			response.getWriter().write("fullsuccess");
+			return;
+		}
+
 		final JsonObject json;
 		final long guildId;
 		final long userId;
