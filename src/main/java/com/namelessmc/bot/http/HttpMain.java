@@ -14,6 +14,7 @@ public class HttpMain {
 		NetworkListener listener = new NetworkListener("Listener", Main.getWebserverInterface(), Main.getWebserverPort());
 		server.addListener(listener);
 		ServerConfiguration config = server.getServerConfiguration();
+		config.addHttpHandler(new ApplyRoleChanges(), "/applyRoleChanges");
 		config.addHttpHandler(new ConnectionTest(), "/status");
 		config.addHttpHandler(new RoleChange(), "/roleChange");
 		config.addHttpHandler(new Root());
