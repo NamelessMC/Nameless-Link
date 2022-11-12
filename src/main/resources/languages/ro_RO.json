@@ -12,7 +12,7 @@
     "verify_option_token": "Token de verificare",
     "apiurl_description": "Configurați URL-ul API al site-ului web NamelessMC",
     "ping_description": "Testază conexiunea API a site-ului web",
-    "apiurl_url_invalid": "Adresa URL pentru API furnizată nu arată ca o adresă URL API NamelessMC. Puteți găsi adresa URL a API-ului în 'Panou de Control > Configurare > API'.",
+    "apiurl_url_invalid": "Adresa URL pentru API furnizată nu arată ca o adresă URL API NamelessMC. Puteți găsi adresa URL a API-ului în 'Panou de Control > Configurare > API'. Ați introdus o adresă URL pentru o versiune mai veche, neacceptată de NamelessMC?",
     "apiurl_url_malformed": "Adresa URL a API-ului furnizat este incorectă.",
     "apiurl_failed_connection": "Nu am reușit să ne conectăm la site-ul dvs. Vă rugăm să consultați mesajul de mai sus pentru detalii.",
     "apiurl_already_used": "Această adresă de URL a API-ului este deja utilizată de un server de Discord, executați '{command}' în serverul de Discord legat pentru a deconecta.",
@@ -39,5 +39,6 @@
     "guild_join_success": "Salut! Vă mulțumim pentru că utilizați bot-ul NamelessMC. Pentru a începe, executați `{command}` in server-ul de Discord. Adresa URL a API-ului poate fi gasită in `Panou de Control > Configurare > API`.",
     "guild_join_needs_renew": "Salut! Vă mulțumim că folosiți bot-ul NamelessMC. Se pare că adresa URL a API-ului a fost deja configurată, dar nu mai este funcțională. Vă rugăm sa configurați din nou folosind `{command}` (Executați această comandă în server-ul de Discord). Adresa URL a API-ului poate fi găsită în `Panou de Control > Configurare > API`.",
     "guild_join_welcome_back": "Salut! Vă mulțumim că folosiți bot-ul NamelessMC. Bot-ul a fost deja configurat pentru acest server de Discord. Daca doriți să folosiți o altă adresă URL pentru API, o puteți modifica folosind `{command}` (Executați această comandă în server-ul de Discord).",
-    "apiurl_option_apikey": "Cheia API a site-ului dvs. (Panou de Control > Configurare > API)."
+    "apiurl_option_apikey": "Cheia API a site-ului dvs. (Panou de Control > Configurare > API).",
+    "verify_already_linked": "Contul dvs. Discord este deja conectat la un alt cont de site web."
 }
