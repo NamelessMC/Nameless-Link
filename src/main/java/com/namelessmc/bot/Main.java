@@ -61,7 +61,7 @@ public class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Core");
 
-	private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(10);
+	private static ScheduledExecutorService executorService;
 	public static ScheduledExecutorService getExecutorService() { return executorService; }
 
 	private static ConnectionManager connectionManager;
@@ -91,6 +91,13 @@ public class Main {
 
 	public static void main(final String[] args) throws BackendStorageException, NamelessException {
 		LOGGER.info("Starting Nameless Link version {}", Main.class.getPackage().getImplementationVersion());
+
+		int poolSize = 5;
+		if (System.getenv("THREAD_POOL_SIZE") != null) {
+			poolSize = Integer.parseInt(System.getenv("THREAD_POOL_SIZE"));
+			LOGGER.info("Configured thread pool with {} threads", poolSize);
+		}
+		executorService = Executors.newScheduledThreadPool(poolSize);
 
 		botUrl = StorageInitializer.getEnvUrl("BOT_URL");
 
