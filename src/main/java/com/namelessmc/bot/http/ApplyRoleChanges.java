@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class ApplyRoleChanges extends HttpHandler {
@@ -121,17 +122,17 @@ public class ApplyRoleChanges extends HttpHandler {
             return;
         }
 
-        JsonArray roleResponses = new JsonArray(roles.size());
+        final JsonArray roleResponses = new JsonArray(roles.size());
 
-        for (JsonElement roleElem : roles) {
-            JsonObject roleObj = roleElem.getAsJsonObject();
+        for (final JsonElement roleElem : roles) {
+            final JsonObject roleObj = roleElem.getAsJsonObject();
 
-            long userId = Long.parseLong(roleObj.get("user_id").getAsString());
-            long roleId = Long.parseLong(roleObj.get("role_id").getAsString());
-            String action = roleObj.get("action").getAsString();
+            final long userId = Long.parseLong(roleObj.get("user_id").getAsString());
+            final long roleId = Long.parseLong(roleObj.get("role_id").getAsString());
+            final String action = roleObj.get("action").getAsString();
 
-            Member member = guild.getMemberById(userId);
-            Role role = guild.getRoleById(roleId);
+            final Member member = guild.getMemberById(userId);
+            final Role role = guild.getRoleById(roleId);
 
             String status;
             if (member == null) {
@@ -139,29 +140,40 @@ public class ApplyRoleChanges extends HttpHandler {
             } else if (role == null) {
                 status = "invalid_role";
             } else {
+                final List<Role> currentRoles = member.getRoles();
                 try {
-                if (action.equals("add")) {
-                    LOGGER.info("Adding role '{}' to member '{}'", role.getName(), member.getUser().getAsTag());
-                    status = "added";
-                    guild.addRoleToMember(member, role).complete();
-                } else if (action.equals("remove")) {
-                    LOGGER.info("Removing role '{}' from member '{}'", role.getName(), member.getUser().getAsTag());
-                    status = "removed";
-                    guild.removeRoleFromMember(member, role).complete();
-                } else {
-                    response.setStatus(HttpStatus.BAD_REQUEST_400);
-                    responseJson.addProperty("status", "bad_request");
-                    responseJson.addProperty("meta", "invalid role change action: " + action);
-                    sendJsonResponse(responseJson, response);
-                    return;
-                }
+                    if (action.equals("add")) {
+                        if (currentRoles.contains(role)) {
+                            status = "none";
+                            LOGGER.info("Member '{}' already has role '{}'", member.getUser().getAsTag(), role.getName());
+                        } else {
+                            LOGGER.info("Adding role '{}' to member '{}'", role.getName(), member.getUser().getAsTag());
+                            status = "added";
+                            guild.addRoleToMember(member, role).complete();
+                        }
+                    } else if (action.equals("remove")) {
+                        if (!currentRoles.contains(role)) {
+                            status = "none";
+                            LOGGER.info("Member '{}' already doesn't have role '{}'", member.getUser().getAsTag(), role.getName());
+                        } else {
+                            LOGGER.info("Removing role '{}' from member '{}'", role.getName(), member.getUser().getAsTag());
+                            status = "removed";
+                            guild.removeRoleFromMember(member, role).complete();
+                        }
+                    } else {
+                        response.setStatus(HttpStatus.BAD_REQUEST_400);
+                        responseJson.addProperty("status", "bad_request");
+                        responseJson.addProperty("meta", "invalid role change action: " + action);
+                        sendJsonResponse(responseJson, response);
+                        return;
+                    }
                 } catch (final HierarchyException | InsufficientPermissionException e2) {
                     LOGGER.warn("Cannot process role change: {}", e2.getClass().getSimpleName());
                     status = "no_permission";
                 }
             }
 
-            JsonObject roleResponse = new JsonObject();
+            final JsonObject roleResponse = new JsonObject();
             roleResponse.addProperty("status", status);
             roleResponse.addProperty("user_id", String.valueOf(userId));
             roleResponse.addProperty("role_id", String.valueOf(roleId));
