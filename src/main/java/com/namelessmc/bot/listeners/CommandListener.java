@@ -30,7 +30,7 @@ public class 		CommandListener extends ListenerAdapter {
 			return;
 		}
 
-		final String path = event.getCommandPath();
+		final String path = event.getFullCommandName();
 		final Command command = Command.getCommand(path);
 
 		Guild guild = event.getGuild();
