@@ -91,14 +91,6 @@ public class URLCommand extends Command {
 			}
 
 			try {
-				final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByApiUrl(apiUrl);
-
-				if (optExistingGuildId.isPresent() && optExistingGuildId.get() != guildId) {
-					hook.sendMessage(language.get(APIURL_ALREADY_USED, "command", "/apiurl none none")).queue();
-					LOGGER.info("API URL already used");
-					return;
-				}
-
 				LOGGER.info("Checking if API URL works...");
 
 				NamelessAPI api = ConnectionCache.getApiConnection(apiUrl, apiKey);
@@ -106,6 +98,15 @@ public class URLCommand extends Command {
 
 				if (ping == -1) {
 					// it didn't work, the checkConnection method already send an error message
+					return;
+				}
+
+				final Optional<Long> optExistingGuildId = Main.getConnectionManager().getGuildIdByApiUrl(apiUrl);
+
+				if (optExistingGuildId.isPresent() && optExistingGuildId.get() != guildId) {
+					// We can safely do this, since we have just verified the user knows the secret API key.
+					LOGGER.info("URL was already linked to a different guild. It will be unlinked.");
+					Main.getConnectionManager().removeConnection(optExistingGuildId.get());
 					return;
 				}
 
