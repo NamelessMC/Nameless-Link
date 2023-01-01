@@ -54,7 +54,7 @@ public class PingCommand extends Command {
 			}
 
 			long ping = checkConnection(api, LOGGER, language, event.getHook());
-			if (ping > 0) {
+			if (ping >= 0) {
 				hook.sendMessage(language.get(PING_WORKING, "time", ping)).queue();
 			}
 		});
