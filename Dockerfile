@@ -4,6 +4,6 @@ COPY target/Nameless-Link.jar /app.jar
 
 ENV WEBSERVER_PORT 80
 ENV WEBSERVER_BIND 0.0.0.0
-ENV XMX 128M
+ENV JAVA_TOOL_OPTIONS -Xmx256M
 
-CMD ["sh", "-c", "java -jar -Xmx${XMX} /app.jar"]
+CMD ["java", "-jar", "/app.jar"]
