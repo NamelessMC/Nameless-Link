@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.internal.interactions.CommandDataImpl;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class UpdateUsernameCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(final Language language) {
-		return new CommandDataImpl(this.name, language.get(UPDATEUSERNAME_DESCRIPTION));
+		return Commands.slash(this.name, language.get(UPDATEUSERNAME_DESCRIPTION));
 	}
 
 	@Override

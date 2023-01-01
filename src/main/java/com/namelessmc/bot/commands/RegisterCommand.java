@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.internal.interactions.CommandDataImpl;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class RegisterCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(Language language) {
-		return new CommandDataImpl(this.name, language.get(REGISTER_DESCRIPTION))
+		return Commands.slash(this.name, language.get(REGISTER_DESCRIPTION))
 				.addOption(OptionType.STRING, "username", language.get(REGISTER_OPTION_USERNAME), true)
 				.addOption(OptionType.STRING, "email", language.get(REGISTER_OPTION_EMAIL), true);
 	}
