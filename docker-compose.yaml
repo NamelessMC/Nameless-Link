@@ -6,7 +6,7 @@ version: '3'
 services:
 
   postgres:
-    build: postgres-docker
+    image: postgres:15-bullseye
     volumes: ['/opt/nameless-link:/var/lib/postgresql/data']
     ports: ['127.0.0.1:27363:5432'] # Exposed for vscode SQLTools
     environment:
