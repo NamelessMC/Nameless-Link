@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.HashMap;
@@ -23,13 +22,14 @@ public abstract class Command {
 
 	public abstract CommandData getCommandData(final Language language);
 
-	public abstract void execute(final @NonNull SlashCommandInteractionEvent event,
-								 final @NonNull InteractionHook hook,
-								 final @NonNull Language language,
-								 final @NonNull Guild guild,
+	public abstract void execute(final SlashCommandInteractionEvent event,
+								 final InteractionHook hook,
+								 final Language language,
+								 final Guild guild,
 								 final @Nullable NamelessAPI api);
 
 	private static final Command[] COMMANDS = {
+			new ConfigureCommand(),
 			new PingCommand(),
 			new RegisterCommand(),
 			new UpdateUsernameCommand(),

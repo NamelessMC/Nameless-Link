@@ -3,12 +3,12 @@ package com.namelessmc.bot.listeners;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.commands.Command;
-import com.namelessmc.bot.commands.PingCommand;
+import com.namelessmc.bot.commands.ConfigureCommand;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
+import com.namelessmc.java_api.exception.NamelessException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -52,18 +52,13 @@ public class GuildJoinHandler extends ListenerAdapter {
 					final NamelessAPI api = optApi.get();
 					final Website info = api.website();
 					final NamelessVersion version = info.parsedVersion();
-					if (version == null) {
-						// API doesn't recognize this version, but we can still display the unparsed name
-						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
-						return;
-					}
 
 					if (NamelessVersion.isSupportedByJavaApi(version)) {
 						// Good to go
 						channel.sendMessage(language.get(GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
 					} else {
 						// Incompatible version
-						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", PingCommand.supportedVersionsList())).queue();
+						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", ConfigureCommand.supportedVersionsList())).queue();
 					}
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url

@@ -30,20 +30,20 @@ public class 		CommandListener extends ListenerAdapter {
 			return;
 		}
 
-		final String path = event.getFullCommandName();
-		final Command command = Command.getCommand(path);
+		final String name = event.getName();
+		final Command command = Command.getCommand(name);
 
 		Guild guild = event.getGuild();
 
 		if (guild == null) {
-			LOGGER.error("I don't know how to handle DM command '/{}'", path);
+			LOGGER.error("I don't know how to handle DM command '/{}'", name);
 			return;
 		}
 
 		if (command == null) {
-			LOGGER.error("Unknown command '/{}'", path);
+			LOGGER.error("Unknown command '/{}'", name);
 		} else {
-			LOGGER.info("User {} ran command /{} in guild {}", event.getUser().getAsTag(), path, guild.getIdLong());
+			LOGGER.info("User {} ran command /{} in guild {}", event.getUser().getAsTag(), name, guild.getIdLong());
 
 			event.deferReply(true).queue(hook -> {
 				Main.getExecutorService().execute(() -> {

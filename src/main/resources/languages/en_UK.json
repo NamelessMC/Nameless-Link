@@ -13,6 +13,8 @@
     "error_send_verification_email": "Unable to send verification email.",
     "error_duplicate_discord_integration": "Cannot create a new account, this Discord user is already linked to a different website account.",
 
+    "configure_description": "Change Nameless-Link settings",
+
     "verify_description": "Verify your Discord account connected to the website",
     "verify_option_token": "Verification token",
     "verify_token_invalid": "Failed to verify your account, you have provided an invalid token.",
