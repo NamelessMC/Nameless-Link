@@ -24,7 +24,7 @@ import static com.namelessmc.bot.Language.Term.*;
 
 public class RegisterCommand extends Command {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("register command");
+	private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCommand.class);
 
 	RegisterCommand() {
 		super("register");

@@ -26,7 +26,7 @@ import java.util.Optional;
 
 public class ApplyRoleChanges extends HttpHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("ApplyRoleChanges endpoint");
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplyRoleChanges.class);
 
     private static boolean timingSafeEquals(final byte[] a, final byte[] b) {
         if (a.length != b.length) {

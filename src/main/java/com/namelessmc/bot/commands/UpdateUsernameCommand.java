@@ -18,7 +18,7 @@ import static com.namelessmc.bot.Language.Term.*;
 
 public class UpdateUsernameCommand extends Command {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Update username command");
+	private static final Logger LOGGER = LoggerFactory.getLogger(UpdateUsernameCommand.class);
 
 	UpdateUsernameCommand() {
 		super("updateusername");

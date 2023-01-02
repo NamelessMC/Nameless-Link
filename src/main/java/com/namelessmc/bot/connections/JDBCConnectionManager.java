@@ -13,7 +13,7 @@ import java.util.*;
 
 public abstract class JDBCConnectionManager extends ConnectionManager {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("JDBC Connection Manager");
+	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCConnectionManager.class);
 
 	public abstract Connection getNewDatabaseConnection() throws SQLException;
 

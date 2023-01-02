@@ -19,7 +19,7 @@ import java.util.Optional;
 
 public class Language {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Translation");
+	private static final Logger LOGGER = LoggerFactory.getLogger(Language.class);
 
 	public enum Term {
 

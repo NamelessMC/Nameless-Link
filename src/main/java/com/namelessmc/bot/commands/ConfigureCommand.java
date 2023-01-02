@@ -34,7 +34,7 @@ import static com.namelessmc.bot.Language.Term.*;
 
 public class ConfigureCommand extends Command {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("Configure command");
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigureCommand.class);
 
     ConfigureCommand() {
         super("configure");

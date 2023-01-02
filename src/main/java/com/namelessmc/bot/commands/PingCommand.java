@@ -9,14 +9,10 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.namelessmc.bot.Language.Term.PING_DESCRIPTION;
 
 public class PingCommand extends Command {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger("Ping command");
 
 	PingCommand() {
 		super("ping");

@@ -27,7 +27,7 @@ import java.util.Optional;
 
 public class RoleChange extends HttpHandler {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("RoleChange endpoint");
+	private static final Logger LOGGER = LoggerFactory.getLogger(RoleChange.class);
 
 	private static boolean timingSafeEquals(final byte[] a, final byte[] b) {
 		if (a.length != b.length) {
@@ -50,6 +50,7 @@ public class RoleChange extends HttpHandler {
 		// Due to a NamelessMC bug, the bot is being flooded with role change requests
 		// Don't waste our resources trying to process them
 		if (System.getenv("OFFICIAL_BOT") != null) {
+			LOGGER.info("Ignoring /roleChange request from {}", request.getRemoteAddr());
 			response.getWriter().write("fullsuccess");
 			return;
 		}

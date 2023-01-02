@@ -22,7 +22,7 @@ import static com.namelessmc.bot.Language.Term.*;
 
 public class GuildJoinHandler extends ListenerAdapter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Guild join listener");
+	private static final Logger LOGGER = LoggerFactory.getLogger(GuildJoinHandler.class);
 	private static final String API_URL_COMMAND = "/apiurl";
 
 	@Override

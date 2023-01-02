@@ -16,7 +16,7 @@ import static com.namelessmc.bot.Language.Term.APIURL_DESCRIPTION;
 
 public class URLCommand extends Command {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("URL command");
+	private static final Logger LOGGER = LoggerFactory.getLogger(URLCommand.class);
 
 	URLCommand() {
 		super("apiurl");

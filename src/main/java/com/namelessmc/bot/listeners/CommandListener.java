@@ -20,7 +20,7 @@ import static com.namelessmc.bot.Language.Term.ERROR_GENERIC;
 
 public class 		CommandListener extends ListenerAdapter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Command handler");
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommandListener.class);
 
 	@Override
 	public void onSlashCommandInteraction(final @NonNull SlashCommandInteractionEvent event) {

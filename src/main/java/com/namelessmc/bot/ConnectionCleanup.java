@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ConnectionCleanup {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Connection cleanup");
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionCleanup.class);
 
 	public static void run() {
 		LOGGER.info("Cleaning up connections...");

@@ -24,7 +24,7 @@ import static com.namelessmc.bot.Language.Term.*;
 
 public class VerifyCommand extends Command {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Verify command");
+	private static final Logger LOGGER = LoggerFactory.getLogger(VerifyCommand.class);
 
 	VerifyCommand() {
 		super("verify");

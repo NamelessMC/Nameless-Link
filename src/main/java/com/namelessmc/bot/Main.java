@@ -122,7 +122,7 @@ public class Main {
 		}
 
 		if (System.getenv("API_DEBUG") != null && Boolean.parseBoolean(System.getenv("API_DEBUG"))) {
-			apiDebugLogger = Slf4jLogger.DEFAULT_INSTANCE;
+			apiDebugLogger = new Slf4jLogger(LoggerFactory.getLogger("nameless-java-api debug"));
 		} else {
 			apiDebugLogger = null;
 		}
