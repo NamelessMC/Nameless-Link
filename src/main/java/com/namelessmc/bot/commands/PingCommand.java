@@ -35,5 +35,5 @@ public class PingCommand extends Command {
 						final @Nullable NamelessAPI api) {
 		hook.sendMessage("This command has been removed, please use '/configure test' instead.").queue();
 	}
-	
+
 }

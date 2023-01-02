@@ -4,19 +4,18 @@ import com.namelessmc.java_api.NamelessAPI;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class StatelessConnectionManager extends ConnectionManager {
 
 	private final long guildId;
+	private final boolean usernameSyncEnabled;
 	private final NamelessAPI api;
 
-	public StatelessConnectionManager(final long guildId, final URL apiUrl, String apiKey) {
+	public StatelessConnectionManager(final long guildId, final URL apiUrl, String apiKey, boolean usernameSyncEnabled) {
 		Objects.requireNonNull(apiUrl, "Api url is null");
 		this.guildId = guildId;
+		this.usernameSyncEnabled = usernameSyncEnabled;
 		this.api = ConnectionCache.getApiConnection(apiUrl, apiKey);
 	}
 
@@ -55,8 +54,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public @NonNull List<@NonNull NamelessAPI> listConnections() {
-		// Optional should always be present, this method should never throw an exception here
+	public List<NamelessAPI> listConnections() {
 		return Collections.singletonList(this.api);
 	}
 
@@ -66,12 +64,25 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public @NonNull List<@NonNull NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+	public List<NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 
 	@Override
-	public @NonNull List<@NonNull NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
+	public List<NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
+		throw new BackendStorageException(new UnsupportedOperationException());
+	}
+
+	@Override
+	public Collection<Long> listGuildsUsernameSyncEnabled() throws BackendStorageException {
+		if (this.usernameSyncEnabled) {
+			return Collections.singletonList(this.guildId);
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	public void setUsernameSyncEnabled(long guildId, boolean usernameSyncEnabled) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 

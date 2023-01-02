@@ -1,5 +1,6 @@
 package com.namelessmc.bot.connections;
 
+import com.namelessmc.bot.util.ThrowingConsumer;
 import com.namelessmc.java_api.NamelessAPI;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
@@ -7,14 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.sql.*;
+import java.util.*;
 
 public abstract class JDBCConnectionManager extends ConnectionManager {
 
@@ -119,12 +114,11 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
-	private List<NamelessAPI> listConnectionsQuery(final String query, final Long optLong) throws BackendStorageException {
+	private List<NamelessAPI> listConnectionsQuery(final String query,
+												   ThrowingConsumer<PreparedStatement, SQLException> optionsSetter) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				if (optLong != null) {
-					statement.setLong(1, optLong);
-				}
+				optionsSetter.accept(statement);
 				final ResultSet result = statement.executeQuery();
 				final List<NamelessAPI> connections = new ArrayList<>();
 				while (result.next()) {
@@ -145,19 +139,46 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
-	@Override
-	public @NonNull List<@NonNull NamelessAPI> listConnections() throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url, api_key FROM connections", null);
+	private Collection<Long> listGuildsQuery(final String query,
+													ThrowingConsumer<PreparedStatement, SQLException> optionsSetter)
+			throws BackendStorageException {
+		try (Connection connection = this.getNewDatabaseConnection()) {
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				optionsSetter.accept(statement);
+				final ResultSet result = statement.executeQuery();
+				final List<Long> connections = new ArrayList<>();
+				while (result.next()) {
+					connections.add(result.getLong(1));
+				}
+				return connections;
+			}
+		} catch (final SQLException e) {
+			throw new BackendStorageException(e);
+		}
 	}
 
 	@Override
-	public @NonNull List<@NonNull NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use > ?", time);
+	public List<NamelessAPI> listConnections() throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url, api_key FROM connections",
+				statement -> {});
 	}
 
 	@Override
-	public @NonNull List<@NonNull NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use < ?", time);
+	public List<NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use > ?",
+				statement -> statement.setLong(1, time));
+	}
+
+	@Override
+	public List<NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use < ?",
+				statement -> statement.setLong(1, time));
+	}
+
+	@Override
+	public Collection<Long> listGuildsUsernameSyncEnabled() throws BackendStorageException {
+		return listGuildsQuery("SELECT guild_id FROM connections WHERE username_sync = TRUE",
+				statement -> {});
 	}
 
 	@Override
@@ -171,6 +192,20 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 					return Optional.empty();
 				}
 				return Optional.of(result.getLong(1));
+			}
+		} catch (final SQLException e) {
+			throw new BackendStorageException(e);
+		}
+	}
+
+	@Override
+	public void setUsernameSyncEnabled(long guildId, boolean usernameSyncEnabled) throws BackendStorageException {
+		try (Connection connection = this.getNewDatabaseConnection()) {
+			try (PreparedStatement statement = connection
+					.prepareStatement("UPDATE connections SET username_sync = ? WHERE guild_id = ?")) {
+				statement.setBoolean(1, usernameSyncEnabled);
+				statement.setLong(2, guildId);
+				statement.executeUpdate();
 			}
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);

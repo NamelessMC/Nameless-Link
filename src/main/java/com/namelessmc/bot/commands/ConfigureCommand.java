@@ -14,6 +14,8 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -223,6 +225,36 @@ public class ConfigureCommand extends Command {
     }
 
     private void changeUsernameSync(SlashCommandInteractionEvent event, InteractionHook hook, Language language) {
+        boolean state = event.getOption("state").getAsBoolean();
+        final String originalNickname = event.getMember().getNickname();
+
+        // Modify nickname to check if permission is working
+        try {
+            event.getMember().modifyNickname("test_permission").complete();
+
+            // Restore original nickname, if the member running the command was not the server owner
+            event.getMember().modifyNickname(originalNickname).queue();
+        } catch (HierarchyException ignored) {
+            // This is expected, changing the nickname of the owner is never allowed.
+        } catch (InsufficientPermissionException e) {
+            hook.sendMessage("Missing permission to change nicknames. Please try kicking and re-inviting the bot to ensure it has the 'Manage Nicknames' permission.").queue();
+            return;
+        }
+
+        try {
+            Main.getConnectionManager().setUsernameSyncEnabled(event.getGuild().getIdLong(), state);
+        } catch (final BackendStorageException e) {
+            hook.sendMessage(language.get(ERROR_GENERIC)).queue();
+            LOGGER.error("storage backend", e);
+            return;
+        }
+
+        if (state) {
+            hook.sendMessage("Username sync has been enabled. Please note that Nameless-Link cannot update nicknames for users with a higher role. You should move the Nameless-Link role to the top in role settings. Nameless-Link will never change the server owner's nickname, since that is not allowed by Discord.").queue();
+        } else {
+            hook.sendMessage("Username sync has been disabled.").queue();
+        }
+
 
     }
 

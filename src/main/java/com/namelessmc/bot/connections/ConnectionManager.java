@@ -1,9 +1,9 @@
 package com.namelessmc.bot.connections;
 
 import com.namelessmc.java_api.NamelessAPI;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,15 +21,19 @@ public abstract class ConnectionManager {
 
 	public abstract int countConnections() throws BackendStorageException;
 
-	public abstract @NonNull List<@NonNull NamelessAPI> listConnections() throws BackendStorageException;
+	public abstract List<NamelessAPI> listConnections() throws BackendStorageException;
 
-	public abstract @NonNull List<@NonNull NamelessAPI> listConnectionsUsedBefore(long time) throws BackendStorageException;
+	public abstract List<NamelessAPI> listConnectionsUsedBefore(long time) throws BackendStorageException;
 
-	public abstract @NonNull List<@NonNull NamelessAPI> listConnectionsUsedSince(long time) throws BackendStorageException;
+	public abstract List<NamelessAPI> listConnectionsUsedSince(long time) throws BackendStorageException;
+
+	public abstract Collection<Long> listGuildsUsernameSyncEnabled() throws BackendStorageException;
 
 	public abstract Optional<Long> getLastUsed(long guildId) throws BackendStorageException;
 
 	public abstract Optional<Long> getGuildIdByApiUrl(URL apiUrl) throws BackendStorageException;
+
+	public abstract void setUsernameSyncEnabled(long guildId, boolean usernameSyncEnabled) throws BackendStorageException;
 
 	public Optional<Long> getGuildIdByApiConnection(NamelessAPI api) throws BackendStorageException {
 		return this.getGuildIdByApiUrl(api.apiUrl());

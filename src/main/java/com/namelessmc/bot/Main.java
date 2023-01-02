@@ -59,7 +59,11 @@ public class Main {
 		return getJda((int) ((guildId >> 22) % getShardCount()));
 	}
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Core");
+	public static Guild getGuildById(final long guildId) {
+		return getJdaForGuild(guildId).getGuildById(guildId);
+	}
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
 	private static ScheduledExecutorService executorService;
 	public static ScheduledExecutorService getExecutorService() { return executorService; }
@@ -139,23 +143,18 @@ public class Main {
 
 		String token = StorageInitializer.getEnvString("DISCORD_TOKEN", null);
 
-		final JDABuilder builder = JDABuilder.createDefault(token);
-
-		builder.addEventListeners(new GuildJoinHandler())
-				.addEventListeners(new CommandListener())
-				.addEventListeners(new DiscordRoleListener());
-
-		builder.enableIntents(GatewayIntent.DIRECT_MESSAGES);
-
-		if (System.getenv("DISABLE_MEMBERS_INTENT") == null) {
-			builder.enableIntents(GatewayIntent.GUILD_MEMBERS)
-					.setMemberCachePolicy(MemberCachePolicy.ALL);
-		}
-
 		jda = new JDA[shards];
 		for (int i = 0; i < shards; i++) {
 			LOGGER.info("Initializing shard {}", i);
-			jda[i] = builder.useSharding(i, shards).build();
+
+			jda[i] = JDABuilder.createDefault(token)
+					.addEventListeners(new GuildJoinHandler())
+					.addEventListeners(new CommandListener())
+					.addEventListeners(new DiscordRoleListener())
+					.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.DIRECT_MESSAGES)
+					.setMemberCachePolicy(MemberCachePolicy.ALL)
+					.useSharding(i, shards)
+					.build();
 		}
 
 		LOGGER.info("Waiting for JDA to connect, this can take a long time (30+ seconds is not unusual)...");
@@ -187,6 +186,8 @@ public class Main {
 					() -> Main.getExecutorService().execute(ConnectionCleanup::run),
 					15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
+
+		Main.getExecutorService().scheduleAtFixedRate(new UsernameSync(), 10, 30, TimeUnit.SECONDS);
 
 		new Metrics();
 	}

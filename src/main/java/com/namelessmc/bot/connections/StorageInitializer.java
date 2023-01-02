@@ -18,7 +18,8 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		final URL apiUrl = getEnvUrl("API_URL");
 		final String apiKey = getEnvString("API_KEY");
 		final long guildId = getEnvLong("GUILD_ID");
-		return new StatelessConnectionManager(guildId, apiUrl, apiKey);
+		final boolean enableUsernameSync = getEnvBoolean("ENABLE_USERNAME_SYNC", false);
+		return new StatelessConnectionManager(guildId, apiUrl, apiKey, enableUsernameSync);
 	});
 
 	public static final StorageInitializer<PostgresConnectionManager> POSTGRES = new StorageInitializer<>(() -> {
@@ -90,6 +91,21 @@ public class StorageInitializer<CM extends ConnectionManager> {
 			} else {
 				envMissing(name);
 				return 0;
+			}
+		}
+	}
+
+	public static boolean getEnvBoolean(final @NonNull String name, final @Nullable Boolean def) {
+		final String env = System.getenv(name);
+		if (env != null) {
+			return Boolean.parseBoolean(env);
+		} else {
+			if (def != null) {
+				LOGGER.info("Environment variable {} not set, using default value {}", name, def);
+				return def;
+			} else {
+				envMissing(name);
+				return false;
 			}
 		}
 	}
