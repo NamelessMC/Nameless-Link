@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +18,7 @@ public class ConnectionCleanup {
 		LOGGER.info("Cleaning up connections...");
 		try {
 			final long someTimeAgo = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(14);
-			final List<NamelessAPI> connections = Main.getConnectionManager().listConnectionsUsedBefore(someTimeAgo);
+			final Collection<NamelessAPI> connections = Main.getConnectionManager().listConnectionsUsedBefore(someTimeAgo);
 
 			if (connections.isEmpty()) {
 				LOGGER.info("No connections to clean up.");

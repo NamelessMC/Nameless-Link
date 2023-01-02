@@ -1,7 +1,6 @@
 package com.namelessmc.bot.connections;
 
 import com.namelessmc.java_api.NamelessAPI;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.net.URL;
 import java.util.*;
@@ -44,17 +43,12 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public Optional<Long> getLastUsed(final long guildId) throws BackendStorageException {
-		throw new BackendStorageException(new UnsupportedOperationException());
-	}
-
-	@Override
 	public int countConnections() {
 		return 1;
 	}
 
 	@Override
-	public List<NamelessAPI> listConnections() {
+	public Collection<NamelessAPI> listConnections() {
 		return Collections.singletonList(this.api);
 	}
 
@@ -64,12 +58,12 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public List<NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+	public Collection<NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 
 	@Override
-	public List<NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
+	public Collection<NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 

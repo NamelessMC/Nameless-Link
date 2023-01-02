@@ -2,13 +2,15 @@ package com.namelessmc.bot.connections;
 
 import com.namelessmc.bot.util.ThrowingConsumer;
 import com.namelessmc.java_api.NamelessAPI;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public abstract class JDBCConnectionManager extends ConnectionManager {
@@ -114,7 +116,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 		}
 	}
 
-	private List<NamelessAPI> listConnectionsQuery(final String query,
+	private Collection<NamelessAPI> listConnectionsQuery(final String query,
 												   ThrowingConsumer<PreparedStatement, SQLException> optionsSetter) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -158,19 +160,19 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public List<NamelessAPI> listConnections() throws BackendStorageException {
+	public Collection<NamelessAPI> listConnections() throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url, api_key FROM connections",
 				statement -> {});
 	}
 
 	@Override
-	public List<NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
+	public Collection<NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use > ?",
 				statement -> statement.setLong(1, time));
 	}
 
 	@Override
-	public List<NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
+	public Collection<NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
 		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use < ?",
 				statement -> statement.setLong(1, time));
 	}
@@ -179,23 +181,6 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	public Collection<Long> listGuildsUsernameSyncEnabled() throws BackendStorageException {
 		return listGuildsQuery("SELECT guild_id FROM connections WHERE username_sync = TRUE",
 				statement -> {});
-	}
-
-	@Override
-	public Optional<Long> getLastUsed(final long guildId) throws BackendStorageException {
-		try (Connection connection = this.getNewDatabaseConnection()) {
-			try (PreparedStatement statement = connection
-					.prepareStatement("SELECT api_url FROM connections WHERE guild_id=?")) {
-				statement.setLong(1, guildId);
-				final ResultSet result = statement.executeQuery();
-				if (!result.next()) {
-					return Optional.empty();
-				}
-				return Optional.of(result.getLong(1));
-			}
-		} catch (final SQLException e) {
-			throw new BackendStorageException(e);
-		}
 	}
 
 	@Override

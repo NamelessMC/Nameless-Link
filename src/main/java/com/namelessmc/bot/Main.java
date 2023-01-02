@@ -36,7 +36,7 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -195,9 +195,9 @@ public class Main {
 		final User user = Main.getJda(0).getSelfUser();
 		final String userTag = user.getAsTag();
 		if (Main.getConnectionManager().isReadOnly()) {
-			List<NamelessAPI> apiConnections = connectionManager.listConnections();
+			final Collection<NamelessAPI> apiConnections = connectionManager.listConnections();
 			Preconditions.checkArgument(apiConnections.size() == 1, "Stateless connection manager should always have 1 connection");
-			final NamelessAPI api = apiConnections.get(0);
+			final NamelessAPI api = apiConnections.iterator().next();
 			final long guildId = connectionManager.getGuildIdByApiConnection(api).orElseThrow();
 			LOGGER.info("Sending bot settings to " + api.apiUrl());
 			api.discord().updateBotSettings(botUrl, guildId, userTag, user.getIdLong());

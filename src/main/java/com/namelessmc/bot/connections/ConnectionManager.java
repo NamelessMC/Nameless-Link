@@ -4,7 +4,6 @@ import com.namelessmc.java_api.NamelessAPI;
 
 import java.net.URL;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 public abstract class ConnectionManager {
@@ -21,15 +20,13 @@ public abstract class ConnectionManager {
 
 	public abstract int countConnections() throws BackendStorageException;
 
-	public abstract List<NamelessAPI> listConnections() throws BackendStorageException;
+	public abstract Collection<NamelessAPI> listConnections() throws BackendStorageException;
 
-	public abstract List<NamelessAPI> listConnectionsUsedBefore(long time) throws BackendStorageException;
+	public abstract Collection<NamelessAPI> listConnectionsUsedBefore(long time) throws BackendStorageException;
 
-	public abstract List<NamelessAPI> listConnectionsUsedSince(long time) throws BackendStorageException;
+	public abstract Collection<NamelessAPI> listConnectionsUsedSince(long time) throws BackendStorageException;
 
 	public abstract Collection<Long> listGuildsUsernameSyncEnabled() throws BackendStorageException;
-
-	public abstract Optional<Long> getLastUsed(long guildId) throws BackendStorageException;
 
 	public abstract Optional<Long> getGuildIdByApiUrl(URL apiUrl) throws BackendStorageException;
 
