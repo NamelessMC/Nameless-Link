@@ -10,11 +10,11 @@ import java.util.Map;
 
 public class ConnectionCache {
 
-	private record CacheKey(@NonNull URL apiUrl, @NonNull String apiKey) {}
+	private record CacheKey(URL apiUrl, String apiKey) {}
 
 	private static final Map<CacheKey, NamelessAPI> API_CACHE = new HashMap<>();
 
-	public static NamelessAPI getApiConnection(final @NonNull URL apiUrl, final @NonNull String apiKey) {
+	public static NamelessAPI getApiConnection(final URL apiUrl, final String apiKey) {
 		final CacheKey cacheKey = new CacheKey(apiUrl, apiKey);
 		synchronized (API_CACHE) {
 			return API_CACHE.computeIfAbsent(cacheKey, x ->

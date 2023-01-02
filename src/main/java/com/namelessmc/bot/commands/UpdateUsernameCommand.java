@@ -30,10 +30,10 @@ public class UpdateUsernameCommand extends Command {
 	}
 
 	@Override
-	public void execute(final @NonNull SlashCommandInteractionEvent event,
-						final @NonNull InteractionHook hook,
-						final @NonNull Language language,
-						final @NonNull Guild guild,
+	public void execute(final SlashCommandInteractionEvent event,
+						final InteractionHook hook,
+						final Language language,
+						final Guild guild,
 						final @Nullable NamelessAPI api) {
 		final long userId = event.getUser().getIdLong();
 		final String userTag = event.getUser().getAsTag();

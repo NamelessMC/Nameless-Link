@@ -24,10 +24,10 @@ public class PingCommand extends Command {
 	}
 
 	@Override
-	public void execute(final @NonNull SlashCommandInteractionEvent event,
-						final @NonNull InteractionHook hook,
-						final @NonNull Language language,
-						final @NonNull Guild guild,
+	public void execute(final SlashCommandInteractionEvent event,
+						final InteractionHook hook,
+						final Language language,
+						final Guild guild,
 						final @Nullable NamelessAPI api) {
 		hook.sendMessage("This command has been removed, please use '/configure test' instead.").queue();
 	}

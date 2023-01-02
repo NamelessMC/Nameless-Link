@@ -34,7 +34,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public void createConnection(final long guildId, final @NonNull URL apiUrl, final @NonNull String apiKey) throws BackendStorageException {
+	public void createConnection(final long guildId, final URL apiUrl, final String apiKey) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 
@@ -59,7 +59,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public boolean updateConnection(final long guildId, final @NonNull URL apiUrl, final @NonNull String apiKey) throws BackendStorageException {
+	public boolean updateConnection(final long guildId, final URL apiUrl, final String apiKey) throws BackendStorageException {
 		throw new BackendStorageException(new UnsupportedOperationException());
 	}
 
@@ -87,7 +87,7 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public @NonNull Optional<@NonNull Long> getGuildIdByApiUrl(final @NonNull URL apiUrl) throws BackendStorageException {
+	public Optional<Long> getGuildIdByApiUrl(final URL apiUrl) throws BackendStorageException {
 		return this.api.apiUrl().equals(apiUrl) ? Optional.of(this.guildId) : Optional.empty();
 	}
 

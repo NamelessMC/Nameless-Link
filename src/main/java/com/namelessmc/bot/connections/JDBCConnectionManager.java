@@ -213,7 +213,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public Optional<Long> getGuildIdByApiUrl(final @NonNull URL apiUrl) throws BackendStorageException {
+	public Optional<Long> getGuildIdByApiUrl(final URL apiUrl) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			long guildId;
 			try (PreparedStatement statement = connection

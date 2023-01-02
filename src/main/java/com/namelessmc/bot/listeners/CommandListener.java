@@ -23,7 +23,7 @@ public class 		CommandListener extends ListenerAdapter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommandListener.class);
 
 	@Override
-	public void onSlashCommandInteraction(final @NonNull SlashCommandInteractionEvent event) {
+	public void onSlashCommandInteraction(final SlashCommandInteractionEvent event) {
 		final User user = event.getUser();
 
 		if (user.isBot()) {

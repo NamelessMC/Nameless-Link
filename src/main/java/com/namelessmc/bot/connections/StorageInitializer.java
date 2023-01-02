@@ -47,7 +47,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 					"postgres", POSTGRES
 			);
 
-	public static StorageInitializer<? extends ConnectionManager> getByName(final @NonNull String name) {
+	public static StorageInitializer<? extends ConnectionManager> getByName(final String name) {
 		return BY_STRING.get(name);
 	}
 
@@ -55,7 +55,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		return BY_STRING.keySet().toArray(String[]::new);
 	}
 
-	public static String getEnvString(final @NonNull String name, final @Nullable String def) {
+	public static String getEnvString(final String name, final @Nullable String def) {
 		final String env = System.getenv(name);
 		if (env != null) {
 			return env;
@@ -70,11 +70,11 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		}
 	}
 
-	private static String getEnvString(final @NonNull String name) {
+	private static String getEnvString(final String name) {
 		return getEnvString(name, null);
 	}
 
-	public static long getEnvLong(final @NonNull String name, final @Nullable Long def) {
+	public static long getEnvLong(final String name, final @Nullable Long def) {
 		final String env = System.getenv(name);
 		if (env != null) {
 			try {
@@ -95,7 +95,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		}
 	}
 
-	public static boolean getEnvBoolean(final @NonNull String name, final @Nullable Boolean def) {
+	public static boolean getEnvBoolean(final String name, final @Nullable Boolean def) {
 		final String env = System.getenv(name);
 		if (env != null) {
 			return Boolean.parseBoolean(env);
@@ -110,7 +110,7 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		}
 	}
 
-	public static URL getEnvUrl(final @NonNull String name) {
+	public static URL getEnvUrl(final String name) {
 		final String str = getEnvString(name, null);
 		if (str == null) {
 			LOGGER.error("Environment variable {} not defined", name);
@@ -129,11 +129,11 @@ public class StorageInitializer<CM extends ConnectionManager> {
 		}
 	}
 
-	private static long getEnvLong(final @NonNull String name) {
+	private static long getEnvLong(final String name) {
 		return getEnvLong(name, null);
 	}
 
-	private static void envMissing(final @NonNull String name) {
+	private static void envMissing(final String name) {
 		LOGGER.error("Environment variable '{}' required but not specified", name);
 		System.exit(1);
 	}
