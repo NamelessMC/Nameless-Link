@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public class UsernameSync implements Runnable {
 
@@ -26,14 +25,12 @@ public class UsernameSync implements Runnable {
             return;
         }
 
-        final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApiConnection(guildId);
+        final NamelessAPI api = Main.getConnectionManager().getApiConnection(guildId);
 
-        if (optApi.isEmpty()) {
+        if (api == null) {
             LOGGER.info("Guild is not linked to website");
             return;
         }
-
-        final NamelessAPI api = optApi.get();
 
         final Collection<Member> members = guild.findMembers(member -> !member.isOwner()).get();
 

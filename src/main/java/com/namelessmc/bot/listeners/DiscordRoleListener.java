@@ -3,8 +3,8 @@ package com.namelessmc.bot.listeners;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.exception.NamelessException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DiscordRoleListener extends ListenerAdapter {
@@ -86,12 +85,14 @@ public class DiscordRoleListener extends ListenerAdapter {
 
 		LOGGER.info("Sending roles for guild {} to website", guild.getIdLong());
 		try {
-			final Optional<NamelessAPI> optApi = Main.getConnectionManager().getApiConnection(guild.getIdLong());
-			if (optApi.isPresent()) {
+			final NamelessAPI api = Main.getConnectionManager().getApiConnection(guild.getIdLong());
+			if (api != null) {
 				final Map<Long, String> roles = guild.getRoles().stream()
 						.filter(r -> !r.getName().equals("@everyone"))
 						.collect(Collectors.toMap(Role::getIdLong, Role::getName));
-				optApi.get().discord().updateRoleList(roles);
+				api.discord().updateRoleList(roles);
+			} else {
+				LOGGER.warn("No API connection");
 			}
 		} catch (final BackendStorageException e) {
 			LOGGER.error("Storage error", e);
@@ -154,7 +155,7 @@ public class DiscordRoleListener extends ListenerAdapter {
 			}
 		}
 
-		Optional<NamelessAPI> api;
+		final NamelessAPI api;
 		try {
 			api = Main.getConnectionManager().getApiConnection(guildId);
 		} catch (final BackendStorageException e) {
@@ -162,14 +163,14 @@ public class DiscordRoleListener extends ListenerAdapter {
 			return;
 		}
 
-		if (api.isEmpty()) {
+		if (api == null) {
 			LOGGER.info("Ignoring role update event for guild={}, guild is not linked.", guildId);
 			return;
 		}
 
 		final NamelessUser user;
 		try {
-			user = api.get().userByDiscordId(userId);
+			user = api.userByDiscordId(userId);
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update for user " + userId + " guild " + guildId + " (getUserByDiscordId)", e);
 			return;

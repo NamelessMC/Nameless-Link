@@ -16,8 +16,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
-
 import static com.namelessmc.bot.Language.Term.*;
 
 public class GuildJoinHandler extends ListenerAdapter {
@@ -33,9 +31,9 @@ public class GuildJoinHandler extends ListenerAdapter {
 		Main.getExecutorService().execute(() -> Command.sendCommands(guild));
 
 		event.getJDA().retrieveUserById(guild.getOwnerIdLong()).flatMap(User::openPrivateChannel).queue(channel -> {
-			Optional<NamelessAPI> optApi;
+			NamelessAPI api;
 			try {
-				optApi = Main.getConnectionManager().getApiConnection(event.getGuild().getIdLong());
+				api = Main.getConnectionManager().getApiConnection(event.getGuild().getIdLong());
 			} catch (final BackendStorageException e) {
 				LOGGER.error("Storage error during guild join", e);
 				return;
@@ -43,13 +41,12 @@ public class GuildJoinHandler extends ListenerAdapter {
 
 			final Language language = Language.getGuildLanguage(guild);
 
-			if (optApi.isEmpty()) {
+			if (api == null) {
 				channel.sendMessage(language.get(GUILD_JOIN_SUCCESS, "command", API_URL_COMMAND))
 						.queue(message -> LOGGER.info("Sent new join message to {} for guild {}",
 								channel.getUser().getName(), event.getGuild().getName()));
 			} else {
 				try {
-					final NamelessAPI api = optApi.get();
 					final Website info = api.website();
 					final NamelessVersion version = info.parsedVersion();
 

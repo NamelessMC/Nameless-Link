@@ -9,12 +9,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 import static com.namelessmc.bot.Language.Term.ERROR_GENERIC;
 
@@ -48,15 +44,14 @@ public class 		CommandListener extends ListenerAdapter {
 			event.deferReply(true).queue(hook -> {
 				Main.getExecutorService().execute(() -> {
 					final Language language = Language.getGuildLanguage(guild);
-					final Optional<NamelessAPI> optApi;
+					final NamelessAPI api;
 					try {
-						optApi = Main.getConnectionManager().getApiConnection(guild.getIdLong());
+						api = Main.getConnectionManager().getApiConnection(guild.getIdLong());
 					} catch (final BackendStorageException e) {
 						event.reply(language.get(ERROR_GENERIC)).setEphemeral(true).queue();
 						LOGGER.error("storage backend", e);
 						return;
 					}
-					final @Nullable NamelessAPI api = optApi.orElse(null);
 					command.execute(event, hook, language, guild, api);
 				});
 			});

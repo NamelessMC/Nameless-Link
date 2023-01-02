@@ -1,6 +1,7 @@
 package com.namelessmc.bot.connections;
 
 import com.namelessmc.java_api.NamelessAPI;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.net.URL;
 import java.util.Collection;
@@ -10,7 +11,7 @@ public abstract class ConnectionManager {
 
 	public abstract boolean isReadOnly();
 
-	public abstract Optional<NamelessAPI> getApiConnection(long guildId) throws BackendStorageException;
+	public abstract @Nullable NamelessAPI getApiConnection(long guildId) throws BackendStorageException;
 
 	public abstract void createConnection(long guildId, URL apiUrl, String apiKey) throws BackendStorageException;
 

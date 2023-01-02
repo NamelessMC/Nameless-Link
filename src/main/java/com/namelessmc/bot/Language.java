@@ -15,7 +15,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Language {
 
@@ -184,7 +183,7 @@ public class Language {
 	}
 
 	public static Language getGuildLanguage(final Guild guild) {
-		final Optional<NamelessAPI> api;
+		final NamelessAPI api;
 		try {
 			api = Main.getConnectionManager().getApiConnection(guild.getIdLong());
 		} catch (final BackendStorageException e) {
@@ -192,9 +191,9 @@ public class Language {
 			return getDefaultLanguage();
 		}
 
-		if (api.isPresent()) {
+		if (api != null) {
 			try {
-				return getLanguage(api.get().website());
+				return getLanguage(api.website());
 			} catch (final NamelessException e) {
 				LOGGER.warn("Cannot retrieve language for guild {}, falling back to default language.", guild.getIdLong());
 				return getDefaultLanguage();

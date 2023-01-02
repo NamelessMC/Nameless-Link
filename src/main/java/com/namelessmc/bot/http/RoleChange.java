@@ -2,11 +2,7 @@ package com.namelessmc.bot.http;
 
 import com.google.common.base.Ascii;
 import com.google.common.base.Preconditions;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
@@ -23,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class RoleChange extends HttpHandler {
 
@@ -78,22 +73,20 @@ public class RoleChange extends HttpHandler {
 			return;
 		}
 
-		Optional<NamelessAPI> optApi;
+		final NamelessAPI api;
 		try {
-			optApi = Main.getConnectionManager().getApiConnection(guildId);
+			api = Main.getConnectionManager().getApiConnection(guildId);
 		} catch (final BackendStorageException e) {
 			response.getWriter().write("error");
 			e.printStackTrace();
 			return;
 		}
 
-		if (optApi.isEmpty()) {
+		if (api == null) {
 			response.getWriter().write("notlinked");
 			LOGGER.warn("Received bad role change request from website: website is not linked");
 			return;
 		}
-
-		final NamelessAPI api = optApi.get();
 
 		if (!timingSafeEquals(apiKey.getBytes(), api.apiKey().getBytes())) {
 			response.getWriter().write("unauthorized");

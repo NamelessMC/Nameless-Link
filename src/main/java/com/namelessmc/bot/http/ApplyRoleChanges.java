@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public class ApplyRoleChanges extends HttpHandler {
 
@@ -83,24 +82,22 @@ public class ApplyRoleChanges extends HttpHandler {
             return;
         }
 
-        final Optional<NamelessAPI> optApi;
+        final NamelessAPI api;
         try {
-            optApi = Main.getConnectionManager().getApiConnection(guildId);
+            api = Main.getConnectionManager().getApiConnection(guildId);
         } catch (final BackendStorageException e) {
             response.getWriter().write("error");
             e.printStackTrace();
             return;
         }
 
-        if (optApi.isEmpty()) {
+        if (api == null) {
             responseJson.addProperty("status", "not_linked");
             response.setStatus(HttpStatus.BAD_REQUEST_400);
             sendJsonResponse(responseJson, response);
             LOGGER.warn("Received bad role change request from website: website is not linked");
             return;
         }
-
-        final NamelessAPI api = optApi.get();
 
         if (!timingSafeEquals(apiKey.getBytes(), api.apiKey().getBytes())) {
             responseJson.addProperty("status", "unauthorized");

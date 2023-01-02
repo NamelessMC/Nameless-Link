@@ -2,6 +2,7 @@ package com.namelessmc.bot.connections;
 
 import com.namelessmc.bot.util.ThrowingConsumer;
 import com.namelessmc.java_api.NamelessAPI;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public Optional<NamelessAPI> getApiConnection(final long guildId) throws BackendStorageException {
+	public @Nullable NamelessAPI getApiConnection(final long guildId) throws BackendStorageException {
 		try (Connection connection = this.getNewDatabaseConnection()) {
 			String apiUrl, apiKey;
 			try (PreparedStatement statement = connection
@@ -33,7 +34,7 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				statement.setLong(1, guildId);
 				final ResultSet result = statement.executeQuery();
 				if (!result.next()) {
-					return Optional.empty();
+					return null;
 				}
 				apiUrl = result.getString(1);
 				apiKey = result.getString(2);
@@ -46,14 +47,14 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				statement.executeUpdate();
 			}
 
-			return Optional.of(ConnectionCache.getApiConnection(new URL(apiUrl), apiKey));
+			return ConnectionCache.getApiConnection(new URL(apiUrl), apiKey);
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
 		} catch (final MalformedURLException e) {
 			// This should never happen since malformed URLs are not allowed in the database
 			// Pretend as if the website was not set up
 			e.printStackTrace();
-			return Optional.empty();
+			return null;
 		}
 	}
 

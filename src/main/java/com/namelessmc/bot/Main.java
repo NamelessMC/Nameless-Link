@@ -38,7 +38,6 @@ import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -240,9 +239,8 @@ public class Main {
 						}
 
 						try {
-							final Optional<NamelessAPI> apiOptional = connectionManager.getApiConnection(guild.getIdLong());
-							if (apiOptional.isPresent()) {
-								final NamelessAPI api = apiOptional.get();
+							final NamelessAPI api = connectionManager.getApiConnection(guild.getIdLong());
+							if (api != null) {
 								try {
 									api.discord().updateBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
 									LOGGER.info("{} sent commands, sent settings to {}", guild.getIdLong(), api.apiUrl());

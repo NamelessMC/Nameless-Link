@@ -1,6 +1,7 @@
 package com.namelessmc.bot.connections;
 
 import com.namelessmc.java_api.NamelessAPI;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.net.URL;
 import java.util.*;
@@ -19,12 +20,8 @@ public class StatelessConnectionManager extends ConnectionManager {
 	}
 
 	@Override
-	public Optional<NamelessAPI> getApiConnection(final long guildId) {
-		if (guildId != this.guildId) {
-			return Optional.empty();
-		} else {
-			return Optional.of(this.api);
-		}
+	public @Nullable NamelessAPI getApiConnection(final long guildId) {
+		return guildId == this.guildId ? this.api : null;
 	}
 
 	@Override
