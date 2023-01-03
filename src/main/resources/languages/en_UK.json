@@ -18,12 +18,14 @@
     "configure_link_description": "Link bot to website.",
     "configure_link_option_api_url": "Your website's API URL (StaffCP > Configuration > API).",
     "configure_link_option_api_key": "Your website's API key (StaffCP > Configuration > API).",
+    "configure_link_success": "Your Discord server has been successfully linked to your NamelessMC website.",
 
     "configure_unlink_description": "Disconnect bot from website.",
     "configure_unlink_not_linked": "Cannot unlink, the bot is not linked.",
     "configure_unlink_success": "Successfully unlinked Nameless-Link from the website.",
 
     "configure_test_description": "Check if website connection is working.",
+    "configure_test_working": "The API website connection appears to be working. Took {time}ms.",
 
     "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
     "configure_username_sync_option_state": "Whether username sync is enabled.",
@@ -32,6 +34,8 @@
     "configure_username_sync_disabled": "Username sync has been disabled.",
 
     "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC.",
+    "configure_update_usernames_start": "Sending new usernames for all members to NamelessMC...",
+    "configure_update_usernames_done": "Done!",
 
     "verify_description": "Verify your Discord account connected to the website",
     "verify_option_token": "Verification token",
@@ -40,7 +44,6 @@
     "verify_success": "Thank you for verifying, your account is now linked.",
 
     "ping_description": "Test website API connection",
-    "ping_working": "The API website connection appears to be working. Took {time}ms.",
 
     "register_description": "Create a website account",
     "register_option_username": "Username",
@@ -51,18 +54,12 @@
     "apiurl_description": "Configure the NamelessMC website API URL",
     "apiurl_option_url": "Your website's API URL (StaffCP > Configuration > API). Specify 'none' to unlink.",
     "apiurl_option_apikey": "Your website's API key (StaffCP > Configuration > API).",
-    "apiurl_success": "Your Discord server has been successfully linked to your NamelessMC website.",
     "apiurl_url_invalid": "The provided API URL does not look like a NamelessMC API URL. You can find the API URL in StaffCP > Configuration > API. Did you enter a URL for an older, unsupported NamelessMC version?",
     "apiurl_url_malformed": "The provided API URL is malformed.",
     "apiurl_url_local": "Your API URL contains an address from the private address space. These addresses are only reachable from within your network. Please enter an externally reachable domain.",
     "apiurl_failed_connection": "Could not connect to your website. Please see the message above for details.",
-    "apiurl_success_updated": "Successfully changed the API URL.",
-    "apiurl_success_new": "Successfully set up the API URL.",
 
     "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, run `{command}` in your Discord server. The API URL can be found in `StaffCP > Configuration > API`.",
     "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please set a new one using `{command}` (run this in your Discord server). The API URL can be found in `StaffCP > Configuration > API`.",
     "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command}` (run this in your Discord server).",
-    
-    "updateusername_description": "Update your Discord username on the website",
-    "updateusername_success": "Username updated successfully"
 }

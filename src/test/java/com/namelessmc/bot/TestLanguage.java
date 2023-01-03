@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
+import static com.namelessmc.bot.Language.Term.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestLanguage {
@@ -47,13 +50,33 @@ public class TestLanguage {
 		assertTrue(true);
 	}
 
+	private static final Set<Language.Term> MAX_100_CHARS = EnumSet.of(
+			CONFIGURE_DESCRIPTION,
+			CONFIGURE_LINK_DESCRIPTION,
+			CONFIGURE_LINK_OPTION_API_URL,
+			CONFIGURE_LINK_OPTION_API_KEY,
+			CONFIGURE_UNLINK_DESCRIPTION,
+			CONFIGURE_TEST_DESCRIPTION,
+			CONFIGURE_USERNAME_SYNC_DESCRIPTION,
+			CONFIGURE_USERNAME_SYNC_OPTION_STATE,
+			CONFIGURE_UPDATE_USERNAMES_DESCRIPTION,
+			VERIFY_DESCRIPTION,
+			VERIFY_OPTION_TOKEN,
+			APIURL_DESCRIPTION,
+			APIURL_OPTION_APIKEY,
+			APIURL_OPTION_URL,
+			PING_DESCRIPTION,
+			REGISTER_DESCRIPTION,
+			REGISTER_OPTION_EMAIL,
+			REGISTER_OPTION_USERNAME
+	);
+
 	private int maxLength(Language.Term term) {
-		return switch (term) {
-			case VERIFY_DESCRIPTION, APIURL_DESCRIPTION, PING_DESCRIPTION, UPDATEUSERNAME_DESCRIPTION,
-					APIURL_OPTION_APIKEY, APIURL_OPTION_URL, REGISTER_OPTION_EMAIL, REGISTER_OPTION_USERNAME, VERIFY_OPTION_TOKEN
-					-> 100;
-			default -> Integer.MAX_VALUE;
-		};
+		if (MAX_100_CHARS.contains(term)) {
+			return 100;
+		} else {
+			return Integer.MAX_VALUE;
+		}
 	}
 
 	@Test

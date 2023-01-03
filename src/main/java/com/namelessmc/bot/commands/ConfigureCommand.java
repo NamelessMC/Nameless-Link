@@ -140,12 +140,12 @@ public class ConfigureCommand extends Command {
                 if (oldApi == null) {
                     // User is setting up new connection
                     Main.getConnectionManager().createConnection(guildId, apiUrl, apiKey);
-                    hook.sendMessage(language.get(APIURL_SUCCESS_NEW)).queue();
+                    hook.sendMessage(language.get(CONFIGURE_LINK_SUCCESS)).queue();
                     LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
                 } else {
                     // User is modifying API URL for existing connection
                     Main.getConnectionManager().updateConnection(guildId, apiUrl, apiKey);
-                    hook.sendMessage(language.get(APIURL_SUCCESS_UPDATED)).queue();
+                    hook.sendMessage(language.get(CONFIGURE_LINK_SUCCESS)).queue();
                     LOGGER.info("Updated API URL for guild {} from {} to {}", guildId, oldApi, apiUrl);
                 }
 
@@ -169,7 +169,7 @@ public class ConfigureCommand extends Command {
 
         long ping = ping(api, language, event.getHook());
         if (ping >= 0) {
-            hook.sendMessage(language.get(PING_WORKING, "time", ping)).queue();
+            hook.sendMessage(language.get(CONFIGURE_TEST_WORKING, "time", ping)).queue();
         }
     }
 
@@ -265,7 +265,7 @@ public class ConfigureCommand extends Command {
             return;
         }
 
-        hook.sendMessage("Sending new usernames for all members to NamelessMC...").queue();
+        hook.sendMessage(language.get(CONFIGURE_UPDATE_USERNAMES_DONE)).queue();
 
         event.getGuild().loadMembers().onSuccess(members -> {
             final long[] discordIds = new long[members.size()];
@@ -283,7 +283,7 @@ public class ConfigureCommand extends Command {
                 return;
             }
             hook.setEphemeral(true); // Ephemeral needs to be set again after last message
-            hook.sendMessage("Done!").queue();
+            hook.sendMessage(language.get(CONFIGURE_UPDATE_USERNAMES_DONE)).queue();
         });
     }
 
