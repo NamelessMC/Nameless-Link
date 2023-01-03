@@ -17,6 +17,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -52,7 +53,8 @@ public class ConfigureCommand extends Command {
                         new SubcommandData("test", "Check if website connection is working"),
                         new SubcommandData("username_sync", "Enable or disable syncing usernames")
                                 .addOption(OptionType.BOOLEAN, "state", "State", true)
-                );
+                )
+                .setDefaultPermissions(DefaultMemberPermissions.DISABLED);
     }
 
     @Override
