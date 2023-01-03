@@ -32,7 +32,6 @@ public abstract class Command {
 			new ConfigureCommand(),
 			new PingCommand(),
 			new RegisterCommand(),
-			new UpdateUsernameCommand(),
 			new URLCommand(),
 			new VerifyCommand(),
 	};

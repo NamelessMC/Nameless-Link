@@ -52,7 +52,8 @@ public class ConfigureCommand extends Command {
                         new SubcommandData("unlink", "Disconnect bot from website"),
                         new SubcommandData("test", "Check if website connection is working"),
                         new SubcommandData("username_sync", "Enable or disable syncing usernames")
-                                .addOption(OptionType.BOOLEAN, "state", "State", true)
+                                .addOption(OptionType.BOOLEAN, "state", "State", true),
+                        new SubcommandData("update_usernames", "Force send updated Discord usernames to NamelessMC")
                 )
                 .setDefaultPermissions(DefaultMemberPermissions.DISABLED);
     }
@@ -73,6 +74,7 @@ public class ConfigureCommand extends Command {
                 case "unlink" -> unlink(event, hook, language, api);
                 case "test" -> testConnection(event, hook, language, api);
                 case "username_sync" -> changeUsernameSync(event, hook, language);
+                case "update_usernames" -> updateUsernames(event, hook, language, api);
                 default -> throw new IllegalArgumentException("Unknown subcommand: " + subcommand);
             }
         });
@@ -256,8 +258,34 @@ public class ConfigureCommand extends Command {
         } else {
             hook.sendMessage("Username sync has been disabled.").queue();
         }
+    }
 
+    private void updateUsernames(SlashCommandInteractionEvent event, InteractionHook hook, Language language, @Nullable NamelessAPI api) {
+        if (api == null) {
+            hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
+            return;
+        }
 
+        hook.sendMessage("Sending new usernames for all members to NamelessMC...").queue();
+
+        event.getGuild().loadMembers().onSuccess(members -> {
+            final long[] discordIds = new long[members.size()];
+            final String[] discordUsernames = new String[members.size()];
+            for (int i = 0; i < members.size(); i++) {
+                final User user = members.get(i).getUser();
+                discordIds[i] = user.getIdLong();
+                discordUsernames[i] = user.getAsTag();
+            }
+            try {
+                api.discord().updateDiscordUsernames(discordIds, discordUsernames);
+            } catch (NamelessException e) {
+                hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
+                Main.logConnectionError(LOGGER, e);
+                return;
+            }
+            hook.setEphemeral(true); // Ephemeral needs to be set again after last message
+            hook.sendMessage("Done!").queue();
+        });
     }
 
 }
