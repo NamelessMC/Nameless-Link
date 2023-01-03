@@ -61,5 +61,5 @@
 
     "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, run `{command}` in your Discord server. The API URL can be found in `StaffCP > Configuration > API`.",
     "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please set a new one using `{command}` (run this in your Discord server). The API URL can be found in `StaffCP > Configuration > API`.",
-    "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command}` (run this in your Discord server).",
+    "guild_join_welcome_back": "Hello! Thank you for using the NamelessMC Bot. The bot is already set up for your Discord server. If you wish to use a different API URL you can change it using `{command}` (run this in your Discord server)."
 }
