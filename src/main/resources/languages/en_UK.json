@@ -13,7 +13,25 @@
     "error_send_verification_email": "Unable to send verification email.",
     "error_duplicate_discord_integration": "Cannot create a new account, this Discord user is already linked to a different website account.",
 
-    "configure_description": "Change Nameless-Link settings",
+    "configure_description": "Change Nameless-Link settings.",
+
+    "configure_link_description": "Link bot to website.",
+    "configure_link_option_api_url": "Your website's API URL (StaffCP > Configuration > API).",
+    "configure_link_option_api_key": "Your website's API key (StaffCP > Configuration > API).",
+
+    "configure_unlink_description": "Disconnect bot from website.",
+    "configure_unlink_not_linked": "Cannot unlink, the bot is not linked.",
+    "configure_unlink_success": "Successfully unlinked Nameless-Link from the website.",
+
+    "configure_test_description": "Check if website connection is working.",
+
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_username_sync_option_state": "Whether username sync is enabled.",
+    "configure_username_sync_missing_permission": "Missing permission to change nicknames. Please try kicking and re-inviting the bot to ensure it has the 'Manage Nicknames' permission.",
+    "configure_username_sync_enabled": "Username sync has been enabled. Please note that Nameless-Link cannot update nicknames for users with a higher role. You should move the Nameless-Link role to the top in role settings. Nameless-Link will never change the server owner's nickname, since that is not allowed by Discord.",
+    "configure_username_sync_disabled": "Username sync has been disabled.",
+
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC.",
 
     "verify_description": "Verify your Discord account connected to the website",
     "verify_option_token": "Verification token",
@@ -40,7 +58,6 @@
     "apiurl_failed_connection": "Could not connect to your website. Please see the message above for details.",
     "apiurl_success_updated": "Successfully changed the API URL.",
     "apiurl_success_new": "Successfully set up the API URL.",
-    "apiurl_unlinked": "Successfully unlinked the website from this Discord server",
 
     "guild_join_success": "Hello! Thank you for using the NamelessMC Bot. To get started, run `{command}` in your Discord server. The API URL can be found in `StaffCP > Configuration > API`.",
     "guild_join_needs_renew": "Hello! Thank you for using the NamelessMC Bot. It looks like you have already set your API URL, but it is no longer functional. Please set a new one using `{command}` (run this in your Discord server). The API URL can be found in `StaffCP > Configuration > API`.",

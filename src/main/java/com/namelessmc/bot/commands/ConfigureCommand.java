@@ -43,17 +43,16 @@ public class ConfigureCommand extends Command {
 
     @Override
     public CommandData getCommandData(final Language language) {
-        // TODO make all strings translatable
         return Commands.slash(this.name, language.get(CONFIGURE_DESCRIPTION))
                 .addSubcommands(
-                        new SubcommandData("link", "Link bot to website")
-                                .addOption(OptionType.STRING, "api_url", language.get(APIURL_OPTION_URL), true)
-                                .addOption(OptionType.STRING, "api_key", language.get(APIURL_OPTION_APIKEY), true),
-                        new SubcommandData("unlink", "Disconnect bot from website"),
-                        new SubcommandData("test", "Check if website connection is working"),
-                        new SubcommandData("username_sync", "Enable or disable syncing usernames")
-                                .addOption(OptionType.BOOLEAN, "state", "State", true),
-                        new SubcommandData("update_usernames", "Force send updated Discord usernames to NamelessMC")
+                        new SubcommandData("link", language.get(CONFIGURE_LINK_DESCRIPTION))
+                                .addOption(OptionType.STRING, "api_url", language.get(CONFIGURE_LINK_OPTION_API_URL), true)
+                                .addOption(OptionType.STRING, "api_key", language.get(CONFIGURE_LINK_OPTION_API_KEY), true),
+                        new SubcommandData("unlink", language.get(CONFIGURE_UNLINK_DESCRIPTION)),
+                        new SubcommandData("test", language.get(CONFIGURE_TEST_DESCRIPTION)),
+                        new SubcommandData("username_sync", language.get(CONFIGURE_USERNAME_SYNC_DESCRIPTION))
+                                .addOption(OptionType.BOOLEAN, "state", language.get(CONFIGURE_USERNAME_SYNC_OPTION_STATE), true),
+                        new SubcommandData("update_usernames", language.get(CONFIGURE_UPDATE_USERNAMES_DESCRIPTION))
                 )
                 .setDefaultPermissions(DefaultMemberPermissions.DISABLED);
     }
@@ -83,7 +82,7 @@ public class ConfigureCommand extends Command {
     }
     private void unlink(SlashCommandInteractionEvent event, InteractionHook hook, Language language, @Nullable NamelessAPI oldApi) {
         if (oldApi == null) {
-            hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
+            hook.sendMessage(language.get(CONFIGURE_UNLINK_NOT_LINKED)).queue();
             LOGGER.info("Cannot unlink, bot was not linked");
             return;
         }
@@ -91,7 +90,7 @@ public class ConfigureCommand extends Command {
         long guildId = event.getGuild().getIdLong();
         try {
             Main.getConnectionManager().removeConnection(guildId);
-            hook.sendMessage(language.get(APIURL_UNLINKED)).queue();
+            hook.sendMessage(language.get(CONFIGURE_UNLINK_SUCCESS)).queue();
             LOGGER.info("Unlinked from guild {}", guildId);
         } catch (final BackendStorageException e) {
             hook.sendMessage(language.get(ERROR_GENERIC)).queue();
@@ -104,7 +103,7 @@ public class ConfigureCommand extends Command {
         String apiUrlString = event.getOption("api_url").getAsString();
         String apiKey = event.getOption("api_key").getAsString();
 
-        URL apiUrl;
+        final URL apiUrl;
         try {
             apiUrl = new URL(apiUrlString);
         } catch (final MalformedURLException e) {
@@ -241,7 +240,7 @@ public class ConfigureCommand extends Command {
         } catch (HierarchyException ignored) {
             // This is expected, changing the nickname of the owner is never allowed.
         } catch (InsufficientPermissionException e) {
-            hook.sendMessage("Missing permission to change nicknames. Please try kicking and re-inviting the bot to ensure it has the 'Manage Nicknames' permission.").queue();
+            hook.sendMessage(language.get(CONFIGURE_USERNAME_SYNC_MISSING_PERMISSION)).queue();
             return;
         }
 
@@ -254,9 +253,9 @@ public class ConfigureCommand extends Command {
         }
 
         if (state) {
-            hook.sendMessage("Username sync has been enabled. Please note that Nameless-Link cannot update nicknames for users with a higher role. You should move the Nameless-Link role to the top in role settings. Nameless-Link will never change the server owner's nickname, since that is not allowed by Discord.").queue();
+            hook.sendMessage(language.get(CONFIGURE_USERNAME_SYNC_ENABLED)).queue();
         } else {
-            hook.sendMessage("Username sync has been disabled.").queue();
+            hook.sendMessage(language.get(CONFIGURE_USERNAME_SYNC_DISABLED)).queue();
         }
     }
 
