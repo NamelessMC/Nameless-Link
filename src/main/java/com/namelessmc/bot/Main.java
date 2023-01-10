@@ -185,7 +185,7 @@ public class Main {
 					15, TimeUnit.HOURS.toMinutes(12), TimeUnit.MINUTES);
 		}
 
-		Main.getExecutorService().scheduleAtFixedRate(new UsernameSync(), 10, 30, TimeUnit.SECONDS);
+		Main.getExecutorService().scheduleAtFixedRate(new UsernameSync(), 10, 10, TimeUnit.MINUTES);
 
 		new Metrics();
 	}
