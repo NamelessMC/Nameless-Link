@@ -4,5 +4,9 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-  open-pull-requests-limit: 10
   target-branch: '4'
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+  target-branch: '5'
