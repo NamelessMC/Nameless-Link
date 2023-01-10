@@ -21,7 +21,7 @@ import static com.namelessmc.bot.Language.Term.*;
 public class GuildJoinHandler extends ListenerAdapter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GuildJoinHandler.class);
-	private static final String API_URL_COMMAND = "/apiurl";
+	private static final String LINK_COMMAND = "/configure link";
 
 	@Override
 	public void onGuildJoin(final GuildJoinEvent event) {
@@ -42,7 +42,7 @@ public class GuildJoinHandler extends ListenerAdapter {
 			final Language language = Language.getGuildLanguage(guild);
 
 			if (api == null) {
-				channel.sendMessage(language.get(GUILD_JOIN_SUCCESS, "command", API_URL_COMMAND))
+				channel.sendMessage(language.get(GUILD_JOIN_SUCCESS, "command", LINK_COMMAND))
 						.queue(message -> LOGGER.info("Sent new join message to {} for guild {}",
 								channel.getUser().getName(), event.getGuild().getName()));
 			} else {
@@ -52,14 +52,14 @@ public class GuildJoinHandler extends ListenerAdapter {
 
 					if (NamelessVersion.isSupportedByJavaApi(version)) {
 						// Good to go
-						channel.sendMessage(language.get(GUILD_JOIN_WELCOME_BACK, "command", API_URL_COMMAND)).queue();
+						channel.sendMessage(language.get(GUILD_JOIN_WELCOME_BACK, "command", LINK_COMMAND)).queue();
 					} else {
 						// Incompatible version
 						channel.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", ConfigureCommand.supportedVersionsList())).queue();
 					}
 				} catch (final NamelessException e) {
 					// Error with their stored url. Make them update the url
-					channel.sendMessage(language.get(GUILD_JOIN_NEEDS_RENEW, "command", API_URL_COMMAND)).queue();
+					channel.sendMessage(language.get(GUILD_JOIN_NEEDS_RENEW, "command", LINK_COMMAND)).queue();
 					LOGGER.info("Guild join, previously stored URL doesn't work");
 				}
 			}
