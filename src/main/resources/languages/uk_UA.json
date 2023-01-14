@@ -40,5 +40,14 @@
     "apiurl_url_local": "Ваша URL-адреса API містить адресу з приватного адресного простору. Ці адреси доступні лише з вашої мережі. Будь ласка, введіть домен, доступний ззовні.",
     "apiurl_unlinked": "Успішно від'єднали сайт від цього сервера Discord",
     "guild_join_success": "Доброго дня! Дякуємо за використання бота NamelessMC. Для початку роботи запустіть `{command}` на вашому сервері Discord. URL-адресу API можна знайти в `StaffCP > Конфігурація > API`.",
-    "guild_join_needs_renew": "Доброго дня! Дякуємо за використання бота NamelessMC. Схоже, що ви вже встановили URL-адресу API, але вона більше не працює. Будь ласка, встановіть новий за допомогою `{command}` (запустіть її на вашому сервері Discord). URL-адресу API можна знайти в `StaffCP > Конфігурація > API`."
+    "guild_join_needs_renew": "Доброго дня! Дякуємо за використання бота NamelessMC. Схоже, що ви вже встановили URL-адресу API, але вона більше не працює. Будь ласка, встановіть новий за допомогою `{command}` (запустіть її на вашому сервері Discord). URL-адресу API можна знайти в `StaffCP > Конфігурація > API`.",
+    "configure_link_success": "Ваш Discord сервер успішно підключено до вашого сайту.",
+    "configure_link_option_api_key": "API ключі Вашого сайту (StaffCP > Налаштування > API).",
+    "configure_link_description": "Підключити бота до сайту.",
+    "configure_link_option_api_url": "API URL Вашого веб-сайту (StaffCP > Налаштування > API).",
+    "configure_unlink_description": "Відключити бота від сайту.",
+    "configure_unlink_not_linked": "Неможливо відключити, цей бот не підключено.",
+    "configure_unlink_success": "Успішно відключено Nameless-Link від Вашого сайту.",
+    "configure_username_sync_disabled": "Синхронізацію імен користувачів відключено.",
+    "configure_update_usernames_done": "Готово!"
 }
