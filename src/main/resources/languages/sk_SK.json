@@ -54,5 +54,14 @@
     "apiurl_unlinked": "Webstránka bola úspešne odpojená od tohto Discord servera",
     "updateusername_success": "Používateľské meno bolo úspešne aktualizované",
     "apiurl_option_apikey": "API kľúč vášho webu (StaffCP > Konfigurácia > API).",
-    "verify_already_linked": "Váš Discord účet je už pripojený k inému účtu na webstránke."
+    "verify_already_linked": "Váš Discord účet je už pripojený k inému účtu na webstránke.",
+    "configure_unlink_description": "Odpojte bota od webstránky.",
+    "configure_link_description": "Prepojte bota s webstránkou.",
+    "configure_link_option_api_url": "API URL vašej webstránky (StaffCP > Konfigurácia > API).",
+    "configure_link_option_api_key": "API kľúč vašej webstránky (StaffCP > Konfigurácia > API).",
+    "configure_link_success": "Váš Discord server bol úspešne prepojený s vašou webstránkou NamelessMC.",
+    "configure_unlink_not_linked": "Nedá sa odpojiť, bot nie je prepojený.",
+    "configure_unlink_success": "Nameless-Link bol úspešne odpojený od webstránky.",
+    "configure_test_description": "Skontrolujte, či pripojenie na webstránku funguje.",
+    "configure_update_usernames_done": "Hotovo!"
 }
