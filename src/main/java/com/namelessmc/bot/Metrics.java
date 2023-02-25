@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Metrics {
 
-	private static final URI SUBMIT_URI = URI.create("https://nameless-metrics.rkslot.nl/submit");
+	private static final URI SUBMIT_URI = URI.create("https://metrics.rkslot.nl/submit");
 	private static final String SOURCE = "nameless-link";
 	private static final String USER_AGENT = "Nameless-Link";
 	private static final String METRICS_ID = UUID.randomUUID().toString();
