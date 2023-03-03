@@ -39,5 +39,19 @@
     "help_context_content": "Bazı Komutlar sadece Özel mesajlarda kullanıma açıktır, kalan komutlar sadece sunucuda kullanıma açıktır.",
     "apiurl_try_https": "API URL'niz http:// kullanır. HTTPS için bir proxy kullanıyorsanız, web sitesi yine de HTTP API URL'lerini görüntüler. Lütfen API URL'sinde http:// ile https:// değiştirerek bu komutu tekrar çalıştırmayı deneyin.",
     "prefix_usage": "Kullanım: `{command} <sunucu ID> <yeni önek>`. Varsayılan öneki kullanmak için \"reset\"i kullanın.",
-    "prefix_success": "Önek {newPrefix} olarak Değiştirildi."
+    "prefix_success": "Önek {newPrefix} olarak Değiştirildi.",
+    "error_invalid_email_address": "Girdiğiniz email adresi geçersiz.",
+    "error_duplicate_email_address": "Girdiğiniz email adresi zaten başka bir site hesabı tarafından kullanılmaktadır.",
+    "error_send_verification_email": "Doğrulama maili gönderilemiyor.",
+    "error_invalid_username": "Girdiğiniz kullanıcı adı geçersiz.",
+    "error_duplicate_username": "Girdiğini kullanıcı adı zaten başka bir site hesabı tarafından kullanılmakta.",
+    "error_duplicate_discord_integration": "Yeni hesap oluşturulamıyor, bu Discord hesabı zaten başka bir site hesabıyla eşlenmiş.",
+    "configure_description": "Nameless-Link ayarlarını değiştir.",
+    "configure_link_description": "Bot'u website 'ye bağla.",
+    "configure_link_option_api_url": "Website API URLsi (StaffCP > Configuration > API).",
+    "configure_link_option_api_key": "Website API Anahtarı. (StaffCP > Configuration > API).",
+    "configure_unlink_description": "Botun siteyle bağlantısını kes.",
+    "configure_unlink_not_linked": "Bağlantı kesilemiyor, bot site ile bağlı değil.",
+    "configure_link_success": "Discord sunucunuz başarıyla NamelessMC siteniz ile bağlanmıştır.",
+    "configure_unlink_success": "Botun başarıyla site ile bağlantısı kesildi."
 }
