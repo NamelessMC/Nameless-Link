@@ -39,5 +39,6 @@
     "apiurl_unlinked": "U shkëput me sukses faqen e internetit nga ky server Discord",
     "guild_join_success": "Përshëndetje! Faleminderit që përdorni Bot NamelessMC. Për të filluar, ekzekutoni \"{command}\" në serverin tuaj Discord. URL-ja e API-së mund të gjendet në 'StaffCP > Konfigurimi > API'.",
     "guild_join_needs_renew": "Përshëndetje! Faleminderit që përdorni Bot NamelessMC. Duket sikur e keni vendosur tashmë URL-në tuaj të API-së, por ajo nuk është më funksionale. Ju lutemi vendosni një të re duke përdorur `{command}` (ekzekutoni këtë në serverin tuaj Discord). URL-ja e API-së mund të gjendet në 'StaffCP > Konfigurimi > API'.",
-    "apiurl_option_apikey": "Çelësi API i faqes suaj të internetit (StaffCP > Konfigurimi > API)."
+    "apiurl_option_apikey": "Çelësi API i faqes suaj të internetit (StaffCP > Konfigurimi > API).",
+    "configure_description": "Ndrysho cilësimet e Nameless-Link."
 }
