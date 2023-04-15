@@ -69,5 +69,8 @@
     "configure_username_sync_description": "Povoliť alebo zakázať synchronizáciu NamelessMC mien na Discord mená.",
     "configure_username_sync_option_state": "Či má byť povolená synchronizácia používateľského mena.",
     "configure_username_sync_missing_permission": "Chýba povolenie na zmenu prezývok. Skúste bota vyhodiť a znova ho pozvať, aby ste sa uistili, že má povolenie „Spravovať prezývky“.",
-    "configure_username_sync_enabled": "Synchronizácia používateľského mena bola povolená. Upozorňujeme, že Nameless-Link nemôže aktualizovať prezývky pre používateľov s vyššou rolou. Rolu Nameless-Link by ste mali presunúť na začiatok v nastaveniach roly. Nameless-Link nikdy nezmení prezývku majiteľa servera, pretože to Discord nepovoľuje."
+    "configure_username_sync_enabled": "Synchronizácia používateľského mena bola povolená. Upozorňujeme, že Nameless-Link nemôže aktualizovať prezývky pre používateľov s vyššou rolou. Rolu Nameless-Link by ste mali presunúť na začiatok v nastaveniach roly. Nameless-Link nikdy nezmení prezývku majiteľa servera, pretože to Discord nepovoľuje.",
+    "configure_username_sync_disabled": "Synchronizácia používateľských mien bola zakázaná.",
+    "configure_update_usernames_start": "Odosielanie nových používateľských mien pre všetkých členov do NamelessMC...",
+    "configure_update_usernames_description": "Vynútiť odoslanie aktualizovaných používateľských Discord mien do NamelessMC."
 }
