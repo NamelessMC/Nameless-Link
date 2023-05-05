@@ -45,7 +45,7 @@
     "error_duplicate_username": "שם המשתמש כבר תפוס באתר אחר.",
     "error_invalid_email_address": "כתובת המייל לא תיקנית.",
     "error_duplicate_email_address": "כתובת המייל כבר תפוסה באתר אחר.",
-    "error_invalid_username": "השם שסיפקת הוא לא תיקני.",
+    "error_invalid_username": "שם המשתמש אינו תיקני.",
     "error_send_verification_email": "לא ניתן לשלוח אימות למייל.",
     "error_duplicate_discord_integration": "לא ניתן ליצור משתמש, בגלל שהמשתמש Discord כבר מקושר לאתר אחר.",
     "register_description": "יצירת משתמש אתר",
