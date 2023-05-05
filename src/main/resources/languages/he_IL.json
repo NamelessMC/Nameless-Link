@@ -56,5 +56,12 @@
     "register_url": "בשביל לסיים את הרישום, תפתח את הקישור הזה: {url}",
     "updateusername_success": "שמך שונה בהצלחה",
     "apiurl_unlinked": "נותק בהצלחה שרת הDiscord הזה מהאתר",
-    "updateusername_description": "עדכן את שמך מהDiscord באתר"
+    "updateusername_description": "עדכן את שמך מהDiscord באתר",
+    "configure_test_description": "בדוק אם החיבור לאתר עובד.",
+    "ping_description": "בדוק את חיבור ה-API של האתר",
+    "configure_unlink_description": "נתק את הבוט מהאתר.",
+    "configure_unlink_not_linked": "לא ניתן לבטל את הקישור, הבוט אינו מקושר.",
+    "configure_link_success": "שרת הדיסקורד שלך קושר בהצלחה לאתר NamelessMC שלך.",
+    "configure_username_sync_disabled": "סנכרון שם המשתמש הושבת.",
+    "configure_update_usernames_done": "בוצע!"
 }
