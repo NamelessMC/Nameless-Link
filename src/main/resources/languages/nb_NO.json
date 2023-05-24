@@ -45,5 +45,10 @@
     "apiurl_option_url": "API-URL-en til nettsiden din. Spesifiser med \"none\" for å fjerne tilknytning.",
     "apiurl_unlinked": "Nettsiden er ikke lenger tilknyttet denne Discord-serveren",
     "updateusername_description": "Oppdater Discord-brukernavnet ditt på nettsiden",
-    "updateusername_success": "Oppdatering av brukernavn var vellykket"
+    "updateusername_success": "Oppdatering av brukernavn var vellykket",
+    "error_invalid_username": "Det oppgitte brukernavnet er ugyldig.",
+    "error_duplicate_username": "Det oppgitte brukernavnet er allerede brukt av en annen konto.",
+    "error_invalid_email_address": "Den oppgitte e-postadressen er ugyldig.",
+    "error_duplicate_email_address": "Den oppgitte e-postadressen er allerede brukt av en annen konto.",
+    "error_send_verification_email": "Kunne ikke sende verifisering til e-post."
 }
