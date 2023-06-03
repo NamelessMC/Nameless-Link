@@ -71,5 +71,21 @@
     "apiurl_url_local": "Your API URL contains an address from the private address space. These addresses are only reachable from within your network. Please enter an externally reachable domain.",
     "verify_already_linked": "Your Discord account is already connected to a different website account.",
     "configure_description": "Change Nameless-Link settings.",
-    "configure_link_description": "Link bot to website."
+    "configure_link_description": "Link bot to website.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC.",
+    "configure_unlink_not_linked": "Cannot unlink, the bot is not linked.",
+    "configure_unlink_description": "Disconnect bot from website.",
+    "configure_test_description": "Check if website connection is working.",
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_username_sync_option_state": "Whether username sync is enabled.",
+    "configure_username_sync_missing_permission": "Missing permission to change nicknames. Please try kicking and re-inviting the bot to ensure it has the 'Manage Nicknames' permission.",
+    "configure_username_sync_disabled": "Username sync has been disabled.",
+    "configure_update_usernames_start": "Sending new usernames for all members to NamelessMC...",
+    "configure_update_usernames_done": "Done!",
+    "configure_link_option_api_url": "Your website's API URL (StaffCP > Configuration > API).",
+    "configure_link_option_api_key": "Your website's API key (StaffCP > Configuration > API).",
+    "configure_link_success": "Your Discord server has been successfully linked to your NamelessMC website.",
+    "configure_unlink_success": "Successfully unlinked Nameless-Link from the website.",
+    "configure_test_working": "The API website connection appears to be working. Took {time}ms.",
+    "configure_username_sync_enabled": "Username sync has been enabled. Please note that Nameless-Link cannot update nicknames for users with a higher role. You should move the Nameless-Link role to the top in role settings. Nameless-Link will never change the server owner's nickname, since that is not allowed by Discord."
 }
