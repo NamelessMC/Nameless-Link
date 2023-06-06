@@ -64,7 +64,7 @@
     "configure_unlink_not_linked": "Impossible d'enlever le lien, le bot n'est pas lié.",
     "configure_unlink_success": "Nameless-Link a été dissocié du site internet avec succès.",
     "configure_test_description": "Vérifier que la connexion au site internet fonctionne.",
-    "configure_username_sync_description": "Activer ou désactiver la synchronisation des noms d'utilisateur NamelessMC avec les noms d'utilisateur Discord.",
+    "configure_username_sync_description": "Activer ou désactiver la synchronisation des noms d'utilisateur NamelessMC avec Discord.",
     "configure_username_sync_option_state": "Si la synchronisation du nom d'utilisateur est activée.",
     "configure_username_sync_missing_permission": "Il manque la permission de modifier les surnoms. Essayez d'expulser et de réinviter le bot pour vous assurer qu'il dispose de la permission \"Gérer les surnoms\".",
     "configure_update_usernames_description": "Forcer l'envoi des noms d'utilisateurs à jour de Discord vers NamelessMC.",
