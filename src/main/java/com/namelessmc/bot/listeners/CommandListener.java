@@ -39,7 +39,7 @@ public class 		CommandListener extends ListenerAdapter {
 		if (command == null) {
 			LOGGER.error("Unknown command '/{}'", name);
 		} else {
-			LOGGER.info("User {} ran command /{} in guild {}", event.getUser().getAsTag(), name, guild.getIdLong());
+			LOGGER.info("User {} ran command /{} in guild {}", event.getUser().getName(), name, guild.getIdLong());
 
 			event.deferReply(true).queue(hook -> {
 				Main.getExecutorService().execute(() -> {

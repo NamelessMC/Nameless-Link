@@ -135,7 +135,7 @@ public class ConfigureCommand extends Command {
 
             try {
                 final User botUser = Main.getJdaForGuild(guildId).getSelfUser();
-                api.discord().updateBotSettings(Main.getBotUrl(), guildId, botUser.getAsTag(), botUser.getIdLong());
+                api.discord().updateBotSettings(Main.getBotUrl(), guildId, botUser.getName(), botUser.getIdLong());
 
                 if (oldApi == null) {
                     // User is setting up new connection
@@ -273,7 +273,7 @@ public class ConfigureCommand extends Command {
             for (int i = 0; i < members.size(); i++) {
                 final User user = members.get(i).getUser();
                 discordIds[i] = user.getIdLong();
-                discordUsernames[i] = user.getAsTag();
+                discordUsernames[i] = user.getGlobalName();
             }
             try {
                 api.discord().updateDiscordUsernames(discordIds, discordUsernames);

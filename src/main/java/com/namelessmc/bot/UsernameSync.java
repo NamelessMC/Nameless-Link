@@ -35,18 +35,18 @@ public class UsernameSync implements Runnable {
         final Collection<Member> members = guild.findMembers(member -> !member.isOwner()).get();
 
         for (final Member member : members) {
-            final String tag = member.getUser().getAsTag();
+            final String name = member.getUser().getName();
             final NamelessUser user = api.userByDiscordId(member.getIdLong());
 
             if (user == null) {
-                LOGGER.info("Member {} has no NamelessMC account", tag);
+                LOGGER.info("Member {} has no NamelessMC account", name);
             } else {
                 final @Nullable String oldNickname = member.getNickname();
                 final String newNickname = user.username();
                 if (newNickname.equals(oldNickname)) {
-                    LOGGER.info("Nickname for {} already matches their NamelessMC account", tag);
+                    LOGGER.info("Nickname for {} already matches their NamelessMC account", name);
                 } else {
-                    LOGGER.info("Setting nickname for member {} to {}", tag, newNickname);
+                    LOGGER.info("Setting nickname for member {} to {}", name, newNickname);
                     try {
                         member.modifyNickname(newNickname).queue();
                     } catch (PermissionException e) {

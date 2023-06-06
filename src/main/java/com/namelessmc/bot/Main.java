@@ -192,14 +192,14 @@ public class Main {
 
 	private static void sendBotSettings() throws NamelessException, BackendStorageException {
 		final User user = Main.getJda(0).getSelfUser();
-		final String userTag = user.getAsTag();
+		final String username = user.getName();
 		if (Main.getConnectionManager().isReadOnly()) {
 			final Collection<NamelessAPI> apiConnections = connectionManager.listConnections();
 			Preconditions.checkArgument(apiConnections.size() == 1, "Stateless connection manager should always have 1 connection");
 			final NamelessAPI api = apiConnections.iterator().next();
 			final long guildId = connectionManager.getGuildIdByApiConnection(api).orElseThrow();
 			LOGGER.info("Sending bot settings to " + api.apiUrl());
-			api.discord().updateBotSettings(botUrl, guildId, userTag, user.getIdLong());
+			api.discord().updateBotSettings(botUrl, guildId, username, user.getIdLong());
 			final Guild guild = Main.getJda(0).getGuildById(guildId);
 			if (guild == null) {
 				LOGGER.error("Guild with id '{}' does not exist. Is the ID wrong or is the bot not in this guild?", guildId);
@@ -242,7 +242,7 @@ public class Main {
 							final NamelessAPI api = connectionManager.getApiConnection(guild.getIdLong());
 							if (api != null) {
 								try {
-									api.discord().updateBotSettings(botUrl, guild.getIdLong(), userTag, user.getIdLong());
+									api.discord().updateBotSettings(botUrl, guild.getIdLong(), username, user.getIdLong());
 									LOGGER.info("{} sent commands, sent settings to {}", guild.getIdLong(), api.apiUrl());
 									countSuccess.incrementAndGet();
 								} catch (final NamelessException e) {

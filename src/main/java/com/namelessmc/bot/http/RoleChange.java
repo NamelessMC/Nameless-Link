@@ -130,10 +130,10 @@ public class RoleChange extends HttpHandler {
 				}
 				try {
 					if (action.equals("add")) {
-						LOGGER.info("Adding role '{}' to member '{}'", role.getName(), member.getUser().getAsTag());
+						LOGGER.info("Adding role '{}' to member '{}'", role.getName(), member.getUser().getName());
 						guild.addRoleToMember(member, role).complete();
 					} else if (action.equals("remove")) {
-						LOGGER.info("Removing role '{}' from member '{}'", role.getName(), member.getUser().getAsTag());
+						LOGGER.info("Removing role '{}' from member '{}'", role.getName(), member.getUser().getName());
 						guild.removeRoleFromMember(member, role).complete();
 					} else {
 						LOGGER.warn("Website sent unknown role change action '{}', it was ignored.", action);

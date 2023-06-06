@@ -142,18 +142,18 @@ public class ApplyRoleChanges extends HttpHandler {
                     if (action.equals("add")) {
                         if (currentRoles.contains(role)) {
                             status = "none";
-                            LOGGER.info("Member '{}' already has role '{}'", member.getUser().getAsTag(), role.getName());
+                            LOGGER.info("Member '{}' already has role '{}'", member.getUser().getName(), role.getName());
                         } else {
-                            LOGGER.info("Adding role '{}' to member '{}'", role.getName(), member.getUser().getAsTag());
+                            LOGGER.info("Adding role '{}' to member '{}'", role.getName(), member.getUser().getName());
                             status = "added";
                             guild.addRoleToMember(member, role).complete();
                         }
                     } else if (action.equals("remove")) {
                         if (!currentRoles.contains(role)) {
                             status = "none";
-                            LOGGER.info("Member '{}' already doesn't have role '{}'", member.getUser().getAsTag(), role.getName());
+                            LOGGER.info("Member '{}' already doesn't have role '{}'", member.getUser().getName(), role.getName());
                         } else {
-                            LOGGER.info("Removing role '{}' from member '{}'", role.getName(), member.getUser().getAsTag());
+                            LOGGER.info("Removing role '{}' from member '{}'", role.getName(), member.getUser().getName());
                             status = "removed";
                             guild.removeRoleFromMember(member, role).complete();
                         }

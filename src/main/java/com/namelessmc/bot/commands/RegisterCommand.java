@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +45,7 @@ public class RegisterCommand extends Command {
 		final String username = event.getOption("username").getAsString();
 		final String email = event.getOption("email").getAsString();
 		final long discordId = event.getUser().getIdLong();
-		final String discordTag = event.getUser().getAsTag();
+		final String discordUsername = event.getUser().getName();
 
 		if (api == null) {
 			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
@@ -54,7 +53,7 @@ public class RegisterCommand extends Command {
 			return;
 		}
 
-		IntegrationData integrationData = new DiscordIntegrationData(discordId, discordTag);
+		IntegrationData integrationData = new DiscordIntegrationData(discordId, discordUsername);
 		try {
 			Optional<String> verificationUrl = api.registerUser(username, email, integrationData);
 			if (verificationUrl.isPresent()) {

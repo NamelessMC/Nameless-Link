@@ -15,7 +15,6 @@ import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,14 +45,14 @@ public class VerifyCommand extends Command {
 
 		final long guildId = guild.getIdLong();
 		final long userId = event.getUser().getIdLong();
-		final String userTag = event.getUser().getAsTag();
+		final String username = event.getUser().getName();
 
 		if (api == null) {
 			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
 			return;
 		}
 
-		final IntegrationData integrationData = new DiscordIntegrationData(userId, userTag);
+		final IntegrationData integrationData = new DiscordIntegrationData(userId, username);
 
 		try {
 			api.verifyIntegration(integrationData, token);
@@ -73,7 +72,7 @@ public class VerifyCommand extends Command {
 		}
 
 		hook.sendMessage(language.get(VERIFY_SUCCESS)).queue();
-		LOGGER.info("Verified user {} in guild {}", userTag, guildId);
+		LOGGER.info("Verified user {} in guild {}", username, guildId);
 
 		DiscordRoleListener.sendUserRolesAsync(guildId, userId);
 	}
