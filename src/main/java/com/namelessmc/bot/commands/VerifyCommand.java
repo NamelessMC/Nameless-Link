@@ -8,7 +8,6 @@ import com.namelessmc.java_api.exception.ApiError;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.integrations.DiscordIntegrationData;
-import com.namelessmc.java_api.integrations.IntegrationData;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -35,6 +34,35 @@ public class VerifyCommand extends Command {
 				.addOption(OptionType.STRING, "token", language.get(VERIFY_OPTION_TOKEN), true);
 	}
 
+	private boolean verifyIntegration(InteractionHook hook, Language language, NamelessAPI api, DiscordIntegrationData integrationData, String token, boolean usingDummyDiscriminator) {
+		try {
+			api.verifyIntegration(integrationData, token);
+			hook.sendMessage(language.get(VERIFY_SUCCESS)).queue();
+			return true;
+		} catch (final NamelessException e) {
+			if (e instanceof ApiException apiException) {
+				if (apiException.apiError() == ApiError.CORE_INVALID_CODE) {
+					LOGGER.info("Invalid verification token");
+					hook.sendMessage(language.get(VERIFY_TOKEN_INVALID)).queue();
+				} else if (apiException.apiError() == ApiError.CORE_INTEGRATION_USERNAME_ERROR) {
+					// Perhaps an older NamelessMC version that requires a discriminator
+					if (usingDummyDiscriminator) {
+						LOGGER.info("Invalid username error, already linked?");
+						hook.sendMessage(language.get(VERIFY_ALREADY_LINKED)).queue();
+					} else {
+						LOGGER.info("Invalid username error, trying again with dummy discriminator");
+						var newData = new DiscordIntegrationData(integrationData.idLong(), integrationData.username() + "#0000");
+						return verifyIntegration(hook, language, api, newData, token, true);
+					}
+				}
+			}
+			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
+			Main.logConnectionError(LOGGER, e);
+		}
+
+		return false;
+	}
+
 	@Override
 	public void execute(final SlashCommandInteractionEvent event,
 						final InteractionHook hook,
@@ -52,28 +80,9 @@ public class VerifyCommand extends Command {
 			return;
 		}
 
-		final IntegrationData integrationData = new DiscordIntegrationData(userId, username);
-
-		try {
-			api.verifyIntegration(integrationData, token);
-		} catch (final NamelessException e) {
-			if (e instanceof ApiException apiException) {
-				if (apiException.apiError() == ApiError.CORE_INVALID_CODE) {
-					hook.sendMessage(language.get(VERIFY_TOKEN_INVALID)).queue();
-					return;
-				} else if (apiException.apiError() == ApiError.CORE_INTEGRATION_USERNAME_ERROR) {
-					hook.sendMessage(language.get(VERIFY_ALREADY_LINKED)).queue();
-					return;
-				}
-			}
-			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
-			Main.logConnectionError(LOGGER, e);
-			return;
+		if (verifyIntegration(hook, language, api, new DiscordIntegrationData(userId, username), token, false)) {
+			LOGGER.info("Verified user {} in guild {}", username, guildId);
+			DiscordRoleListener.sendUserRolesAsync(guildId, userId);
 		}
-
-		hook.sendMessage(language.get(VERIFY_SUCCESS)).queue();
-		LOGGER.info("Verified user {} in guild {}", username, guildId);
-
-		DiscordRoleListener.sendUserRolesAsync(guildId, userId);
 	}
 }
