@@ -1,5 +1,6 @@
 package com.namelessmc.bot;
 
+import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessUser;
 import net.dv8tion.jda.api.entities.Guild;
@@ -59,14 +60,20 @@ public class UsernameSync implements Runnable {
 
     public void run() {
         LOGGER.info("Starting username sync");
-        try {
-            final Collection<Long> guildIds = Main.getConnectionManager().listGuildsUsernameSyncEnabled();
 
-            for (final long guildId : guildIds) {
+        final Collection<Long> guildIds;
+        try {
+            guildIds = Main.getConnectionManager().listGuildsUsernameSyncEnabled();
+        } catch (BackendStorageException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (final long guildId : guildIds) {
+            try {
                 updateUsernames(guildId);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
