@@ -53,5 +53,7 @@
     "configure_unlink_description": "Botun siteyle bağlantısını kes.",
     "configure_unlink_not_linked": "Bağlantı kesilemiyor, bot site ile bağlı değil.",
     "configure_link_success": "Discord sunucunuz başarıyla NamelessMC siteniz ile bağlanmıştır.",
-    "configure_unlink_success": "Botun başarıyla site ile bağlantısı kesildi."
+    "configure_unlink_success": "Botun başarıyla site ile bağlantısı kesildi.",
+    "configure_test_description": "Eğer site bağlantısı düzgün çalışıyor ise kontrol edin.",
+    "configure_username_sync_description": "Aktif yada devre dışı NamelessMC kullanıcı adları Discord kullanıcı adlarıyla senkronizasyon yap."
 }
