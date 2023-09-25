@@ -10,7 +10,7 @@
     "description": "An example Pterodactyl egg for the NamelessMC Discord bot (\"Nameless-Link\"). Please note that this egg is not supported and we recommend instead hosting the bot using docker directly.",
     "features": null,
     "images": [
-        "namelessmc\/discord-link:4"
+        "namelessmc\/discord-link:5"
     ],
     "file_denylist": [],
     "startup": "java -Xmx{{MEMORY}}M -jar {{JARFILE}}",
