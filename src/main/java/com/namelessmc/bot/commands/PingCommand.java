@@ -1,16 +1,17 @@
 package com.namelessmc.bot.commands;
 
+import static com.namelessmc.bot.Language.Term.PING_DESCRIPTION;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.java_api.NamelessAPI;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-
-import static com.namelessmc.bot.Language.Term.PING_DESCRIPTION;
 
 public class PingCommand extends Command {
 

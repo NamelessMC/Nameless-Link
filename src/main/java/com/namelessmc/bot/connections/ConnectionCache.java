@@ -1,12 +1,11 @@
 package com.namelessmc.bot.connections;
 
-import com.namelessmc.bot.Main;
-import com.namelessmc.java_api.NamelessAPI;
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.namelessmc.bot.Main;
+import com.namelessmc.java_api.NamelessAPI;
 
 public class ConnectionCache {
 

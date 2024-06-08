@@ -1,5 +1,25 @@
 package com.namelessmc.bot.commands;
 
+import static com.namelessmc.bot.Language.Term.ERROR_DUPLICATE_DISCORD_INTEGRATION;
+import static com.namelessmc.bot.Language.Term.ERROR_DUPLICATE_EMAIL_ADDRESS;
+import static com.namelessmc.bot.Language.Term.ERROR_DUPLICATE_USERNAME;
+import static com.namelessmc.bot.Language.Term.ERROR_INVALID_EMAIL_ADDRESS;
+import static com.namelessmc.bot.Language.Term.ERROR_INVALID_USERNAME;
+import static com.namelessmc.bot.Language.Term.ERROR_NOT_SET_UP;
+import static com.namelessmc.bot.Language.Term.ERROR_SEND_VERIFICATION_EMAIL;
+import static com.namelessmc.bot.Language.Term.ERROR_WEBSITE_CONNECTION;
+import static com.namelessmc.bot.Language.Term.REGISTER_DESCRIPTION;
+import static com.namelessmc.bot.Language.Term.REGISTER_EMAIL;
+import static com.namelessmc.bot.Language.Term.REGISTER_OPTION_EMAIL;
+import static com.namelessmc.bot.Language.Term.REGISTER_OPTION_USERNAME;
+import static com.namelessmc.bot.Language.Term.REGISTER_URL;
+
+import java.util.Optional;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.java_api.NamelessAPI;
@@ -7,19 +27,13 @@ import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.integrations.DiscordIntegrationData;
 import com.namelessmc.java_api.integrations.IntegrationData;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
-
-import static com.namelessmc.bot.Language.Term.*;
 
 public class RegisterCommand extends Command {
 

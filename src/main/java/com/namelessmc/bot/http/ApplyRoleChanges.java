@@ -1,17 +1,7 @@
 package com.namelessmc.bot.http;
 
-import com.google.common.base.Ascii;
-import com.google.gson.*;
-import com.google.gson.internal.Streams;
-import com.google.gson.stream.JsonWriter;
-import com.namelessmc.bot.Main;
-import com.namelessmc.bot.connections.BackendStorageException;
-import com.namelessmc.java_api.NamelessAPI;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.exceptions.HierarchyException;
-import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
+import java.util.List;
+
 import org.glassfish.grizzly.http.Method;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
@@ -20,31 +10,26 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.List;
+import com.google.common.base.Ascii;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.namelessmc.bot.Main;
+import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.util.Util;
+import com.namelessmc.java_api.NamelessAPI;
+
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 public class ApplyRoleChanges extends HttpHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplyRoleChanges.class);
-
-    private static boolean timingSafeEquals(final byte[] a, final byte[] b) {
-        if (a.length != b.length) {
-            return false;
-        }
-
-        int result = 0;
-        for (int i = 0; i < a.length; i++) {
-            result |= a[i] ^ b[i];
-        }
-        return result == 0;
-    }
-
-    private static void sendJsonResponse(JsonObject jsonObject, Response response) throws IOException {
-        response.setContentType("application/json");
-        try (JsonWriter writer = new JsonWriter(response.getWriter())) {
-            Streams.write(jsonObject, writer);
-        }
-    }
 
     @Override
     public void service(Request request, Response response) throws Exception {
@@ -53,7 +38,7 @@ public class ApplyRoleChanges extends HttpHandler {
             return;
         }
 
-        JsonObject responseJson = new JsonObject();
+        final JsonObject responseJson = new JsonObject();
 
         final JsonObject json;
         final long guildId;
@@ -68,7 +53,7 @@ public class ApplyRoleChanges extends HttpHandler {
             responseJson.addProperty("status", "bad_request");
             responseJson.addProperty("meta", e.getClass().getSimpleName());
             response.setStatus(HttpStatus.BAD_REQUEST_400);
-            sendJsonResponse(responseJson, response);
+            Util.sendJsonResponse(responseJson, response);
             LOGGER.warn("Received bad role change request from website: invalid json syntax or missing/invalid guild_id, user_id or api_key");
             return;
         }
@@ -77,7 +62,7 @@ public class ApplyRoleChanges extends HttpHandler {
             responseJson.addProperty("status", "bad_request");
             responseJson.addProperty("meta", "null api key or null roles");
             response.setStatus(HttpStatus.BAD_REQUEST_400);
-            sendJsonResponse(responseJson, response);
+            Util.sendJsonResponse(responseJson, response);
             LOGGER.warn("Received bad role change request from website: zero guild id, null api key, or null roles");
             return;
         }
@@ -94,16 +79,16 @@ public class ApplyRoleChanges extends HttpHandler {
         if (api == null) {
             responseJson.addProperty("status", "not_linked");
             response.setStatus(HttpStatus.BAD_REQUEST_400);
-            sendJsonResponse(responseJson, response);
+            Util.sendJsonResponse(responseJson, response);
             LOGGER.warn("Received bad role change request from website: website is not linked");
             return;
         }
 
-        if (!timingSafeEquals(apiKey.getBytes(), api.apiKey().getBytes())) {
+        if (!Util.timingSafeEquals(apiKey.getBytes(), api.apiKey().getBytes())) {
             responseJson.addProperty("status", "unauthorized");
             responseJson.addProperty("meta", "Invalid API key");
             response.setStatus(HttpStatus.UNAUTHORIZED_401);
-            sendJsonResponse(responseJson, response);
+            Util.sendJsonResponse(responseJson, response);
             LOGGER.warn("Received bad role change request from website: invalid API key. provided='{}' expected='{}'",
                     Ascii.truncate(apiKey, 100, "..."),
                     Ascii.truncate(api.apiKey(), 100, "..."));
@@ -114,7 +99,7 @@ public class ApplyRoleChanges extends HttpHandler {
         if (guild == null) {
             responseJson.addProperty("status", "invalid_guild");
             response.setStatus(HttpStatus.BAD_REQUEST_400);
-            sendJsonResponse(responseJson, response);
+            Util.sendJsonResponse(responseJson, response);
             LOGGER.warn("Received bad role change request from website: invalid guild id, guild id = '{}'", guildId);
             return;
         }
@@ -161,7 +146,7 @@ public class ApplyRoleChanges extends HttpHandler {
                         response.setStatus(HttpStatus.BAD_REQUEST_400);
                         responseJson.addProperty("status", "bad_request");
                         responseJson.addProperty("meta", "invalid role change action: " + action);
-                        sendJsonResponse(responseJson, response);
+                        Util.sendJsonResponse(responseJson, response);
                         return;
                     }
                 } catch (final HierarchyException | InsufficientPermissionException e2) {
@@ -179,6 +164,6 @@ public class ApplyRoleChanges extends HttpHandler {
 
         responseJson.addProperty("status", "success");
         responseJson.add("role_changes", roleResponses);
-        sendJsonResponse(responseJson, response);
+        Util.sendJsonResponse(responseJson, response);
     }
 }
