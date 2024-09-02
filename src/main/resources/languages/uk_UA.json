@@ -2,7 +2,7 @@
     "error_generic": "Сталася внутрішня помилка.",
     "error_website_connection": "Не вдалося підключитися до сайту.",
     "error_website_version": "На вашому сайті використовується несумісна версія NamelessMC. Ви використовуєте версію {version}, в той час як бот сумісний з наступними версіями: {compatibleVersions}.",
-    "error_read_only_storage": "Ви повинні мати права адміністратора на цільовому сервері Discord, щоб використовувати цю команду.",
+    "error_read_only_storage": "Цей екземпляр бота налаштовано без бази даних. Якщо ви хочете змінити його конфігурацію, ви повинні зробити це вручну (шляхом зміни змінних оточення), а не за допомогою команд.",
     "error_invalid_username": "Надане ім'я користувача є недійсним.",
     "error_duplicate_username": "Надане ім'я користувача вже використовується іншим обліковим записом на сайті.",
     "error_duplicate_email_address": "Надана адреса електронної пошти вже використовується іншим обліковим записом на сайті.",
@@ -49,5 +49,14 @@
     "configure_unlink_not_linked": "Неможливо відключити, цей бот не підключено.",
     "configure_unlink_success": "Успішно відключено Nameless-Link від Вашого сайту.",
     "configure_username_sync_disabled": "Синхронізацію імен користувачів відключено.",
-    "configure_update_usernames_done": "Готово!"
+    "configure_update_usernames_done": "Готово!",
+    "configure_description": "Змінити налаштування Nameless-Link.",
+    "configure_test_description": "Перевірити, чи працює з'єднання з сайтом.",
+    "configure_test_working": "З'єднання з сайтом API, здається, працює. Зайняло {time}мс.",
+    "configure_username_sync_option_state": "Чи ввімкнено синхронізацію імен користувачів.",
+    "configure_update_usernames_description": "Примусово надсилати оновлені імена користувачів Discord до NamelessMC.",
+    "configure_update_usernames_start": "Надсилання нових імен користувачів для всіх учасників до NamelessMC...",
+    "configure_username_sync_description": "Увімкнути або вимкнути синхронізацію імен користувачів NamelessMC з іменами користувачів Discord.",
+    "configure_username_sync_enabled": "Синхронізація імен користувачів увімкнена. Зверніть увагу, що Nameless-Link не може оновлювати псевдоніми для користувачів з вищою роллю. Вам слід перемістити роль Nameless-Link на перше місце в налаштуваннях ролі. Nameless-Link ніколи не змінить нікнейм власника сервера, оскільки це заборонено Discord.",
+    "configure_username_sync_missing_permission": "Відсутній дозвіл на зміну ніків. Будь ласка, спробуйте вигнати і повторно запросити бота, щоб переконатися, що він має дозвіл на 'Керування ніками'."
 }
