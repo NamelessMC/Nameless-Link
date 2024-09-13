@@ -28,10 +28,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordRoleListener extends ListenerAdapter {
 
-	private static final long EVENT_DISABLE_DURATION = 2000;
-
-	private static final HashMap<Long, Long> temporarilyDisabledEvents = new HashMap<>();
-
 	private static final Logger LOGGER = LoggerFactory.getLogger("Group sync discord->website");
 
 	private static final Map<Long, Object> ROLE_SEND_LOCK = new HashMap<>();
@@ -55,10 +51,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 				runnable.run();
 			}
 		});
-	}
-
-	public static void temporarilyDisableEvents(final long userId) {
-		temporarilyDisabledEvents.put(userId, System.currentTimeMillis());
 	}
 
 	@Override
@@ -149,19 +141,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 		if (member.getUser().isBot()) {
 			LOGGER.info("Skipping role change in guild {}, user {} is a bot.", guildId, userId);
 			return;
-		}
-
-		if (temporarilyDisabledEvents.containsKey(userId)) {
-			final long diff = System.currentTimeMillis() - temporarilyDisabledEvents.get(userId);
-
-			// No need to send rank change to website if we
-			// just received this role update from the website
-			if (diff < EVENT_DISABLE_DURATION) {
-				LOGGER.info("Ignoring role update event for guild={} user={}", guildId, userId);
-				return;
-			} else {
-				temporarilyDisabledEvents.remove(userId);
-			}
 		}
 
 		final NamelessAPI api;
