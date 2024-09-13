@@ -1,12 +1,10 @@
 # start with
-# ./build.sh && docker-compose up --build
-
-version: '3'
+# mvn package && docker-compose up --build
 
 services:
 
   postgres:
-    image: postgres:15-bullseye
+    image: postgres:16-bullseye
     volumes: ['/opt/nameless-link:/var/lib/postgresql/data']
     ports: ['127.0.0.1:27363:5432'] # Exposed for vscode SQLTools
     environment:
@@ -26,3 +24,4 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       API_DEBUG: 'true'
+      ALLOW_LOCAL_ADDRESSES: 'true'

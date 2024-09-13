@@ -1,10 +1,21 @@
 package com.namelessmc.bot.listeners;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.exception.ApiError;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -14,13 +25,6 @@ import net.dv8tion.jda.api.events.role.RoleCreateEvent;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DiscordRoleListener extends ListenerAdapter {
 
@@ -105,8 +109,9 @@ public class DiscordRoleListener extends ListenerAdapter {
 	public void onGuildMemberRoleAdd(final GuildMemberRoleAddEvent event) {
 		final long userId = event.getUser().getIdLong();
 		final long guildId = event.getGuild().getIdLong();
+		final long[] added = event.getRoles().stream().mapToLong(Role::getIdLong).toArray();
 		LOGGER.info("Received guild member role add event for {} in {}", userId, guildId);
-		sendUserRolesAsync(guildId, userId);
+		sendUserRolesAsync(guildId, userId, added, new long[0]);
 
 	}
 
@@ -114,15 +119,21 @@ public class DiscordRoleListener extends ListenerAdapter {
 	public void onGuildMemberRoleRemove(final GuildMemberRoleRemoveEvent event) {
 		final long userId = event.getUser().getIdLong();
 		final long guildId = event.getGuild().getIdLong();
+		final long[] removed = event.getRoles().stream().mapToLong(Role::getIdLong).toArray();
 		LOGGER.info("Received guild member role remove event for {} in {}", userId, guildId);
-		sendUserRolesAsync(guildId, userId);
+		sendUserRolesAsync(guildId, userId, new long[0], removed);
+	}
+	
+	public static void sendUserRolesAsync(final long guildId, final long userId, final long[] addedRoleIds, final long[] removedRoleIds) {
+		executeAsyncSynchronized(guildId, () -> sendUserRoles(guildId, userId, addedRoleIds, removedRoleIds));
+	}
+	
+	private static String toString(long[] longArr) {
+		return "[" + Arrays.stream(longArr).mapToObj(String::valueOf).collect(Collectors.joining(", ")) + "]";
 	}
 
-	public static void sendUserRolesAsync(final long guildId, final long userId) {
-		executeAsyncSynchronized(guildId, () -> sendUserRoles(guildId, userId));
-	}
-
-	private static void sendUserRoles(final long guildId, final long userId) {
+	@SuppressWarnings("deprecation")
+	private static void sendUserRoles(final long guildId, final long userId, final long[] addedRoleIds, final long[] removedRoleIds) {
 		final Guild guild = Main.getJdaForGuild(guildId).getGuildById(guildId);
 		if (guild == null) {
 			LOGGER.warn("Guild {} no longer exists?", guildId);
@@ -139,8 +150,6 @@ public class DiscordRoleListener extends ListenerAdapter {
 			LOGGER.info("Skipping role change in guild {}, user {} is a bot.", guildId, userId);
 			return;
 		}
-
-		final List<Role> roles = member.getRoles();
 
 		if (temporarilyDisabledEvents.containsKey(userId)) {
 			final long diff = System.currentTimeMillis() - temporarilyDisabledEvents.get(userId);
@@ -180,11 +189,21 @@ public class DiscordRoleListener extends ListenerAdapter {
 			LOGGER.warn("Ignoring role update event for guild={} user={}, user has no website account", guildId, userId);
 			return;
 		}
-
+		
 		try {
-			final long[] roleIds = roles.stream().mapToLong(Role::getIdLong).toArray();
-			user.discord().updateDiscordRoles(roleIds);
-			LOGGER.info("Sent roles for guild={} user={} to website sent roles to website: {}", guildId, userId, roles.stream().map(Role::getId).collect(Collectors.joining(", ")));
+			try {
+				user.discord().syncRoles(addedRoleIds, removedRoleIds);
+				LOGGER.info("Sent roles for guild={} user={} add={} remove={}", guildId, userId, toString(addedRoleIds), toString(removedRoleIds));
+			} catch (final ApiException e) {
+				if (e.apiError() == ApiError.NAMELESS_INVALID_API_METHOD) {
+					LOGGER.warn("New role sync endpoint not supported, trying again with old endpoint");
+					final long[] roleIds = member.getRoles().stream().mapToLong(Role::getIdLong).toArray();
+					user.discord().updateDiscordRoles(roleIds);
+					LOGGER.info("Sent roles for guild={} user={} to website: {}", guildId, userId, toString(roleIds));
+				} else {
+					throw e;
+				}
+			}
 		} catch (final NamelessException e) {
 			Main.logConnectionError(LOGGER, "Website communication error while sending role update: user=" + userId + " guild=" + guildId + " (setDiscordRoles)", e);
 		}

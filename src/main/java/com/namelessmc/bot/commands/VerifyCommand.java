@@ -1,5 +1,17 @@
 package com.namelessmc.bot.commands;
 
+import static com.namelessmc.bot.Language.Term.ERROR_NOT_SET_UP;
+import static com.namelessmc.bot.Language.Term.ERROR_WEBSITE_CONNECTION;
+import static com.namelessmc.bot.Language.Term.VERIFY_ALREADY_LINKED;
+import static com.namelessmc.bot.Language.Term.VERIFY_DESCRIPTION;
+import static com.namelessmc.bot.Language.Term.VERIFY_OPTION_TOKEN;
+import static com.namelessmc.bot.Language.Term.VERIFY_SUCCESS;
+import static com.namelessmc.bot.Language.Term.VERIFY_TOKEN_INVALID;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
@@ -8,17 +20,14 @@ import com.namelessmc.java_api.exception.ApiError;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.integrations.DiscordIntegrationData;
+
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static com.namelessmc.bot.Language.Term.*;
 
 public class VerifyCommand extends Command {
 
@@ -40,7 +49,7 @@ public class VerifyCommand extends Command {
 			hook.sendMessage(language.get(VERIFY_SUCCESS)).queue();
 			return true;
 		} catch (final NamelessException e) {
-			if (e instanceof ApiException apiException) {
+			if (e instanceof final ApiException apiException) {
 				if (apiException.apiError() == ApiError.CORE_INVALID_CODE) {
 					LOGGER.info("Invalid verification token");
 					hook.sendMessage(language.get(VERIFY_TOKEN_INVALID)).queue();
@@ -51,8 +60,8 @@ public class VerifyCommand extends Command {
 						hook.sendMessage(language.get(VERIFY_ALREADY_LINKED)).queue();
 					} else {
 						LOGGER.info("Invalid username error, trying again with dummy discriminator");
-						var newData = new DiscordIntegrationData(integrationData.idLong(), integrationData.username() + "#0000");
-						return verifyIntegration(hook, language, api, newData, token, true);
+						final var newData = new DiscordIntegrationData(integrationData.idLong(), integrationData.username() + "#0000");
+						return this.verifyIntegration(hook, language, api, newData, token, true);
 					}
 				}
 			}
@@ -79,10 +88,12 @@ public class VerifyCommand extends Command {
 			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
 			return;
 		}
+		
+		final long[] roleIds = guild.getMember(event.getUser()).getRoles().stream().mapToLong(Role::getIdLong).toArray();
 
-		if (verifyIntegration(hook, language, api, new DiscordIntegrationData(userId, username), token, false)) {
+		if (this.verifyIntegration(hook, language, api, new DiscordIntegrationData(userId, username), token, false)) {
 			LOGGER.info("Verified user {} in guild {}", username, guildId);
-			DiscordRoleListener.sendUserRolesAsync(guildId, userId);
+			DiscordRoleListener.sendUserRolesAsync(guildId, userId, roleIds, new long[0]);
 		}
 	}
 }
