@@ -10,6 +10,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
@@ -21,7 +22,8 @@ public class PingCommand extends Command {
 
 	@Override
 	public CommandData getCommandData(final Language language) {
-		return Commands.slash(this.name, language.get(PING_DESCRIPTION));
+		return Commands.slash(this.name, language.get(PING_DESCRIPTION))
+				.setDefaultPermissions(DefaultMemberPermissions.DISABLED);
 	}
 
 	@Override
