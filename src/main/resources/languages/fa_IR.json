@@ -48,7 +48,7 @@
     "guild_join_welcome_back": "سلام! از شما برای استفاده از ربات NamelessMC متشکریم. ربات قبلاً برای سرور Discord شما تنظیم شده است. اگر می‌خواهید از API URL دیگری استفاده کنید، می‌توانید آن را با استفاده از `{command}` تغییر دهید (این را در سرور Discord خود اجرا کنید).",
     "configure_username_sync_enabled": "همگام سازی نام کاربری فعال شده است. لطفاً توجه داشته باشید که Nameless-Link نمی تواند نام مستعار را برای کاربرانی که نقش بالاتری دارند به روز کند. شما باید نقش Nameless-Link را در تنظیمات نقش به بالا منتقل کنید. Nameless-Link هرگز نام مستعار صاحب سرور را تغییر نخواهد داد، زیرا Discord اجازه نمی دهد.",
     "guild_join_needs_renew": "سلام! از شما برای استفاده از ربات NamelessMC متشکریم. به نظر می رسد قبلاً API URL خود را تنظیم کرده اید، اما دیگر نیازی نیست. لطفا با استفاده از `{command}` یک مورد جدید تنظیم کنید (این را در سرور Discord خود اجرا کنید). API URL را می توان در `StaffCP > Configuration > API` پیدا کرد.",
-    "apiurl_option_url": "API URL وب سایت شما در این مسیر (StaffCP > Configuration > API) قرار دارد. برای لغو پیوند از 'none' استفاده کنید.",
+    "apiurl_option_url": "API URL وب سایت شما در این مسیر قرار دارد. برای لغو پیوند از 'none' استفاده کنید.",
     "apiurl_url_invalid": "API URL ارائه شده شباهتی به NamelessMC API URL ندارد. می توانید API URL را در(StaffCP > Configuration > API) پیدا کنید. آیا یک URL از نسخه قدیمی‌تر و پشتیبانی‌نشده NamelessMC وارد کرده‌اید؟",
     "guild_join_success": "سلام! از شما برای استفاده از ربات NamelessMC متشکریم. برای شروع، `{command}` را در سرور Discord خود اجرا کنید. API URL را می توان در `StaffCP > Configuration > API` پیدا کرد."
 }
