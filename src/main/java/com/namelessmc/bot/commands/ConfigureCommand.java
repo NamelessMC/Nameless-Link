@@ -156,6 +156,16 @@ public class ConfigureCommand extends Command {
                 Main.logConnectionError(LOGGER, e);
             }
         } catch (final BackendStorageException e) {
+            if (e.getCause() instanceof UnsupportedOperationException) {
+                hook.sendMessage(language.get(CONFIGURE_LINK_ALREADY_CONFIGURED))
+                        .setEphemeral(true)
+                        .queue(response -> {
+                            LOGGER.info("The bot is ALREADY configured using environment variables, please update the config via environment settings instead. Used in guild: {}", guildId);
+                        }, error -> {
+                            LOGGER.error("Failed to send environment variables warning for guild {}", guildId, error);
+                        });
+                return;
+            }
             hook.sendMessage(language.get(ERROR_GENERIC)).queue();
             LOGGER.error("storage backend", e);
         }

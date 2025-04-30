@@ -84,6 +84,7 @@
     "configure_update_usernames_done": "Done!",
     "configure_link_option_api_url": "Your website's API URL (StaffCP > Configuration > API).",
     "configure_link_option_api_key": "Your website's API key (StaffCP > Configuration > API).",
+    "configure_link_already_configured": "The bot is configured using environment variables, so `/configure` cannot be used. Please update the configuration via your environment settings instead.",
     "configure_link_success": "Your Discord server has been successfully linked to your NamelessMC website.",
     "configure_unlink_success": "Successfully unlinked Nameless-Link from the website.",
     "configure_test_working": "The API website connection appears to be working. Took {time}ms.",
