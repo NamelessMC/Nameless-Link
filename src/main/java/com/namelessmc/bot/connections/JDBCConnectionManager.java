@@ -1,18 +1,25 @@
 package com.namelessmc.bot.connections;
 
-import com.namelessmc.bot.util.ThrowingConsumer;
-import com.namelessmc.java_api.NamelessAPI;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.namelessmc.bot.util.ThrowingConsumer;
+import com.namelessmc.java_api.NamelessAPI;
 
 public abstract class JDBCConnectionManager extends ConnectionManager {
 
@@ -47,10 +54,10 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				statement.executeUpdate();
 			}
 
-			return ConnectionCache.getApiConnection(new URL(apiUrl), apiKey);
+			return ConnectionCache.getApiConnection(new URI(apiUrl).toURL(), apiKey);
 		} catch (final SQLException e) {
 			throw new BackendStorageException(e);
-		} catch (final MalformedURLException e) {
+		} catch (final MalformedURLException | URISyntaxException e) {
 			// This should never happen since malformed URLs are not allowed in the database
 			// Pretend as if the website was not set up
 			e.printStackTrace();
@@ -126,11 +133,11 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 				final List<NamelessAPI> connections = new ArrayList<>();
 				while (result.next()) {
 					try {
-						NamelessAPI apiConnection = ConnectionCache.getApiConnection(
-								new URL(result.getString("api_url")),
+						final NamelessAPI apiConnection = ConnectionCache.getApiConnection(
+								new URI(result.getString("api_url")).toURL(),
 								result.getString("api_key"));
 						connections.add(apiConnection);
-					} catch (final MalformedURLException e) {
+					} catch (final MalformedURLException | URISyntaxException e) {
 						LOGGER.warn("Skipped invalid URL in listConnections(): " + result.getString("api_url"));
 						e.printStackTrace();
 					}
@@ -162,25 +169,25 @@ public abstract class JDBCConnectionManager extends ConnectionManager {
 
 	@Override
 	public Collection<NamelessAPI> listConnections() throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url, api_key FROM connections",
+		return this.listConnectionsQuery("SELECT api_url, api_key FROM connections",
 				statement -> {});
 	}
 
 	@Override
 	public Collection<NamelessAPI> listConnectionsUsedSince(final long time) throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use > ?",
+		return this.listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use > ?",
 				statement -> statement.setLong(1, time));
 	}
 
 	@Override
 	public Collection<NamelessAPI> listConnectionsUsedBefore(final long time) throws BackendStorageException {
-		return listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use < ?",
+		return this.listConnectionsQuery("SELECT api_url, api_key FROM connections WHERE last_use < ?",
 				statement -> statement.setLong(1, time));
 	}
 
 	@Override
 	public Collection<Long> listGuildsUsernameSyncEnabled() throws BackendStorageException {
-		return listGuildsQuery("SELECT guild_id FROM connections WHERE username_sync = TRUE",
+		return this.listGuildsQuery("SELECT guild_id FROM connections WHERE username_sync = TRUE",
 				statement -> {});
 	}
 

@@ -1,5 +1,44 @@
 package com.namelessmc.bot.commands;
 
+import static com.namelessmc.bot.Language.Term.APIURL_FAILED_CONNECTION;
+import static com.namelessmc.bot.Language.Term.APIURL_URL_INVALID;
+import static com.namelessmc.bot.Language.Term.APIURL_URL_LOCAL;
+import static com.namelessmc.bot.Language.Term.APIURL_URL_MALFORMED;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_DESCRIPTION;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_LINK_ALREADY_CONFIGURED;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_LINK_DESCRIPTION;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_LINK_OPTION_API_KEY;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_LINK_OPTION_API_URL;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_LINK_SUCCESS;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_TEST_DESCRIPTION;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_TEST_WORKING;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_UNLINK_DESCRIPTION;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_UNLINK_NOT_LINKED;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_UNLINK_SUCCESS;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_UPDATE_USERNAMES_DESCRIPTION;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_UPDATE_USERNAMES_DONE;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_USERNAME_SYNC_DESCRIPTION;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_USERNAME_SYNC_DISABLED;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_USERNAME_SYNC_ENABLED;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_USERNAME_SYNC_MISSING_PERMISSION;
+import static com.namelessmc.bot.Language.Term.CONFIGURE_USERNAME_SYNC_OPTION_STATE;
+import static com.namelessmc.bot.Language.Term.ERROR_GENERIC;
+import static com.namelessmc.bot.Language.Term.ERROR_NOT_SET_UP;
+import static com.namelessmc.bot.Language.Term.ERROR_NO_PERMISSION;
+import static com.namelessmc.bot.Language.Term.ERROR_WEBSITE_CONNECTION;
+import static com.namelessmc.bot.Language.Term.ERROR_WEBSITE_VERSION;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Ascii;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
@@ -11,6 +50,7 @@ import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -22,16 +62,6 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static com.namelessmc.bot.Language.Term.*;
 
 public class ConfigureCommand extends Command {
 
@@ -66,14 +96,14 @@ public class ConfigureCommand extends Command {
                 return;
             }
 
-            String subcommand = event.getSubcommandName();
+            final String subcommand = event.getSubcommandName();
             LOGGER.info("Subcommand: {}", subcommand);
             switch (subcommand) {
-                case "link" -> link(event, hook, language, api);
-                case "unlink" -> unlink(event, hook, language, api);
-                case "test" -> testConnection(event, hook, language, api);
-                case "username_sync" -> changeUsernameSync(event, hook, language);
-                case "update_usernames" -> updateUsernames(event, hook, language, api);
+                case "link" -> this.link(event, hook, language, api);
+                case "unlink" -> this.unlink(event, hook, language, api);
+                case "test" -> this.testConnection(event, hook, language, api);
+                case "username_sync" -> this.changeUsernameSync(event, hook, language);
+                case "update_usernames" -> this.updateUsernames(event, hook, language, api);
                 default -> throw new IllegalArgumentException("Unknown subcommand: " + subcommand);
             }
         });
@@ -87,7 +117,7 @@ public class ConfigureCommand extends Command {
             return;
         }
 
-        long guildId = event.getGuild().getIdLong();
+        final long guildId = event.getGuild().getIdLong();
         try {
             Main.getConnectionManager().removeConnection(guildId);
             hook.sendMessage(language.get(CONFIGURE_UNLINK_SUCCESS)).queue();
@@ -99,14 +129,14 @@ public class ConfigureCommand extends Command {
     }
 
     private void link(SlashCommandInteractionEvent event, InteractionHook hook, Language language, @Nullable NamelessAPI oldApi) {
-        long guildId = event.getGuild().getIdLong();
-        String apiUrlString = event.getOption("api_url").getAsString();
-        String apiKey = event.getOption("api_key").getAsString();
+        final long guildId = event.getGuild().getIdLong();
+        final String apiUrlString = event.getOption("api_url").getAsString();
+        final String apiKey = event.getOption("api_key").getAsString();
 
         final URL apiUrl;
         try {
-            apiUrl = new URL(apiUrlString);
-        } catch (final MalformedURLException e) {
+        	apiUrl = new URI(apiUrlString).toURL();
+        } catch (final MalformedURLException | URISyntaxException e) {
             hook.sendMessage(language.get(APIURL_URL_MALFORMED)).queue();
             return;
         }
@@ -114,8 +144,8 @@ public class ConfigureCommand extends Command {
         try {
             LOGGER.info("Checking if API URL works...");
 
-            NamelessAPI api = ConnectionCache.getApiConnection(apiUrl, apiKey);
-            long ping = ping(api, language, hook);
+            final NamelessAPI api = ConnectionCache.getApiConnection(apiUrl, apiKey);
+            final long ping = this.ping(api, language, hook);
 
             if (ping == -1) {
                 // it didn't work, the checkConnection method already send an error message
@@ -177,14 +207,14 @@ public class ConfigureCommand extends Command {
             return;
         }
 
-        long ping = ping(api, language, event.getHook());
+        final long ping = this.ping(api, language, event.getHook());
         if (ping >= 0) {
             hook.sendMessage(language.get(CONFIGURE_TEST_WORKING, "time", ping)).queue();
         }
     }
 
     private long ping(final NamelessAPI api, final Language language, final InteractionHook hook) {
-        URL url = api.apiUrl();
+        final URL url = api.apiUrl();
         if (!url.getProtocol().equals("http") && !url.getProtocol().equals("https") ||
                 !url.getPath().endsWith("/index.php") ||
                 !url.getQuery().equals("route=/api/v2") && !url.getQuery().equals("route=/api/v2/")
@@ -194,7 +224,7 @@ public class ConfigureCommand extends Command {
             return -1;
         }
 
-        String host = url.getHost();
+        final String host = url.getHost();
         if (!Main.isLocalAllowed() && (
                 host.equals("localhost") ||
                         host.startsWith("127.") ||
@@ -220,7 +250,7 @@ public class ConfigureCommand extends Command {
 
                 LOGGER.info("Website connection is working");
                 return System.currentTimeMillis() - start;
-            } catch (UnknownNamelessVersionException e) {
+            } catch (final UnknownNamelessVersionException e) {
                 hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
                 Main.logConnectionError(LOGGER, "unknown nameless version", e);
                 return -1;
@@ -238,7 +268,7 @@ public class ConfigureCommand extends Command {
     }
 
     private void changeUsernameSync(SlashCommandInteractionEvent event, InteractionHook hook, Language language) {
-        boolean state = event.getOption("state").getAsBoolean();
+        final boolean state = event.getOption("state").getAsBoolean();
         final String originalNickname = event.getMember().getNickname();
 
         // Modify nickname to check if permission is working
@@ -247,9 +277,9 @@ public class ConfigureCommand extends Command {
 
             // Restore original nickname, if the member running the command was not the server owner
             event.getMember().modifyNickname(originalNickname).queue();
-        } catch (HierarchyException ignored) {
+        } catch (final HierarchyException ignored) {
             // This is expected, changing the nickname of the owner is never allowed.
-        } catch (InsufficientPermissionException e) {
+        } catch (final InsufficientPermissionException e) {
             hook.sendMessage(language.get(CONFIGURE_USERNAME_SYNC_MISSING_PERMISSION)).queue();
             return;
         }
@@ -287,7 +317,7 @@ public class ConfigureCommand extends Command {
             }
             try {
                 api.discord().updateDiscordUsernames(discordIds, discordUsernames);
-            } catch (NamelessException e) {
+            } catch (final NamelessException e) {
                 hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
                 Main.logConnectionError(LOGGER, e);
                 return;
