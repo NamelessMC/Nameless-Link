@@ -273,7 +273,7 @@ public class ConfigureCommand extends Command {
             for (int i = 0; i < members.size(); i++) {
                 final User user = members.get(i).getUser();
                 discordIds[i] = user.getIdLong();
-                discordUsernames[i] = user.getAsTag();
+                discordUsernames[i] = user.getName();
             }
             try {
                 api.discord().updateDiscordUsernames(discordIds, discordUsernames);
