@@ -67,9 +67,9 @@ public class RegisterCommand extends Command {
 			return;
 		}
 
-		IntegrationData integrationData = new DiscordIntegrationData(discordId, discordUsername);
+		final IntegrationData integrationData = new DiscordIntegrationData(discordId, discordUsername);
 		try {
-			Optional<String> verificationUrl = api.registerUser(username, email, integrationData);
+			final Optional<String> verificationUrl = api.registerUser(username, email, integrationData);
 			if (verificationUrl.isPresent()) {
 				LOGGER.info("Registration successful, sending registration URL");
 				hook.sendMessage(language.get(REGISTER_URL, "url", verificationUrl.get())).queue();
@@ -77,8 +77,8 @@ public class RegisterCommand extends Command {
 				LOGGER.info("Registration successful, registration URL has been sent in an email");
 				hook.sendMessage(language.get(REGISTER_EMAIL)).queue();
 			}
-		} catch (NamelessException e) {
-			if (e instanceof ApiException apiException) {
+		} catch (final NamelessException e) {
+			if (e instanceof final ApiException apiException) {
 				switch (apiException.apiError()) {
 					case CORE_INVALID_USERNAME:
 						hook.sendMessage(language.get(ERROR_INVALID_USERNAME)).queue();
@@ -99,6 +99,8 @@ public class RegisterCommand extends Command {
 					case CORE_INTEGRATION_USERNAME_ERROR:
 						hook.sendMessage(language.get(ERROR_DUPLICATE_DISCORD_INTEGRATION)).queue();
 						return;
+					default:
+						// generic error message is sent below
 				}
 			}
 

@@ -1,5 +1,17 @@
 package com.namelessmc.bot;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.Serial;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -7,14 +19,8 @@ import com.namelessmc.bot.connections.BackendStorageException;
 import com.namelessmc.java_api.LanguageEntity;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.exception.NamelessException;
-import net.dv8tion.jda.api.entities.Guild;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import net.dv8tion.jda.api.entities.Guild;
 
 public class Language {
 
@@ -129,7 +135,7 @@ public class Language {
 
 	private Language(final String language) throws LanguageLoadException {
 		this.languageCode = Objects.requireNonNull(language, "Language string is null");
-		readFromFile();
+		this.readFromFile();
 	}
 
 	private void readFromFile() throws LanguageLoadException {
@@ -148,7 +154,7 @@ public class Language {
 
 	public String get(final Term term, final Object... replacements) {
 		Objects.requireNonNull(term, "Term is null");
-		checkReplacements(term, replacements);
+		this.checkReplacements(term, replacements);
 
 		String translation;
 		if (this.json.has(term.toString())) {
@@ -255,6 +261,8 @@ public class Language {
 	}
 
 	public static class MissingTermException extends RuntimeException {
+
+		private static final long serialVersionUID = 1L;
 
 		public MissingTermException(final String languageCode, final Term term) {
 			super("Language " + languageCode + " is missing term " + term.name());

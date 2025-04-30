@@ -1,14 +1,15 @@
 package com.namelessmc.bot.connections;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 import java.util.function.Supplier;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StorageInitializer<CM extends ConnectionManager> {
 
@@ -118,8 +119,8 @@ public class StorageInitializer<CM extends ConnectionManager> {
 			return null;
 		}
 		try {
-			return new URL(str);
-		} catch (final MalformedURLException e) {
+			return new URI(str).toURL();
+		} catch (final MalformedURLException | URISyntaxException e) {
 			LOGGER.error("Provided URL in {} is malformed. The full URL is printed below:", name);
 			LOGGER.error(str);
 			LOGGER.error("The string above should not contain any quotation marks (\" or ').");
