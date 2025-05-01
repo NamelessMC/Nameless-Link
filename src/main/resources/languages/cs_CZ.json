@@ -95,5 +95,6 @@
     "configure_username_sync_enabled": "Synchronizace uživatelských jmen byla povolena. Upozorňujeme, že bot Nameless-Link nemůže aktualizovat přezdívky uživatelů s vyšší rolí. V nastavení rolí byste měli roli Nameless-Link přesunout na vyšší pozici. Bot Nameless-Link nikdy nezmění přezdívku vlastníka serveru, protože to Discord nepovoluje.",
     "configure_update_usernames_start": "Odesílání nových přezdívek všech členů do NamelessMC...",
     "configure_update_usernames_done": "Hotovo!",
-    "configure_username_sync_description": "Povolit nebo zakázat synchronizaci přezdívek NamelessMC s přezdívkami na Discordu."
+    "configure_username_sync_description": "Povolit nebo zakázat synchronizaci přezdívek NamelessMC s přezdívkami na Discordu.",
+    "configure_link_already_configured": "Bot je nastaven pomocí proměnných prostředí, takže nelze použít příkaz `/configure`. Místo toho aktualizujte konfiguraci pomocí nastavení prostředí."
 }
