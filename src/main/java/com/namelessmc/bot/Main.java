@@ -20,6 +20,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDA.Status;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -91,6 +92,27 @@ public class Main {
 	private static int shards;
 	public static int getShardCount() { return shards; }
 
+	private static @Nullable Activity getConfiguredActivity() {
+		String typeEnv = System.getenv("BOT_ACTIVITY_TYPE");
+		String message = System.getenv("BOT_ACTIVITY_MESSAGE");
+
+		if (typeEnv == null || message == null) {
+			LOGGER.info("BOT_ACTIVITY_TYPE or BOT_ACTIVITY_MESSAGE not set; skipping status configuration.");
+			return null;
+		}
+
+		return switch (typeEnv.toUpperCase()) {
+			case "PLAYING" -> Activity.playing(message);
+			case "LISTENING" -> Activity.listening(message);
+			case "WATCHING" -> Activity.watching(message);
+			case "COMPETING" -> Activity.competing(message);
+			default -> {
+				LOGGER.warn("Invalid BOT_ACTIVITY_TYPE: '{}'. Valid options: PLAYING, LISTENING, WATCHING, COMPETING.", typeEnv);
+				yield null;
+			}
+		};
+	}
+
 	public static void main(final String[] args) throws BackendStorageException, NamelessException {
 		LOGGER.info("Starting Nameless Link version {}", Main.class.getPackage().getImplementationVersion());
 
@@ -149,6 +171,7 @@ public class Main {
 					.addEventListeners(new GuildJoinHandler())
 					.addEventListeners(new CommandListener())
 					.addEventListeners(new DiscordRoleListener())
+					.setActivity(getConfiguredActivity())
 					.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.DIRECT_MESSAGES)
 					.setMemberCachePolicy(MemberCachePolicy.ALL)
 					.useSharding(i, shards)
