@@ -85,7 +85,8 @@ public class TestLanguage {
 			Language language = getLanguage(languageCode);
 			for (Language.Term term : Language.Term.values()) {
 				try {
-					int length = language.get(term, getFakeReplacements(term)).length();
+					String string = language.get(term, getFakeReplacements(term));
+					int length = string.codePointCount(0, string.length());
 					assertTrue(length < maxLength(term), "Term " + term.name() + " too long in language " + languageCode);
 				} catch (Language.MissingTermException ignored) {}
 			}
