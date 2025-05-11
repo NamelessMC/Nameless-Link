@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jammy
+FROM eclipse-temurin:21
 
 COPY target/Nameless-Link.jar /app.jar
 
