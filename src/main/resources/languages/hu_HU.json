@@ -74,5 +74,6 @@
     "configure_unlink_success": "Sikeresen unlinkelted a Nalemless-Link-et a weboldalról.",
     "configure_username_sync_description": "NamelessMC felhasználó nevek a Discord-hoz való szinkronizálás be vagy ki kapcsolása.",
     "configure_username_sync_missing_permission": "Hiányzó engedély a becenevek megváltoztatásához. Kérjük, próbálja meg kidobni majd újra meghívni a botot, hogy megbizonyosodjon arról, hogy rendelkezik a „Becenevek kezelése” engedéllyel.",
-    "configure_username_sync_enabled": "A felhasználónév szinkronizálása engedélyezve van. Felhívjuk figyelmét, hogy a Nameless-Link nem tudja frissíteni a magasabb szerepkörrel rendelkező felhasználók beceneveit. A Névtelen hivatkozás szerepkört a szerepbeállítások tetejére kell helyeznie. A Nameless-Link soha nem fogja megváltoztatni a kiszolgáló tulajdonosának becenevét, mivel ezt a Discord nem engedélyezi."
+    "configure_username_sync_enabled": "A felhasználónév szinkronizálása engedélyezve van. Felhívjuk figyelmét, hogy a Nameless-Link nem tudja frissíteni a magasabb szerepkörrel rendelkező felhasználók beceneveit. A Névtelen hivatkozás szerepkört a szerepbeállítások tetejére kell helyeznie. A Nameless-Link soha nem fogja megváltoztatni a kiszolgáló tulajdonosának becenevét, mivel ezt a Discord nem engedélyezi.",
+    "configure_link_already_configured": "A bot környezeti változók használatával van konfigurálva, ezért a `/configure` nem használható. Kérjük, frissítsd a konfigurációt a környezeti beállításokon keresztül."
 }
