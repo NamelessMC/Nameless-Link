@@ -158,7 +158,6 @@ public class ConfigureCommand extends Command {
                 // We can safely do this, since we have just verified the user knows the secret API key.
                 LOGGER.info("URL was already linked to a different guild. It will be unlinked.");
                 Main.getConnectionManager().removeConnection(optExistingGuildId.get());
-                return;
             }
 
             LOGGER.info("API URL seems to work. Sending bot settings...");
