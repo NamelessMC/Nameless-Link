@@ -80,7 +80,7 @@ public class Main {
 	public static int getWebserverPort() { return webserverPort; }
 
 	/**
-	 * When true, try to detect local addresses and display a user-friendly warning. This setting will not block
+	 * When false, try to detect local addresses and display a user-friendly warning. This setting will not block
 	 * private addresses perfectly, do not rely on it for security!
 	 */
 	private static boolean localAllowed;
