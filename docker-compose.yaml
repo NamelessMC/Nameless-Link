@@ -13,8 +13,6 @@ services:
   link:
     build:
       context: .
-      args:
-        LINK_VERSION: 2.0
     ports: ['27362:80']
     env_file: secrets.env # Contains DISCORD_TOKEN= and BOT_URL=
     environment:
