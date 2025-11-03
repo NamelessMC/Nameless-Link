@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25
+FROM docker.io/eclipse-temurin:25
 
 COPY target/Nameless-Link.jar /app.jar
 
