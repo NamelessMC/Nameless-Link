@@ -4,6 +4,37 @@ The "Nameless Link" Discord bot synchronizes user roles to and from a specific D
 
 For documentation please consult the [wiki](https://github.com/NamelessMC/Nameless-Link/wiki).
 
+## Configuration
+
+### Bot Activity/Presence
+
+You can customize the bot's activity status using environment variables:
+
+- `BOT_ACTIVITY_TYPE` - The type of activity to display. Valid options:
+  - `PLAYING` - Shows "Playing {message}"
+  - `LISTENING` - Shows "Listening to {message}"
+  - `WATCHING` - Shows "Watching {message}"
+  - `COMPETING` - Shows "Competing in {message}"
+  - `STREAMING` - Shows "Streaming {message}" with a purple "LIVE" indicator (requires `BOT_ACTIVITY_URL`)
+  - `CUSTOM` - Shows a custom status message
+- `BOT_ACTIVITY_MESSAGE` - The message to display in the activity status
+- `BOT_ACTIVITY_URL` - (Optional, required for `STREAMING`) The URL for the stream (e.g., Twitch/YouTube URL)
+
+**Example (docker-compose.yaml):**
+```yaml
+environment:
+  BOT_ACTIVITY_TYPE: PLAYING
+  BOT_ACTIVITY_MESSAGE: with NamelessMC
+```
+
+**Example (STREAMING):**
+```yaml
+environment:
+  BOT_ACTIVITY_TYPE: STREAMING
+  BOT_ACTIVITY_MESSAGE: NamelessMC Development
+  BOT_ACTIVITY_URL: https://www.twitch.tv/your_channel
+```
+
 ## Translations
 
 <a href="https://translate.namelessmc.com/engage/namelessmc/">
