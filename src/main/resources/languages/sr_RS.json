@@ -1,3 +1,66 @@
 {
-    "error_generic": "Došlo je do greške u sistemu."
+    "error_generic": "Došlo je do interne greške.",
+    "error_not_set_up": "Trenutno ne možete koristiti ovu komandu, bot još nije podešen.",
+    "error_not_linked": "Ne možete koristiti ovu komandu jer vaš nalog još nije povezan. Molimo idite na podešavanja naloga na veb lokaciji da povežete svoj Discord nalog.",
+    "error_website_connection": "Nije moguće povezati se sa veb lokacijom.",
+    "error_website_version": "Vaša veb lokacija koristi nekompatibilnu verziju NamelessMC-a. Koristite verziju {version}, dok je bot kompatibilan sa sledećim verzijama: {compatibleVersions}.",
+    "error_no_permission": "Morate imati 'Administrator' dozvolu na ciljnom Discord serveru da biste koristili ovu komandu.",
+    "error_read_only_storage": "Ova instanca bota je konfigurisana bez baze podataka. Ako želite da izmenite konfiguraciju morate to uraditi ručno (modifikacijom varijabli okruženja) umesto kroz komande.",
+    "error_invalid_username": "Navedeno korisničko ime je nevažeće.",
+    "error_duplicate_username": "Navedeno korisničko ime već koristi drugi nalog na veb lokaciji.",
+    "error_invalid_email_address": "Navedena imejl adresa je nevažeća.",
+    "error_duplicate_email_address": "Navedenu imejl adresu već koristi drugi nalog na veb lokaciji.",
+    "error_send_verification_email": "Nije moguće poslati verifikacioni imejl.",
+    "error_duplicate_discord_integration": "Nije moguće kreirati novi nalog, ovaj Discord korisnik je već povezan sa drugim nalogom na veb lokaciji.",
+
+    "configure_description": "Promenite podešavanja Nameless-Link bota.",
+
+    "configure_link_description": "Povežite bot sa veb lokacijom.",
+    "configure_link_option_api_url": "API URL vaše veb lokacije (StaffCP > Configuration > API).",
+    "configure_link_option_api_key": "API ključ vaše veb lokacije (StaffCP > Configuration > API).",
+    "configure_link_already_configured": "Bot je konfigurisan pomoću varijabli okruženja, tako da `/configure` ne može biti korišćen. Molimo ažurirajte konfiguraciju preko vaših podešavanja okruženja.",
+    "configure_link_success": "Vaš Discord server je uspešno povezan sa vašom NamelessMC veb lokacijom.",
+
+    "configure_unlink_description": "Isključite bot od veb lokacije.",
+    "configure_unlink_not_linked": "Nije moguće isključiti, bot nije povezan.",
+    "configure_unlink_success": "Uspešno isključen Nameless-Link od veb lokacije.",
+
+    "configure_test_description": "Proverite da li veza sa veb lokacijom funkcioniše.",
+    "configure_test_working": "Veza sa API-jem veb lokacije izgleda da funkcioniše. Trajalo je {time}ms.",
+
+    "configure_username_sync_description": "Omogućite/onemogućite sinhronizaciju korisničkih imena sa Discord-om.",
+    "configure_username_sync_option_state": "Da li je sinhronizacija korisničkih imena omogućena.",
+    "configure_username_sync_missing_permission": "Nedostaje dozvola za promenu nadimaka. Molimo pokušajte da izbacite i ponovo pozovete bot da biste bili sigurni da ima 'Manage Nicknames' dozvolu.",
+    "configure_username_sync_enabled": "Sinhronizacija korisničkih imena je omogućena. Napominjemo da Nameless-Link ne može ažurirati nadimke za korisnike sa višom ulogom. Trebali biste premestiti Nameless-Link ulogu na vrh u podešavanjima uloga. Nameless-Link nikada neće promeniti nadimak vlasnika servera, jer to Discord ne dozvoljava.",
+    "configure_username_sync_disabled": "Sinhronizacija korisničkih imena je onemogućena.",
+
+    "configure_update_usernames_description": "Prisilno pošaljite ažurirana Discord korisnička imena na NamelessMC.",
+    "configure_update_usernames_start": "Šaljem nova korisnička imena za sve članove na NamelessMC...",
+    "configure_update_usernames_done": "Završeno!",
+
+    "verify_description": "Verifikujte svoj Discord nalog povezan sa veb lokacijom",
+    "verify_option_token": "Verifikacioni token",
+    "verify_token_invalid": "Neuspešna verifikacija vašeg naloga, uneli ste nevažeći token.",
+    "verify_already_linked": "Vaš Discord nalog je već povezan sa drugim nalogom na veb lokaciji.",
+    "verify_success": "Hvala na verifikaciji, vaš nalog je sada povezan.",
+
+    "ping_description": "Testirajte API vezu sa veb lokacijom",
+
+    "register_description": "Kreirajte nalog na veb lokaciji",
+    "register_option_username": "Korisničko ime",
+    "register_option_email": "Imejl adresa",
+    "register_email": "Molimo proverite svoj imejl da završite registraciju.",
+    "register_url": "Da završite registraciju, molimo posetite ovu stranicu u veb pregledaču: {url}",
+
+    "apiurl_description": "Konfigurišite API URL NamelessMC veb lokacije",
+    "apiurl_option_url": "API URL vaše veb lokacije (StaffCP > Configuration > API). Navedite 'none' da isključite.",
+    "apiurl_option_apikey": "API ključ vaše veb lokacije (StaffCP > Configuration > API).",
+    "apiurl_url_invalid": "Navedeni API URL ne izgleda kao NamelessMC API URL. API URL možete pronaći u StaffCP > Configuration > API. Da li ste uneli URL za stariju, nepodržanu verziju NamelessMC-a?",
+    "apiurl_url_malformed": "Navedeni API URL je neispravan.",
+    "apiurl_url_local": "Vaš API URL sadrži adresu iz privatnog adresnog prostora. Ove adrese su dostupne samo unutar vaše mreže. Molimo unesite eksterno dostupan domen.",
+    "apiurl_failed_connection": "Nije moguće povezati se sa vašom veb lokacijom. Molimo pogledajte poruku iznad za detalje.",
+
+    "guild_join_success": "Zdravo! Hvala što koristite NamelessMC bot. Za početak, pokrenite `{command}` na vašem Discord serveru. API URL možete pronaći u `StaffCP > Configuration > API`.",
+    "guild_join_needs_renew": "Zdravo! Hvala što koristite NamelessMC bot. Izgleda da ste već postavili svoj API URL, ali on više ne funkcioniše. Molimo postavite novi koristeći `{command}` (pokrenite ovo na vašem Discord serveru). API URL možete pronaći u `StaffCP > Configuration > API`.",
+    "guild_join_welcome_back": "Zdravo! Hvala što koristite NamelessMC bot. Bot je već podešen za vaš Discord server. Ako želite da koristite drugi API URL možete ga promeniti koristeći `{command}` (pokrenite ovo na vašem Discord serveru)."
 }
