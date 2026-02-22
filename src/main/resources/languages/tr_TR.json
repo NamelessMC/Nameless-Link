@@ -55,5 +55,10 @@
     "configure_link_success": "Discord sunucunuz başarıyla NamelessMC siteniz ile bağlanmıştır.",
     "configure_unlink_success": "Botun başarıyla site ile bağlantısı kesildi.",
     "configure_test_description": "Eğer site bağlantısı düzgün çalışıyor ise kontrol edin.",
-    "configure_username_sync_description": "Aktif yada devre dışı NamelessMC kullanıcı adları Discord kullanıcı adlarıyla senkronizasyon yap."
+    "configure_username_sync_description": "Aktif yada devre dışı NamelessMC kullanıcı adları Discord kullanıcı adlarıyla senkronizasyon yap.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC.",
+    "verify_description": "Verify your Discord account connected to the website",
+    "ping_description": "Test website API connection",
+    "register_description": "Create a website account",
+    "apiurl_description": "Configure the NamelessMC website API URL"
 }

@@ -63,5 +63,10 @@
     "configure_unlink_not_linked": "לא ניתן לבטל את הקישור, הבוט אינו מקושר.",
     "configure_link_success": "שרת הדיסקורד שלך קושר בהצלחה לאתר NamelessMC שלך.",
     "configure_username_sync_disabled": "סנכרון שם המשתמש הושבת.",
-    "configure_update_usernames_done": "בוצע!"
+    "configure_update_usernames_done": "בוצע!",
+    "configure_description": "Change Nameless-Link settings.",
+    "configure_link_description": "Link bot to website.",
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC.",
+    "apiurl_description": "Configure the NamelessMC website API URL"
 }

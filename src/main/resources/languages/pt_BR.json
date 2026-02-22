@@ -62,5 +62,11 @@
     "error_duplicate_discord_integration": "Não foi possível criar uma nova conta, este usuário do Discord já está vinculado a uma conta em um site diferente.",
     "apiurl_url_local": "A URL da sua API contém um endereço de espaço privado. Esses endereços só podem ser acessados de dentro de sua rede. Por favor, insira um domínio acessível externamente.",
     "apiurl_option_apikey": "A chave de API do seu site (StaffCP > Configuração > API).",
-    "verify_already_linked": "Sua conta do Discord já está conectada a uma conta de site diferente."
+    "verify_already_linked": "Sua conta do Discord já está conectada a uma conta de site diferente.",
+    "configure_description": "Change Nameless-Link settings.",
+    "configure_link_description": "Link bot to website.",
+    "configure_unlink_description": "Disconnect bot from website.",
+    "configure_test_description": "Check if website connection is working.",
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC."
 }

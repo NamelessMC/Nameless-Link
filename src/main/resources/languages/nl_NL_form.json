@@ -38,5 +38,15 @@
     "help_commands_title": "Commando's",
     "help_commands_content": "Ongeldig commando. Geldige commando's: {commands}.",
     "help_context_title": "Context",
-    "help_context_content": "Sommige commando's zijn alleen beschikbaar in DMs, terwijl andere alleen beschikbaar zijn in servers."
+    "help_context_content": "Sommige commando's zijn alleen beschikbaar in DMs, terwijl andere alleen beschikbaar zijn in servers.",
+    "configure_description": "Change Nameless-Link settings.",
+    "configure_link_description": "Link bot to website.",
+    "configure_unlink_description": "Disconnect bot from website.",
+    "configure_test_description": "Check if website connection is working.",
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC.",
+    "verify_description": "Verify your Discord account connected to the website",
+    "ping_description": "Test website API connection",
+    "register_description": "Create a website account",
+    "apiurl_description": "Configure the NamelessMC website API URL"
 }
