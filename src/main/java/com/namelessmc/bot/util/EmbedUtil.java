@@ -11,10 +11,10 @@ public class EmbedUtil {
     private static final Color EMBED_COLOR = Color.decode("#2F3136");
 
     /**
-     * Creates a base embed with the bot's avatar and username in the footer.
+     * Creates a base embed with the bot's avatar and display name in the footer.
      */
     public static EmbedBuilder base(final JDA jda) {
-        final String botName = jda.getSelfUser().getName();
+        final String botName = jda.getSelfUser().getEffectiveName();
         final String botAvatar = jda.getSelfUser().getEffectiveAvatarUrl();
         return new EmbedBuilder()
                 .setColor(EMBED_COLOR)
