@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
+import com.namelessmc.bot.util.EmbedUtil;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.ApiError;
@@ -47,18 +48,18 @@ public class VerifyCommand extends Command {
 	private boolean verifyIntegration(InteractionHook hook, Language language, NamelessAPI api, DiscordIntegrationData integrationData, String token, boolean usingDummyDiscriminator) {
 		try {
 			api.verifyIntegration(integrationData, token);
-			hook.sendMessage(language.get(VERIFY_SUCCESS)).queue();
+			hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(VERIFY_SUCCESS))).queue();
 			return true;
 		} catch (final NamelessException e) {
 			if (e instanceof final ApiException apiException) {
 				if (apiException.apiError() == ApiError.CORE_INVALID_CODE) {
 					LOGGER.info("Invalid verification token");
-					hook.sendMessage(language.get(VERIFY_TOKEN_INVALID)).queue();
+					hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(VERIFY_TOKEN_INVALID))).queue();
 				} else if (apiException.apiError() == ApiError.CORE_INTEGRATION_USERNAME_ERROR) {
 					// Perhaps an older NamelessMC version that requires a discriminator
 					if (usingDummyDiscriminator) {
 						LOGGER.info("Invalid username error, already linked?");
-						hook.sendMessage(language.get(VERIFY_ALREADY_LINKED)).queue();
+						hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(VERIFY_ALREADY_LINKED))).queue();
 					} else {
 						LOGGER.info("Invalid username error, trying again with dummy discriminator");
 						final var newData = new DiscordIntegrationData(integrationData.idLong(), integrationData.username() + "#0000");
@@ -66,7 +67,7 @@ public class VerifyCommand extends Command {
 					}
 				}
 			}
-			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
+			hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(ERROR_WEBSITE_CONNECTION))).queue();
 			Main.logConnectionError(LOGGER, e);
 		}
 
@@ -86,7 +87,7 @@ public class VerifyCommand extends Command {
 		final String username = event.getUser().getName();
 
 		if (api == null) {
-			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
+			hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_NOT_SET_UP))).queue();
 			return;
 		}
 		
@@ -95,7 +96,7 @@ public class VerifyCommand extends Command {
 			final NamelessUser existingUser = api.userByDiscordId(userId);
 			if (existingUser != null) {
 				LOGGER.info("User {} is already linked in guild {}", username, guildId);
-				hook.sendMessage(language.get(VERIFY_ALREADY_LINKED)).queue();
+				hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(VERIFY_ALREADY_LINKED))).queue();
 				return;
 			}
 		} catch (final NamelessException e) {

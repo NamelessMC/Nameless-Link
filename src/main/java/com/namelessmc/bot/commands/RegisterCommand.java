@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.util.EmbedUtil;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
@@ -62,7 +63,7 @@ public class RegisterCommand extends Command {
 		final String discordUsername = event.getUser().getName();
 
 		if (api == null) {
-			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
+			hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_NOT_SET_UP))).queue();
 			LOGGER.info("Website connection not set up");
 			return;
 		}
@@ -72,39 +73,39 @@ public class RegisterCommand extends Command {
 			final Optional<String> verificationUrl = api.registerUser(username, email, integrationData);
 			if (verificationUrl.isPresent()) {
 				LOGGER.info("Registration successful, sending registration URL");
-				hook.sendMessage(language.get(REGISTER_URL, "url", verificationUrl.get())).queue();
+				hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(REGISTER_URL, "url", verificationUrl.get()))).queue();
 			} else {
 				LOGGER.info("Registration successful, registration URL has been sent in an email");
-				hook.sendMessage(language.get(REGISTER_EMAIL)).queue();
+				hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(REGISTER_EMAIL))).queue();
 			}
 		} catch (final NamelessException e) {
 			if (e instanceof final ApiException apiException) {
 				switch (apiException.apiError()) {
 					case CORE_INVALID_USERNAME:
-						hook.sendMessage(language.get(ERROR_INVALID_USERNAME)).queue();
+						hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_INVALID_USERNAME))).queue();
 						return;
 					case CORE_USERNAME_ALREADY_EXISTS:
-						hook.sendMessage(language.get(ERROR_DUPLICATE_USERNAME)).queue();
+						hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_DUPLICATE_USERNAME))).queue();
 						return;
 					case CORE_UNABLE_TO_SEND_REGISTRATION_EMAIL:
-						hook.sendMessage(language.get(ERROR_SEND_VERIFICATION_EMAIL)).queue();
+						hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_SEND_VERIFICATION_EMAIL))).queue();
 						return;
 					case CORE_INVALID_EMAIL_ADDRESS:
-						hook.sendMessage(language.get(ERROR_INVALID_EMAIL_ADDRESS)).queue();
+						hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_INVALID_EMAIL_ADDRESS))).queue();
 						return;
 					case CORE_EMAIL_ALREADY_EXISTS:
-						hook.sendMessage(language.get(ERROR_DUPLICATE_EMAIL_ADDRESS)).queue();
+						hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_DUPLICATE_EMAIL_ADDRESS))).queue();
 						return;
 					case CORE_INTEGRATION_IDENTIFIER_ERROR:
 					case CORE_INTEGRATION_USERNAME_ERROR:
-						hook.sendMessage(language.get(ERROR_DUPLICATE_DISCORD_INTEGRATION)).queue();
+						hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_DUPLICATE_DISCORD_INTEGRATION))).queue();
 						return;
 					default:
 						// generic error message is sent below
 				}
 			}
 
-			hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
+			hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_WEBSITE_CONNECTION))).queue();
 			Main.logConnectionError(LOGGER, e);
 		}
 	}

@@ -5,6 +5,7 @@ import static com.namelessmc.bot.Language.Term.PING_DESCRIPTION;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import com.namelessmc.bot.Language;
+import com.namelessmc.bot.util.EmbedUtil;
 import com.namelessmc.java_api.NamelessAPI;
 
 import net.dv8tion.jda.api.entities.Guild;
@@ -32,7 +33,7 @@ public class PingCommand extends Command {
 						final Language language,
 						final Guild guild,
 						final @Nullable NamelessAPI api) {
-		hook.sendMessage("This command has been removed, please use '/configure test' instead.").queue();
+		hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), "This command has been removed, please use '/configure test' instead.")).queue();
 	}
 
 }

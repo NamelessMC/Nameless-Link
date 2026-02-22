@@ -43,6 +43,7 @@ import com.google.common.base.Ascii;
 import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.util.EmbedUtil;
 import com.namelessmc.bot.connections.ConnectionCache;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
@@ -91,7 +92,7 @@ public class ConfigureCommand extends Command {
     public void execute(SlashCommandInteractionEvent event, InteractionHook hook, Language language, Guild guild, @Nullable NamelessAPI api) {
         Main.canModifySettings(event.getUser(), guild, canModifySettings -> {
             if (!canModifySettings) {
-                hook.sendMessage(language.get(ERROR_NO_PERMISSION)).queue();
+                hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_NO_PERMISSION))).queue();
                 LOGGER.info("User {} does not have permission to modify settings", event.getUser().getIdLong());
                 return;
             }
@@ -112,7 +113,7 @@ public class ConfigureCommand extends Command {
     }
     private void unlink(SlashCommandInteractionEvent event, InteractionHook hook, Language language, @Nullable NamelessAPI oldApi) {
         if (oldApi == null) {
-            hook.sendMessage(language.get(CONFIGURE_UNLINK_NOT_LINKED)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_UNLINK_NOT_LINKED))).queue();
             LOGGER.info("Cannot unlink, bot was not linked");
             return;
         }
@@ -120,10 +121,10 @@ public class ConfigureCommand extends Command {
         final long guildId = event.getGuild().getIdLong();
         try {
             Main.getConnectionManager().removeConnection(guildId);
-            hook.sendMessage(language.get(CONFIGURE_UNLINK_SUCCESS)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_UNLINK_SUCCESS))).queue();
             LOGGER.info("Unlinked from guild {}", guildId);
         } catch (final BackendStorageException e) {
-            hook.sendMessage(language.get(ERROR_GENERIC)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_GENERIC))).queue();
             LOGGER.error("storage backend", e);
         }
     }
@@ -137,7 +138,7 @@ public class ConfigureCommand extends Command {
         try {
         	apiUrl = new URI(apiUrlString).toURL();
         } catch (final MalformedURLException | URISyntaxException e) {
-            hook.sendMessage(language.get(APIURL_URL_MALFORMED)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(APIURL_URL_MALFORMED))).queue();
             return;
         }
 
@@ -169,24 +170,24 @@ public class ConfigureCommand extends Command {
                 if (oldApi == null) {
                     // User is setting up new connection
                     Main.getConnectionManager().createConnection(guildId, apiUrl, apiKey);
-                    hook.sendMessage(language.get(CONFIGURE_LINK_SUCCESS)).queue();
+                    hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_LINK_SUCCESS))).queue();
                     LOGGER.info("Set API URL for guild {} to {}", guildId, apiUrl);
                 } else {
                     // User is modifying API URL for existing connection
                     Main.getConnectionManager().updateConnection(guildId, apiUrl, apiKey);
-                    hook.sendMessage(language.get(CONFIGURE_LINK_SUCCESS)).queue();
+                    hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_LINK_SUCCESS))).queue();
                     LOGGER.info("Updated API URL for guild {} from {} to {}", guildId, oldApi, apiUrl);
                 }
 
                 DiscordRoleListener.sendRolesAsync(guildId);
             } catch (final NamelessException e) {
                 hook.sendMessage("```\n" + Ascii.truncate(e.getMessage(), 1500, "[truncated]") + "\n```").queue();
-                hook.sendMessage(language.get(APIURL_FAILED_CONNECTION)).queue();
+                hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(APIURL_FAILED_CONNECTION))).queue();
                 Main.logConnectionError(LOGGER, e);
             }
         } catch (final BackendStorageException e) {
             if (e.getCause() instanceof UnsupportedOperationException) {
-                hook.sendMessage(language.get(CONFIGURE_LINK_ALREADY_CONFIGURED))
+                hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_LINK_ALREADY_CONFIGURED)))
                         .setEphemeral(true)
                         .queue(response -> {
                             LOGGER.info("The bot is ALREADY configured using environment variables, please update the config via environment settings instead. Used in guild: {}", guildId);
@@ -195,20 +196,20 @@ public class ConfigureCommand extends Command {
                         });
                 return;
             }
-            hook.sendMessage(language.get(ERROR_GENERIC)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_GENERIC))).queue();
             LOGGER.error("storage backend", e);
         }
     }
 
     void testConnection(SlashCommandInteractionEvent event, InteractionHook hook, Language language, @Nullable NamelessAPI api) {
         if (api == null) {
-            hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_NOT_SET_UP))).queue();
             return;
         }
 
         final long ping = this.ping(api, language, event.getHook());
         if (ping >= 0) {
-            hook.sendMessage(language.get(CONFIGURE_TEST_WORKING, "time", ping)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_TEST_WORKING, "time", ping))).queue();
         }
     }
 
@@ -219,7 +220,7 @@ public class ConfigureCommand extends Command {
                 !url.getQuery().equals("route=/api/v2") && !url.getQuery().equals("route=/api/v2/")
         ) {
             LOGGER.info("Invalid URL with protocol '{}' host '{}' path '{}' query '{}'", url.getProtocol(), url.getHost(), url.getPath(), url.getQuery());
-            hook.sendMessage(language.get(APIURL_URL_INVALID)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(APIURL_URL_INVALID))).queue();
             return -1;
         }
 
@@ -232,7 +233,7 @@ public class ConfigureCommand extends Command {
                 // checking 172.16.0.0/12 is too much work...
         )) {
             LOGGER.info("Local host: '{}'", host);
-            hook.sendMessage(language.get(APIURL_URL_LOCAL)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(APIURL_URL_LOCAL))).queue();
             return -1;
         }
 
@@ -242,7 +243,7 @@ public class ConfigureCommand extends Command {
             final Website info = api.website();
             try {
                 if (!NamelessVersion.isSupportedByJavaApi(info.parsedVersion())) {
-                    hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
+                    hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList()))).queue();
                     LOGGER.info("Incompatible NamelessMC version");
                     return -1;
                 }
@@ -250,13 +251,13 @@ public class ConfigureCommand extends Command {
                 LOGGER.info("Website connection is working");
                 return System.currentTimeMillis() - start;
             } catch (final UnknownNamelessVersionException e) {
-                hook.sendMessage(language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList())).queue();
+                hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(ERROR_WEBSITE_VERSION, "version", info.rawVersion(), "compatibleVersions", supportedVersionsList()))).queue();
                 Main.logConnectionError(LOGGER, "unknown nameless version", e);
                 return -1;
             }
         } catch (final NamelessException e) {
             hook.sendMessage("```\n" + Ascii.truncate(e.getMessage(), 1500, "[truncated]") + "\n```").queue();
-            hook.sendMessage(language.get(APIURL_FAILED_CONNECTION)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(hook.getJDA(), language.get(APIURL_FAILED_CONNECTION))).queue();
             Main.logConnectionError(LOGGER, "NamelessException during ping", e);
             return -1;
         }
@@ -279,32 +280,32 @@ public class ConfigureCommand extends Command {
         } catch (final HierarchyException ignored) {
             // This is expected, changing the nickname of the owner is never allowed.
         } catch (final InsufficientPermissionException e) {
-            hook.sendMessage(language.get(CONFIGURE_USERNAME_SYNC_MISSING_PERMISSION)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_USERNAME_SYNC_MISSING_PERMISSION))).queue();
             return;
         }
 
         try {
             Main.getConnectionManager().setUsernameSyncEnabled(event.getGuild().getIdLong(), state);
         } catch (final BackendStorageException e) {
-            hook.sendMessage(language.get(ERROR_GENERIC)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_GENERIC))).queue();
             LOGGER.error("storage backend", e);
             return;
         }
 
         if (state) {
-            hook.sendMessage(language.get(CONFIGURE_USERNAME_SYNC_ENABLED)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_USERNAME_SYNC_ENABLED))).queue();
         } else {
-            hook.sendMessage(language.get(CONFIGURE_USERNAME_SYNC_DISABLED)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_USERNAME_SYNC_DISABLED))).queue();
         }
     }
 
     private void updateUsernames(SlashCommandInteractionEvent event, InteractionHook hook, Language language, @Nullable NamelessAPI api) {
         if (api == null) {
-            hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_NOT_SET_UP))).queue();
             return;
         }
 
-        hook.sendMessage(language.get(CONFIGURE_UPDATE_USERNAMES_DONE)).queue();
+        hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_UPDATE_USERNAMES_DONE))).queue();
 
         event.getGuild().loadMembers().onSuccess(members -> {
             final long[] discordIds = new long[members.size()];
@@ -317,12 +318,12 @@ public class ConfigureCommand extends Command {
             try {
                 api.discord().updateDiscordUsernames(discordIds, discordUsernames);
             } catch (final NamelessException e) {
-                hook.sendMessage(language.get(ERROR_WEBSITE_CONNECTION)).queue();
+                hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_WEBSITE_CONNECTION))).queue();
                 Main.logConnectionError(LOGGER, e);
                 return;
             }
             hook.setEphemeral(true); // Ephemeral needs to be set again after last message
-            hook.sendMessage(language.get(CONFIGURE_UPDATE_USERNAMES_DONE)).queue();
+            hook.sendMessageEmbeds(EmbedUtil.message(event.getJDA(), language.get(CONFIGURE_UPDATE_USERNAMES_DONE))).queue();
         });
     }
 
