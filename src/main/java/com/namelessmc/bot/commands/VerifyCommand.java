@@ -16,6 +16,7 @@ import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.listeners.DiscordRoleListener;
 import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.ApiError;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
@@ -33,8 +34,8 @@ public class VerifyCommand extends Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(VerifyCommand.class);
 
-	VerifyCommand() {
-		super("verify");
+	VerifyCommand(final String name) {
+		super(name);
 	}
 
 	@Override
@@ -87,6 +88,19 @@ public class VerifyCommand extends Command {
 		if (api == null) {
 			hook.sendMessage(language.get(ERROR_NOT_SET_UP)).queue();
 			return;
+		}
+		
+		// Check if user is already linked before attempting verification
+		try {
+			final NamelessUser existingUser = api.userByDiscordId(userId);
+			if (existingUser != null) {
+				LOGGER.info("User {} is already linked in guild {}", username, guildId);
+				hook.sendMessage(language.get(VERIFY_ALREADY_LINKED)).queue();
+				return;
+			}
+		} catch (final NamelessException e) {
+			// If we can't check, log the error but continue with verification attempt
+			Main.logConnectionError(LOGGER, "Website communication error while checking if user is already linked: " + userId + " guild " + guildId, e);
 		}
 		
 		final long[] roleIds = guild.getMember(event.getUser()).getRoles().stream().mapToLong(Role::getIdLong).toArray();

@@ -33,7 +33,7 @@ public abstract class Command {
 			new PingCommand(),
 			new RegisterCommand(),
 			new URLCommand(),
-			new VerifyCommand(),
+			new VerifyCommand(System.getenv("VERIFY_COMMAND_NAME") != null ? System.getenv("VERIFY_COMMAND_NAME") : "verify"),
 	};
 
 	private static final Map<String, Command> BY_NAME = new HashMap<>();
