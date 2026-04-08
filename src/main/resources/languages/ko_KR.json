@@ -55,5 +55,11 @@
     "updateusername_success": "사용자명이 변경되었습니다",
     "register_option_username": "닉네임",
     "register_option_email": "이메일 주소",
-    "apiurl_option_apikey": "웹사이트 API 키 (StaffCP > Configuration > API)."
+    "apiurl_option_apikey": "웹사이트 API 키 (StaffCP > Configuration > API).",
+    "configure_description": "Change Nameless-Link settings.",
+    "configure_link_description": "Link bot to website.",
+    "configure_unlink_description": "Disconnect bot from website.",
+    "configure_test_description": "Check if website connection is working.",
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC."
 }

@@ -50,5 +50,12 @@
     "error_duplicate_username": "Det oppgitte brukernavnet er allerede brukt av en annen konto.",
     "error_invalid_email_address": "Den oppgitte e-postadressen er ugyldig.",
     "error_duplicate_email_address": "Den oppgitte e-postadressen er allerede brukt av en annen konto.",
-    "error_send_verification_email": "Kunne ikke sende verifisering til e-post."
+    "error_send_verification_email": "Kunne ikke sende verifisering til e-post.",
+    "configure_description": "Change Nameless-Link settings.",
+    "configure_link_description": "Link bot to website.",
+    "configure_unlink_description": "Disconnect bot from website.",
+    "configure_test_description": "Check if website connection is working.",
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC.",
+    "register_description": "Create a website account"
 }

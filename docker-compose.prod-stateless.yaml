@@ -17,4 +17,5 @@ services:
       STORAGE_TYPE: stateless
       API_URL:  # Your NamelessMC API URL
       GUILD_ID:  # Your Discord guild id
+      # VERIFY_COMMAND_NAME: verify  # Optional: Customize /verify command name
     restart: always

@@ -39,5 +39,15 @@
     "help_commands_title": "Comandos",
     "help_commands_content": "Comando inválido. Comandos válidos: {commands}.",
     "help_context_title": "Contexto",
-    "help_context_content": "Algunos comandos sólo están disponibles en los MD, mientras que otros sólo están disponibles en los servidores."
+    "help_context_content": "Algunos comandos sólo están disponibles en los MD, mientras que otros sólo están disponibles en los servidores.",
+    "configure_description": "Change Nameless-Link settings.",
+    "configure_link_description": "Link bot to website.",
+    "configure_unlink_description": "Disconnect bot from website.",
+    "configure_test_description": "Check if website connection is working.",
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC.",
+    "verify_description": "Verify your Discord account connected to the website",
+    "ping_description": "Test website API connection",
+    "register_description": "Create a website account",
+    "apiurl_description": "Configure the NamelessMC website API URL"
 }

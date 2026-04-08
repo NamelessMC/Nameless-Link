@@ -106,8 +106,17 @@ public class Main {
 			case "LISTENING" -> Activity.listening(message);
 			case "WATCHING" -> Activity.watching(message);
 			case "COMPETING" -> Activity.competing(message);
+			case "STREAMING" -> {
+				String url = System.getenv("BOT_ACTIVITY_URL");
+				if (url == null) {
+					LOGGER.warn("BOT_ACTIVITY_TYPE is STREAMING but BOT_ACTIVITY_URL is not set. Using default Twitch URL.");
+					url = "https://www.twitch.tv/discord";
+				}
+				yield Activity.streaming(message, url);
+			}
+			case "CUSTOM" -> Activity.customStatus(message);
 			default -> {
-				LOGGER.warn("Invalid BOT_ACTIVITY_TYPE: '{}'. Valid options: PLAYING, LISTENING, WATCHING, COMPETING.", typeEnv);
+				LOGGER.warn("Invalid BOT_ACTIVITY_TYPE: '{}'. Valid options: PLAYING, LISTENING, WATCHING, COMPETING, STREAMING, CUSTOM.", typeEnv);
 				yield null;
 			}
 		};

@@ -11,6 +11,7 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.bot.Main;
+import com.namelessmc.bot.util.EmbedUtil;
 import com.namelessmc.bot.util.Util;
 import com.namelessmc.java_api.NamelessAPI;
 
@@ -59,7 +60,7 @@ public class SendDirectMessage extends HttpHandler {
 		}
 		
 		final PrivateChannel channel = targetUser.openPrivateChannel().complete();
-		channel.sendMessage(message);
+		channel.sendMessageEmbeds(EmbedUtil.message(Main.getJdaForGuild(guildId), message)).queue();
 		response.setStatus(HttpStatus.OK_200);
 		response.getWriter().write("Message sent");
 	}

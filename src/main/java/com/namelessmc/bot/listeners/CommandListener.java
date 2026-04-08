@@ -4,6 +4,7 @@ import com.namelessmc.bot.Language;
 import com.namelessmc.bot.Main;
 import com.namelessmc.bot.commands.Command;
 import com.namelessmc.bot.connections.BackendStorageException;
+import com.namelessmc.bot.util.EmbedUtil;
 import com.namelessmc.java_api.NamelessAPI;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -48,7 +49,7 @@ public class 		CommandListener extends ListenerAdapter {
 					try {
 						api = Main.getConnectionManager().getApiConnection(guild.getIdLong());
 					} catch (final BackendStorageException e) {
-						event.reply(language.get(ERROR_GENERIC)).setEphemeral(true).queue();
+						event.replyEmbeds(EmbedUtil.message(event.getJDA(), language.get(ERROR_GENERIC))).setEphemeral(true).queue();
 						LOGGER.error("storage backend", e);
 						return;
 					}

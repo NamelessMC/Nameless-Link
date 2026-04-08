@@ -29,4 +29,5 @@ services:
       POSTGRES_DB: link
       POSTGRES_USER: link
       POSTGRES_PASSWORD: postgres
+      # VERIFY_COMMAND_NAME: verify  # Optional: Customize /verify command name
     restart: always

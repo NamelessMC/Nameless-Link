@@ -51,5 +51,11 @@
     "register_url": "För att slutföra registreringen, besök den här sidan i en webbläsare: {url}",
     "error_invalid_username": "Det angivna användarnamnet är ogiltigt.",
     "error_duplicate_username": "Det angivna användarnamnet används redan av ett annat konto.",
-    "error_duplicate_discord_integration": "Det går inte att skapa ett nytt konto, denna Discord-användare är redan länkad till ett annat konto."
+    "error_duplicate_discord_integration": "Det går inte att skapa ett nytt konto, denna Discord-användare är redan länkad till ett annat konto.",
+    "configure_description": "Change Nameless-Link settings.",
+    "configure_link_description": "Link bot to website.",
+    "configure_unlink_description": "Disconnect bot from website.",
+    "configure_test_description": "Check if website connection is working.",
+    "configure_username_sync_description": "Enable or disable syncing NamelessMC usernames to Discord usernames.",
+    "configure_update_usernames_description": "Force send updated Discord usernames to NamelessMC."
 }
