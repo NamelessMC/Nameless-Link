@@ -95,5 +95,6 @@
     "configure_username_sync_description": "Habilitar o deshabilitar la sincronización de nombres de usuario.",
     "configure_update_usernames_description": "Forzar el envío de nombres de usuario actualizados de Discord a NamelessMC.",
     "configure_update_usernames_start": "Enviando nuevos nombres de usuario para todos los miembros a NamelessMC...",
-    "configure_update_usernames_done": "¡Listo!"
+    "configure_update_usernames_done": "¡Listo!",
+    "configure_link_already_configured": "El bot se configura mediante variables de entorno, por lo que no se puede usar `/configure`. Actualice la configuración a través de los ajustes de su entorno."
 }
